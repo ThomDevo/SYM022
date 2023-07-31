@@ -3,7 +3,28 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
-    <persistence-unit name="default">
+    <persistence-unit name="sym022" transaction-type="JTA">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>java:comp/env/jdbc/sym022</jta-data-source>
+        <class>com.sym022.sym022.entities.AeEntity</class>
+        <class>com.sym022.sym022.entities.AuditTrailEntity</class>
+        <class>com.sym022.sym022.entities.CmEntity</class>
+        <class>com.sym022.sym022.entities.DmEntity</class>
+        <class>com.sym022.sym022.entities.DovEntity</class>
+        <class>com.sym022.sym022.entities.EventEntity</class>
+        <class>com.sym022.sym022.entities.FormEntity</class>
+        <class>com.sym022.sym022.entities.IcEntity</class>
+        <class>com.sym022.sym022.entities.PermissionEntity</class>
+        <class>com.sym022.sym022.entities.QueryEntity</class>
+        <class>com.sym022.sym022.entities.RoleEntity</class>
+        <class>com.sym022.sym022.entities.RolePermissionEntity</class>
+        <class>com.sym022.sym022.entities.SiteEntity</class>
+        <class>com.sym022.sym022.entities.SubjectEntity</class>
+        <class>com.sym022.sym022.entities.TeEntity</class>
+        <class>com.sym022.sym022.entities.UserEntity</class>
+        <class>com.sym022.sym022.entities.UserSiteEntity</class>
+        <class>com.sym022.sym022.entities.VisitEntity</class>
+        <class>com.sym022.sym022.entities.VsEntity</class>
 
     </persistence-unit>
 </persistence>
