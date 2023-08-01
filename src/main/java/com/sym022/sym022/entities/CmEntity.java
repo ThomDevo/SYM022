@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "cm", schema = "sym022", catalog = "")
+@Table(name = "cm", schema = "sym022")
 public class CmEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -31,44 +31,56 @@ public class CmEntity {
     @NotNull
     @Column(name = "cmong", nullable = false)
     private boolean cmong = false;
+
     @Basic
     @Column(name = "cmendat", nullable = true)
     private Date cmendat;
+
     @Basic
     @NotNull
     @Column(name = "cmindic", nullable = false)
     private Object cmindic;
+
     @Basic
     @Column(name = "cmindicsp", nullable = true, length = 200)
     private String cmindicsp;
+
     @Basic
     @Column(name = "cmdose", nullable = true, precision = 0)
     private Double cmdose;
+
     @Basic
     @NotNull
     @Column(name = "cmdosu", nullable = false)
     private Object cmdosu;
+
     @Basic
     @Column(name = "cmdosusp", nullable = true, length = 200)
     private String cmdosusp;
+
     @Basic
     @NotNull
     @Column(name = "cmroute", nullable = false)
     private Object cmroute;
+
     @Basic
     @Column(name = "cmroutesp", nullable = true, length = 200)
     private String cmroutesp;
+
     @Basic
     @NotNull
     @Column(name = "cmfreq", nullable = false)
     private Object cmfreq;
+
     @Basic
     @Column(name = "cmfreqsp", nullable = true, length = 200)
     private String cmfreqsp;
+
     @ManyToOne
     @NotNull
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
+
     @Basic
     @Column(name = "id_event", nullable = false)
     private int idEvent;
@@ -109,10 +121,6 @@ public class CmEntity {
 
     public boolean getCmong() {
         return cmong;
-    }
-
-    public void setCmong(byte cmong) {
-        this.cmong = cmong;
     }
 
     public void setCmong(boolean cmong) {
