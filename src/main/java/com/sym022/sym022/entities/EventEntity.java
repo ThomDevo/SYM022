@@ -2,6 +2,7 @@ package com.sym022.sym022.entities;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -55,11 +56,11 @@ public class EventEntity {
     @JoinColumn(name = "id_form", referencedColumnName = "id_form", nullable = false)
     private FormEntity formByIdForm;
     @OneToMany(mappedBy = "eventByIdEvent")
-    private Collection<QueryEntity> queriesByIdEvent;
+    private List<QueryEntity> queriesByIdEvent;
     @OneToMany(mappedBy = "eventByIdEvent")
-    private Collection<TeEntity> tesByIdEvent;
+    private List<TeEntity> tesByIdEvent;
     @OneToMany(mappedBy = "eventByIdEvent")
-    private Collection<VsEntity> vsByIdEvent;
+    private List<VsEntity> vsByIdEvent;
 
     public int getIdEvent() {
         return idEvent;
@@ -214,7 +215,7 @@ public class EventEntity {
         return queriesByIdEvent;
     }
 
-    public void setQueriesByIdEvent(Collection<QueryEntity> queriesByIdEvent) {
+    public void setQueriesByIdEvent(List<QueryEntity> queriesByIdEvent) {
         this.queriesByIdEvent = queriesByIdEvent;
     }
 
@@ -222,7 +223,7 @@ public class EventEntity {
         return tesByIdEvent;
     }
 
-    public void setTesByIdEvent(Collection<TeEntity> tesByIdEvent) {
+    public void setTesByIdEvent(List<TeEntity> tesByIdEvent) {
         this.tesByIdEvent = tesByIdEvent;
     }
 
@@ -230,7 +231,7 @@ public class EventEntity {
         return vsByIdEvent;
     }
 
-    public void setVsByIdEvent(Collection<VsEntity> vsByIdEvent) {
+    public void setVsByIdEvent(List<VsEntity> vsByIdEvent) {
         this.vsByIdEvent = vsByIdEvent;
     }
 }
