@@ -1,6 +1,7 @@
 package com.sym022.sym022.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -11,21 +12,26 @@ public class DovEntity {
     @Id
     @Column(name = "id_dov", nullable = false)
     private int idDov;
+
     @Basic
+    @NotNull
     @Column(name = "visit_vn", nullable = false)
-    private byte visitVn;
+    private boolean visitVn = false;
+
     @Basic
     @Column(name = "visit_nd", nullable = true, length = 200)
     private String visitNd;
+
     @Basic
     @Column(name = "visit_date", nullable = true)
     private Date visitDate;
-    @Basic
-    @Column(name = "id_event", nullable = false)
-    private int idEvent;
+
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
+
+    /*---Getters and Setters ---*/
 
     public int getIdDov() {
         return idDov;
@@ -35,11 +41,11 @@ public class DovEntity {
         this.idDov = idDov;
     }
 
-    public byte getVisitVn() {
+    public boolean getVisitVn() {
         return visitVn;
     }
 
-    public void setVisitVn(byte visitVn) {
+    public void setVisitVn(boolean visitVn) {
         this.visitVn = visitVn;
     }
 
@@ -59,32 +65,26 @@ public class DovEntity {
         this.visitDate = visitDate;
     }
 
-    public int getIdEvent() {
-        return idEvent;
-    }
-
-    public void setIdEvent(int idEvent) {
-        this.idEvent = idEvent;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DovEntity dovEntity = (DovEntity) o;
-        return idDov == dovEntity.idDov && visitVn == dovEntity.visitVn && idEvent == dovEntity.idEvent && Objects.equals(visitNd, dovEntity.visitNd) && Objects.equals(visitDate, dovEntity.visitDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idDov, visitVn, visitNd, visitDate, idEvent);
-    }
-
     public EventEntity getEventByIdEvent() {
         return eventByIdEvent;
     }
 
     public void setEventByIdEvent(EventEntity eventByIdEvent) {
         this.eventByIdEvent = eventByIdEvent;
+    }
+
+    /*--- HashCode and Equal ---*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DovEntity dovEntity = (DovEntity) o;
+        return idDov == dovEntity.idDov;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idDov);
     }
 }

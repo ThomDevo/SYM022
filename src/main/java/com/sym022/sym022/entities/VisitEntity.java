@@ -1,7 +1,7 @@
 package com.sym022.sym022.entities;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,7 +18,7 @@ public class VisitEntity {
     @Column(name = "visit_label", nullable = false)
     private Object visitLabel;
     @OneToMany(mappedBy = "visitByIdVisit")
-    private Collection<EventEntity> eventsByIdVisit;
+    private List<EventEntity> eventsByIdVisit;
 
     public int getIdVisit() {
         return idVisit;
@@ -57,11 +57,11 @@ public class VisitEntity {
         return Objects.hash(idVisit, visitNum, visitLabel);
     }
 
-    public Collection<EventEntity> getEventsByIdVisit() {
+    public List<EventEntity> getEventsByIdVisit() {
         return eventsByIdVisit;
     }
 
-    public void setEventsByIdVisit(Collection<EventEntity> eventsByIdVisit) {
+    public void setEventsByIdVisit(List<EventEntity> eventsByIdVisit) {
         this.eventsByIdVisit = eventsByIdVisit;
     }
 }

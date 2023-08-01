@@ -13,7 +13,7 @@ public class VsEntity {
     private int idVs;
     @Basic
     @Column(name = "vs_yn", nullable = false)
-    private byte vsYn;
+    private boolean vsYn;
     @Basic
     @Column(name = "vs_nd", nullable = true, length = 200)
     private String vsNd;
@@ -22,7 +22,7 @@ public class VsEntity {
     private Date vsDate;
     @Basic
     @Column(name = "height_nd", nullable = false)
-    private byte heightNd;
+    private boolean heightNd;
     @Basic
     @Column(name = "height", nullable = true, precision = 0)
     private Double height;
@@ -31,7 +31,7 @@ public class VsEntity {
     private Object heightU;
     @Basic
     @Column(name = "weight_nd", nullable = false)
-    private byte weightNd;
+    private boolean weightNd;
     @Basic
     @Column(name = "weight", nullable = true)
     private Integer weight;
@@ -40,7 +40,7 @@ public class VsEntity {
     private Object weightU;
     @Basic
     @Column(name = "bp_nd", nullable = false)
-    private byte bpNd;
+    private boolean bpNd;
     @Basic
     @Column(name = "sbp", nullable = true)
     private Integer sbp;
@@ -49,19 +49,19 @@ public class VsEntity {
     private Integer dbp;
     @Basic
     @Column(name = "hr_nd", nullable = false)
-    private byte hrNd;
+    private boolean hrNd;
     @Basic
     @Column(name = "hr", nullable = true)
     private Integer hr;
     @Basic
     @Column(name = "rr_nd", nullable = false)
-    private byte rrNd;
+    private boolean rrNd;
     @Basic
     @Column(name = "rr", nullable = true)
     private Integer rr;
     @Basic
     @Column(name = "temp_nd", nullable = true)
-    private Byte tempNd;
+    private boolean tempNd;
     @Basic
     @Column(name = "temp", nullable = true, precision = 0)
     private Double temp;
@@ -73,7 +73,7 @@ public class VsEntity {
     private Object tempRoute;
     @Basic
     @Column(name = "oxysat_nd", nullable = false)
-    private byte oxysatNd;
+    private boolean oxysatNd;
     @Basic
     @Column(name = "oxysat", nullable = true)
     private Integer oxysat;
@@ -92,11 +92,11 @@ public class VsEntity {
         this.idVs = idVs;
     }
 
-    public byte getVsYn() {
+    public boolean getVsYn() {
         return vsYn;
     }
 
-    public void setVsYn(byte vsYn) {
+    public void setVsYn(boolean vsYn) {
         this.vsYn = vsYn;
     }
 
@@ -116,11 +116,11 @@ public class VsEntity {
         this.vsDate = vsDate;
     }
 
-    public byte getHeightNd() {
+    public boolean getHeightNd() {
         return heightNd;
     }
 
-    public void setHeightNd(byte heightNd) {
+    public void setHeightNd(boolean heightNd) {
         this.heightNd = heightNd;
     }
 
@@ -140,11 +140,11 @@ public class VsEntity {
         this.heightU = heightU;
     }
 
-    public byte getWeightNd() {
+    public boolean getWeightNd() {
         return weightNd;
     }
 
-    public void setWeightNd(byte weightNd) {
+    public void setWeightNd(boolean weightNd) {
         this.weightNd = weightNd;
     }
 
@@ -164,11 +164,11 @@ public class VsEntity {
         this.weightU = weightU;
     }
 
-    public byte getBpNd() {
+    public boolean getBpNd() {
         return bpNd;
     }
 
-    public void setBpNd(byte bpNd) {
+    public void setBpNd(boolean bpNd) {
         this.bpNd = bpNd;
     }
 
@@ -188,11 +188,11 @@ public class VsEntity {
         this.dbp = dbp;
     }
 
-    public byte getHrNd() {
+    public boolean getHrNd() {
         return hrNd;
     }
 
-    public void setHrNd(byte hrNd) {
+    public void setHrNd(boolean hrNd) {
         this.hrNd = hrNd;
     }
 
@@ -204,11 +204,11 @@ public class VsEntity {
         this.hr = hr;
     }
 
-    public byte getRrNd() {
+    public boolean getRrNd() {
         return rrNd;
     }
 
-    public void setRrNd(byte rrNd) {
+    public void setRrNd(boolean rrNd) {
         this.rrNd = rrNd;
     }
 
@@ -220,11 +220,11 @@ public class VsEntity {
         this.rr = rr;
     }
 
-    public Byte getTempNd() {
+    public boolean getTempNd() {
         return tempNd;
     }
 
-    public void setTempNd(Byte tempNd) {
+    public void setTempNd(boolean tempNd) {
         this.tempNd = tempNd;
     }
 
@@ -252,11 +252,11 @@ public class VsEntity {
         this.tempRoute = tempRoute;
     }
 
-    public byte getOxysatNd() {
+    public boolean getOxysatNd() {
         return oxysatNd;
     }
 
-    public void setOxysatNd(byte oxysatNd) {
+    public void setOxysatNd(boolean oxysatNd) {
         this.oxysatNd = oxysatNd;
     }
 

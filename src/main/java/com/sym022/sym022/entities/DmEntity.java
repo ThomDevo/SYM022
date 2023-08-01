@@ -1,6 +1,7 @@
 package com.sym022.sym022.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -10,24 +11,33 @@ public class DmEntity {
     @Id
     @Column(name = "id_dm", nullable = false)
     private int idDm;
+
     @Basic
+    @NotNull
     @Column(name = "year_of_birth", nullable = false)
     private int yearOfBirth;
+
     @Basic
+    @NotNull
     @Column(name = "sex", nullable = false)
     private Object sex;
+
     @Basic
+    @NotNull
     @Column(name = "ethnicity", nullable = false)
     private Object ethnicity;
+
     @Basic
+    @NotNull
     @Column(name = "culture", nullable = false)
     private Object culture;
-    @Basic
-    @Column(name = "id_event", nullable = false)
-    private int idEvent;
+
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
+
+    /*--- Getters and setters ---*/
 
     public int getIdDm() {
         return idDm;
@@ -69,32 +79,26 @@ public class DmEntity {
         this.culture = culture;
     }
 
-    public int getIdEvent() {
-        return idEvent;
-    }
-
-    public void setIdEvent(int idEvent) {
-        this.idEvent = idEvent;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DmEntity dmEntity = (DmEntity) o;
-        return idDm == dmEntity.idDm && yearOfBirth == dmEntity.yearOfBirth && idEvent == dmEntity.idEvent && Objects.equals(sex, dmEntity.sex) && Objects.equals(ethnicity, dmEntity.ethnicity) && Objects.equals(culture, dmEntity.culture);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idDm, yearOfBirth, sex, ethnicity, culture, idEvent);
-    }
-
     public EventEntity getEventByIdEvent() {
         return eventByIdEvent;
     }
 
     public void setEventByIdEvent(EventEntity eventByIdEvent) {
         this.eventByIdEvent = eventByIdEvent;
+    }
+
+    /*---HashCode and Equal ---*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DmEntity dmEntity = (DmEntity) o;
+        return idDm == dmEntity.idDm;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idDm);
     }
 }

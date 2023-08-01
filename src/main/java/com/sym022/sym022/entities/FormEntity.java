@@ -1,7 +1,10 @@
 package com.sym022.sym022.entities;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
-import java.util.Collection;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,14 +14,22 @@ public class FormEntity {
     @Id
     @Column(name = "id_form", nullable = false)
     private int idForm;
+
     @Basic
+    @Range(min=1,max= 99)
+    @NotNull
     @Column(name = "form_num", nullable = false)
     private int formNum;
+
     @Basic
+    @NotNull
     @Column(name = "form_label", nullable = false)
     private Object formLabel;
+
     @OneToMany(mappedBy = "formByIdForm")
-    private Collection<EventEntity> eventsByIdForm;
+    private List<EventEntity> eventsByIdForm;
+
+    /*--- Getters and Setters ---*/
 
     public int getIdForm() {
         return idForm;
@@ -44,24 +55,26 @@ public class FormEntity {
         this.formLabel = formLabel;
     }
 
+    public List<EventEntity> getEventsByIdForm() {
+        return eventsByIdForm;
+    }
+
+    public void setEventsByIdForm(List<EventEntity> eventsByIdForm) {
+        this.eventsByIdForm = eventsByIdForm;
+    }
+
+    /*--- HashCode and Equal ---*/
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FormEntity that = (FormEntity) o;
-        return idForm == that.idForm && formNum == that.formNum && Objects.equals(formLabel, that.formLabel);
+        return idForm == that.idForm;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idForm, formNum, formLabel);
-    }
-
-    public Collection<EventEntity> getEventsByIdForm() {
-        return eventsByIdForm;
-    }
-
-    public void setEventsByIdForm(Collection<EventEntity> eventsByIdForm) {
-        this.eventsByIdForm = eventsByIdForm;
+        return Objects.hash(idForm);
     }
 }

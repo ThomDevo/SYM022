@@ -1,7 +1,7 @@
 package com.sym022.sym022.entities;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,12 +16,12 @@ public class SubjectEntity {
     private int subjectNum;
     @Basic
     @Column(name = "subject_status", nullable = false)
-    private byte subjectStatus;
+    private boolean subjectStatus;
     @Basic
     @Column(name = "id_site", nullable = false)
     private int idSite;
     @OneToMany(mappedBy = "subjectByIdSubject")
-    private Collection<EventEntity> eventsByIdSubject;
+    private List<EventEntity> eventsByIdSubject;
     @ManyToOne
     @JoinColumn(name = "id_site", referencedColumnName = "id_site", nullable = false)
     private SiteEntity siteByIdSite;
@@ -42,11 +42,11 @@ public class SubjectEntity {
         this.subjectNum = subjectNum;
     }
 
-    public byte getSubjectStatus() {
+    public boolean getSubjectStatus() {
         return subjectStatus;
     }
 
-    public void setSubjectStatus(byte subjectStatus) {
+    public void setSubjectStatus(boolean subjectStatus) {
         this.subjectStatus = subjectStatus;
     }
 
@@ -71,11 +71,11 @@ public class SubjectEntity {
         return Objects.hash(idSubject, subjectNum, subjectStatus, idSite);
     }
 
-    public Collection<EventEntity> getEventsByIdSubject() {
+    public List<EventEntity> getEventsByIdSubject() {
         return eventsByIdSubject;
     }
 
-    public void setEventsByIdSubject(Collection<EventEntity> eventsByIdSubject) {
+    public void setEventsByIdSubject(List<EventEntity> eventsByIdSubject) {
         this.eventsByIdSubject = eventsByIdSubject;
     }
 

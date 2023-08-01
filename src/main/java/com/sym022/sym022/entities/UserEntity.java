@@ -1,7 +1,7 @@
 package com.sym022.sym022.entities;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -28,19 +28,19 @@ public class UserEntity {
     private String mail;
     @Basic
     @Column(name = "status", nullable = true)
-    private Byte status;
+    private boolean status;
     @Basic
     @Column(name = "id_role", nullable = false)
     private int idRole;
     @OneToMany(mappedBy = "userByIdUser")
-    private Collection<AuditTrailEntity> auditTrailsByIdUser;
+    private List<AuditTrailEntity> auditTrailsByIdUser;
     @OneToMany(mappedBy = "userByIdUser")
-    private Collection<QueryEntity> queriesByIdUser;
+    private List<QueryEntity> queriesByIdUser;
     @ManyToOne
     @JoinColumn(name = "id_role", referencedColumnName = "id_role", nullable = false)
     private RoleEntity roleByIdRole;
     @OneToMany(mappedBy = "userByIdUser")
-    private Collection<UserSiteEntity> userSitesByIdUser;
+    private List<UserSiteEntity> userSitesByIdUser;
 
     public int getIdUser() {
         return idUser;
@@ -90,11 +90,11 @@ public class UserEntity {
         this.mail = mail;
     }
 
-    public Byte getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 
@@ -119,19 +119,19 @@ public class UserEntity {
         return Objects.hash(idUser, username, password, lastName, firstName, mail, status, idRole);
     }
 
-    public Collection<AuditTrailEntity> getAuditTrailsByIdUser() {
+    public List<AuditTrailEntity> getAuditTrailsByIdUser() {
         return auditTrailsByIdUser;
     }
 
-    public void setAuditTrailsByIdUser(Collection<AuditTrailEntity> auditTrailsByIdUser) {
+    public void setAuditTrailsByIdUser(List<AuditTrailEntity> auditTrailsByIdUser) {
         this.auditTrailsByIdUser = auditTrailsByIdUser;
     }
 
-    public Collection<QueryEntity> getQueriesByIdUser() {
+    public List<QueryEntity> getQueriesByIdUser() {
         return queriesByIdUser;
     }
 
-    public void setQueriesByIdUser(Collection<QueryEntity> queriesByIdUser) {
+    public void setQueriesByIdUser(List<QueryEntity> queriesByIdUser) {
         this.queriesByIdUser = queriesByIdUser;
     }
 
@@ -143,11 +143,11 @@ public class UserEntity {
         this.roleByIdRole = roleByIdRole;
     }
 
-    public Collection<UserSiteEntity> getUserSitesByIdUser() {
+    public List<UserSiteEntity> getUserSitesByIdUser() {
         return userSitesByIdUser;
     }
 
-    public void setUserSitesByIdUser(Collection<UserSiteEntity> userSitesByIdUser) {
+    public void setUserSitesByIdUser(List<UserSiteEntity> userSitesByIdUser) {
         this.userSitesByIdUser = userSitesByIdUser;
     }
 }

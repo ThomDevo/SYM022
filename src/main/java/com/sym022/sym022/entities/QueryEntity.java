@@ -1,6 +1,7 @@
 package com.sym022.sym022.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -11,33 +12,41 @@ public class QueryEntity {
     @Id
     @Column(name = "id_query", nullable = false)
     private int idQuery;
+
     @Basic
+    @NotNull
     @Column(name = "query_datetime", nullable = false)
     private Date queryDatetime;
+
     @Basic
+    @NotNull
     @Column(name = "query_text", nullable = false, length = 200)
     private String queryText;
+
     @Basic
     @Column(name = "query_answer", nullable = true, length = 200)
     private String queryAnswer;
+
     @Basic
     @Column(name = "query_closed", nullable = true, length = 200)
     private String queryClosed;
+
     @Basic
+    @NotNull
     @Column(name = "query_status", nullable = false)
     private Object queryStatus;
-    @Basic
-    @Column(name = "id_user", nullable = false)
-    private int idUser;
-    @Basic
-    @Column(name = "id_event", nullable = false)
-    private int idEvent;
+
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "id_user", referencedColumnName = "id_user", nullable = false)
     private UserEntity userByIdUser;
+
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
+
+    /*--- Getters and Setters ---*/
 
     public int getIdQuery() {
         return idQuery;
@@ -87,35 +96,6 @@ public class QueryEntity {
         this.queryStatus = queryStatus;
     }
 
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
-    }
-
-    public int getIdEvent() {
-        return idEvent;
-    }
-
-    public void setIdEvent(int idEvent) {
-        this.idEvent = idEvent;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        QueryEntity that = (QueryEntity) o;
-        return idQuery == that.idQuery && idUser == that.idUser && idEvent == that.idEvent && Objects.equals(queryDatetime, that.queryDatetime) && Objects.equals(queryText, that.queryText) && Objects.equals(queryAnswer, that.queryAnswer) && Objects.equals(queryClosed, that.queryClosed) && Objects.equals(queryStatus, that.queryStatus);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idQuery, queryDatetime, queryText, queryAnswer, queryClosed, queryStatus, idUser, idEvent);
-    }
-
     public UserEntity getUserByIdUser() {
         return userByIdUser;
     }
@@ -130,5 +110,20 @@ public class QueryEntity {
 
     public void setEventByIdEvent(EventEntity eventByIdEvent) {
         this.eventByIdEvent = eventByIdEvent;
+    }
+
+    /*--- HashCode and Equal ---*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QueryEntity that = (QueryEntity) o;
+        return idQuery == that.idQuery;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idQuery);
     }
 }

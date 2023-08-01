@@ -1,7 +1,7 @@
 package com.sym022.sym022.entities;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,11 +22,11 @@ public class SiteEntity {
     private String piName;
     @Basic
     @Column(name = "site_status", nullable = true)
-    private Byte siteStatus;
+    private boolean siteStatus;
     @OneToMany(mappedBy = "siteByIdSite")
-    private Collection<SubjectEntity> subjectsByIdSite;
+    private List<SubjectEntity> subjectsByIdSite;
     @OneToMany(mappedBy = "siteByIdSite")
-    private Collection<UserSiteEntity> userSitesByIdSite;
+    private List<UserSiteEntity> userSitesByIdSite;
 
     public int getIdSite() {
         return idSite;
@@ -60,11 +60,11 @@ public class SiteEntity {
         this.piName = piName;
     }
 
-    public Byte getSiteStatus() {
+    public boolean getSiteStatus() {
         return siteStatus;
     }
 
-    public void setSiteStatus(Byte siteStatus) {
+    public void setSiteStatus(boolean siteStatus) {
         this.siteStatus = siteStatus;
     }
 
@@ -81,19 +81,19 @@ public class SiteEntity {
         return Objects.hash(idSite, siteNum, siteName, piName, siteStatus);
     }
 
-    public Collection<SubjectEntity> getSubjectsByIdSite() {
+    public List<SubjectEntity> getSubjectsByIdSite() {
         return subjectsByIdSite;
     }
 
-    public void setSubjectsByIdSite(Collection<SubjectEntity> subjectsByIdSite) {
+    public void setSubjectsByIdSite(List<SubjectEntity> subjectsByIdSite) {
         this.subjectsByIdSite = subjectsByIdSite;
     }
 
-    public Collection<UserSiteEntity> getUserSitesByIdSite() {
+    public List<UserSiteEntity> getUserSitesByIdSite() {
         return userSitesByIdSite;
     }
 
-    public void setUserSitesByIdSite(Collection<UserSiteEntity> userSitesByIdSite) {
+    public void setUserSitesByIdSite(List<UserSiteEntity> userSitesByIdSite) {
         this.userSitesByIdSite = userSitesByIdSite;
     }
 }

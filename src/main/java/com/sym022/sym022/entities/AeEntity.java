@@ -1,6 +1,6 @@
 package com.sym022.sym022.entities;
 
-import com.sym022.sym022.enums.Aeout;
+import com.sym022.sym022.enums.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -44,25 +44,25 @@ public class AeEntity {
     @NotNull
     @Column(name = "aetoxgd", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Object aetoxgd;
+    private Aetoxgd aetoxgd;
 
     @Basic
     @NotNull
     @Column(name = "aesev", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Object aesev;
+    private Aesev aesev;
 
     @Basic
     @NotNull
     @Column(name = "aerel", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Object aerel;
+    private Aerel aerel;
 
     @Basic
     @NotNull
     @Column(name = "aeacn", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Object aeacn;
+    private Aeacn aeacn;
 
     @Basic
     @NotNull
@@ -177,35 +177,35 @@ public class AeEntity {
         this.aeendat = aeendat;
     }
 
-    public Object getAetoxgd() {
+    public Aetoxgd getAetoxgd() {
         return aetoxgd;
     }
 
-    public void setAetoxgd(Object aetoxgd) {
+    public void setAetoxgd(Aetoxgd aetoxgd) {
         this.aetoxgd = aetoxgd;
     }
 
-    public Object getAesev() {
+    public Aesev getAesev() {
         return aesev;
     }
 
-    public void setAesev(Object aesev) {
+    public void setAesev(Aesev aesev) {
         this.aesev = aesev;
     }
 
-    public Object getAerel() {
+    public Aerel getAerel() {
         return aerel;
     }
 
-    public void setAerel(Object aerel) {
+    public void setAerel(Aerel aerel) {
         this.aerel = aerel;
     }
 
-    public Object getAeacn() {
+    public Aeacn getAeacn() {
         return aeacn;
     }
 
-    public void setAeacn(Object aeacn) {
+    public void setAeacn(Aeacn aeacn) {
         this.aeacn = aeacn;
     }
 

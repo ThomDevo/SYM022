@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/ConnectionTemplate.xhtml">
+    <ui:define name="title">
+        #{I18N['connectionpage.title']}
+    </ui:define>
+    <ui:define name="content">
+
+
+        <f:metadata>
+            <!-- execute methode in loading page. -->
+            <f:event type="preRenderView" listener="#{i18nBean.loadLanguagePage}"/>
+        </f:metadata>
+
+        <h:form id="headerLanguageButtonContainer">
+            <p:menuButton value="#{I18N['header.language']}">
+
+                <p:menuitem value="#{I18N['header.language.fr']}" action="#{i18nBean.changeLanguage('fr','headerLanguageButtonContainer')}"/>
+                <p:menuitem value="#{I18N['header.language.en']}" action="#{i18nBean.changeLanguage('en','headerLanguageButtonContainer')}"/>
+
+            </p:menuButton>
+        </h:form>
+        <div class ="containers">
+            <h1>
+                <h:outputText value="#{I18N['connectionpage.title']}" />
+            </h1>
+            <h:form name="connection">
+
+                <h4>#{I18N['connectionpage.lifrasNumber.title']}</h4>
+                <span class="ui-float-label">
+                    <p:inputNumber id="float-input" value="#{connectionBean.userForm.lifrasNumber}"
+                                   placeholder="#{I18N['connectionpage.lifrasNumber.placeholder']}"
+                                   validatorMessage="#{I18N['ConnectionPage.errorMessageLogin']}">
+
+                    </p:inputNumber>
+                    <p:message id="messageLifrasNumber" for="@previous"/>
+                </span>
+
+
+                <h4>#{I18N['connectionpage.password.title']}</h4>
+                <span class="ui-float-label">
+                <p:password id="toggle" value="#{connectionBean.password}" toggleMask="true"
+                            redisplay="true"
+                            placeholder="#{I18N['connectionpage.password.placeholder']}">
+                </p:password>
+                </span>
+
+                <div id="j_idt29:messageConnection" role="alert" aria-atomic="true"
+                     aria-live="polite" class="ui-message ui-message-error ui-widget ui-corner-all #{connectionBean.messageErrorConnection}">
+                    <div><span class="ui-message-error-icon"> </span>
+                        <span class="ui-message-error-detail" id="j_idt29:messageConnection_error-detail"><h:outputText
+                                value="#{I18N['connectionpage.error.message']}"/></span>
+                    </div>
+                </div>
+
+                <div class="spaceformeConnection">
+                    <p:commandButton value="#{I18N['connectionpage.submit.button']}"
+                                     action="#{connectionBean.connection}" class="ui-button-success" update="@form"/>
+                </div>
+
+            </h:form>
+
+
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

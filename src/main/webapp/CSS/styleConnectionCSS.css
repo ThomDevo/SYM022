@@ -1,0 +1,74 @@
+html{
+    background-image: url('../CSS/Pictures/Connection2.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    text-align : center;
+}
+
+.containers{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    margin-left : -125px ;
+    width : 315px;
+    background-color : #ffffff;
+    border-radius : 25px;
+}
+
+/*__In the body__*/
+.ui-inputfield{
+    width : 300px;
+}
+
+.spaceBottomConnection{
+    padding-bottom : 40px;
+}
+
+.spaceformeConnection{
+    margin : 20px;
+}
+.inputTextCenter{
+    padding-left : 10%;
+}
+
+.spaceBottomConnection{
+    padding-bottom : 40px;
+}
+
+.spaceformeConnection{
+    margin-top : 20px;
+}
+.inputTextCenter{
+    padding-left : 10%;
+}
+
+#headerLanguageButtonContainer{
+    width: fit-content;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+
+}
+
+/*__Error message style__*/
+
+.errorMessage{
+    color: #FF7659;
+}
+
+.hidden{
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 0;
+    display : none !important;
+}
+
+errMessageJS{
+    display: none !important;
+}

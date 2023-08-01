@@ -35,7 +35,7 @@ public enum Aeout {
         if(type==null)
             return null;
         return Arrays.stream(Aeout.values())
-                .filter(s -> s.getAeout().toLowerCase().equals(type))
+                .filter(s -> s.getAeout().equals(type))
                 .findFirst()
                 .orElse(null);
     }

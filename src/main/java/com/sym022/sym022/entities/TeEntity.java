@@ -13,7 +13,7 @@ public class TeEntity {
     private int idTe;
     @Basic
     @Column(name = "te_yn", nullable = false)
-    private byte teYn;
+    private boolean teYn;
     @Basic
     @Column(name = "te_nd", nullable = true, length = 200)
     private String teNd;
@@ -28,7 +28,7 @@ public class TeEntity {
     private Object nonTargetLesions;
     @Basic
     @Column(name = "new_lesions", nullable = false)
-    private byte newLesions;
+    private boolean newLesions;
     @Basic
     @Column(name = "overall_response", nullable = false)
     private Object overallResponse;
@@ -47,11 +47,11 @@ public class TeEntity {
         this.idTe = idTe;
     }
 
-    public byte getTeYn() {
+    public boolean getTeYn() {
         return teYn;
     }
 
-    public void setTeYn(byte teYn) {
+    public void setTeYn(boolean teYn) {
         this.teYn = teYn;
     }
 
@@ -87,11 +87,11 @@ public class TeEntity {
         this.nonTargetLesions = nonTargetLesions;
     }
 
-    public byte getNewLesions() {
+    public boolean getNewLesions() {
         return newLesions;
     }
 
-    public void setNewLesions(byte newLesions) {
+    public void setNewLesions(boolean newLesions) {
         this.newLesions = newLesions;
     }
 

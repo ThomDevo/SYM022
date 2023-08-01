@@ -1,7 +1,8 @@
 package com.sym022.sym022.entities;
 
 import javax.persistence.*;
-import java.util.Collection;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,14 +12,20 @@ public class PermissionEntity {
     @Id
     @Column(name = "id_permission", nullable = false)
     private int idPermission;
+
     @Basic
+    @NotNull
     @Column(name = "permission_label", nullable = false, length = 200)
     private String permissionLabel;
+
     @Basic
     @Column(name = "permission_description", nullable = true, length = 200)
     private String permissionDescription;
+
     @OneToMany(mappedBy = "permissionByIdPermission")
-    private Collection<RolePermissionEntity> rolePermissionsByIdPermission;
+    private List<RolePermissionEntity> rolePermissionsByIdPermission;
+
+    /*--- Getters and Setters ---*/
 
     public int getIdPermission() {
         return idPermission;
@@ -44,24 +51,26 @@ public class PermissionEntity {
         this.permissionDescription = permissionDescription;
     }
 
+    public List<RolePermissionEntity> getRolePermissionsByIdPermission() {
+        return rolePermissionsByIdPermission;
+    }
+
+    public void setRolePermissionsByIdPermission(List<RolePermissionEntity> rolePermissionsByIdPermission) {
+        this.rolePermissionsByIdPermission = rolePermissionsByIdPermission;
+    }
+
+    /*--- HashCode and Equal ---*/
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PermissionEntity that = (PermissionEntity) o;
-        return idPermission == that.idPermission && Objects.equals(permissionLabel, that.permissionLabel) && Objects.equals(permissionDescription, that.permissionDescription);
+        return idPermission == that.idPermission;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idPermission, permissionLabel, permissionDescription);
-    }
-
-    public Collection<RolePermissionEntity> getRolePermissionsByIdPermission() {
-        return rolePermissionsByIdPermission;
-    }
-
-    public void setRolePermissionsByIdPermission(Collection<RolePermissionEntity> rolePermissionsByIdPermission) {
-        this.rolePermissionsByIdPermission = rolePermissionsByIdPermission;
+        return Objects.hash(idPermission);
     }
 }

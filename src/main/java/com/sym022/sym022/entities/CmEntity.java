@@ -1,6 +1,7 @@
 package com.sym022.sym022.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -11,54 +12,76 @@ public class CmEntity {
     @Id
     @Column(name = "id_cm", nullable = false)
     private int idCm;
+
     @Basic
+    @NotNull
     @Column(name = "cmterm", nullable = false, length = 200)
     private String cmterm;
+
     @Basic
     @Column(name = "cmtermc", nullable = true, length = 200)
     private String cmtermc;
+
     @Basic
+    @NotNull
     @Column(name = "cmstdat", nullable = false)
     private Date cmstdat;
+
     @Basic
+    @NotNull
     @Column(name = "cmong", nullable = false)
-    private byte cmong;
+    private boolean cmong = false;
+
     @Basic
     @Column(name = "cmendat", nullable = true)
     private Date cmendat;
+
     @Basic
+    @NotNull
     @Column(name = "cmindic", nullable = false)
     private Object cmindic;
+
     @Basic
     @Column(name = "cmindicsp", nullable = true, length = 200)
     private String cmindicsp;
+
     @Basic
     @Column(name = "cmdose", nullable = true, precision = 0)
     private Double cmdose;
+
     @Basic
+    @NotNull
     @Column(name = "cmdosu", nullable = false)
     private Object cmdosu;
+
     @Basic
     @Column(name = "cmdosusp", nullable = true, length = 200)
     private String cmdosusp;
+
     @Basic
+    @NotNull
     @Column(name = "cmroute", nullable = false)
     private Object cmroute;
+
     @Basic
     @Column(name = "cmroutesp", nullable = true, length = 200)
     private String cmroutesp;
+
     @Basic
+    @NotNull
     @Column(name = "cmfreq", nullable = false)
     private Object cmfreq;
+
     @Basic
     @Column(name = "cmfreqsp", nullable = true, length = 200)
     private String cmfreqsp;
-    @Basic
-    @Column(name = "id_event", nullable = false)
-    private int idEvent;
+
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
+
+    /*---Getters and setters ---*/
 
     public int getIdCm() {
         return idCm;
@@ -92,11 +115,11 @@ public class CmEntity {
         this.cmstdat = cmstdat;
     }
 
-    public byte getCmong() {
+    public boolean getCmong() {
         return cmong;
     }
 
-    public void setCmong(byte cmong) {
+    public void setCmong(boolean cmong) {
         this.cmong = cmong;
     }
 
@@ -180,32 +203,26 @@ public class CmEntity {
         this.cmfreqsp = cmfreqsp;
     }
 
-    public int getIdEvent() {
-        return idEvent;
-    }
-
-    public void setIdEvent(int idEvent) {
-        this.idEvent = idEvent;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CmEntity cmEntity = (CmEntity) o;
-        return idCm == cmEntity.idCm && cmong == cmEntity.cmong && idEvent == cmEntity.idEvent && Objects.equals(cmterm, cmEntity.cmterm) && Objects.equals(cmtermc, cmEntity.cmtermc) && Objects.equals(cmstdat, cmEntity.cmstdat) && Objects.equals(cmendat, cmEntity.cmendat) && Objects.equals(cmindic, cmEntity.cmindic) && Objects.equals(cmindicsp, cmEntity.cmindicsp) && Objects.equals(cmdose, cmEntity.cmdose) && Objects.equals(cmdosu, cmEntity.cmdosu) && Objects.equals(cmdosusp, cmEntity.cmdosusp) && Objects.equals(cmroute, cmEntity.cmroute) && Objects.equals(cmroutesp, cmEntity.cmroutesp) && Objects.equals(cmfreq, cmEntity.cmfreq) && Objects.equals(cmfreqsp, cmEntity.cmfreqsp);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idCm, cmterm, cmtermc, cmstdat, cmong, cmendat, cmindic, cmindicsp, cmdose, cmdosu, cmdosusp, cmroute, cmroutesp, cmfreq, cmfreqsp, idEvent);
-    }
-
     public EventEntity getEventByIdEvent() {
         return eventByIdEvent;
     }
 
     public void setEventByIdEvent(EventEntity eventByIdEvent) {
         this.eventByIdEvent = eventByIdEvent;
+    }
+
+    /*---HasCode and Equal ---*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CmEntity cmEntity = (CmEntity) o;
+        return idCm == cmEntity.idCm;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idCm);
     }
 }

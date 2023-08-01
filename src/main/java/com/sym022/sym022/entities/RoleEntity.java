@@ -1,7 +1,7 @@
 package com.sym022.sym022.entities;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,13 +11,18 @@ public class RoleEntity {
     @Id
     @Column(name = "id_role", nullable = false)
     private int idRole;
+
     @Basic
     @Column(name = "role_label", nullable = true)
     private Object roleLabel;
+
     @OneToMany(mappedBy = "roleByIdRole")
-    private Collection<RolePermissionEntity> rolePermissionsByIdRole;
+    private List<RolePermissionEntity> rolePermissionsByIdRole;
+
     @OneToMany(mappedBy = "roleByIdRole")
-    private Collection<UserEntity> usersByIdRole;
+    private List<UserEntity> usersByIdRole;
+
+    /*--- Getters and Setters ---*/
 
     public int getIdRole() {
         return idRole;
@@ -35,32 +40,30 @@ public class RoleEntity {
         this.roleLabel = roleLabel;
     }
 
+    public void setRolePermissionsByIdRole(List<RolePermissionEntity> rolePermissionsByIdRole) {
+        this.rolePermissionsByIdRole = rolePermissionsByIdRole;
+    }
+
+    public List<UserEntity> getUsersByIdRole() {
+        return usersByIdRole;
+    }
+
+    public void setUsersByIdRole(List<UserEntity> usersByIdRole) {
+        this.usersByIdRole = usersByIdRole;
+    }
+
+    /*--- HasCode and Equal ---*/
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RoleEntity that = (RoleEntity) o;
-        return idRole == that.idRole && Objects.equals(roleLabel, that.roleLabel);
+        return idRole == that.idRole;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idRole, roleLabel);
-    }
-
-    public Collection<RolePermissionEntity> getRolePermissionsByIdRole() {
-        return rolePermissionsByIdRole;
-    }
-
-    public void setRolePermissionsByIdRole(Collection<RolePermissionEntity> rolePermissionsByIdRole) {
-        this.rolePermissionsByIdRole = rolePermissionsByIdRole;
-    }
-
-    public Collection<UserEntity> getUsersByIdRole() {
-        return usersByIdRole;
-    }
-
-    public void setUsersByIdRole(Collection<UserEntity> usersByIdRole) {
-        this.usersByIdRole = usersByIdRole;
+        return Objects.hash(idRole);
     }
 }
