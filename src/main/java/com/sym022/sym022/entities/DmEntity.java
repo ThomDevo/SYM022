@@ -38,6 +38,9 @@ public class DmEntity {
     private EventEntity eventByIdEvent;
 
     /*--- Getters and setters ---*/
+    @Basic
+    @Column(name = "id_event", nullable = false)
+    private int idEvent;
 
     public int getIdDm() {
         return idDm;
@@ -83,11 +86,11 @@ public class DmEntity {
         return eventByIdEvent;
     }
 
+    /*---HashCode and Equal ---*/
+
     public void setEventByIdEvent(EventEntity eventByIdEvent) {
         this.eventByIdEvent = eventByIdEvent;
     }
-
-    /*---HashCode and Equal ---*/
 
     @Override
     public boolean equals(Object o) {
@@ -100,5 +103,13 @@ public class DmEntity {
     @Override
     public int hashCode() {
         return Objects.hash(idDm);
+    }
+
+    public int getIdEvent() {
+        return idEvent;
+    }
+
+    public void setIdEvent(int idEvent) {
+        this.idEvent = idEvent;
     }
 }

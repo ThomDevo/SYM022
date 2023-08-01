@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "ic", schema = "sym022")
+@Table(name = "ic", schema = "sym022", catalog = "")
 public class IcEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -27,15 +27,16 @@ public class IcEntity {
     @NotNull
     @Column(name = "elig_yn", nullable = false)
     private boolean eligYn = false;
-
     @Basic
     @NotNull
     @Column(name = "ie_not_met", nullable = false)
     private Object ieNotMet;
-
     @ManyToOne
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
+    @Basic
+    @Column(name = "id_event", nullable = false)
+    private int idEvent;
 
     /*--- Getters and Setters ---*/
 
@@ -67,6 +68,10 @@ public class IcEntity {
         return eligYn;
     }
 
+    public void setEligYn(byte eligYn) {
+        this.eligYn = eligYn;
+    }
+
     public void setEligYn(boolean eligYn) {
         this.eligYn = eligYn;
     }
@@ -83,11 +88,11 @@ public class IcEntity {
         return eventByIdEvent;
     }
 
+    /*--- HashCode and Equal ---*/
+
     public void setEventByIdEvent(EventEntity eventByIdEvent) {
         this.eventByIdEvent = eventByIdEvent;
     }
-
-    /*--- HashCode and Equal ---*/
 
     @Override
     public boolean equals(Object o) {
@@ -100,5 +105,13 @@ public class IcEntity {
     @Override
     public int hashCode() {
         return Objects.hash(idIc);
+    }
+
+    public int getIdEvent() {
+        return idEvent;
+    }
+
+    public void setIdEvent(int idEvent) {
+        this.idEvent = idEvent;
     }
 }

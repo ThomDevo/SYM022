@@ -51,6 +51,10 @@ public class TeEntity {
         return teYn;
     }
 
+    public void setTeYn(byte teYn) {
+        this.teYn = teYn;
+    }
+
     public void setTeYn(boolean teYn) {
         this.teYn = teYn;
     }
@@ -89,6 +93,10 @@ public class TeEntity {
 
     public boolean getNewLesions() {
         return newLesions;
+    }
+
+    public void setNewLesions(byte newLesions) {
+        this.newLesions = newLesions;
     }
 
     public void setNewLesions(boolean newLesions) {

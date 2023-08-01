@@ -59,20 +59,8 @@ public class EventEntity {
     private List<TeEntity> tesByIdEvent;
     @OneToMany(mappedBy = "eventByIdEvent")
     private List<VsEntity> vsByIdEvent;
-    @Basic
-    @Column(name = "id_subject", nullable = false)
-    private int idSubject;
-    @Basic
-    @Column(name = "id_visit", nullable = false)
-    private int idVisit;
-    @Basic
-    @Column(name = "id_form", nullable = false)
-    private int idForm;
     @OneToMany(mappedBy = "eventByIdEvent")
-    private Collection<IcEntity> icsByIdEvent;
-    
-
-    /*--- Getters and setters ---*/
+    private List<IcEntity> icsByIdEvent;
 
     public int getIdEvent() {
         return idEvent;
@@ -109,6 +97,9 @@ public class EventEntity {
     public int getOrder() {
         return order;
     }
+
+
+    /*--- Getters and setters ---*/
 
     public void setOrder(int order) {
         this.order = order;
@@ -194,11 +185,11 @@ public class EventEntity {
         this.queriesByIdEvent = queriesByIdEvent;
     }
 
-    /*--- HashCode and Equal ---*/
-
     public List<TeEntity> getTesByIdEvent() {
         return tesByIdEvent;
     }
+
+    /*--- HashCode and Equal ---*/
 
     public void setTesByIdEvent(List<TeEntity> tesByIdEvent) {
         this.tesByIdEvent = tesByIdEvent;
@@ -224,36 +215,11 @@ public class EventEntity {
     public int hashCode() {
         return Objects.hash(idEvent);
     }
-
-    public int getIdSubject() {
-        return idSubject;
-    }
-
-    public void setIdSubject(int idSubject) {
-        this.idSubject = idSubject;
-    }
-
-    public int getIdVisit() {
-        return idVisit;
-    }
-
-    public void setIdVisit(int idVisit) {
-        this.idVisit = idVisit;
-    }
-
-    public int getIdForm() {
-        return idForm;
-    }
-
-    public void setIdForm(int idForm) {
-        this.idForm = idForm;
-    }
-
-    public Collection<IcEntity> getIcsByIdEvent() {
+    public List<IcEntity> getIcsByIdEvent() {
         return icsByIdEvent;
     }
 
-    public void setIcsByIdEvent(Collection<IcEntity> icsByIdEvent) {
+    public void setIcsByIdEvent(List<IcEntity> icsByIdEvent) {
         this.icsByIdEvent = icsByIdEvent;
     }
 }

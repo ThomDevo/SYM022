@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,11 +30,11 @@ public class FormEntity {
     @OneToMany(mappedBy = "formByIdForm")
     private List<EventEntity> eventsByIdForm;
 
-    /*--- Getters and Setters ---*/
-
     public int getIdForm() {
         return idForm;
     }
+
+    /*--- Getters and Setters ---*/
 
     public void setIdForm(int idForm) {
         this.idForm = idForm;
@@ -57,6 +58,10 @@ public class FormEntity {
 
     public List<EventEntity> getEventsByIdForm() {
         return eventsByIdForm;
+    }
+
+    public void setEventsByIdForm(Collection<EventEntity> eventsByIdForm) {
+        this.eventsByIdForm = eventsByIdForm;
     }
 
     public void setEventsByIdForm(List<EventEntity> eventsByIdForm) {

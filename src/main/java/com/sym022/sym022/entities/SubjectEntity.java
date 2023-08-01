@@ -1,6 +1,7 @@
 package com.sym022.sym022.entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,6 +47,10 @@ public class SubjectEntity {
         return subjectStatus;
     }
 
+    public void setSubjectStatus(byte subjectStatus) {
+        this.subjectStatus = subjectStatus;
+    }
+
     public void setSubjectStatus(boolean subjectStatus) {
         this.subjectStatus = subjectStatus;
     }
@@ -73,6 +78,10 @@ public class SubjectEntity {
 
     public List<EventEntity> getEventsByIdSubject() {
         return eventsByIdSubject;
+    }
+
+    public void setEventsByIdSubject(Collection<EventEntity> eventsByIdSubject) {
+        this.eventsByIdSubject = eventsByIdSubject;
     }
 
     public void setEventsByIdSubject(List<EventEntity> eventsByIdSubject) {

@@ -8,7 +8,7 @@ import java.util.Objects;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "ae", schema = "sym022")
+@Table(name = "ae", schema = "sym022", catalog = "")
 public class AeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -28,106 +28,128 @@ public class AeEntity {
     @NotNull
     @Column(name = "aestdat", nullable = false)
     private Date aestdat;
-
     @Basic
     @NotNull
     @Column(name = "aeout", nullable = false)
     @Enumerated(EnumType.STRING)
     private Aeout aeout;
-
     @Basic
     @Column(name = "aeendat", nullable = true)
     @Enumerated(EnumType.STRING)
     private Date aeendat;
-
     @Basic
     @NotNull
     @Column(name = "aetoxgd", nullable = false)
     @Enumerated(EnumType.STRING)
     private Aetoxgd aetoxgd;
-
     @Basic
     @NotNull
     @Column(name = "aesev", nullable = false)
     @Enumerated(EnumType.STRING)
     private Aesev aesev;
-
     @Basic
     @NotNull
     @Column(name = "aerel", nullable = false)
     @Enumerated(EnumType.STRING)
     private Aerel aerel;
-
     @Basic
     @NotNull
     @Column(name = "aeacn", nullable = false)
     @Enumerated(EnumType.STRING)
     private Aeacn aeacn;
-
     @Basic
     @NotNull
     @Column(name = "aecm", nullable = false)
     private boolean aecm = false;
-
     @Basic
     @NotNull
     @Column(name = "aeproc", nullable = false)
     private boolean aeproc = false;
-
     @Basic
     @NotNull
     @Column(name = "aeother", nullable = false)
     private boolean aeother = false;
-
     @Basic
     @Column(name = "aeothersp", nullable = true, length = 200)
     private String aeothersp;
-
     @Basic
     @NotNull
     @Column(name = "aeser", nullable = false)
     private boolean aeser = false;
-
     @Basic
     @NotNull
     @Column(name = "aedeath", nullable = false)
     private boolean aedeath = false;
-
     @Basic
     @NotNull
     @Column(name = "aelife", nullable = false)
     private boolean aelife = false;
-
     @Basic
     @NotNull
     @Column(name = "aehosp", nullable = false)
     private boolean aehosp = false;
-
     @Basic
     @NotNull
     @Column(name = "aedisab", nullable = false)
     private boolean aedisab = false;
-
     @Basic
     @NotNull
     @Column(name = "aecong", nullable = false)
     private boolean aecong = false;
-
     @Basic
     @NotNull
     @Column(name = "aemedim", nullable = false)
     private boolean aemedim = false;
-
     @Basic
     @Column(name = "aemedimsp", nullable = true, length = 200)
     private String aemedimsp;
-
     @ManyToOne
     @NotNull
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
+    @Basic
+    @Column(name = "id_event", nullable = false)
+    private int idEvent;
 
-    /*---Getters and Setters---*/
+    public byte getAecm() {
+        return aecm;
+    }
+
+    public byte getAeproc() {
+        return aeproc;
+    }
+
+    public byte getAeother() {
+        return aeother;
+    }
+
+    public byte getAeser() {
+        return aeser;
+    }
+
+    public byte getAedeath() {
+        return aedeath;
+    }
+
+    public byte getAelife() {
+        return aelife;
+    }
+
+    public byte getAehosp() {
+        return aehosp;
+    }
+
+    public byte getAedisab() {
+        return aedisab;
+    }
+
+    public byte getAecong() {
+        return aecong;
+    }
+
+    public byte getAemedim() {
+        return aemedim;
+    }
 
     public int getIdAe() {
         return idAe;
@@ -157,12 +179,20 @@ public class AeEntity {
         return aestdat;
     }
 
+    public void setAestdat(java.sql.Date aestdat) {
+        this.aestdat = aestdat;
+    }
+
     public void setAestdat(Date aestdat) {
         this.aestdat = aestdat;
     }
 
     public Aeout getAeout() {
         return aeout;
+    }
+
+    public void setAeout(Object aeout) {
+        this.aeout = aeout;
     }
 
     public void setAeout(Aeout aeout) {
@@ -173,12 +203,22 @@ public class AeEntity {
         return aeendat;
     }
 
+    public void setAeendat(java.sql.Date aeendat) {
+        this.aeendat = aeendat;
+    }
+
     public void setAeendat(Date aeendat) {
         this.aeendat = aeendat;
     }
 
     public Aetoxgd getAetoxgd() {
         return aetoxgd;
+    }
+
+    /*---Getters and Setters---*/
+
+    public void setAetoxgd(Object aetoxgd) {
+        this.aetoxgd = aetoxgd;
     }
 
     public void setAetoxgd(Aetoxgd aetoxgd) {
@@ -189,12 +229,20 @@ public class AeEntity {
         return aesev;
     }
 
+    public void setAesev(Object aesev) {
+        this.aesev = aesev;
+    }
+
     public void setAesev(Aesev aesev) {
         this.aesev = aesev;
     }
 
     public Aerel getAerel() {
         return aerel;
+    }
+
+    public void setAerel(Object aerel) {
+        this.aerel = aerel;
     }
 
     public void setAerel(Aerel aerel) {
@@ -205,12 +253,20 @@ public class AeEntity {
         return aeacn;
     }
 
+    public void setAeacn(Object aeacn) {
+        this.aeacn = aeacn;
+    }
+
     public void setAeacn(Aeacn aeacn) {
         this.aeacn = aeacn;
     }
 
     public boolean isAecm() {
         return aecm;
+    }
+
+    public void setAecm(byte aecm) {
+        this.aecm = aecm;
     }
 
     public void setAecm(boolean aecm) {
@@ -221,12 +277,20 @@ public class AeEntity {
         return aeproc;
     }
 
+    public void setAeproc(byte aeproc) {
+        this.aeproc = aeproc;
+    }
+
     public void setAeproc(boolean aeproc) {
         this.aeproc = aeproc;
     }
 
     public boolean isAeother() {
         return aeother;
+    }
+
+    public void setAeother(byte aeother) {
+        this.aeother = aeother;
     }
 
     public void setAeother(boolean aeother) {
@@ -245,12 +309,20 @@ public class AeEntity {
         return aeser;
     }
 
+    public void setAeser(byte aeser) {
+        this.aeser = aeser;
+    }
+
     public void setAeser(boolean aeser) {
         this.aeser = aeser;
     }
 
     public boolean isAedeath() {
         return aedeath;
+    }
+
+    public void setAedeath(byte aedeath) {
+        this.aedeath = aedeath;
     }
 
     public void setAedeath(boolean aedeath) {
@@ -261,12 +333,20 @@ public class AeEntity {
         return aelife;
     }
 
+    public void setAelife(byte aelife) {
+        this.aelife = aelife;
+    }
+
     public void setAelife(boolean aelife) {
         this.aelife = aelife;
     }
 
     public boolean isAehosp() {
         return aehosp;
+    }
+
+    public void setAehosp(byte aehosp) {
+        this.aehosp = aehosp;
     }
 
     public void setAehosp(boolean aehosp) {
@@ -277,6 +357,10 @@ public class AeEntity {
         return aedisab;
     }
 
+    public void setAedisab(byte aedisab) {
+        this.aedisab = aedisab;
+    }
+
     public void setAedisab(boolean aedisab) {
         this.aedisab = aedisab;
     }
@@ -285,12 +369,20 @@ public class AeEntity {
         return aecong;
     }
 
+    public void setAecong(byte aecong) {
+        this.aecong = aecong;
+    }
+
     public void setAecong(boolean aecong) {
         this.aecong = aecong;
     }
 
     public boolean isAemedim() {
         return aemedim;
+    }
+
+    public void setAemedim(byte aemedim) {
+        this.aemedim = aemedim;
     }
 
     public void setAemedim(boolean aemedim) {
@@ -325,5 +417,13 @@ public class AeEntity {
     @Override
     public int hashCode() {
         return Objects.hash(idAe);
+    }
+
+    public int getIdEvent() {
+        return idEvent;
+    }
+
+    public void setIdEvent(int idEvent) {
+        this.idEvent = idEvent;
     }
 }

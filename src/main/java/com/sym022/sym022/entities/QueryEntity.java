@@ -47,6 +47,12 @@ public class QueryEntity {
     private EventEntity eventByIdEvent;
 
     /*--- Getters and Setters ---*/
+    @Basic
+    @Column(name = "id_user", nullable = false)
+    private int idUser;
+    @Basic
+    @Column(name = "id_event", nullable = false)
+    private int idEvent;
 
     public int getIdQuery() {
         return idQuery;
@@ -104,6 +110,8 @@ public class QueryEntity {
         this.userByIdUser = userByIdUser;
     }
 
+    /*--- HashCode and Equal ---*/
+
     public EventEntity getEventByIdEvent() {
         return eventByIdEvent;
     }
@@ -111,8 +119,6 @@ public class QueryEntity {
     public void setEventByIdEvent(EventEntity eventByIdEvent) {
         this.eventByIdEvent = eventByIdEvent;
     }
-
-    /*--- HashCode and Equal ---*/
 
     @Override
     public boolean equals(Object o) {
@@ -125,5 +131,21 @@ public class QueryEntity {
     @Override
     public int hashCode() {
         return Objects.hash(idQuery);
+    }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    public int getIdEvent() {
+        return idEvent;
+    }
+
+    public void setIdEvent(int idEvent) {
+        this.idEvent = idEvent;
     }
 }

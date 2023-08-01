@@ -1,6 +1,7 @@
 package com.sym022.sym022.entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -59,6 +60,10 @@ public class VisitEntity {
 
     public List<EventEntity> getEventsByIdVisit() {
         return eventsByIdVisit;
+    }
+
+    public void setEventsByIdVisit(Collection<EventEntity> eventsByIdVisit) {
+        this.eventsByIdVisit = eventsByIdVisit;
     }
 
     public void setEventsByIdVisit(List<EventEntity> eventsByIdVisit) {

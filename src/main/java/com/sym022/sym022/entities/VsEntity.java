@@ -96,6 +96,10 @@ public class VsEntity {
         return vsYn;
     }
 
+    public void setVsYn(byte vsYn) {
+        this.vsYn = vsYn;
+    }
+
     public void setVsYn(boolean vsYn) {
         this.vsYn = vsYn;
     }
@@ -118,6 +122,10 @@ public class VsEntity {
 
     public boolean getHeightNd() {
         return heightNd;
+    }
+
+    public void setHeightNd(byte heightNd) {
+        this.heightNd = heightNd;
     }
 
     public void setHeightNd(boolean heightNd) {
@@ -144,6 +152,10 @@ public class VsEntity {
         return weightNd;
     }
 
+    public void setWeightNd(byte weightNd) {
+        this.weightNd = weightNd;
+    }
+
     public void setWeightNd(boolean weightNd) {
         this.weightNd = weightNd;
     }
@@ -166,6 +178,10 @@ public class VsEntity {
 
     public boolean getBpNd() {
         return bpNd;
+    }
+
+    public void setBpNd(byte bpNd) {
+        this.bpNd = bpNd;
     }
 
     public void setBpNd(boolean bpNd) {
@@ -192,6 +208,10 @@ public class VsEntity {
         return hrNd;
     }
 
+    public void setHrNd(byte hrNd) {
+        this.hrNd = hrNd;
+    }
+
     public void setHrNd(boolean hrNd) {
         this.hrNd = hrNd;
     }
@@ -208,6 +228,10 @@ public class VsEntity {
         return rrNd;
     }
 
+    public void setRrNd(byte rrNd) {
+        this.rrNd = rrNd;
+    }
+
     public void setRrNd(boolean rrNd) {
         this.rrNd = rrNd;
     }
@@ -222,6 +246,10 @@ public class VsEntity {
 
     public boolean getTempNd() {
         return tempNd;
+    }
+
+    public void setTempNd(Byte tempNd) {
+        this.tempNd = tempNd;
     }
 
     public void setTempNd(boolean tempNd) {
@@ -254,6 +282,10 @@ public class VsEntity {
 
     public boolean getOxysatNd() {
         return oxysatNd;
+    }
+
+    public void setOxysatNd(byte oxysatNd) {
+        this.oxysatNd = oxysatNd;
     }
 
     public void setOxysatNd(boolean oxysatNd) {
