@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "event", schema = "sym022", catalog = "")
+@Table(name = "event", schema = "sym022")
 public class EventEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -86,10 +86,6 @@ public class EventEntity {
         return completed;
     }
 
-    public void setCompleted(byte completed) {
-        this.completed = completed;
-    }
-
     public void setCompleted(boolean completed) {
         this.completed = completed;
     }
@@ -98,20 +94,12 @@ public class EventEntity {
         return queried;
     }
 
-    public void setQueried(byte queried) {
-        this.queried = queried;
-    }
-
     public void setQueried(boolean queried) {
         this.queried = queried;
     }
 
     public boolean getMonitored() {
         return monitored;
-    }
-
-    public void setMonitored(byte monitored) {
-        this.monitored = monitored;
     }
 
     public void setMonitored(boolean monitored) {
@@ -128,10 +116,6 @@ public class EventEntity {
 
     public boolean getAvailable() {
         return available;
-    }
-
-    public void setAvailable(byte available) {
-        this.available = available;
     }
 
     public void setAvailable(boolean available) {
