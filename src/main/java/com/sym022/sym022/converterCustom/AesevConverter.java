@@ -23,7 +23,7 @@ public class AesevConverter implements Converter {
         if(value==null){
             return "0";
         }
-        Aesev certificateType = (Aesev) value;
-        return String.valueOf(certificateType.getAesev());
+        Aesev aesev = (Aesev) value;
+        return String.valueOf(aesev.getAesev());
     }
 }

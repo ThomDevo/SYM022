@@ -23,7 +23,7 @@ public class AetoxgdConverter implements Converter {
         if(value==null){
             return "0";
         }
-        Aetoxgd certificateType = (Aetoxgd) value;
-        return String.valueOf(certificateType.getAetoxgd());
+        Aetoxgd aetoxgd = (Aetoxgd) value;
+        return String.valueOf(aetoxgd.getAetoxgd());
     }
 }

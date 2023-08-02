@@ -1,12 +1,14 @@
 package com.sym022.sym022.entities;
 
+import com.sym022.sym022.enums.QueryStatus;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "query", schema = "sym022", catalog = "")
+@Table(name = "query", schema = "sym022")
 public class QueryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -28,13 +30,13 @@ public class QueryEntity {
     private String queryAnswer;
 
     @Basic
-    @Column(name = "query_closed", nullable = true, length = 200)
-    private String queryClosed;
+    @Column(name = "query_closed", nullable = true)
+    private boolean queryClosed = false;
 
     @Basic
     @NotNull
     @Column(name = "query_status", nullable = false)
-    private Object queryStatus;
+    private QueryStatus queryStatus;
 
     @ManyToOne
     @NotNull
@@ -80,19 +82,19 @@ public class QueryEntity {
         this.queryAnswer = queryAnswer;
     }
 
-    public String getQueryClosed() {
+    public Boolean getQueryClosed() {
         return queryClosed;
     }
 
-    public void setQueryClosed(String queryClosed) {
+    public void setQueryClosed(Boolean queryClosed) {
         this.queryClosed = queryClosed;
     }
 
-    public Object getQueryStatus() {
+    public QueryStatus getQueryStatus() {
         return queryStatus;
     }
 
-    public void setQueryStatus(Object queryStatus) {
+    public void setQueryStatus(QueryStatus queryStatus) {
         this.queryStatus = queryStatus;
     }
 

@@ -23,7 +23,7 @@ public class AerelConverter implements Converter {
         if(value==null){
             return "0";
         }
-        Aerel certificateType = (Aerel) value;
-        return String.valueOf(certificateType.getAerel());
+        Aerel aerel = (Aerel) value;
+        return String.valueOf(aerel.getAerel());
     }
 }

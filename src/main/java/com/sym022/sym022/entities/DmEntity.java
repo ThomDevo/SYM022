@@ -1,11 +1,12 @@
 package com.sym022.sym022.entities;
 
+import com.sym022.sym022.enums.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
-@Table(name = "dm", schema = "sym022", catalog = "")
+@Table(name = "dm", schema = "sym022")
 public class DmEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -20,17 +21,17 @@ public class DmEntity {
     @Basic
     @NotNull
     @Column(name = "sex", nullable = false)
-    private Object sex;
+    private Sex sex;
 
     @Basic
     @NotNull
     @Column(name = "ethnicity", nullable = false)
-    private Object ethnicity;
+    private Ethnicity ethnicity;
 
     @Basic
     @NotNull
     @Column(name = "culture", nullable = false)
-    private Object culture;
+    private Culture culture;
 
     @ManyToOne
     @NotNull
@@ -38,6 +39,9 @@ public class DmEntity {
     private EventEntity eventByIdEvent;
 
     /*--- Getters and setters ---*/
+    @Basic
+    @Column(name = "id_event", nullable = false)
+    private int idEvent;
 
     public int getIdDm() {
         return idDm;
@@ -55,27 +59,27 @@ public class DmEntity {
         this.yearOfBirth = yearOfBirth;
     }
 
-    public Object getSex() {
+    public Sex getSex() {
         return sex;
     }
 
-    public void setSex(Object sex) {
+    public void setSex(Sex sex) {
         this.sex = sex;
     }
 
-    public Object getEthnicity() {
+    public Ethnicity getEthnicity() {
         return ethnicity;
     }
 
-    public void setEthnicity(Object ethnicity) {
+    public void setEthnicity(Ethnicity ethnicity) {
         this.ethnicity = ethnicity;
     }
 
-    public Object getCulture() {
+    public Culture getCulture() {
         return culture;
     }
 
-    public void setCulture(Object culture) {
+    public void setCulture(Culture culture) {
         this.culture = culture;
     }
 

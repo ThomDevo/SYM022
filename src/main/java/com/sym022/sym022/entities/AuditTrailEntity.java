@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "audit_trail", schema = "sym022", catalog = "")
+@Table(name = "audit_trail", schema = "sym022")
 public class AuditTrailEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,16 +18,6 @@ public class AuditTrailEntity {
     @NotNull
     @Column(name = "audit_trail_datetime", nullable = false)
     private Date auditTrailDatetime;
-
-    @Basic
-    @NotNull
-    @Column(name = "id_user", nullable = false)
-    private int idUser;
-
-    @Basic
-    @NotNull
-    @Column(name = "id_event", nullable = false)
-    private int idEvent;
 
     @ManyToOne
     @NotNull
@@ -55,22 +45,6 @@ public class AuditTrailEntity {
 
     public void setAuditTrailDatetime(Date auditTrailDatetime) {
         this.auditTrailDatetime = auditTrailDatetime;
-    }
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
-    }
-
-    public int getIdEvent() {
-        return idEvent;
-    }
-
-    public void setIdEvent(int idEvent) {
-        this.idEvent = idEvent;
     }
 
     public UserEntity getUserByIdUser() {

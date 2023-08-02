@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "dov", schema = "sym022", catalog = "")
+@Table(name = "dov", schema = "sym022")
 public class DovEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -30,6 +30,7 @@ public class DovEntity {
     @NotNull
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
+
 
     /*---Getters and Setters ---*/
 

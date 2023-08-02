@@ -1,12 +1,16 @@
 package com.sym022.sym022.entities;
 
+import com.sym022.sym022.enums.Cmdosu;
+import com.sym022.sym022.enums.Cmfreq;
+import com.sym022.sym022.enums.Cmindic;
+import com.sym022.sym022.enums.Cmroute;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "cm", schema = "sym022", catalog = "")
+@Table(name = "cm", schema = "sym022")
 public class CmEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -39,7 +43,7 @@ public class CmEntity {
     @Basic
     @NotNull
     @Column(name = "cmindic", nullable = false)
-    private Object cmindic;
+    private Cmindic cmindic;
 
     @Basic
     @Column(name = "cmindicsp", nullable = true, length = 200)
@@ -52,7 +56,7 @@ public class CmEntity {
     @Basic
     @NotNull
     @Column(name = "cmdosu", nullable = false)
-    private Object cmdosu;
+    private Cmdosu cmdosu;
 
     @Basic
     @Column(name = "cmdosusp", nullable = true, length = 200)
@@ -61,7 +65,7 @@ public class CmEntity {
     @Basic
     @NotNull
     @Column(name = "cmroute", nullable = false)
-    private Object cmroute;
+    private Cmroute cmroute;
 
     @Basic
     @Column(name = "cmroutesp", nullable = true, length = 200)
@@ -70,7 +74,7 @@ public class CmEntity {
     @Basic
     @NotNull
     @Column(name = "cmfreq", nullable = false)
-    private Object cmfreq;
+    private Cmfreq cmfreq;
 
     @Basic
     @Column(name = "cmfreqsp", nullable = true, length = 200)
@@ -131,11 +135,11 @@ public class CmEntity {
         this.cmendat = cmendat;
     }
 
-    public Object getCmindic() {
+    public Cmindic getCmindic() {
         return cmindic;
     }
 
-    public void setCmindic(Object cmindic) {
+    public void setCmindic(Cmindic cmindic) {
         this.cmindic = cmindic;
     }
 
@@ -155,11 +159,11 @@ public class CmEntity {
         this.cmdose = cmdose;
     }
 
-    public Object getCmdosu() {
+    public Cmdosu getCmdosu() {
         return cmdosu;
     }
 
-    public void setCmdosu(Object cmdosu) {
+    public void setCmdosu(Cmdosu cmdosu) {
         this.cmdosu = cmdosu;
     }
 
@@ -171,11 +175,11 @@ public class CmEntity {
         this.cmdosusp = cmdosusp;
     }
 
-    public Object getCmroute() {
+    public Cmroute getCmroute() {
         return cmroute;
     }
 
-    public void setCmroute(Object cmroute) {
+    public void setCmroute(Cmroute cmroute) {
         this.cmroute = cmroute;
     }
 
@@ -187,11 +191,11 @@ public class CmEntity {
         this.cmroutesp = cmroutesp;
     }
 
-    public Object getCmfreq() {
+    public Cmfreq getCmfreq() {
         return cmfreq;
     }
 
-    public void setCmfreq(Object cmfreq) {
+    public void setCmfreq(Cmfreq cmfreq) {
         this.cmfreq = cmfreq;
     }
 
