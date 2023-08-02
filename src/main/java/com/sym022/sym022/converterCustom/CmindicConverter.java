@@ -1,19 +1,20 @@
 package com.sym022.sym022.converterCustom;
 
-import com.sym022.sym022.enums.Aeacn;
+import com.sym022.sym022.enums.Cmindic;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.convert.Converter;
 
-@FacesConverter("AeacnConverter")
-public class AeacnConverter implements Converter {
+@FacesConverter("CmindicConverter")
+public class CmindicConverter implements Converter{
+
     @Override
-    public Aeacn getAsObject(FacesContext context, UIComponent component, String value)
+    public Cmindic getAsObject(FacesContext context, UIComponent component, String value)
     {
         if (value==null || value.equals("null") || value.equals(""))
             return null;
-        return Aeacn.strToEnum(value);
+        return Cmindic.strToEnum(value);
     }
 
     //cast from object to string.
@@ -23,7 +24,8 @@ public class AeacnConverter implements Converter {
         if(value==null){
             return "0";
         }
-        Aeacn aeacn = (Aeacn) value;
-        return String.valueOf(aeacn.getAeacn());
+        Cmindic cmindic = (Cmindic) value;
+        return String.valueOf(cmindic.getCmindic());
     }
+
 }

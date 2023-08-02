@@ -1,19 +1,20 @@
 package com.sym022.sym022.converterCustom;
 
-import com.sym022.sym022.enums.Aeacn;
+import com.sym022.sym022.enums.Ethnicity;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@FacesConverter("AeacnConverter")
-public class AeacnConverter implements Converter {
+@FacesConverter("EthnicityConverter")
+public class EthnicityConverter implements Converter {
+
     @Override
-    public Aeacn getAsObject(FacesContext context, UIComponent component, String value)
+    public Ethnicity getAsObject(FacesContext context, UIComponent component, String value)
     {
         if (value==null || value.equals("null") || value.equals(""))
             return null;
-        return Aeacn.strToEnum(value);
+        return Ethnicity.strToEnum(value);
     }
 
     //cast from object to string.
@@ -23,7 +24,7 @@ public class AeacnConverter implements Converter {
         if(value==null){
             return "0";
         }
-        Aeacn aeacn = (Aeacn) value;
-        return String.valueOf(aeacn.getAeacn());
+        Ethnicity ethnicity = (Ethnicity) value;
+        return String.valueOf(ethnicity.getEthnicity());
     }
 }

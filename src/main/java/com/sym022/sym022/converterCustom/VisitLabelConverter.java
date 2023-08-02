@@ -1,19 +1,20 @@
 package com.sym022.sym022.converterCustom;
 
-import com.sym022.sym022.enums.Aeacn;
+import com.sym022.sym022.enums.VisitLabel;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@FacesConverter("AeacnConverter")
-public class AeacnConverter implements Converter {
+@FacesConverter("VisitLabelConverter")
+public class VisitLabelConverter implements Converter {
+
     @Override
-    public Aeacn getAsObject(FacesContext context, UIComponent component, String value)
+    public VisitLabel getAsObject(FacesContext context, UIComponent component, String value)
     {
         if (value==null || value.equals("null") || value.equals(""))
             return null;
-        return Aeacn.strToEnum(value);
+        return VisitLabel.strToEnum(value);
     }
 
     //cast from object to string.
@@ -23,7 +24,7 @@ public class AeacnConverter implements Converter {
         if(value==null){
             return "0";
         }
-        Aeacn aeacn = (Aeacn) value;
-        return String.valueOf(aeacn.getAeacn());
+        VisitLabel visitLabel = (VisitLabel) value;
+        return String.valueOf(visitLabel.getVisitLabel());
     }
 }
