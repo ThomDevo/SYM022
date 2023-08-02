@@ -1,5 +1,7 @@
 package com.sym022.sym022.entities;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -17,50 +19,73 @@ public class EventEntity {
     private int idEvent;
 
     @Basic
+    @NotNull
     @Column(name = "completed", nullable = false)
     private boolean completed = false;
+
     @Basic
+    @NotNull
     @Column(name = "queried", nullable = false)
     private boolean queried = false;
+
     @Basic
+    @NotNull
     @Column(name = "monitored", nullable = false)
     private boolean monitored = false;
+
     @Basic
+    @NotNull
+    @Range(min=1,max= 99999)
     @Column(name = "order", nullable = false)
     private int order;
+
     @Basic
+    @Range(min=1,max= 99999)
     @Column(name = "available", nullable = false)
     private boolean available = false;
-    @OneToMany(mappedBy = "eventByIdEvent")
-    private List<AeEntity> aesByIdEvent;
-    @OneToMany(mappedBy = "eventByIdEvent")
-    private List<AuditTrailEntity> auditTrailsByIdEvent;
-    @OneToMany(mappedBy = "eventByIdEvent")
-    private List<CmEntity> cmsByIdEvent;
-    @OneToMany(mappedBy = "eventByIdEvent")
-    private List<DmEntity> dmsByIdEvent;
-    @OneToMany(mappedBy = "eventByIdEvent")
-    private List<DovEntity> dovsByIdEvent;
+
     @ManyToOne
     @NotNull
     @JoinColumn(name = "id_subject", referencedColumnName = "id_subject", nullable = false)
     private SubjectEntity subjectByIdSubject;
+
     @ManyToOne
     @NotNull
     @JoinColumn(name = "id_visit", referencedColumnName = "id_visit", nullable = false)
     private VisitEntity visitByIdVisit;
+
     @ManyToOne
     @NotNull
     @JoinColumn(name = "id_form", referencedColumnName = "id_form", nullable = false)
     private FormEntity formByIdForm;
+
+    @OneToMany(mappedBy = "eventByIdEvent")
+    private List<AeEntity> aesByIdEvent;
+
+    @OneToMany(mappedBy = "eventByIdEvent")
+    private List<AuditTrailEntity> auditTrailsByIdEvent;
+
+    @OneToMany(mappedBy = "eventByIdEvent")
+    private List<CmEntity> cmsByIdEvent;
+
+    @OneToMany(mappedBy = "eventByIdEvent")
+    private List<DmEntity> dmsByIdEvent;
+
+    @OneToMany(mappedBy = "eventByIdEvent")
+    private List<DovEntity> dovsByIdEvent;
+
     @OneToMany(mappedBy = "eventByIdEvent")
     private List<QueryEntity> queriesByIdEvent;
+
     @OneToMany(mappedBy = "eventByIdEvent")
     private List<TeEntity> tesByIdEvent;
+
     @OneToMany(mappedBy = "eventByIdEvent")
     private List<VsEntity> vsByIdEvent;
+
     @OneToMany(mappedBy = "eventByIdEvent")
     private List<IcEntity> icsByIdEvent;
+
 
     public int getIdEvent() {
         return idEvent;
@@ -70,36 +95,23 @@ public class EventEntity {
         this.idEvent = idEvent;
     }
 
+    /*--- Getters and setters ---*/
+
     public boolean getCompleted() {
         return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
     }
 
     public boolean getQueried() {
         return queried;
     }
 
-    public void setQueried(boolean queried) {
-        this.queried = queried;
-    }
-
     public boolean getMonitored() {
         return monitored;
-    }
-
-    public void setMonitored(boolean monitored) {
-        this.monitored = monitored;
     }
 
     public int getOrder() {
         return order;
     }
-
-
-    /*--- Getters and setters ---*/
 
     public void setOrder(int order) {
         this.order = order;
@@ -107,10 +119,6 @@ public class EventEntity {
 
     public boolean getAvailable() {
         return available;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
     }
 
     public List<AeEntity> getAesByIdEvent() {
@@ -189,8 +197,6 @@ public class EventEntity {
         return tesByIdEvent;
     }
 
-    /*--- HashCode and Equal ---*/
-
     public void setTesByIdEvent(List<TeEntity> tesByIdEvent) {
         this.tesByIdEvent = tesByIdEvent;
     }
@@ -203,6 +209,48 @@ public class EventEntity {
         this.vsByIdEvent = vsByIdEvent;
     }
 
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    public boolean isQueried() {
+        return queried;
+    }
+
+    public void setQueried(boolean queried) {
+        this.queried = queried;
+    }
+
+    public boolean isMonitored() {
+        return monitored;
+    }
+
+    public void setMonitored(boolean monitored) {
+        this.monitored = monitored;
+    }
+
+    public List<IcEntity> getIcsByIdEvent() {
+        return icsByIdEvent;
+    }
+
+    public void setIcsByIdEvent(List<IcEntity> icsByIdEvent) {
+        this.icsByIdEvent = icsByIdEvent;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    /*--- HashCode and Equal ---*/
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -214,12 +262,5 @@ public class EventEntity {
     @Override
     public int hashCode() {
         return Objects.hash(idEvent);
-    }
-    public List<IcEntity> getIcsByIdEvent() {
-        return icsByIdEvent;
-    }
-
-    public void setIcsByIdEvent(List<IcEntity> icsByIdEvent) {
-        this.icsByIdEvent = icsByIdEvent;
     }
 }

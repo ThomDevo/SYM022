@@ -1,11 +1,13 @@
 package com.sym022.sym022.entities;
 
+import com.sym022.sym022.enums.RoleLabel;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "role", schema = "sym022", catalog = "")
+@Table(name = "role", schema = "sym022")
 public class RoleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -13,8 +15,9 @@ public class RoleEntity {
     private int idRole;
 
     @Basic
-    @Column(name = "role_label", nullable = true)
-    private Object roleLabel;
+    @NotNull
+    @Column(name = "role_label", nullable = false)
+    private RoleLabel roleLabel;
 
     @OneToMany(mappedBy = "roleByIdRole")
     private List<RolePermissionEntity> rolePermissionsByIdRole;
@@ -32,12 +35,16 @@ public class RoleEntity {
         this.idRole = idRole;
     }
 
-    public Object getRoleLabel() {
+    public RoleLabel getRoleLabel() {
         return roleLabel;
     }
 
-    public void setRoleLabel(Object roleLabel) {
+    public void setRoleLabel(RoleLabel roleLabel) {
         this.roleLabel = roleLabel;
+    }
+
+    public List<RolePermissionEntity> getRolePermissionsByIdRole() {
+        return rolePermissionsByIdRole;
     }
 
     public void setRolePermissionsByIdRole(List<RolePermissionEntity> rolePermissionsByIdRole) {

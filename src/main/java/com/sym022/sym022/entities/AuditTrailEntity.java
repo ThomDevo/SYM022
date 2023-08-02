@@ -19,16 +19,6 @@ public class AuditTrailEntity {
     @Column(name = "audit_trail_datetime", nullable = false)
     private Date auditTrailDatetime;
 
-    @Basic
-    @NotNull
-    @Column(name = "id_user", nullable = false)
-    private int idUser;
-
-    @Basic
-    @NotNull
-    @Column(name = "id_event", nullable = false)
-    private int idEvent;
-
     @ManyToOne
     @NotNull
     @JoinColumn(name = "id_user", referencedColumnName = "id_user", nullable = false)
@@ -55,22 +45,6 @@ public class AuditTrailEntity {
 
     public void setAuditTrailDatetime(Date auditTrailDatetime) {
         this.auditTrailDatetime = auditTrailDatetime;
-    }
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
-    }
-
-    public int getIdEvent() {
-        return idEvent;
-    }
-
-    public void setIdEvent(int idEvent) {
-        this.idEvent = idEvent;
     }
 
     public UserEntity getUserByIdUser() {

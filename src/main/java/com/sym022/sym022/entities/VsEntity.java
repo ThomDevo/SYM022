@@ -1,88 +1,132 @@
 package com.sym022.sym022.entities;
 
+import com.sym022.sym022.enums.HeightU;
+import com.sym022.sym022.enums.TempRoute;
+import com.sym022.sym022.enums.TempU;
+import com.sym022.sym022.enums.WeightU;
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "vs", schema = "sym022", catalog = "")
+@Table(name = "vs", schema = "sym022")
 public class VsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id_vs", nullable = false)
     private int idVs;
+
     @Basic
+    @NotNull
     @Column(name = "vs_yn", nullable = false)
-    private boolean vsYn;
+    private boolean vsYn = false;
+
     @Basic
     @Column(name = "vs_nd", nullable = true, length = 200)
     private String vsNd;
+
     @Basic
     @Column(name = "vs_date", nullable = true)
     private Date vsDate;
+
     @Basic
+    @NotNull
     @Column(name = "height_nd", nullable = false)
-    private boolean heightNd;
+    private boolean heightNd = false;
+
     @Basic
-    @Column(name = "height", nullable = true, precision = 0)
+    @Range(min=1,max= 999)
+    @Column(name = "height", nullable = true, precision = 4,scale = 1)
     private Double height;
+
     @Basic
+    @NotNull
     @Column(name = "height_u", nullable = false)
-    private Object heightU;
+    private HeightU heightU;
+
     @Basic
+    @NotNull
     @Column(name = "weight_nd", nullable = false)
-    private boolean weightNd;
+    private boolean weightNd = false;
+
     @Basic
-    @Column(name = "weight", nullable = true)
-    private Integer weight;
+    @Range(min=1,max= 999)
+    @Column(name = "weight", nullable = true, precision = 4,scale = 1)
+    private Double weight;
+
     @Basic
+    @NotNull
     @Column(name = "weight_u", nullable = false)
-    private Object weightU;
+    private WeightU weightU;
+
     @Basic
+    @NotNull
     @Column(name = "bp_nd", nullable = false)
-    private boolean bpNd;
+    private boolean bpNd = false;
+
     @Basic
+    @Range(min=1,max= 999)
     @Column(name = "sbp", nullable = true)
-    private Integer sbp;
+    private int sbp;
+
     @Basic
+    @Range(min=1,max= 999)
     @Column(name = "dbp", nullable = true)
-    private Integer dbp;
+    private int dbp;
+
     @Basic
+    @NotNull
     @Column(name = "hr_nd", nullable = false)
-    private boolean hrNd;
+    private boolean hrNd = false;
+
     @Basic
+    @Range(min=1,max= 300)
     @Column(name = "hr", nullable = true)
-    private Integer hr;
+    private int hr;
+
     @Basic
     @Column(name = "rr_nd", nullable = false)
-    private boolean rrNd;
+    private boolean rrNd = false;
+
     @Basic
+    @Range(min=1,max= 150)
     @Column(name = "rr", nullable = true)
-    private Integer rr;
+    private int rr;
+
     @Basic
     @Column(name = "temp_nd", nullable = true)
-    private boolean tempNd;
+    private boolean tempNd = false;
+
     @Basic
-    @Column(name = "temp", nullable = true, precision = 0)
+    @Range(min=1,max= 300)
+    @Column(name = "temp", nullable = true, precision = 4,scale = 1)
     private Double temp;
+
     @Basic
     @Column(name = "temp_u", nullable = false)
-    private Object tempU;
+    private TempU tempU;
+
     @Basic
     @Column(name = "temp_route", nullable = true)
-    private Object tempRoute;
+    private TempRoute tempRoute;
+
     @Basic
     @Column(name = "oxysat_nd", nullable = false)
-    private boolean oxysatNd;
+    private boolean oxysatNd = false;
+
     @Basic
+    @Range(min=0,max= 100)
     @Column(name = "oxysat", nullable = true)
-    private Integer oxysat;
-    @Basic
-    @Column(name = "id_event", nullable = false)
-    private int idEvent;
+    private int oxysat;
+
     @ManyToOne
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
+
+    /*--- Getters and Setters ---*/
 
     public int getIdVs() {
         return idVs;
@@ -94,10 +138,6 @@ public class VsEntity {
 
     public boolean getVsYn() {
         return vsYn;
-    }
-
-    public void setVsYn(byte vsYn) {
-        this.vsYn = vsYn;
     }
 
     public void setVsYn(boolean vsYn) {
@@ -124,10 +164,6 @@ public class VsEntity {
         return heightNd;
     }
 
-    public void setHeightNd(byte heightNd) {
-        this.heightNd = heightNd;
-    }
-
     public void setHeightNd(boolean heightNd) {
         this.heightNd = heightNd;
     }
@@ -140,11 +176,11 @@ public class VsEntity {
         this.height = height;
     }
 
-    public Object getHeightU() {
+    public HeightU getHeightU() {
         return heightU;
     }
 
-    public void setHeightU(Object heightU) {
+    public void setHeightU(HeightU heightU) {
         this.heightU = heightU;
     }
 
@@ -152,27 +188,23 @@ public class VsEntity {
         return weightNd;
     }
 
-    public void setWeightNd(byte weightNd) {
-        this.weightNd = weightNd;
-    }
-
     public void setWeightNd(boolean weightNd) {
         this.weightNd = weightNd;
     }
 
-    public Integer getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
-    public Object getWeightU() {
+    public WeightU getWeightU() {
         return weightU;
     }
 
-    public void setWeightU(Object weightU) {
+    public void setWeightU(WeightU weightU) {
         this.weightU = weightU;
     }
 
@@ -180,27 +212,23 @@ public class VsEntity {
         return bpNd;
     }
 
-    public void setBpNd(byte bpNd) {
-        this.bpNd = bpNd;
-    }
-
     public void setBpNd(boolean bpNd) {
         this.bpNd = bpNd;
     }
 
-    public Integer getSbp() {
+    public int getSbp() {
         return sbp;
     }
 
-    public void setSbp(Integer sbp) {
+    public void setSbp(int sbp) {
         this.sbp = sbp;
     }
 
-    public Integer getDbp() {
+    public int getDbp() {
         return dbp;
     }
 
-    public void setDbp(Integer dbp) {
+    public void setDbp(int dbp) {
         this.dbp = dbp;
     }
 
@@ -208,19 +236,15 @@ public class VsEntity {
         return hrNd;
     }
 
-    public void setHrNd(byte hrNd) {
-        this.hrNd = hrNd;
-    }
-
     public void setHrNd(boolean hrNd) {
         this.hrNd = hrNd;
     }
 
-    public Integer getHr() {
+    public int getHr() {
         return hr;
     }
 
-    public void setHr(Integer hr) {
+    public void setHr(int hr) {
         this.hr = hr;
     }
 
@@ -228,28 +252,20 @@ public class VsEntity {
         return rrNd;
     }
 
-    public void setRrNd(byte rrNd) {
-        this.rrNd = rrNd;
-    }
-
     public void setRrNd(boolean rrNd) {
         this.rrNd = rrNd;
     }
 
-    public Integer getRr() {
+    public int getRr() {
         return rr;
     }
 
-    public void setRr(Integer rr) {
+    public void setRr(int rr) {
         this.rr = rr;
     }
 
     public boolean getTempNd() {
         return tempNd;
-    }
-
-    public void setTempNd(Byte tempNd) {
-        this.tempNd = tempNd;
     }
 
     public void setTempNd(boolean tempNd) {
@@ -264,19 +280,19 @@ public class VsEntity {
         this.temp = temp;
     }
 
-    public Object getTempU() {
+    public TempU getTempU() {
         return tempU;
     }
 
-    public void setTempU(Object tempU) {
+    public void setTempU(TempU tempU) {
         this.tempU = tempU;
     }
 
-    public Object getTempRoute() {
+    public TempRoute getTempRoute() {
         return tempRoute;
     }
 
-    public void setTempRoute(Object tempRoute) {
+    public void setTempRoute(TempRoute tempRoute) {
         this.tempRoute = tempRoute;
     }
 
@@ -284,41 +300,16 @@ public class VsEntity {
         return oxysatNd;
     }
 
-    public void setOxysatNd(byte oxysatNd) {
-        this.oxysatNd = oxysatNd;
-    }
-
     public void setOxysatNd(boolean oxysatNd) {
         this.oxysatNd = oxysatNd;
     }
 
-    public Integer getOxysat() {
+    public int getOxysat() {
         return oxysat;
     }
 
-    public void setOxysat(Integer oxysat) {
+    public void setOxysat(int oxysat) {
         this.oxysat = oxysat;
-    }
-
-    public int getIdEvent() {
-        return idEvent;
-    }
-
-    public void setIdEvent(int idEvent) {
-        this.idEvent = idEvent;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        VsEntity vsEntity = (VsEntity) o;
-        return idVs == vsEntity.idVs && vsYn == vsEntity.vsYn && heightNd == vsEntity.heightNd && weightNd == vsEntity.weightNd && bpNd == vsEntity.bpNd && hrNd == vsEntity.hrNd && rrNd == vsEntity.rrNd && oxysatNd == vsEntity.oxysatNd && idEvent == vsEntity.idEvent && Objects.equals(vsNd, vsEntity.vsNd) && Objects.equals(vsDate, vsEntity.vsDate) && Objects.equals(height, vsEntity.height) && Objects.equals(heightU, vsEntity.heightU) && Objects.equals(weight, vsEntity.weight) && Objects.equals(weightU, vsEntity.weightU) && Objects.equals(sbp, vsEntity.sbp) && Objects.equals(dbp, vsEntity.dbp) && Objects.equals(hr, vsEntity.hr) && Objects.equals(rr, vsEntity.rr) && Objects.equals(tempNd, vsEntity.tempNd) && Objects.equals(temp, vsEntity.temp) && Objects.equals(tempU, vsEntity.tempU) && Objects.equals(tempRoute, vsEntity.tempRoute) && Objects.equals(oxysat, vsEntity.oxysat);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idVs, vsYn, vsNd, vsDate, heightNd, height, heightU, weightNd, weight, weightU, bpNd, sbp, dbp, hrNd, hr, rrNd, rr, tempNd, temp, tempU, tempRoute, oxysatNd, oxysat, idEvent);
     }
 
     public EventEntity getEventByIdEvent() {
@@ -327,5 +318,52 @@ public class VsEntity {
 
     public void setEventByIdEvent(EventEntity eventByIdEvent) {
         this.eventByIdEvent = eventByIdEvent;
+    }
+
+    public boolean isVsYn() {
+        return vsYn;
+    }
+
+    public boolean isHeightNd() {
+        return heightNd;
+    }
+
+    public boolean isWeightNd() {
+        return weightNd;
+    }
+
+    public boolean isBpNd() {
+        return bpNd;
+    }
+
+    public boolean isHrNd() {
+        return hrNd;
+    }
+
+    public boolean isRrNd() {
+        return rrNd;
+    }
+
+    public boolean isTempNd() {
+        return tempNd;
+    }
+
+    public boolean isOxysatNd() {
+        return oxysatNd;
+    }
+
+    /*--- HashCode and Equal ---*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VsEntity vsEntity = (VsEntity) o;
+        return idVs == vsEntity.idVs;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idVs);
     }
 }

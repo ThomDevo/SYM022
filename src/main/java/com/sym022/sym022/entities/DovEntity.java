@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "dov", schema = "sym022", catalog = "")
+@Table(name = "dov", schema = "sym022")
 public class DovEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -17,19 +17,20 @@ public class DovEntity {
     @NotNull
     @Column(name = "visit_vn", nullable = false)
     private boolean visitVn = false;
+
     @Basic
     @Column(name = "visit_nd", nullable = true, length = 200)
     private String visitNd;
+
     @Basic
     @Column(name = "visit_date", nullable = true)
     private Date visitDate;
+
     @ManyToOne
     @NotNull
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
-    @Basic
-    @Column(name = "id_event", nullable = false)
-    private int idEvent;
+
 
     /*---Getters and Setters ---*/
 
@@ -43,10 +44,6 @@ public class DovEntity {
 
     public boolean getVisitVn() {
         return visitVn;
-    }
-
-    public void setVisitVn(byte visitVn) {
-        this.visitVn = visitVn;
     }
 
     public void setVisitVn(boolean visitVn) {
@@ -73,11 +70,11 @@ public class DovEntity {
         return eventByIdEvent;
     }
 
-    /*--- HashCode and Equal ---*/
-
     public void setEventByIdEvent(EventEntity eventByIdEvent) {
         this.eventByIdEvent = eventByIdEvent;
     }
+
+    /*--- HashCode and Equal ---*/
 
     @Override
     public boolean equals(Object o) {
@@ -90,13 +87,5 @@ public class DovEntity {
     @Override
     public int hashCode() {
         return Objects.hash(idDov);
-    }
-
-    public int getIdEvent() {
-        return idEvent;
-    }
-
-    public void setIdEvent(int idEvent) {
-        this.idEvent = idEvent;
     }
 }

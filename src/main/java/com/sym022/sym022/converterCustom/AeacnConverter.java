@@ -23,7 +23,7 @@ public class AeacnConverter implements Converter {
         if(value==null){
             return "0";
         }
-        Aeacn certificateType = (Aeacn) value;
-        return String.valueOf(certificateType.getAeacn());
+        Aeacn aeacn = (Aeacn) value;
+        return String.valueOf(aeacn.getAeacn());
     }
 }

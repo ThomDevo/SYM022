@@ -1,5 +1,9 @@
 package com.sym022.sym022.entities;
 
+import com.sym022.sym022.enums.Cmdosu;
+import com.sym022.sym022.enums.Cmfreq;
+import com.sym022.sym022.enums.Cmindic;
+import com.sym022.sym022.enums.Cmroute;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
@@ -39,7 +43,7 @@ public class CmEntity {
     @Basic
     @NotNull
     @Column(name = "cmindic", nullable = false)
-    private Object cmindic;
+    private Cmindic cmindic;
 
     @Basic
     @Column(name = "cmindicsp", nullable = true, length = 200)
@@ -52,7 +56,7 @@ public class CmEntity {
     @Basic
     @NotNull
     @Column(name = "cmdosu", nullable = false)
-    private Object cmdosu;
+    private Cmdosu cmdosu;
 
     @Basic
     @Column(name = "cmdosusp", nullable = true, length = 200)
@@ -61,7 +65,7 @@ public class CmEntity {
     @Basic
     @NotNull
     @Column(name = "cmroute", nullable = false)
-    private Object cmroute;
+    private Cmroute cmroute;
 
     @Basic
     @Column(name = "cmroutesp", nullable = true, length = 200)
@@ -70,7 +74,7 @@ public class CmEntity {
     @Basic
     @NotNull
     @Column(name = "cmfreq", nullable = false)
-    private Object cmfreq;
+    private Cmfreq cmfreq;
 
     @Basic
     @Column(name = "cmfreqsp", nullable = true, length = 200)
@@ -80,10 +84,6 @@ public class CmEntity {
     @NotNull
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
-
-    @Basic
-    @Column(name = "id_event", nullable = false)
-    private int idEvent;
 
     /*---Getters and setters ---*/
 
@@ -135,11 +135,11 @@ public class CmEntity {
         this.cmendat = cmendat;
     }
 
-    public Object getCmindic() {
+    public Cmindic getCmindic() {
         return cmindic;
     }
 
-    public void setCmindic(Object cmindic) {
+    public void setCmindic(Cmindic cmindic) {
         this.cmindic = cmindic;
     }
 
@@ -159,11 +159,11 @@ public class CmEntity {
         this.cmdose = cmdose;
     }
 
-    public Object getCmdosu() {
+    public Cmdosu getCmdosu() {
         return cmdosu;
     }
 
-    public void setCmdosu(Object cmdosu) {
+    public void setCmdosu(Cmdosu cmdosu) {
         this.cmdosu = cmdosu;
     }
 
@@ -175,11 +175,11 @@ public class CmEntity {
         this.cmdosusp = cmdosusp;
     }
 
-    public Object getCmroute() {
+    public Cmroute getCmroute() {
         return cmroute;
     }
 
-    public void setCmroute(Object cmroute) {
+    public void setCmroute(Cmroute cmroute) {
         this.cmroute = cmroute;
     }
 
@@ -191,11 +191,11 @@ public class CmEntity {
         this.cmroutesp = cmroutesp;
     }
 
-    public Object getCmfreq() {
+    public Cmfreq getCmfreq() {
         return cmfreq;
     }
 
-    public void setCmfreq(Object cmfreq) {
+    public void setCmfreq(Cmfreq cmfreq) {
         this.cmfreq = cmfreq;
     }
 
@@ -211,11 +211,11 @@ public class CmEntity {
         return eventByIdEvent;
     }
 
-    /*---HasCode and Equal ---*/
-
     public void setEventByIdEvent(EventEntity eventByIdEvent) {
         this.eventByIdEvent = eventByIdEvent;
     }
+
+    /*---HasCode and Equal ---*/
 
     @Override
     public boolean equals(Object o) {
@@ -228,13 +228,5 @@ public class CmEntity {
     @Override
     public int hashCode() {
         return Objects.hash(idCm);
-    }
-
-    public int getIdEvent() {
-        return idEvent;
-    }
-
-    public void setIdEvent(int idEvent) {
-        this.idEvent = idEvent;
     }
 }

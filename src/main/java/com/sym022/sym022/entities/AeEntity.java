@@ -1,7 +1,6 @@
 package com.sym022.sym022.entities;
 
 import com.sym022.sym022.enums.*;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;

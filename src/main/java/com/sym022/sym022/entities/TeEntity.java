@@ -1,41 +1,54 @@
 package com.sym022.sym022.entities;
 
+import com.sym022.sym022.enums.*;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "te", schema = "sym022", catalog = "")
+@Table(name = "te", schema = "sym022")
 public class TeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id_te", nullable = false)
     private int idTe;
+
     @Basic
+    @NotNull
     @Column(name = "te_yn", nullable = false)
     private boolean teYn;
+
     @Basic
     @Column(name = "te_nd", nullable = true, length = 200)
     private String teNd;
+
     @Basic
     @Column(name = "te_date", nullable = true)
     private Date teDate;
+
     @Basic
+    @NotNull
     @Column(name = "target_lesions", nullable = false)
-    private Object targetLesions;
+    private TargetLesionsOverallResponse targetLesions;
+
     @Basic
+    @NotNull
     @Column(name = "non_target_lesions", nullable = false)
-    private Object nonTargetLesions;
+    private NonTargetLesions nonTargetLesions;
+
     @Basic
+    @NotNull
     @Column(name = "new_lesions", nullable = false)
     private boolean newLesions;
+
     @Basic
+    @NotNull
     @Column(name = "overall_response", nullable = false)
-    private Object overallResponse;
-    @Basic
-    @Column(name = "id_event", nullable = false)
-    private int idEvent;
+    private TargetLesionsOverallResponse overallResponse;
+
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
 
@@ -49,10 +62,6 @@ public class TeEntity {
 
     public boolean getTeYn() {
         return teYn;
-    }
-
-    public void setTeYn(byte teYn) {
-        this.teYn = teYn;
     }
 
     public void setTeYn(boolean teYn) {
@@ -75,19 +84,19 @@ public class TeEntity {
         this.teDate = teDate;
     }
 
-    public Object getTargetLesions() {
+    public TargetLesionsOverallResponse getTargetLesions() {
         return targetLesions;
     }
 
-    public void setTargetLesions(Object targetLesions) {
+    public void setTargetLesions(TargetLesionsOverallResponse targetLesions) {
         this.targetLesions = targetLesions;
     }
 
-    public Object getNonTargetLesions() {
+    public NonTargetLesions getNonTargetLesions() {
         return nonTargetLesions;
     }
 
-    public void setNonTargetLesions(Object nonTargetLesions) {
+    public void setNonTargetLesions(NonTargetLesions nonTargetLesions) {
         this.nonTargetLesions = nonTargetLesions;
     }
 
@@ -95,41 +104,16 @@ public class TeEntity {
         return newLesions;
     }
 
-    public void setNewLesions(byte newLesions) {
-        this.newLesions = newLesions;
-    }
-
     public void setNewLesions(boolean newLesions) {
         this.newLesions = newLesions;
     }
 
-    public Object getOverallResponse() {
+    public TargetLesionsOverallResponse getOverallResponse() {
         return overallResponse;
     }
 
-    public void setOverallResponse(Object overallResponse) {
+    public void setOverallResponse(TargetLesionsOverallResponse overallResponse) {
         this.overallResponse = overallResponse;
-    }
-
-    public int getIdEvent() {
-        return idEvent;
-    }
-
-    public void setIdEvent(int idEvent) {
-        this.idEvent = idEvent;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TeEntity teEntity = (TeEntity) o;
-        return idTe == teEntity.idTe && teYn == teEntity.teYn && newLesions == teEntity.newLesions && idEvent == teEntity.idEvent && Objects.equals(teNd, teEntity.teNd) && Objects.equals(teDate, teEntity.teDate) && Objects.equals(targetLesions, teEntity.targetLesions) && Objects.equals(nonTargetLesions, teEntity.nonTargetLesions) && Objects.equals(overallResponse, teEntity.overallResponse);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idTe, teYn, teNd, teDate, targetLesions, nonTargetLesions, newLesions, overallResponse, idEvent);
     }
 
     public EventEntity getEventByIdEvent() {
@@ -138,5 +122,20 @@ public class TeEntity {
 
     public void setEventByIdEvent(EventEntity eventByIdEvent) {
         this.eventByIdEvent = eventByIdEvent;
+    }
+
+    /*--- HashCode and Equal ---*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TeEntity teEntity = (TeEntity) o;
+        return idTe == teEntity.idTe;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idTe);
     }
 }

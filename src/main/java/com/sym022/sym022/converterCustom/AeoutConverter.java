@@ -23,7 +23,7 @@ public class AeoutConverter implements Converter {
         if(value==null){
             return "0";
         }
-        Aeout sex = (Aeout) value;
-        return String.valueOf(sex.getAeout());
+        Aeout aeout = (Aeout) value;
+        return String.valueOf(aeout.getAeout());
     }
 }

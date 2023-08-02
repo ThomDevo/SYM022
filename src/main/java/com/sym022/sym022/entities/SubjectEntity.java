@@ -1,31 +1,38 @@
 package com.sym022.sym022.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "subject", schema = "sym022", catalog = "")
+@Table(name = "subject", schema = "sym022")
 public class SubjectEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id_subject", nullable = false)
     private int idSubject;
+
     @Basic
+    @NotNull
     @Column(name = "subject_num", nullable = false)
     private int subjectNum;
+
     @Basic
+    @NotNull
     @Column(name = "subject_status", nullable = false)
     private boolean subjectStatus;
-    @Basic
-    @Column(name = "id_site", nullable = false)
-    private int idSite;
-    @OneToMany(mappedBy = "subjectByIdSubject")
-    private List<EventEntity> eventsByIdSubject;
+
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "id_site", referencedColumnName = "id_site", nullable = false)
     private SiteEntity siteByIdSite;
+
+    @OneToMany(mappedBy = "subjectByIdSubject")
+    private List<EventEntity> eventsByIdSubject;
+
+    /*--- Getters and Setters ---*/
 
     public int getIdSubject() {
         return idSubject;
@@ -47,43 +54,13 @@ public class SubjectEntity {
         return subjectStatus;
     }
 
-    public void setSubjectStatus(byte subjectStatus) {
-        this.subjectStatus = subjectStatus;
-    }
-
     public void setSubjectStatus(boolean subjectStatus) {
         this.subjectStatus = subjectStatus;
-    }
-
-    public int getIdSite() {
-        return idSite;
-    }
-
-    public void setIdSite(int idSite) {
-        this.idSite = idSite;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SubjectEntity that = (SubjectEntity) o;
-        return idSubject == that.idSubject && subjectNum == that.subjectNum && subjectStatus == that.subjectStatus && idSite == that.idSite;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idSubject, subjectNum, subjectStatus, idSite);
     }
 
     public List<EventEntity> getEventsByIdSubject() {
         return eventsByIdSubject;
     }
-
-    public void setEventsByIdSubject(Collection<EventEntity> eventsByIdSubject) {
-        this.eventsByIdSubject = eventsByIdSubject;
-    }
-
     public void setEventsByIdSubject(List<EventEntity> eventsByIdSubject) {
         this.eventsByIdSubject = eventsByIdSubject;
     }
@@ -94,5 +71,20 @@ public class SubjectEntity {
 
     public void setSiteByIdSite(SiteEntity siteByIdSite) {
         this.siteByIdSite = siteByIdSite;
+    }
+
+    /*--- HashCode and Equal ---*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SubjectEntity that = (SubjectEntity) o;
+        return idSubject == that.idSubject;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idSubject);
     }
 }

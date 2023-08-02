@@ -1,5 +1,6 @@
 package com.sym022.sym022.entities;
 
+import com.sym022.sym022.enums.FormLabel;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "form", schema = "sym022", catalog = "")
+@Table(name = "form", schema = "sym022")
 public class FormEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -25,16 +26,16 @@ public class FormEntity {
     @Basic
     @NotNull
     @Column(name = "form_label", nullable = false)
-    private Object formLabel;
+    private FormLabel formLabel;
 
     @OneToMany(mappedBy = "formByIdForm")
     private List<EventEntity> eventsByIdForm;
 
+    /*--- Getters and Setters ---*/
+
     public int getIdForm() {
         return idForm;
     }
-
-    /*--- Getters and Setters ---*/
 
     public void setIdForm(int idForm) {
         this.idForm = idForm;
@@ -48,20 +49,16 @@ public class FormEntity {
         this.formNum = formNum;
     }
 
-    public Object getFormLabel() {
+    public FormLabel getFormLabel() {
         return formLabel;
     }
 
-    public void setFormLabel(Object formLabel) {
+    public void setFormLabel(FormLabel formLabel) {
         this.formLabel = formLabel;
     }
 
     public List<EventEntity> getEventsByIdForm() {
         return eventsByIdForm;
-    }
-
-    public void setEventsByIdForm(Collection<EventEntity> eventsByIdForm) {
-        this.eventsByIdForm = eventsByIdForm;
     }
 
     public void setEventsByIdForm(List<EventEntity> eventsByIdForm) {
