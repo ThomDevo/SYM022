@@ -6,7 +6,7 @@ import javax.persistence.Persistence;
 
 public class EMF {
     private static EntityManagerFactory emfInstance =
-            Persistence.createEntityManagerFactory("chasa");
+            Persistence.createEntityManagerFactory("sym022");
 
     private EMF() {
     }

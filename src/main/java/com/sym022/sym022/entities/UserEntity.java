@@ -1,11 +1,27 @@
 package com.sym022.sym022.entities;
 
+import com.sym022.sym022.beans.ConnectionBean;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+
+@NamedQueries(value = {
+        @NamedQuery(name = "User.SelectUser", query = "SELECT u FROM UserEntity u WHERE u.username = :username AND u.status = TRUE"),
+        @NamedQuery(name = "User.IsUserExist", query = "SELECT COUNT(u) FROM UserEntity u WHERE u.username = :username"),
+        @NamedQuery(name = "User.SelectAll", query = "SELECT u FROM UserEntity u"),
+        @NamedQuery(name = "User.findUserById", query = "SELECT u FROM UserEntity u WHERE u.idUser = :idUser"),
+        @NamedQuery(name = "User.FindUserByCharacteristic", query = "SELECT u from UserEntity u " +
+                " where ((lower(u.lastName )like concat('%', :researchWord, '%')) or" +
+                " (lower(u.firstName )like concat('%', :researchWord, '%')) or " +
+                " (lower(u.mail )like concat('%', :researchWord, '%')) or" +
+                " (lower(u.roleByIdRole.roleLabel) like concat('%', :researchWord, '%')))")
+
+})
 
 @Entity
 @Table(name = "user", schema = "sym022")
@@ -16,6 +32,7 @@ public class UserEntity {
     private int idUser;
     @Basic
     @NotNull
+    @Pattern(regexp = "^[A-za-z ',\\-.-éèçàâêîûôù]{1,255}$")
     @Column(name = "username", nullable = false, length = 200)
     private String username;
 
@@ -169,4 +186,32 @@ public class UserEntity {
     public int hashCode() {
         return Objects.hash(idUser);
     }
+
+    /**
+     * Method to associate the list of RolePermissions with the User
+     */
+    @Transient
+    public List<RolePermissionEntity> listOfPermissions;
+
+    @Transient
+    public List<RolePermissionEntity> getListOfRolePermissions() {
+        if (this.listOfPermissions == null)
+            ConnectionBean.initListPermissionRole(this);
+        return this.listOfPermissions;
+    }
+
+    /**
+     * Method to verify user access
+     * @param permissionName
+     * @return boolean
+     */
+    @Transient
+    public boolean verifyPermission(String permissionName)
+    {
+        return this.getListOfRolePermissions().stream()
+                .filter(pe -> pe.getPermissionByIdPermission().getPermissionLabel().equals(permissionName))
+                .findFirst()
+                .orElse(null) != null;
+    }
+
 }

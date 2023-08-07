@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="fr"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsp="http://java.sun.com/JSP/Page"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<!-- ______ ______ -->
+
+<div class="containerFlex">
+
+    <!-- execute methode in loading page. -->
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{i18nBean.loadLanguagePage}"/>
+    </f:metadata>
+
+    <div id="LogoSpace">
+
+
+        <h:form id="headerLanguageButtonContainer">
+            <p:menuButton value="#{I18N['header.language']}" class="headerLanguageButton ui-button-primary" iconPos="right">
+
+                <p:menuitem value="#{I18N['header.language.fr']}" action="#{i18nBean.changeLanguage('fr','headerLanguageButtonContainer')}"/>
+                <p:menuitem value="#{I18N['header.language.en']}" action="#{i18nBean.changeLanguage('en','headerLanguageButtonContainer')}"/>
+
+            </p:menuButton>
+        </h:form>
+
+        <p:linkButton outcome="/VIEW/home.xhtml" value="#{I18N['logo.title']}" style="margin-right:20px;">
+        </p:linkButton>
+
+    </div>
+
+
+
+    <div class="card">
+        <h:form>
+            <p:growl id="messages"/>
+            <p:menubar>
+                <p:submenu label="#{I18N['menu.data.DM']}" icon="pi pi-fw pi-briefcase" rendered="#{connectionBean.verifyPermissionUser('DataManager')}">
+                    <p:submenu label="#{I18N['menu.data.site']}" icon="pi pi-fw pi-building">
+                        <p:menuitem value="#{I18N['menu.data.site.add']}" icon="pi pi-fw pi-building pi-plus" action="/VIEW/AddSite.xhtml" rendered="#{connectionBean.verifyPermissionUser('Add a site')}"/>
+                        <p:menuitem value="#{I18N['menu.data.site.consult']}" icon="pi pi-fw pi-building pi-pencil" action="/VIEW/listOfSites.xhtml" rendered="#{connectionBean.verifyPermissionUser('List of sites')}"/>
+                    </p:submenu>
+                    <p:divider/>
+                    <p:submenu label="#{I18N['menu.data.users']}" icon="pi pi-fw pi-user">
+                        <p:menuitem value="#{I18N['menu.data.users.add']}" icon="pi pi-fw pi-user-plus" action="/VIEW/addUser.xhtml" rendered="#{connectionBean.verifyPermissionUser('Add a user')}"/>
+                        <p:menuitem value="#{I18N['menu.data.users.consult']}" icon="pi pi-fw pi-user pi-pencil" action="/VIEW/listOfUsers.xhtml" rendered="#{connectionBean.verifyPermissionUser('List of users')}"/>
+                        <p:menuitem value="#{I18N['menu.data.usersSite.add']}" icon="pi pi-fw pi-user pi-building pi-plus" action="/VIEW/AddUserSite.xhtml" rendered="#{connectionBean.verifyPermissionUser('Add a list of sites for a user')}"/>
+                        <p:menuitem value="#{I18N['menu.data.usersSite.consult']}" icon="pi pi-fw pi-user pi-building pi-pencil" action="/VIEW/listOfUsersSites.xhtml" rendered="#{connectionBean.verifyPermissionUser('List of users and related sites')}"/>
+                    </p:submenu>
+                    <p:divider/>
+                    <p:submenu label="#{I18N['menu.data.role']}" icon="pi pi-fw pi-wrench">
+                        <p:menuitem value="#{I18N['menu.data.role.add']}" icon="pi pi-fw pi-wrench pi-plus" action="/VIEW/addRole.xhtml" rendered="#{connectionBean.verifyPermissionUser('Add a role')}"/>
+                        <p:menuitem value="#{I18N['menu.data.role.consult']}" icon="pi pi-fw pi-wrench pi-pencil" action="/VIEW/listOfRoles.xhtml" rendered="#{connectionBean.verifyPermissionUser('List of roles')}"/>
+                        <p:menuitem value="#{I18N['menu.data.rolePermission.add']}" icon="pi pi-fw pi-user pi-wrench pi-plus" action="/VIEW/addRolePermissions.xhtml" rendered="#{connectionBean.verifyPermissionUser('Add a list of permissions for a role')}"/>
+                        <p:menuitem value="#{I18N['menu.data.rolePermission.modify']}" icon="pi pi-fw pi-user pi-wrench pi-pencil" action="/VIEW/listOfrolePermission.xhtml" rendered="#{connectionBean.verifyPermissionUser('List of roles and related permissions')}"/>
+                    </p:submenu>
+                </p:submenu>
+                <p:submenu label="#{I18N['menu.events']}" icon="pi pi-fw pi-calendar">
+                    <p:submenu label="#{I18N['menu.events']}" icon="pi pi-fw pi-calendar" rendered="#{connectionBean.verifyPermissionUser('Modifier un événement')}">
+                        <p:menuitem value="#{I18N['menu.data.events.add']}" icon="pi pi-fw pi-calendar-plus" action="/VIEW/addEvent.xhtml" rendered="#{connectionBean.verifyPermissionUser('Créer un événement')}"/>
+                        <p:menuitem value="#{I18N['menu.data.events.modify']}" icon="pi pi-fw pi-calendar" action="/VIEW/listOfEvents.xhtml" rendered="#{connectionBean.verifyPermissionUser('Modifier un événement')}"/>
+                    </p:submenu>
+                    <p:divider />
+                    <p:menuitem value="#{I18N['menu.data.events.participate']}" icon="pi pi-fw pi-calendar-plus" action="/VIEW/listOfMyPotentialEvent.xhtml" rendered="#{connectionBean.verifyPermissionUser('Ma participation aux événements')}"/>
+                    <p:menuitem value="#{I18N['menu.data.events.myParticipation']}" icon="pi pi-fw pi-calendar" action="/VIEW/myPlanning.xhtml" rendered="#{connectionBean.verifyPermissionUser('Mon planning')}"/>
+                    <p:menuitem value="#{I18N['event.countUser']}" icon="pi pi-fw pi-calendar" action="/VIEW/listOfUserEvents.xhtml" rendered="#{connectionBean.verifyPermissionUser('Consulter la liste des participants par évènement')}"/>
+                </p:submenu>
+                <p:submenu label="#{I18N['menu.chasa']}" icon="pi pi-fw pi-wrench" rendered="#{connectionBean.verifyPermissionUser('Ajouter un rôle')}">
+                    <p:submenu label="#{I18N['menu.chasa']}" icon="pi pi-fw pi-wrench">
+                        <p:menuitem value="#{I18N['menu.chasa.role.add']}" icon="pi pi-fw pi-user-plus" action="/VIEW/addRole.xhtml" rendered="#{connectionBean.verifyPermissionUser('Ajouter un rôle')}"/>
+                        <p:menuitem value="#{I18N['menu.chasa.role.consult']}" icon="pi pi-fw pi-users" action="/VIEW/listOfRoles.xhtml" rendered="#{connectionBean.verifyPermissionUser('Afficher la liste des rôles')}"/>
+                        <p:menuitem value="#{I18N['menu.chasa.rolePermission.add']}" icon="pi pi-fw pi-user-plus" action="/VIEW/addRolePermissions.xhtml" rendered="#{connectionBean.verifyPermissionUser('Ajouter une liste de permission pour un rôle')}"/>
+                        <p:menuitem value="#{I18N['menu.chasa.rolePermission.modify']}" icon="pi pi-fw pi-wrench" action="/VIEW/listOfrolePermission.xhtml" rendered="#{connectionBean.verifyPermissionUser('Liste des permissions pour un rôle')}"/>
+                    </p:submenu>
+                </p:submenu>
+
+                <f:facet name="options">
+                    <p:commandButton value="Logout"  action="#{connectionBean.logOut}" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info"/>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+    </div>
+
+
+</div>
+
+
+</html>

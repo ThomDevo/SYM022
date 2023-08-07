@@ -4,8 +4,14 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+@NamedQueries(value = {
+        @NamedQuery(name = "RolePermission.SelectAll", query = "SELECT pe FROM RolePermissionEntity pe Where (lower(pe.roleByIdRole.roleLabel  )like concat('%', :researchWord, '%'))  GROUP BY pe.roleByIdRole"),
+        @NamedQuery(name = "RolePermission.SelectListPermissionByIdRole", query = "SELECT pe FROM RolePermissionEntity pe WHERE pe.roleByIdRole.idRole = :idRole"),
+        @NamedQuery(name = "RolePermission.SelectListPermissionByIdRoleANdByIdPermission", query = "SELECT pe FROM RolePermissionEntity pe WHERE pe.roleByIdRole.idRole = :idRole AND pe.permissionByIdPermission.idPermission = :idPermission")
+})
+
 @Entity
-@Table(name = "role_permission", schema = "sym022", catalog = "")
+@Table(name = "role_permission", schema = "sym022")
 public class RolePermissionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

@@ -25,10 +25,5 @@
         <class>com.sym022.sym022.entities.UserSiteEntity</class>
         <class>com.sym022.sym022.entities.VisitEntity</class>
         <class>com.sym022.sym022.entities.VsEntity</class>
-        <properties>
-            <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/sym022"/>
-            <property name="eclipselink.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-        </properties>
-
     </persistence-unit>
 </persistence>
