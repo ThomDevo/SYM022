@@ -15,7 +15,7 @@ import java.util.Objects;
         @NamedQuery(name = "Site.selectListSiteBySiteName", query = "SELECT si FROM SiteEntity si WHERE si.siteName = :siteName ORDER BY si.siteName ASC"),
         @NamedQuery(name = "Site.selectListSiteByPiName", query = "SELECT si FROM SiteEntity si WHERE si.piName = :piName"),
         @NamedQuery(name = "Site.selectListSiteByStatusTrue", query = "SELECT si FROM SiteEntity si WHERE si.siteStatus = TRUE " ),
-        @NamedQuery(name = "Site.FindSiteByCharacteristic", query = "SELECT si FROM SiteEntity si " +
+        @NamedQuery(name = "Site.findSiteByCharacteristic", query = "SELECT si FROM SiteEntity si " +
                 " where ((lower(si.siteName )like concat('%', :researchWord, '%')) or" +
                 " (lower(si.piName )like concat('%', :researchWord, '%')) or " +
                 " (lower(si.siteNum )like concat('%', :researchWord, '%'))) ORDER BY si.siteNum ASC"),
