@@ -11,7 +11,7 @@ function submitLanguageForm(idForm){
 //function for research in table before manny character.
 function researchTable(target){
     let valueInput = target.value;
-    if(valueInput.length < 3 && valueInput.length > 0)
+    if(valueInput.length < 2 && valueInput.length > 0)
         return;
     clickNext(target);
 }

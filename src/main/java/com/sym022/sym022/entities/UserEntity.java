@@ -13,7 +13,7 @@ import java.util.Objects;
 @NamedQueries(value = {
         @NamedQuery(name = "User.SelectUser", query = "SELECT u FROM UserEntity u WHERE u.username = :username AND u.status = TRUE"),
         @NamedQuery(name = "User.IsUserExist", query = "SELECT COUNT(u) FROM UserEntity u WHERE u.username = :username"),
-        @NamedQuery(name = "User.SelectAll", query = "SELECT u FROM UserEntity u"),
+        @NamedQuery(name = "User.SelectUserAll", query = "SELECT u FROM UserEntity u"),
         @NamedQuery(name = "User.findUserById", query = "SELECT u FROM UserEntity u WHERE u.idUser = :idUser"),
         @NamedQuery(name = "User.FindUserByCharacteristic", query = "SELECT u from UserEntity u " +
                 " where ((lower(u.lastName )like concat('%', :researchWord, '%')) or" +
@@ -32,7 +32,7 @@ public class UserEntity {
     private int idUser;
     @Basic
     @NotNull
-    @Pattern(regexp = "^[A-za-z ',\\-.-éèçàâêîûôù]{1,255}$")
+    @Pattern(regexp = "^[A-za-z ',\\-.-éèçàâêîûôù]{2,255}$")
     @Column(name = "username", nullable = false, length = 200)
     private String username;
 

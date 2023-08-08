@@ -38,8 +38,8 @@ public class UserService {
      * @param em
      * @return List of Users
      */
-    public List<UserEntity> findAll(EntityManager em) {
-        return em.createNamedQuery("User.SelectAll",UserEntity.class)
+    public List<UserEntity> findUserAll(EntityManager em) {
+        return em.createNamedQuery("User.SelectUserAll",UserEntity.class)
                 .getResultList();
     }
 
@@ -61,7 +61,7 @@ public class UserService {
      * @param em
      * @return List of Users
      */
-    public List<UserEntity> findUserByFilterAndOrderAscAdmin(String researchWord, EntityManager em){
+    public List<UserEntity> findUserByFilterAndOrderAsc(String researchWord, EntityManager em){
         return em.createNamedQuery("User.FindUserByCharacteristic", UserEntity.class)
                 .setParameter("researchWord", researchWord.toLowerCase())
                 .getResultList();

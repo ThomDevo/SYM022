@@ -14,7 +14,7 @@ public class SiteService {
      */
     public List<SiteEntity> findSiteAll (EntityManager em)
     {
-        return em.createNamedQuery("Site.SelectSiteAll", SiteEntity.class)
+        return em.createNamedQuery("Site.selectSiteAll", SiteEntity.class)
                 .getResultList();
     }
 
@@ -26,7 +26,7 @@ public class SiteService {
      */
     public SiteEntity findSiteById(int idSite, EntityManager em)
     {
-        return em.createNamedQuery("Site.SelectSiteById", SiteEntity.class)
+        return em.createNamedQuery("Site.selectSiteById", SiteEntity.class)
                 .setParameter("idSite", idSite)
                 .getSingleResult();
     }
@@ -39,7 +39,7 @@ public class SiteService {
      */
     public SiteEntity findSiteByNum(int siteNum, EntityManager em)
     {
-        return em.createNamedQuery("Site.SelectSiteByNum", SiteEntity.class)
+        return em.createNamedQuery("Site.selectSiteByNum", SiteEntity.class)
                 .setParameter("siteNum", siteNum)
                 .getSingleResult();
     }
@@ -52,7 +52,7 @@ public class SiteService {
      */
     public List<SiteEntity> findSiteByName(String siteName, EntityManager em)
     {
-        return em.createNamedQuery("Site.SelectListSiteBySiteName", SiteEntity.class)
+        return em.createNamedQuery("Site.selectListSiteBySiteName", SiteEntity.class)
                 .setParameter("siteName", siteName)
                 .getResultList();
     }
@@ -65,7 +65,7 @@ public class SiteService {
      */
     public List<SiteEntity> findSiteByPiName(String piName, EntityManager em)
     {
-        return em.createNamedQuery("Site.SelectListSiteByPiName", SiteEntity.class)
+        return em.createNamedQuery("Site.selectListSiteByPiName", SiteEntity.class)
                 .setParameter("piName", piName)
                 .getResultList();
     }
@@ -77,7 +77,7 @@ public class SiteService {
      */
     public List<SiteEntity> findSiteByStatusTrue (EntityManager em)
     {
-        return em.createNamedQuery("Site.SelectListSiteByStatusTrue", SiteEntity.class)
+        return em.createNamedQuery("Site.selectListSiteByStatusTrue", SiteEntity.class)
                 .getResultList();
     }
 
@@ -100,7 +100,7 @@ public class SiteService {
      * @return count of occurrence
      */
     public boolean isSiteExist(int siteNum, EntityManager em){
-        Query query =em.createNamedQuery("Site.IsSiteNumExist", SiteEntity.class);
+        Query query =em.createNamedQuery("Site.isSiteNumExist", SiteEntity.class);
         query.setParameter("siteNum", siteNum);
 
         int count =((Number)query.getSingleResult()).intValue();

@@ -1,22 +1,25 @@
 package com.sym022.sym022.entities;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Objects;
 
 @NamedQueries(value = {
-        @NamedQuery(name = "Site.SelectSiteAll", query = "SELECT si FROM SiteEntity si ORDER BY si.siteNum ASC"),
-        @NamedQuery(name = "Site.SelectSiteById", query = "SELECT si FROM SiteEntity si WHERE si.idSite = :idSite"),
-        @NamedQuery(name = "Site.SelectSiteByNum", query = "SELECT si FROM SiteEntity si WHERE si.siteNum = :siteNum"),
-        @NamedQuery(name = "Site.SelectListSiteBySiteName", query = "SELECT si FROM SiteEntity si WHERE si.siteName = :siteName ORDER BY si.siteName ASC"),
-        @NamedQuery(name = "Site.SelectListSiteByPiName", query = "SELECT si FROM SiteEntity si WHERE si.piName = :piName"),
-        @NamedQuery(name = "Site.SelectListSiteByStatusTrue", query = "SELECT si FROM SiteEntity si WHERE si.siteStatus = TRUE " ),
+        @NamedQuery(name = "Site.selectSiteAll", query = "SELECT si FROM SiteEntity si ORDER BY si.siteNum ASC"),
+        @NamedQuery(name = "Site.selectSiteById", query = "SELECT si FROM SiteEntity si WHERE si.idSite = :idSite"),
+        @NamedQuery(name = "Site.selectSiteByNum", query = "SELECT si FROM SiteEntity si WHERE si.siteNum = :siteNum"),
+        @NamedQuery(name = "Site.selectListSiteBySiteName", query = "SELECT si FROM SiteEntity si WHERE si.siteName = :siteName ORDER BY si.siteName ASC"),
+        @NamedQuery(name = "Site.selectListSiteByPiName", query = "SELECT si FROM SiteEntity si WHERE si.piName = :piName"),
+        @NamedQuery(name = "Site.selectListSiteByStatusTrue", query = "SELECT si FROM SiteEntity si WHERE si.siteStatus = TRUE " ),
         @NamedQuery(name = "Site.FindSiteByCharacteristic", query = "SELECT si FROM SiteEntity si " +
                 " where ((lower(si.siteName )like concat('%', :researchWord, '%')) or" +
                 " (lower(si.piName )like concat('%', :researchWord, '%')) or " +
                 " (lower(si.siteNum )like concat('%', :researchWord, '%'))) ORDER BY si.siteNum ASC"),
-        @NamedQuery(name = "Site.IsSiteNumExist", query = "SELECT COUNT(si) FROM SiteEntity si WHERE si.siteNum = :siteNum")
+        @NamedQuery(name = "Site.isSiteNumExist", query = "SELECT COUNT(si) FROM SiteEntity si WHERE si.siteNum = :siteNum")
 
 })
 
@@ -30,16 +33,19 @@ public class SiteEntity {
 
     @Basic
     @NotNull
+    @Range(min = 0, max =999999)
     @Column(name = "site_num", nullable = false)
     private int siteNum;
 
     @Basic
     @NotNull
+    @Pattern(regexp = "^[A-za-z ',\\-.-éèçàâêîûôù]{2,255}$")
     @Column(name = "site_name", nullable = false, length = 200)
     private String siteName;
 
     @Basic
     @NotNull
+    @Pattern(regexp = "^[A-za-z ',\\-.-éèçàâêîûôù]{2,255}$")
     @Column(name = "pi_name", nullable = false, length = 200)
     private String piName;
 

@@ -27,6 +27,7 @@ public class RoleEntity {
     @Basic
     @NotNull
     @Column(name = "role_label", nullable = false)
+    @Enumerated(EnumType.STRING)
     private RoleLabel roleLabel;
 
     @OneToMany(mappedBy = "roleByIdRole")
