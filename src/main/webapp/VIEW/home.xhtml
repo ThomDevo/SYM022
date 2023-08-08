@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
+    <ui:define name="title">
+        #{I18N['home.title']}
+    </ui:define>
+    <ui:define name="content">
+
+
+        <f:metadata>
+            <!-- execute methode in loading page. -->
+            <f:event type="preRenderView" listener="#{i18nBean.loadLanguagePage}" iconPos="right"/>
+        </f:metadata>
+        <div class="content">
+            <div class="block p-20 form-container">
+                <h2>
+                    <h:outputText value="#{I18N['welcomeonyourpage']} #{connectionBean.user.lastName} #{connectionBean.user.firstName}"  />
+                </h2>
+
+            </div>
+        </div>
+
+
+
+    </ui:define>
+</ui:composition>
+</html>

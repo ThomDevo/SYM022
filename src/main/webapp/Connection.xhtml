@@ -31,13 +31,13 @@
             </h1>
             <h:form name="connection">
 
-                <h4>#{I18N['connectionpage.lifrasNumber.title']}</h4>
+                <h4>#{I18N['connectionpage.username.title']}</h4>
                 <span class="ui-float-label">
-                    <p:inputNumber id="float-input" value="#{connectionBean.userForm.lifrasNumber}"
-                                   placeholder="#{I18N['connectionpage.lifrasNumber.placeholder']}"
+                    <p:inputText id="float-input" value="#{connectionBean.userConnected.username}"
+                                   placeholder="#{I18N['connectionpage.username.placeholder']}"
                                    validatorMessage="#{I18N['ConnectionPage.errorMessageLogin']}">
 
-                    </p:inputNumber>
+                    </p:inputText>
                     <p:message id="messageLifrasNumber" for="@previous"/>
                 </span>
 

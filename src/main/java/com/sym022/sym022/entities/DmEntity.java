@@ -39,9 +39,6 @@ public class DmEntity {
     private EventEntity eventByIdEvent;
 
     /*--- Getters and setters ---*/
-    @Basic
-    @Column(name = "id_event", nullable = false)
-    private int idEvent;
 
     public int getIdDm() {
         return idDm;

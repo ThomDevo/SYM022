@@ -36,7 +36,6 @@ public class AeEntity {
 
     @Basic
     @Column(name = "aeendat", nullable = true)
-    @Enumerated(EnumType.STRING)
     private Date aeendat;
 
     @Basic
