@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Objects;
 
 @NamedQueries(value = {
-        @NamedQuery(name = "Role.SelectRoleByRoleName", query = "SELECT r from RoleEntity r where r.roleLabel = :roleLabel"),
-        @NamedQuery(name="Role.SelectRoleAll", query ="SELECT r from RoleEntity r"),
-        @NamedQuery(name="Role.SelectRoleAllEmpty", query ="select r from RoleEntity r where (select count(rp) from RolePermissionEntity rp where (rp.roleByIdRole.idRole = r.idRole) ) = 0"),
-        @NamedQuery(name="Role.SelectRoleById", query="SELECT r from RoleEntity r where r.idRole = :idRole"),
+        @NamedQuery(name = "Role.selectRoleByRoleLabel", query = "SELECT r from RoleEntity r where r.roleLabel = :roleLabel"),
+        @NamedQuery(name="Role.selectRoleAll", query ="SELECT r from RoleEntity r"),
+        @NamedQuery(name="Role.selectRoleAllEmpty", query ="select r from RoleEntity r where (select count(rp) from RolePermissionEntity rp where (rp.roleByIdRole.idRole = r.idRole) ) = 0"),
+        @NamedQuery(name="Role.selectRoleById", query="SELECT r from RoleEntity r where r.idRole = :idRole"),
         @NamedQuery(name="Role.isRoleExist", query="SELECT COUNT(r) FROM RoleEntity r WHERE r.roleLabel = :roleLabel"),
-        @NamedQuery(name="Role.SelectAllRoleFilter", query="SELECT r FROM RoleEntity r WHERE ((lower(r.roleLabel) LIKE CONCAT('%', :researchRole, '%'))) ORDER BY r.roleLabel ASC")
+        @NamedQuery(name="Role.selectAllRoleFilter", query="SELECT r FROM RoleEntity r WHERE ((lower(r.roleLabel) LIKE CONCAT('%', :researchWord, '%'))) ORDER BY r.roleLabel ASC")
 })
 
 

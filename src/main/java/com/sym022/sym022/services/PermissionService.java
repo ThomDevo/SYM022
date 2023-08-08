@@ -7,7 +7,7 @@ import java.util.List;
 public class PermissionService {
 
     /**
-     * Permission request method by roleLabel
+     * Permission request method by permissionLabel
      * @param permissionLabel
      * @return List of permission
      */
@@ -23,7 +23,7 @@ public class PermissionService {
      * Find permission by id of permission
      * @param idPermission
      * @param em
-     * @return
+     * @return permission
      */
     public PermissionEntity findPermissionById(int idPermission, EntityManager em)
     {
@@ -45,7 +45,7 @@ public class PermissionService {
 
 
     /**
-     * Method to add a role
+     * Method to add a permission
      * @param permission
      * @param em
      * @return permission
@@ -58,7 +58,7 @@ public class PermissionService {
 
 
     /**
-     * Method to update a role
+     * Method to update a permission
      * @param permission
      * @param em
      * @return permission

@@ -9,6 +9,13 @@ import java.util.List;
 import java.util.List;
 import java.util.Objects;
 
+
+@NamedQueries(value = {
+        @NamedQuery(name = "Event.selectEventAll", query = "SELECT ev FROM EventEntity ev ORDER BY ev.idEvent ASC"),
+        @NamedQuery(name = "Event.selectEventById", query = "SELECT ev FROM EventEntity ev WHERE ev.idEvent = :idEvent"),
+        @NamedQuery(name = "Event.selectEventWithQuery", query = "SELECT ev FROM EventEntity ev WHERE ev.queried = true ")
+})
+
 @Entity
 @Table(name = "event", schema = "sym022")
 public class EventEntity {

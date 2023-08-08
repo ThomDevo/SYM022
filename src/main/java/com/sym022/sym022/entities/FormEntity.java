@@ -9,6 +9,16 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQueries(value = {
+        @NamedQuery(name = "Form.selectFormAll", query = "SELECT fo FROM FormEntity fo ORDER BY fo.formNum ASC"),
+        @NamedQuery(name = "Form.selectFormById", query = "SELECT fo FROM FormEntity fo WHERE fo.idForm = :idForm"),
+        @NamedQuery(name = "Form.selectFormByNum", query = "SELECT fo FROM FormEntity fo WHERE fo.formNum = :formNum"),
+        @NamedQuery(name = "Form.selectFormByLabel", query = "SELECT fo FROM FormEntity fo WHERE fo.formLabel = :formLabel"),
+        @NamedQuery(name = "Form.isFormNumExist", query = "SELECT COUNT(fo) FROM FormEntity fo WHERE fo.formNum = :formNum"),
+        @NamedQuery(name = "Form.isFormLabelExist", query = "SELECT COUNT(fo) FROM FormEntity fo WHERE fo.formLabel = :formLabel")
+})
+
+
 @Entity
 @Table(name = "form", schema = "sym022")
 public class FormEntity {

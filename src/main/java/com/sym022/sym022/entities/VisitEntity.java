@@ -9,6 +9,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQueries(value = {
+        @NamedQuery(name = "Visit.selectVisitAll", query = "SELECT vi FROM VisitEntity vi ORDER BY vi.visitNum ASC"),
+        @NamedQuery(name = "Visit.selectVisitById", query = "SELECT vi FROM VisitEntity vi WHERE vi.idVisit = :idVisit"),
+        @NamedQuery(name = "Visit.selectVisitByNum", query = "SELECT vi FROM VisitEntity vi WHERE vi.visitNum = :visitNum"),
+        @NamedQuery(name = "Visit.selectVisitByLabel", query = "SELECT vi FROM VisitEntity vi WHERE vi.visitLabel = :visitLabel"),
+        @NamedQuery(name = "Visit.isVisitNumExist", query = "SELECT COUNT(vi) FROM VisitEntity vi WHERE vi.visitNum = :visitNum"),
+        @NamedQuery(name = "Visit.isVisitLabelExist", query = "SELECT COUNT(vi) FROM VisitEntity vi WHERE vi.visitLabel = :visitLabel")
+})
+
 @Entity
 @Table(name = "visit", schema = "sym022")
 public class VisitEntity {
@@ -19,6 +28,8 @@ public class VisitEntity {
 
     @Basic
     @Range(min=1,max= 99)
+
+
     @NotNull
     @Column(name = "visit_num", nullable = false)
     private int visitNum;

@@ -13,9 +13,9 @@ public class RoleService {
      * @param roleLabel
      * @return List of roles
      */
-    public RoleEntity findRoleByRoleName(String roleLabel, EntityManager em)
+    public RoleEntity findRoleByRoleLabel(String roleLabel, EntityManager em)
     {
-        return em.createNamedQuery("Role.SelectRoleByRoleName", RoleEntity.class)
+        return em.createNamedQuery("Role.selectRoleByRoleLabel", RoleEntity.class)
                 .setParameter("roleLabel", roleLabel)
                 .getSingleResult();
     }
@@ -29,7 +29,7 @@ public class RoleService {
      */
     public RoleEntity findRoleById(int idRole, EntityManager em)
     {
-        return em.createNamedQuery("Role.SelectRoleById", RoleEntity.class)
+        return em.createNamedQuery("Role.selectRoleById", RoleEntity.class)
                 .setParameter("idRole", idRole)
                 .getSingleResult();
     }
@@ -41,30 +41,28 @@ public class RoleService {
      */
     public List<RoleEntity> findRoleAll (EntityManager em)
     {
-        return em.createNamedQuery("Role.SelectRoleAll", RoleEntity.class)
+        return em.createNamedQuery("Role.selectRoleAll", RoleEntity.class)
                 .getResultList();
     }
 
     public List<RoleEntity> findRoleAllEmptyPermissions (EntityManager em)
     {
-        return em.createNamedQuery("Role.SelectRoleAllEmpty", RoleEntity.class)
+        return em.createNamedQuery("Role.selectRoleAllEmpty", RoleEntity.class)
                 .getResultList();
     }
 
 
     /**
-     * Method to filter thz whole list of roles
-     * @param researchRole
+     * Method to filter the whole list of roles
+     * @param researchWord
      * @param em
      * @return List of roles
      */
-    public List<RoleEntity> findRoleByFilter (String researchRole,EntityManager em){
-        return em.createNamedQuery("Role.SelectAllRoleFilter", RoleEntity.class)
-                .setParameter("researchRole", researchRole.toLowerCase())
+    public List<RoleEntity> findRoleByFilter (String researchWord,EntityManager em){
+        return em.createNamedQuery("Role.selectAllRoleFilter", RoleEntity.class)
+                .setParameter("researchWord", researchWord.toLowerCase())
                 .getResultList();
     }
-
-
 
 
     /**

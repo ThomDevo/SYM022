@@ -7,6 +7,11 @@ import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.Objects;
 
+@NamedQueries(value = {
+        @NamedQuery(name = "Ic.selectIcById", query = "SELECT ic FROM IcEntity ic WHERE ic.idIc = :idIc"),
+        @NamedQuery(name = "Ic.icEligibleYes", query = "SELECT ic FROM IcEntity ic WHERE ic.eligYn = true")
+})
+
 @Entity
 @Table(name = "ic", schema = "sym022")
 public class IcEntity {

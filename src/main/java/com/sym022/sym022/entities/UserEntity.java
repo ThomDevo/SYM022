@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Objects;
 
 @NamedQueries(value = {
-        @NamedQuery(name = "User.SelectUser", query = "SELECT u FROM UserEntity u WHERE u.username = :username AND u.status = TRUE"),
-        @NamedQuery(name = "User.IsUserExist", query = "SELECT COUNT(u) FROM UserEntity u WHERE u.username = :username"),
-        @NamedQuery(name = "User.SelectAll", query = "SELECT u FROM UserEntity u"),
-        @NamedQuery(name = "User.findUserById", query = "SELECT u FROM UserEntity u WHERE u.idUser = :idUser"),
-        @NamedQuery(name = "User.FindUserByCharacteristic", query = "SELECT u from UserEntity u " +
+        @NamedQuery(name = "User.selectUser", query = "SELECT u FROM UserEntity u WHERE u.username = :username AND u.status = TRUE"),
+        @NamedQuery(name = "User.isUserExist", query = "SELECT COUNT(u) FROM UserEntity u WHERE u.username = :username"),
+        @NamedQuery(name = "User.selectUserAll", query = "SELECT u FROM UserEntity u"),
+        @NamedQuery(name = "User.selectUserById", query = "SELECT u FROM UserEntity u WHERE u.idUser = :idUser"),
+        @NamedQuery(name = "User.findUserByCharacteristic", query = "SELECT u from UserEntity u " +
                 " where ((lower(u.lastName )like concat('%', :researchWord, '%')) or" +
                 " (lower(u.firstName )like concat('%', :researchWord, '%')) or " +
                 " (lower(u.mail )like concat('%', :researchWord, '%')) or" +

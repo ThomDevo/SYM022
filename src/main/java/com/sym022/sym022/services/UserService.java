@@ -14,7 +14,7 @@ public class UserService {
      * @return User and a status : TRUE
      */
     public UserEntity findUserByUsername (String username, EntityManager em) {
-        return em.createNamedQuery("User.SelectUser", UserEntity.class)
+        return em.createNamedQuery("User.selectUser", UserEntity.class)
                 .setParameter("username", username)
                 .getSingleResult();
     }
@@ -23,10 +23,10 @@ public class UserService {
      * Method to know if a user exists in the database
      * @param username
      * @param em
-     * @return True if user exists
+     * @return boolean
      */
     public boolean isUserExist(String username, EntityManager em){
-        Query query =em.createNamedQuery("User.IsUserExist", UserEntity.class);
+        Query query =em.createNamedQuery("User.isUserExist", UserEntity.class);
         query.setParameter("username", username);
 
         int count =((Number)query.getSingleResult()).intValue();
@@ -38,8 +38,8 @@ public class UserService {
      * @param em
      * @return List of Users
      */
-    public List<UserEntity> findAll(EntityManager em) {
-        return em.createNamedQuery("User.SelectAll",UserEntity.class)
+    public List<UserEntity> findUserAll(EntityManager em) {
+        return em.createNamedQuery("User.selectUserAll",UserEntity.class)
                 .getResultList();
     }
 
@@ -50,7 +50,7 @@ public class UserService {
      * @return User
      */
     public UserEntity findUserById(int idUser, EntityManager em) {
-        return em.createNamedQuery("User.findUserById", UserEntity.class)
+        return em.createNamedQuery("User.selectUserById", UserEntity.class)
                 .setParameter("idUser", idUser)
                 .getSingleResult();
     }
@@ -61,8 +61,8 @@ public class UserService {
      * @param em
      * @return List of Users
      */
-    public List<UserEntity> findUserByFilterAndOrderAscAdmin(String researchWord, EntityManager em){
-        return em.createNamedQuery("User.FindUserByCharacteristic", UserEntity.class)
+    public List<UserEntity> findUserByFilterAndOrderAsc(String researchWord, EntityManager em){
+        return em.createNamedQuery("User.findUserByCharacteristic", UserEntity.class)
                 .setParameter("researchWord", researchWord.toLowerCase())
                 .getResultList();
     }

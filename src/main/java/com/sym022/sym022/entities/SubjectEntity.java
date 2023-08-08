@@ -6,6 +6,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQueries(value = {
+        @NamedQuery(name = "Subject.selectSubjectAll", query = "SELECT su FROM SubjectEntity su ORDER BY su.subjectNum ASC"),
+        @NamedQuery(name = "Subject.selectSubjectById", query = "SELECT su FROM SubjectEntity su WHERE su.idSubject = :idSubject"),
+        @NamedQuery(name = "Subject.selectSubjectByNum", query = "SELECT su FROM SubjectEntity su WHERE su.subjectNum = :subjectNum"),
+        @NamedQuery(name = "Subject.isSubjectNumExist", query = "SELECT COUNT(su) FROM SubjectEntity su WHERE su.subjectNum = :subjectNum")
+
+})
+
 @Entity
 @Table(name = "subject", schema = "sym022")
 public class SubjectEntity {
