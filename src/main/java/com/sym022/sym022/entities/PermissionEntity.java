@@ -5,6 +5,13 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQueries(value = {
+        @NamedQuery(name = "Permission.selectPermissionAll", query = "SELECT p from PermissionEntity p order by p.idPermission desc"),
+        @NamedQuery(name = "Permission.selectPermissionById", query = "SELECT p from PermissionEntity p where p.idPermission = :idPermission"),
+        @NamedQuery(name = "Permission.selectPermissionByLabel", query = "SELECT p from PermissionEntity p where p.permissionLabel = :permissionLabel"),
+
+})
+
 @Entity
 @Table(name = "permission", schema = "sym022")
 public class PermissionEntity {

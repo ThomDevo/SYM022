@@ -5,6 +5,21 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQueries(value = {
+        @NamedQuery(name = "Site.SelectSiteAll", query = "SELECT si FROM SiteEntity si ORDER BY si.siteNum ASC"),
+        @NamedQuery(name = "Site.SelectSiteById", query = "SELECT si FROM SiteEntity si WHERE si.idSite = :idSite"),
+        @NamedQuery(name = "Site.SelectSiteByNum", query = "SELECT si FROM SiteEntity si WHERE si.siteNum = :siteNum"),
+        @NamedQuery(name = "Site.SelectListSiteBySiteName", query = "SELECT si FROM SiteEntity si WHERE si.siteName = :siteName ORDER BY si.siteName ASC"),
+        @NamedQuery(name = "Site.SelectListSiteByPiName", query = "SELECT si FROM SiteEntity si WHERE si.piName = :piName"),
+        @NamedQuery(name = "Site.SelectListSiteByStatusTrue", query = "SELECT si FROM SiteEntity si WHERE si.siteStatus = TRUE " ),
+        @NamedQuery(name = "Site.FindSiteByCharacteristic", query = "SELECT si FROM SiteEntity si " +
+                " where ((lower(si.siteName )like concat('%', :researchWord, '%')) or" +
+                " (lower(si.piName )like concat('%', :researchWord, '%')) or " +
+                " (lower(si.siteNum )like concat('%', :researchWord, '%'))) ORDER BY si.siteNum ASC"),
+        @NamedQuery(name = "Site.IsSiteNumExist", query = "SELECT COUNT(si) FROM SiteEntity si WHERE si.siteNum = :siteNum")
+
+})
+
 @Entity
 @Table(name = "site", schema = "sym022")
 public class SiteEntity {
@@ -29,8 +44,8 @@ public class SiteEntity {
     private String piName;
 
     @Basic
-    @Column(name = "site_status", nullable = true)
-    private boolean siteStatus;
+    @Column(name = "site_status")
+    private boolean siteStatus = true;
 
     @OneToMany(mappedBy = "siteByIdSite")
     private List<SubjectEntity> subjectsByIdSite;
