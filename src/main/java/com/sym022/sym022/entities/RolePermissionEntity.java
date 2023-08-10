@@ -30,6 +30,7 @@ public class RolePermissionEntity {
 
     /*--- Getters and Setters ---*/
 
+
     public int getIdRolePermission() {
         return idRolePermission;
     }
@@ -46,6 +47,8 @@ public class RolePermissionEntity {
         this.permissionByIdPermission = permissionByIdPermission;
     }
 
+    /*--- HashCode and Equal ---*/
+
     public RoleEntity getRoleByIdRole() {
         return roleByIdRole;
     }
@@ -53,8 +56,6 @@ public class RolePermissionEntity {
     public void setRoleByIdRole(RoleEntity roleByIdRole) {
         this.roleByIdRole = roleByIdRole;
     }
-
-    /*--- HashCode and Equal ---*/
 
     @Override
     public boolean equals(Object o) {
@@ -68,4 +69,6 @@ public class RolePermissionEntity {
     public int hashCode() {
         return Objects.hash(idRolePermission);
     }
+
+
 }

@@ -64,8 +64,7 @@
                                          validateClient="true"
                                          class="ui-button-success"
                                          action="#{siteBean.submitFormUpdateSite}"/>
-                        <p:commandButton value="#{I18N['connectionpage.return.button']}" action="#{siteBean.cancelFormSite}"
-                                         class="ui-button-secondary" id="cancelButton"/>
+                        <p:linkButton outcome="/VIEW/home.xhtml" value="#{I18N['connectionpage.return.button']}" class="ui-button-secondary" ></p:linkButton>
                     </span>
                 </h:form>
             </div>

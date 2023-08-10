@@ -46,7 +46,7 @@ public class ConnectionBean extends FilterOfTable<UserEntity> implements Seriali
         {
             this.userConnected = userService.findUserByUsername(this.userConnected.getUsername(), em);
             //checkUserConnection(this.userConnected, this.password);
-            //this.userConnected.listOfPermissions = rolePermissionService.findRolePermissionByIdRole(this.userConnected.getRoleByIdRole().getIdRole(), em);
+            this.userConnected.listOfPermissions = rolePermissionService.findRolePermissionByIdRole(this.userConnected.getRoleByIdRole().getIdRole(), em);
             //ProcessUtils.debug(String.valueOf(this.userForm.listOfPermissions.size()));
             this.user = userConnected;
             this.messageErrorConnection = "hidden";

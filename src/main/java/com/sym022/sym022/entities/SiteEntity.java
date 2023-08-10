@@ -39,13 +39,13 @@ public class SiteEntity {
 
     @Basic
     @NotNull
-    @Pattern(regexp = "^[A-za-z ',\\-.-éèçàâêîûôù]{2,255}$")
+    @Pattern(regexp = "^\\D{2,200}$")
     @Column(name = "site_name", nullable = false, length = 200)
     private String siteName;
 
     @Basic
     @NotNull
-    @Pattern(regexp = "^[A-za-z ',\\-.-éèçàâêîûôù]{2,255}$")
+    @Pattern(regexp = "^\\D{2,200}$")
     @Column(name = "pi_name", nullable = false, length = 200)
     private String piName;
 

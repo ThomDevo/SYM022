@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{I18N['rolePage.addRoleTitle']}"/>
+    </ui:define>
+    <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{roleBean.initFormRole()}"/>
+        </f:metadata>
+        <div class="content">
+            <div class="block p-20 form-container">
+                <h2>
+                    <h:outputText value="#{I18N['rolePage.addRole']}" />
+                </h2>
+                <h:form>
+                    <p:outputPanel class="form-control">
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_rolename_new" value="#{I18N['rolePage.roleLabel']}"/>
+                            <p:inputText id="input_rolename_new" class="label" value="#{roleBean.role.roleLabel}"
+                                         placeholder="#{I18N['rolePage.roleLabel.placeholder']}"
+                                         validatorMessage="#{I18N['rolePage.roleLabel.errorMessage']}">
+                                <p:ajax update="messageRoleName" event="blur"/>
+                            </p:inputText>
+                        </span>
+                        <p:message id="messageRoleName" for="@previous"/>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{roleBean.messageErrorRoleName}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorRoleName']}"/></span>
+                            </div>
+                        </div>
+                    </p:outputPanel>
+                    <span class="responsiveSubmit">
+                        <p:commandButton value="#{I18N['application.create.role']}"
+                                         ajax="false"
+                                         validateClient="true"
+                                         class="ui-button-success"
+                                         action="#{roleBean.submitFormAddRole}"/>
+
+                        <p:linkButton outcome="/VIEW/home.xhtml" value="#{I18N['connectionpage.return.button']}" class="ui-button-secondary" ></p:linkButton>
+                    </span>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

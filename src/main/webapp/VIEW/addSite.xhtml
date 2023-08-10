@@ -12,6 +12,9 @@
         <h:outputText value="#{I18N['sitePage.addSiteTitle']}"/>
     </ui:define>
     <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{siteBean.initFormSite()}"/>
+        </f:metadata>
         <div class="content">
             <div class="block p-20 form-container">
                 <h2>
@@ -60,8 +63,7 @@
                                          validateClient="true"
                                          class="ui-button-success"
                                          action="#{siteBean.submitFormAddSite}"/>
-                        <p:commandButton value="#{I18N['connectionpage.return.button']}" action="#{siteBean.cancelFormSite}"
-                                         class="ui-button-secondary" id="cancelButton"/>
+                        <p:linkButton outcome="/VIEW/home.xhtml" value="#{I18N['connectionpage.return.button']}" class="ui-button-secondary" ></p:linkButton>
                     </span>
                 </h:form>
             </div>

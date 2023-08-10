@@ -3,6 +3,8 @@ package com.sym022.sym022.entities;
 import com.sym022.sym022.enums.RoleLabel;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,17 +28,15 @@ public class RoleEntity {
 
     @Basic
     @NotNull
-    @Column(name = "role_label", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private RoleLabel roleLabel;
+    @Pattern(regexp = "^.{2,200}$")
+    @Column(name = "role_label", nullable = false, length = 200)
+    private String roleLabel;
 
     @OneToMany(mappedBy = "roleByIdRole")
     private List<RolePermissionEntity> rolePermissionsByIdRole;
 
     @OneToMany(mappedBy = "roleByIdRole")
     private List<UserEntity> usersByIdRole;
-
-    /*--- Getters and Setters ---*/
 
     public int getIdRole() {
         return idRole;
@@ -46,11 +46,13 @@ public class RoleEntity {
         this.idRole = idRole;
     }
 
-    public RoleLabel getRoleLabel() {
+    /*--- Getters and Setters ---*/
+
+    public String getRoleLabel() {
         return roleLabel;
     }
 
-    public void setRoleLabel(RoleLabel roleLabel) {
+    public void setRoleLabel(String roleLabel) {
         this.roleLabel = roleLabel;
     }
 
@@ -66,6 +68,7 @@ public class RoleEntity {
         return usersByIdRole;
     }
 
+
     public void setUsersByIdRole(List<UserEntity> usersByIdRole) {
         this.usersByIdRole = usersByIdRole;
     }
@@ -77,7 +80,7 @@ public class RoleEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RoleEntity that = (RoleEntity) o;
-        return idRole == that.idRole;
+        return true;
     }
 
     @Override

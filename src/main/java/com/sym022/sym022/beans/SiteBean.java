@@ -13,6 +13,8 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @Named
@@ -25,13 +27,29 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
     private SiteEntity site = new SiteEntity();
     private SiteService siteService = new SiteService();
     private String messageErrorSiteNum = "hidden";
+    private List<SiteEntity> allSite;
 
     /*--- Methods ---*/
 
     /**
+     * Method to have all sites in the select menu
+     */
+    public void initAllEditorSite(){
+        EntityManager em = EMF.getEM();
+        SiteService siteService = new SiteService();
+        try{
+            this.allSite = siteService.findSiteAll(em);
+        }catch(Exception e){
+            this.allSite = new ArrayList<>();
+        }finally{
+            em.close();
+        }
+    }
+
+    /**
      * Method to filter the sites on the siteNum, the siteName and the piName
      */
-    public void ResearchFilter(){
+    public void ResearchFilterSite(){
 
         EntityManager em = EMF.getEM();
         try{
@@ -78,6 +96,10 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
         return redirect;
     }
 
+    /**
+     * Method to update a site in the DB
+     * @return
+     */
     public String submitFormUpdateSite(){
         EntityManager em = EMF.getEM();
         String redirect = "/VIEW/home";
@@ -93,7 +115,7 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
             initFormSite();
 
         }catch(Exception e){
-            ProcessUtils.debug(" I'm in the catch of the addSite method: "+ e);
+            ProcessUtils.debug(" I'm in the catch of the updateSite method: "+ e);
         }finally {
             if(transaction.isActive()){
                 transaction.rollback();
@@ -104,7 +126,7 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
     }
 
     /**
-     * Method to reset the form to add a site
+     * Method to reset the form to add or update a site
      */
     public void initFormSite(){
         this.site.setSiteNum(0);
@@ -114,7 +136,7 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
     }
 
     /**
-     * Method to quit the page add a site and reset the form
+     * Method to quit the page add or update a site and reset the form
      * @return home Page
      */
     public String cancelFormSite(){
@@ -134,7 +156,7 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
     }
 
     /**
-     * method for getting a popup confirming that the site has been added
+     * Method for getting a popup confirming that the site has been added
      */
     public void confirmAddSite(){
         ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
@@ -145,6 +167,9 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
         addMessage(addSite+" "+site.getSiteName()+" "+add,"Confirmation");
     }
 
+    /**
+     * Method for getting a popup confirming that the site has been updated
+     */
     public void confirmUpdateSite(){
         ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
                 FacesContext.getCurrentInstance().getViewRoot().getLocale());
@@ -186,5 +211,13 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
 
     public void setMessageErrorSiteNum(String messageErrorSiteNum) {
         this.messageErrorSiteNum = messageErrorSiteNum;
+    }
+
+    public List<SiteEntity> getAllSite() {
+        return allSite;
+    }
+
+    public void setAllSite(List<SiteEntity> allSite) {
+        this.allSite = allSite;
     }
 }
