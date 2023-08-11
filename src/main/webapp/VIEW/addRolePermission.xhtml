@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{I18N['add.rolePermission']}"/>
+    </ui:define>
+    <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{permissionBean.initAllPermissions()}"/>
+        </f:metadata>
+        <div class="card">
+            <div class="block p-20 form-container">
+                <h2>
+                    <h:outputText value="#{I18N['add.rolePermission']}" />
+                </h2>
+                <h:form>
+                    <p:outputPanel class="form-control">
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="inputRole" value="#{I18N['select.role']}"/>
+                            <p:selectOneMenu id="inputRole"
+                                             value="#{roleBean.role}"
+                                             converter="RoleLabelConverter"
+                                             effect="fade"
+                                             var="u"
+                                             filter="true"
+                                             filterMatchMode="contains"
+                                             required="true">
+                                <!-- reload list editor from db. -->
+                                <f:metadata>
+                                    <f:event type="preRenderView" listener="#{roleBean.initAllRoleEmptyPermissions()}"/>
+                                </f:metadata>
+                                <f:selectItem itemLabel="#{I18N['select.role']}"
+                                              itemValue="#{null}"/>
+                                <f:selectItems value="#{roleBean.allRoleEmptyPermission}"
+                                               var="role"
+                                               itemLabel="#{role.roleLabel}"
+                                               itemValue="#{role}"/>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{I18N['select.role']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{u.roleLabel}"/>
+                                </p:column>
+
+                            </p:selectOneMenu>
+                        </span>
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="inputPermissions" value="#{I18N['select.permission']}"/>
+                            <p:selectManyMenu id="inputPermissions"
+                                              value="#{rolePermissionBean.permissionsBean.allPermissionsSelected}"
+                                              converter="PermissionConverter"
+                                              effect="fade"
+                                              var="v"
+                                              filter="true"
+                                              filterMatchMode="contains"
+                                              required="true">
+                                <!-- reload list editor from db. -->
+
+                                <f:selectItem itemLabel="#{I18N['select.permission']}"
+                                              itemValue="#{null}"/>
+                                <f:selectItems value="#{permissionBean.allPermissions}"
+                                               var="permission"
+                                               itemLabel="#{permission.permissionLabel}"
+                                               itemValue="#{permission}"/>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{I18N['select.permission']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{v.permissionLabel}"/>
+                                </p:column>
+
+                            </p:selectManyMenu>
+                        </span>
+                    </p:outputPanel>
+                    <span class="responsiveSubmit">
+                        <p:commandButton value="#{I18N['add.rolePermission']}"
+                                         ajax="false"
+                                         validateClient="true"
+                                         class="ui-button-success"
+                                         action="#{rolePermissionBean.submitFormAddRolePermissions()}"/>
+                        <p:button value="#{I18N['connectionpage.return.button']}" outcome="/VIEW/home"
+                                  class="ui-button-secondary" id="cancelButton"/>
+                    </span>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

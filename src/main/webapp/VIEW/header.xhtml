@@ -56,8 +56,8 @@
                     <p:submenu label="#{I18N['menu.data.role']}" icon="pi pi-fw pi-wrench">
                         <p:menuitem value="#{I18N['menu.data.role.add']}" icon="pi pi-fw pi-wrench pi-plus" action="/VIEW/addRole.xhtml" rendered="#{connectionBean.verifyPermissionUser('Add a role')}"/>
                         <p:menuitem value="#{I18N['menu.data.role.consult']}" icon="pi pi-fw pi-wrench pi-pencil" action="/VIEW/listOfRoles.xhtml" rendered="#{connectionBean.verifyPermissionUser('List of roles')}"/>
-                        <p:menuitem value="#{I18N['menu.data.rolePermission.add']}" icon="pi pi-fw pi-user pi-wrench pi-plus" action="/VIEW/addRolePermissions.xhtml" rendered="#{connectionBean.verifyPermissionUser('Add a list of permissions for a role')}"/>
-                        <p:menuitem value="#{I18N['menu.data.rolePermission.modify']}" icon="pi pi-fw pi-user pi-wrench pi-pencil" action="/VIEW/listOfrolePermission.xhtml" rendered="#{connectionBean.verifyPermissionUser('List of roles and related permissions')}"/>
+                        <p:menuitem value="#{I18N['menu.data.rolePermission.add']}" icon="pi pi-fw pi-user pi-wrench pi-plus" action="/VIEW/addRolePermission.xhtml" rendered="#{connectionBean.verifyPermissionUser('Add a list of permissions for a role')}"/>
+                        <p:menuitem value="#{I18N['menu.data.rolePermission.modify']}" icon="pi pi-fw pi-user pi-wrench pi-pencil" action="/VIEW/listOfRolePermission.xhtml" rendered="#{connectionBean.verifyPermissionUser('List of roles and related permissions')}"/>
                     </p:submenu>
                 </p:submenu>
 
