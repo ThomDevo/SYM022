@@ -20,26 +20,26 @@ public class RolePermissionService {
 
     /**
      * Method to find all RolePermission based on the idRole
-     * @param roleId
+     * @param idRole
      * @param em
      * @return List of RolePermissions
      */
-    public List<RolePermissionEntity> findRolePermissionByIdRole(int roleId, EntityManager em) {
+    public List<RolePermissionEntity> findRolePermissionByIdRole(int idRole, EntityManager em) {
         return em.createNamedQuery("RolePermission.SelectListPermissionByIdRole", RolePermissionEntity.class)
-                .setParameter("idRole", roleId)
+                .setParameter("idRole", idRole)
                 .getResultList();
     }
 
     /**
      * Method to find the RolePermission based on the idRole and the idPermission
-     * @param roleId
+     * @param idRole
      * @param idPermission
      * @param em
      * @return RolePermission
      */
-    public RolePermissionEntity findRolePermissionByIdRoleAndByIdPermission(int roleId, int idPermission, EntityManager em){
+    public RolePermissionEntity findRolePermissionByIdRoleAndByIdPermission(int idRole, int idPermission, EntityManager em){
         return em.createNamedQuery("RolePermission.SelectListPermissionByIdRoleANdByIdPermission", RolePermissionEntity.class)
-                .setParameter("idRole", roleId)
+                .setParameter("idRole", idRole)
                 .setParameter("idPermission", idPermission)
                 .getSingleResult();
     }

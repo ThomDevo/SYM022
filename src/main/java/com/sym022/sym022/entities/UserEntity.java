@@ -13,6 +13,7 @@ import java.util.Objects;
         @NamedQuery(name = "User.isUserExist", query = "SELECT COUNT(u) FROM UserEntity u WHERE u.username = :username"),
         @NamedQuery(name = "User.selectUserAll", query = "SELECT u FROM UserEntity u"),
         @NamedQuery(name = "User.selectUserById", query = "SELECT u FROM UserEntity u WHERE u.idUser = :idUser"),
+        @NamedQuery(name = "User.selectUserEmptySite", query = "SELECT u FROM UserEntity u WHERE (SELECT COUNT(us) FROM UserSiteEntity us WHERE (us.userByIdUser.idUser = u.idUser))=0"),
         @NamedQuery(name = "User.findUserByCharacteristic", query = "SELECT u from UserEntity u " +
                 " where ((lower(u.lastName )like concat('%', :researchWord, '%')) or" +
                 " (lower(u.firstName )like concat('%', :researchWord, '%')) or " +

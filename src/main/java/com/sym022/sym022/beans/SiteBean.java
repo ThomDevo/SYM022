@@ -28,6 +28,7 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
     private SiteService siteService = new SiteService();
     private String messageErrorSiteNum = "hidden";
     private List<SiteEntity> allSite;
+    private List<SiteEntity> allSiteSelected;
 
     /*--- Methods ---*/
 
@@ -219,5 +220,13 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
 
     public void setAllSite(List<SiteEntity> allSite) {
         this.allSite = allSite;
+    }
+
+    public List<SiteEntity> getAllSiteSelected() {
+        return allSiteSelected;
+    }
+
+    public void setAllSiteSelected(List<SiteEntity> allSiteSelected) {
+        this.allSiteSelected = allSiteSelected;
     }
 }

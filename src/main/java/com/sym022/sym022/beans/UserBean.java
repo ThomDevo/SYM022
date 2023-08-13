@@ -15,6 +15,8 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @Named
@@ -26,9 +28,27 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
 
     private UserEntity user = new UserEntity();
     private UserService userService = new UserService();
+    private List<UserEntity> allUsers;
+    private List<UserEntity> allUsersEmptySites;
     private String messageErrorUserName = "hidden";
 
     /*--- Methods ---*/
+
+    /**
+     * Method to find all the users who have no sites in the select menu
+     */
+    public void initAllUserAllEmptySites(){
+        EntityManager em = EMF.getEM();
+        UserService userService = new UserService();
+        try{
+            this.allUsersEmptySites = userService.findUserAllEmptySites(em);
+        }catch(Exception e){
+            this.allUsersEmptySites = new ArrayList<>();
+        }finally{
+            em.close();
+        }
+    }
+
 
     /**
      * Method to filter the users on the lastname, the firstname, the mail and the role
@@ -206,5 +226,21 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
 
     public void setMessageErrorUserName(String messageErrorUserName) {
         this.messageErrorUserName = messageErrorUserName;
+    }
+
+    public List<UserEntity> getAllUsers() {
+        return allUsers;
+    }
+
+    public void setAllUsers(List<UserEntity> allUsers) {
+        this.allUsers = allUsers;
+    }
+
+    public List<UserEntity> getAllUsersEmptySites() {
+        return allUsersEmptySites;
+    }
+
+    public void setAllUsersEmptySites(List<UserEntity> allUsersEmptySites) {
+        this.allUsersEmptySites = allUsersEmptySites;
     }
 }

@@ -4,6 +4,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+@NamedQueries(value = {
+        @NamedQuery(name = "UserSite.SelectAll", query = "SELECT us FROM UserSiteEntity us Where (lower(us.userByIdUser.username  )like concat('%', :researchWord, '%'))  GROUP BY us.userByIdUser.username"),
+        @NamedQuery(name = "UserSite.SelectListSitesByIdUser", query = "SELECT us FROM UserSiteEntity us WHERE us.userByIdUser.idUser = :idUser"),
+        @NamedQuery(name = "UserSite.SelectListSitesByIdUserANdByIdUser", query = "SELECT us FROM UserSiteEntity us WHERE us.userByIdUser.idUser = :idUser AND us.siteByIdSite.idSite = :idSite")
+})
+
 @Entity
 @Table(name = "user_site", schema = "sym022")
 public class UserSiteEntity {

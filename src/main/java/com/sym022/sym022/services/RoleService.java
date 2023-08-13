@@ -45,6 +45,11 @@ public class RoleService {
                 .getResultList();
     }
 
+    /**
+     * Method to have a List of all roles with no permissions
+     * @param em
+     * @return a List of roles
+     */
     public List<RoleEntity> findRoleAllEmptyPermissions (EntityManager em)
     {
         return em.createNamedQuery("Role.selectRoleAllEmpty", RoleEntity.class)

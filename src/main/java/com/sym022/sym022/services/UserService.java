@@ -44,6 +44,16 @@ public class UserService {
     }
 
     /**
+     * Method to find all users with no sites
+     * @param em
+     * @return a List a users
+     */
+    public List<UserEntity> findUserAllEmptySites(EntityManager em){
+        return em.createNamedQuery("User.selectUserEmptySite",UserEntity.class)
+                .getResultList();
+    }
+
+    /**
      * Method to find a User based on the id
      * @param idUser
      * @param em
