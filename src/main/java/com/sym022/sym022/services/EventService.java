@@ -31,13 +31,27 @@ public class EventService {
     }
 
     /**
-     * Method to fin all events with query
+     * Method to find all events with query
      * @param em
      * @return List of event
      */
     public List<EventEntity> findEventWithQuery (EntityManager em)
     {
         return em.createNamedQuery("Event.selectEventWithQuery", EventEntity.class)
+                .getResultList();
+    }
+
+    /**
+     * Method to find the number of occurrence of events by idSubject and idForm
+     * @param idSubject
+     * @param idForm
+     * @param em
+     * @return number of events
+     */
+    public List<EventEntity> findNumberOfEvents (int idSubject, int idForm, EntityManager em){
+        return em.createNamedQuery("Event.selectCountEventOccurrence", EventEntity.class)
+                .setParameter("idSubject", idSubject)
+                .setParameter("idForm", idForm)
                 .getResultList();
     }
 

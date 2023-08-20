@@ -53,7 +53,7 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
     /**
      * Method to filter the users on the lastname, the firstname, the mail and the role
      */
-    public void ResearchFilterUser(){
+    public void researchFilterUser(){
 
         EntityManager em = EMF.getEM();
         try{

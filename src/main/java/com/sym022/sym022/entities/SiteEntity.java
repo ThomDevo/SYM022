@@ -19,7 +19,8 @@ import java.util.Objects;
                 " where ((lower(si.siteName )like concat('%', :researchWord, '%')) or" +
                 " (lower(si.piName )like concat('%', :researchWord, '%')) or " +
                 " (lower(si.siteNum )like concat('%', :researchWord, '%'))) ORDER BY si.siteNum ASC"),
-        @NamedQuery(name = "Site.isSiteNumExist", query = "SELECT COUNT(si) FROM SiteEntity si WHERE si.siteNum = :siteNum")
+        @NamedQuery(name = "Site.isSiteNumExist", query = "SELECT COUNT(si) FROM SiteEntity si WHERE si.siteNum = :siteNum"),
+        @NamedQuery(name = "Site.selectSiteOfUserConnected", query = "SELECT si FROM SiteEntity si JOIN UserSiteEntity us ON (si.idSite = us.siteByIdSite.idSite) WHERE (us.userByIdUser.idUser = :idUser and si.idSite = us.siteByIdSite.idSite and si.siteStatus = TRUE) ORDER BY si.siteNum ASC")
 
 })
 
@@ -115,6 +116,10 @@ public class SiteEntity {
 
     public void setUserSitesByIdSite(List<UserSiteEntity> userSitesByIdSite) {
         this.userSitesByIdSite = userSitesByIdSite;
+    }
+
+    public boolean isSiteStatus() {
+        return siteStatus;
     }
 
     /*--- HashCode and Equal ---*/

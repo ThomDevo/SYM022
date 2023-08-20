@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public enum VisitLabel {
     SCREENING ("Screening"),
-    MOIS1 ("Mois 1"),
+    MOIS_1 ("Mois 1"),
     ADVERSE_EVENT ("Adverse Event"),
     CONCOMITANT_MEDICATION ("Concomitant Medication");
 
@@ -34,7 +34,7 @@ public enum VisitLabel {
         if(type==null)
             return null;
         return Arrays.stream(VisitLabel.values())
-                .filter(s -> s.getVisitLabel().equals(type))
+                .filter(s -> s.getVisitLabel().toLowerCase().equals(type))
                 .findFirst()
                 .orElse(null);
     }

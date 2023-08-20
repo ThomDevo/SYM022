@@ -1,5 +1,7 @@
 package com.sym022.sym022.entities;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -10,8 +12,12 @@ import java.util.Objects;
         @NamedQuery(name = "Subject.selectSubjectAll", query = "SELECT su FROM SubjectEntity su ORDER BY su.subjectNum ASC"),
         @NamedQuery(name = "Subject.selectSubjectById", query = "SELECT su FROM SubjectEntity su WHERE su.idSubject = :idSubject"),
         @NamedQuery(name = "Subject.selectSubjectByNum", query = "SELECT su FROM SubjectEntity su WHERE su.subjectNum = :subjectNum"),
-        @NamedQuery(name = "Subject.isSubjectNumExist", query = "SELECT COUNT(su) FROM SubjectEntity su WHERE su.subjectNum = :subjectNum")
-
+        @NamedQuery(name = "Subject.isSubjectNumExist", query = "SELECT COUNT(su) FROM SubjectEntity su WHERE su.subjectNum = :subjectNum"),
+        @NamedQuery(name = "Subject.findAllSubjectByCharacteristic", query = "SELECT su FROM SubjectEntity su" +
+                " WHERE ((lower(su.subjectNum )like concat('%', :researchWord, '%'))) ORDER BY su.subjectNum ASC"),
+        @NamedQuery(name = "Subject.findSubjectActiveByCharacteristic", query = "SELECT su FROM SubjectEntity su" +
+                " WHERE su.subjectStatus = TRUE AND ((lower(su.subjectNum )like concat('%', :researchWord, '%'))) ORDER BY su.subjectNum ASC"),
+        @NamedQuery(name = "Subject.selectSubjectPermitted", query = "SELECT su FROM SubjectEntity su JOIN UserSiteEntity usu ON (su.siteByIdSite.idSite = usu.siteByIdSite.idSite) WHERE  usu.userByIdUser.idUser = :idUser")
 })
 
 @Entity
@@ -24,13 +30,14 @@ public class SubjectEntity {
 
     @Basic
     @NotNull
+    @Range(min = 1, max =999999999)
     @Column(name = "subject_num", nullable = false)
     private int subjectNum;
 
     @Basic
     @NotNull
     @Column(name = "subject_status", nullable = false)
-    private boolean subjectStatus;
+    private boolean subjectStatus = true;
 
     @ManyToOne
     @NotNull
@@ -95,4 +102,5 @@ public class SubjectEntity {
     public int hashCode() {
         return Objects.hash(idSubject);
     }
+
 }

@@ -59,6 +59,43 @@ public class SubjectService {
     }
 
     /**
+     * Method to find Subject ALL based on a filter and order by ASC
+     * @param researchWord
+     * @param em
+     * @return List of Subjects
+     */
+    public List<SubjectEntity> findAllSubjectByFilterAndOrderAsc(String researchWord, EntityManager em){
+        return em.createNamedQuery("Subject.findAllSubjectByCharacteristic",SubjectEntity.class)
+                .setParameter("researchWord", researchWord.toLowerCase())
+                .getResultList();
+    }
+
+    /**
+     * Method to find Subject ALL and ACTIVE based on a filter and order by ASC
+     * @param researchWord
+     * @param em
+     * @return List of Subjects
+     */
+    public List<SubjectEntity> findSubjectActiveByFilterAndOrderAsc(String researchWord, EntityManager em){
+        return em.createNamedQuery("Subject.findSubjectActiveByCharacteristic",SubjectEntity.class)
+                .setParameter("researchWord", researchWord.toLowerCase())
+                .getResultList();
+    }
+
+    /**
+     * Method to get access only to permitted subjects
+     * @param idUser
+     * @param em
+     * @return List of subjects
+     */
+    public List<SubjectEntity> findSubjectPermitted (int idUser, EntityManager em)
+    {
+        return em.createNamedQuery("Subject.selectSubjectPermitted", SubjectEntity.class)
+                .setParameter("idUser", idUser)
+                .getResultList();
+    }
+
+    /**
      * Method to add a new subject
      * @param subject
      * @param em

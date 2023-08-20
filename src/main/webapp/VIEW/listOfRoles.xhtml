@@ -19,7 +19,7 @@
                 </h2>
                 <h:form>
                     <f:metadata>
-                        <f:event type="preRenderView" listener="#{roleBean.ResearchFilterRole()}"/>
+                        <f:event type="preRenderView" listener="#{roleBean.researchFilterRole()}"/>
                     </f:metadata>
                     <p:dataTable var="r" value="#{roleBean.entityFiltered}"
                                  resizableColumns="true"

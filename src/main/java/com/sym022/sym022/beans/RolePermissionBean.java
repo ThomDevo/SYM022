@@ -119,7 +119,11 @@ public class RolePermissionBean extends FilterOfTable<RolePermissionEntity> impl
             }
             em.close();
         }
-        confirmAddRolePermissions();
+        ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        String listOfPermissionsOf = bundle.getString("listOfPermissionsOf");
+        String add = bundle.getString("add");
+        addMessage(listOfPermissionsOf+" "+ add,"Confirmation");
         return redirect;
     }
 
@@ -183,7 +187,11 @@ public class RolePermissionBean extends FilterOfTable<RolePermissionEntity> impl
             }
             em.close();
         }
-        confirmUpdateRolePermissions();
+        ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        String listOfPermissionsOf = bundle.getString("listOfPermissionsOf");
+        String update = bundle.getString("update");
+        addMessage(listOfPermissionsOf+" "+ update,"Confirmation");
         return redirect;
     }
 
@@ -196,29 +204,6 @@ public class RolePermissionBean extends FilterOfTable<RolePermissionEntity> impl
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-
-    /**
-     * Method for getting a popup confirming that the list of permissions has been added for the role
-     */
-    public void confirmAddRolePermissions(){} {
-        ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
-                FacesContext.getCurrentInstance().getViewRoot().getLocale());
-        String listOfPermissionsOf = bundle.getString("listOfPermissionsOf");
-        String add = bundle.getString("add");
-        addMessage(listOfPermissionsOf+" "+ add,"Confirmation");
-    }
-
-    /**
-     * Method for getting a popup confirming that the list of permissions has been updated for the role
-     */
-    public void confirmUpdateRolePermissions(){} {
-        ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
-                FacesContext.getCurrentInstance().getViewRoot().getLocale());
-        String listOfPermissionsOf = bundle.getString("listOfPermissionsOf");
-        String update = bundle.getString("update");
-        addMessage(listOfPermissionsOf+" "+ update,"Confirmation");
-    }
-
 
 
     /*--- Getters and Setters ---*/

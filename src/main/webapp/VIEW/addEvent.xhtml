@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{I18N['subjectPage.addEvent']}"/>
+    </ui:define>
+    <ui:define name="content">
+        <div class="content">
+            <f:metadata>
+                <f:event type="preRenderView" listener="#{eventBean.initEvent()}"/>
+            </f:metadata>
+            <div class="block p-20 form-container">
+                <h2>
+                    <h:outputText value="#{I18N['subjectPage.addEvent']}" />
+                </h2>
+                <h:form>
+                    <p:outputPanel class="form-control">
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="inputSubject" value="#{I18N['sitePage.siteNum']}"/>
+                            <p:selectOneMenu id="inputSubject"
+                                             value="#{eventBean.event.subjectByIdSubject}"
+                                             converter="SubjectConverter"
+                                             effect="fade"
+                                             var="e"
+                                             filter="true"
+                                             filterMatchMode="contains">
+                                <!-- reload list editor from db. -->
+                                <f:metadata>
+                                    <f:event type="preRenderView" listener="#{subjectBean.initAllEditorSubject()}"/>
+                                </f:metadata>
+                                <f:selectItem itemLabel="#{I18N['select.user']}"
+                                              itemValue="#{null}"/>
+                                <f:selectItems value="#{subjectBean.allSubject}"
+                                               var="subject"
+                                               itemLabel="#{subject.subjectNum}"
+                                               itemValue="#{subject}"/>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{I18N['subjectPage.subjectNum']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{e.subjectNum}"/>
+                                </p:column>
+                            </p:selectOneMenu>
+                        </span>
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="inputVisit" value="#{I18N['visitPage.visit']}"/>
+                            <p:selectOneMenu id="inputVisit"
+                                             value="#{eventBean.event.visitByIdVisit}"
+                                             converter="VisitConverter"
+                                             effect="fade"
+                                             var="e"
+                                             filter="true"
+                                             filterMatchMode="contains">
+                                <!-- reload list editor from db. -->
+                                <f:metadata>
+                                    <f:event type="preRenderView" listener="#{visitBean.initAllEditorVisit()}"/>
+                                </f:metadata>
+                                <f:selectItem itemLabel="#{I18N['visitPage.visit']}"
+                                              itemValue="#{null}"/>
+                                <f:selectItems value="#{visitBean.allVisit}"
+                                               var="visit"
+                                               itemLabel="#{visit.visitLabel.visitLabel}"
+                                               itemValue="#{visit}"/>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{I18N['visitPage.visitLabel']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{e.visitLabel.visitLabel}"/>
+                                </p:column>
+                            </p:selectOneMenu>
+                        </span>
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="inputForm" value="#{I18N['formPage.form']}"/>
+                            <p:selectOneMenu id="inputForm"
+                                             value="#{eventBean.event.formByIdForm}"
+                                             converter="FormConverter"
+                                             effect="fade"
+                                             var="f"
+                                             filter="true"
+                                             filterMatchMode="contains">
+                                <!-- reload list editor from db. -->
+                                <f:metadata>
+                                    <f:event type="preRenderView" listener="#{formBean.initAllEditorForm()}"/>
+                                </f:metadata>
+                                <f:selectItem itemLabel="#{I18N['formPage.form']}"
+                                              itemValue="#{null}"/>
+                                <f:selectItems value="#{formBean.allForm}"
+                                               var="form"
+                                               itemLabel="#{form.formLabel.formLabel}"
+                                               itemValue="#{form}"/>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{I18N['formPage.formLabel']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{f.formLabel.formLabel}"/>
+                                </p:column>
+                            </p:selectOneMenu>
+                        </span>
+                    </p:outputPanel>
+                    <span class="responsiveSubmit">
+                        <p:commandButton value="#{I18N['subjectPage.addEvent']}"
+                                         ajax="false"
+                                         validateClient="true"
+                                         class="ui-button-success"
+                                         action="#{eventBean.submitFormAddEvent()}"/>
+
+                        <p:linkButton outcome="/VIEW/home.xhtml" value="#{I18N['connectionpage.return.button']}" class="ui-button-secondary" ></p:linkButton>
+                    </span>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

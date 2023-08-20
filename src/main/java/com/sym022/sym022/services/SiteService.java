@@ -94,6 +94,18 @@ public class SiteService {
     }
 
     /**
+     * Method to find permitted sites based on the id User who is connected
+     * @param idUser
+     * @param em
+     * @return List of sites
+     */
+    public List<SiteEntity> findSiteByUserConnected(int idUser, EntityManager em){
+        return em.createNamedQuery("Site.selectSiteOfUserConnected", SiteEntity.class)
+                .setParameter("idUser", idUser)
+                .getResultList();
+    }
+
+    /**
      * Method to check if a Site Number already exists
      * @param siteNum
      * @param em

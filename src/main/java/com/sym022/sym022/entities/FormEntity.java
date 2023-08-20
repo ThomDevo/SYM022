@@ -35,6 +35,7 @@ public class FormEntity {
 
     @Basic
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "form_label", nullable = false)
     private FormLabel formLabel;
 

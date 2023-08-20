@@ -23,15 +23,14 @@
                 <h:form>
                     <p:outputPanel class="form-control">
                         <span class="field col-12 md:col-4 p-20-0">
-                            <p:outputLabel for="inputRole" value="#{I18N['select.user']}"/>
-                            <p:selectOneMenu id="inputRole"
+                            <p:outputLabel for="inputUser" value="#{I18N['select.user']}"/>
+                            <p:selectOneMenu id="inputUser"
                                              value="#{userBean.user}"
                                              converter="UserConverter"
                                              effect="fade"
-                                             var="u"
+                                             var="us"
                                              filter="true"
-                                             filterMatchMode="contains"
-                                             required="true">
+                                             filterMatchMode="contains">
                                 <!-- reload list editor from db. -->
                                 <f:metadata>
                                     <f:event type="preRenderView" listener="#{userBean.initAllUserAllEmptySites()}"/>
@@ -44,57 +43,62 @@
                                     <f:facet name="header">
                                         <h:outputText value="#{I18N['select.userName']}"/>
                                     </f:facet>
-                                    <h:outputText value="#{u.username}"/>
+                                    <h:outputText value="#{us.username}"/>
                                 </p:column>
                                 <p:column>
                                     <f:facet name="header">
                                         <h:outputText value="#{I18N['select.lastName']}"/>
                                     </f:facet>
-                                    <h:outputText value="#{u.lastName}"/>
+                                    <h:outputText value="#{us.lastName}"/>
                                 </p:column>
                                 <p:column>
                                     <f:facet name="header">
                                         <h:outputText value="#{I18N['select.firstName']}"/>
                                     </f:facet>
-                                    <h:outputText value="#{u.firstName}"/>
+                                    <h:outputText value="#{us.firstName}"/>
                                 </p:column>
-
                             </p:selectOneMenu>
                         </span>
                         <span class="field col-12 md:col-4 p-20-0">
-                            <p:outputLabel for="inputPermissions" value="#{I18N['select.permission']}"/>
-                            <p:selectManyMenu id="inputPermissions"
-                                              value="#{rolePermissionBean.permissionsBean.allPermissionsSelected}"
-                                              converter="PermissionConverter"
+                            <p:outputLabel for="inputSite" value="#{I18N['select.site']}"/>
+                            <p:selectManyCheckbox id="inputSite"
+                                              value="#{userSiteBean.siteBean.allSiteSelected}"
+                                              converter="SiteConverter"
                                               effect="fade"
                                               var="v"
                                               filter="true"
                                               filterMatchMode="contains"
-                                              required="true">
+                                              layout="responsive" columns="3">
+                                <f:metadata>
+                                    <f:event type="preRenderView" listener="#{siteBean.initAllEditorSite()}"/>
+                                </f:metadata>
                                 <!-- reload list editor from db. -->
-
-                                <f:selectItem itemLabel="#{I18N['select.permission']}"
-                                              itemValue="#{null}"/>
-                                <f:selectItems value="#{permissionBean.allPermissions}"
-                                               var="permission"
-                                               itemLabel="#{permission.permissionLabel}"
-                                               itemValue="#{permission}"/>
+                                <f:selectItems value="#{siteBean.allSite}"
+                                               var="site"
+                                               itemLabel="#{site.siteNum} - #{site.siteName}"
+                                               itemValue="#{site}"/>
                                 <p:column>
                                     <f:facet name="header">
-                                        <h:outputText value="#{I18N['select.permission']}"/>
+                                        <h:outputText value="#{I18N['select.siteNum']}"/>
                                     </f:facet>
-                                    <h:outputText value="#{v.permissionLabel}"/>
+                                    <h:outputText value="#{v.siteNum}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{I18N['select.siteName']}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{v.siteName}"/>
                                 </p:column>
 
-                            </p:selectManyMenu>
+                            </p:selectManyCheckbox>
                         </span>
                     </p:outputPanel>
                     <span class="responsiveSubmit">
-                        <p:commandButton value="#{I18N['add.rolePermission']}"
+                        <p:commandButton value="#{I18N['add.userSite']}"
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-success"
-                                         action="#{rolePermissionBean.submitFormAddRolePermissions()}"/>
+                                         action="#{userSiteBean.submitFormAddUserSites()}"/>
                         <p:button value="#{I18N['connectionpage.return.button']}" outcome="/VIEW/home"
                                   class="ui-button-secondary" id="cancelButton"/>
                     </span>

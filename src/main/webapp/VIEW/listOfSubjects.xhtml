@@ -9,19 +9,19 @@
       xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
     <ui:define name="title">
-        <h:outputText value="#{I18N['userPage.ListOfUsers']}"/>
+        <h:outputText value="#{I18N['sitePage.ListOfSubjects']}"/>
     </ui:define>
     <ui:define name="content">
         <div class="content card">
             <div class="block p-20 form-container">
                 <h2>
-                    <h:outputText value="#{I18N['userPage.ListOfUsers']}" />
+                    <h:outputText value="#{I18N['sitePage.ListOfSubjects']}" />
                 </h2>
                 <h:form>
                     <f:metadata>
-                        <f:event type="preRenderView" listener="#{userBean.researchFilterUser()}"/>
+                        <f:event type="preRenderView" listener="#{subjectBean.researchFilterSubject()}"/>
                     </f:metadata>
-                    <p:dataTable var="r" value="#{userBean.entityFiltered}"
+                    <p:dataTable var="r" value="#{subjectBean.entityFiltered}"
                                  resizableColumns="true"
                                  class="table"
                                  widgetVar="rTable"
@@ -34,7 +34,7 @@
 
                         <f:facet name="header">
                             <p:outputPanel>
-                                <p:inputText value="#{userBean.filter}"
+                                <p:inputText value="#{subjectBean.filter}"
                                              onkeyup="researchTable(this)"
                                              id="RolesInputResearch"
                                              validatorMessage="#{I18N['listPage.messageErrorResearch']}"
@@ -43,31 +43,24 @@
                             </p:outputPanel>
                         </f:facet>
                         <p:column>
-                            <f:facet name="header">#{I18N['userPage.lastName']}</f:facet>
-                            <h:outputText value="#{r.lastName}"></h:outputText>
+                            <f:facet name="header">#{I18N['subjectPage.subjectNum']}</f:facet>
+                            <h:outputText value="#{r.subjectNum}"></h:outputText>
                         </p:column>
                         <p:column>
-                            <f:facet name="header">#{I18N['userPage.firstName']}</f:facet>
-                            <h:outputText value="#{r.firstName}"></h:outputText>
+                            <f:facet name="header">#{I18N['sitePage.siteNum']}</f:facet>
+                            <h:outputText value="#{r.siteByIdSite.siteNum}"></h:outputText>
                         </p:column>
                         <p:column>
-                            <f:facet name="header">#{I18N['userPage.mail']}</f:facet>
-                            <h:outputText value="#{r.mail}"></h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">#{I18N['userPage.role']}</f:facet>
-                            <h:outputText value="#{r.roleByIdRole.roleLabel}"></h:outputText>
+                            <f:facet name="header">#{I18N['sitePage.siteName']}</f:facet>
+                            <h:outputText value="#{r.siteByIdSite.siteName}"></h:outputText>
                         </p:column>
                         <p:column>
                             <f:facet name="header">#{I18N['action']}</f:facet>
-                            <h:commandLink class="btn btn-dark" value="#{I18N['userPage.addUser.update']}" action="/VIEW/updateUser">
-                                <f:setPropertyActionListener target="#{userBean.user}" value="#{r}"/>
+                            <h:commandLink class="btn btn-dark" value="#{I18N['sitePage.ListOfSubjects.modify']}" action="/VIEW/updateSubject">
+                                <f:setPropertyActionListener target="#{subjectBean.subject}" value="#{r}"/>
                             </h:commandLink>
                         </p:column>
                     </p:dataTable>
-                </h:form>
-                <h:form>
-                    <p:linkButton outcome="/VIEW/addUser.xhtml" value="#{I18N['sitePage.addUserTitle']}" icon="pi pi-fw pi-user-plus" style="margin-right:20px;"></p:linkButton>
                 </h:form>
             </div>
         </div>

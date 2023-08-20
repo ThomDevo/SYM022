@@ -166,13 +166,12 @@ public class UserEntity {
         return status;
     }
 
-    /*--- Hashcode and Equal ---*/
-
-
     public void setStatus(boolean status) {
         this.status = status;
     }
-/*
+
+    /*--- Hashcode and Equal ---*/
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -185,7 +184,7 @@ public class UserEntity {
     public int hashCode() {
         return Objects.hash(idUser);
     }
-*/
+
     @Transient
     public List<RolePermissionEntity> getListOfRolePermissions() {
         if (this.listOfPermissions == null)

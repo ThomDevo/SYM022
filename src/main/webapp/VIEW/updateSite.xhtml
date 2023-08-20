@@ -23,7 +23,8 @@
                             <p:outputLabel for="inputSiteNum" value="#{I18N['sitePage.siteNum']}"/>
                             <p:inputNumber id="inputSiteNum" class="label" value="#{siteBean.site.siteNum}"
                                            placeholder="#{I18N['sitePage.siteNum.placeHolder']}"
-                                           validatorMessage="#{I18N['sitePage.siteNum.errorMessage']}" disabled="true">
+                                           validatorMessage="#{I18N['sitePage.siteNum.errorMessage']}"
+                                           disabled="true">
                                 <p:ajax update="messageInputSiteNum" event="blur"/>
                             </p:inputNumber>
                         </span>

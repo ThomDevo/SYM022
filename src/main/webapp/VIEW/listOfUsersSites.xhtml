@@ -19,9 +19,9 @@
                 </h2>
                 <h:form>
                     <f:metadata>
-                        <f:event type="preRenderView" listener="#{userBean.researchFilterUser()}"/>
+                        <f:event type="preRenderView" listener="#{userSiteBean.allUserSites()}"/>
                     </f:metadata>
-                    <p:dataTable var="r" value="#{userBean.entityFiltered}"
+                    <p:dataTable var="r" value="#{userSiteBean.entityFiltered}"
                                  resizableColumns="true"
                                  class="table"
                                  widgetVar="rTable"
@@ -34,7 +34,7 @@
 
                         <f:facet name="header">
                             <p:outputPanel>
-                                <p:inputText value="#{userBean.filter}"
+                                <p:inputText value="#{userSiteBean.filter}"
                                              onkeyup="researchTable(this)"
                                              id="RolesInputResearch"
                                              validatorMessage="#{I18N['listPage.messageErrorResearch']}"
@@ -43,31 +43,24 @@
                             </p:outputPanel>
                         </f:facet>
                         <p:column>
+                            <f:facet name="header">#{I18N['userPage.username']}</f:facet>
+                            <h:outputText value="#{r.userByIdUser.username}"></h:outputText>
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">#{I18N['userPage.lastName']}</f:facet>
-                            <h:outputText value="#{r.lastName}"></h:outputText>
+                            <h:outputText value="#{r.userByIdUser.lastName}"></h:outputText>
                         </p:column>
                         <p:column>
                             <f:facet name="header">#{I18N['userPage.firstName']}</f:facet>
-                            <h:outputText value="#{r.firstName}"></h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">#{I18N['userPage.mail']}</f:facet>
-                            <h:outputText value="#{r.mail}"></h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">#{I18N['userPage.role']}</f:facet>
-                            <h:outputText value="#{r.roleByIdRole.roleLabel}"></h:outputText>
+                            <h:outputText value="#{r.userByIdUser.firstName}"></h:outputText>
                         </p:column>
                         <p:column>
                             <f:facet name="header">#{I18N['action']}</f:facet>
-                            <h:commandLink class="btn btn-dark" value="#{I18N['userPage.addUser.update']}" action="/VIEW/updateUser">
-                                <f:setPropertyActionListener target="#{userBean.user}" value="#{r}"/>
-                            </h:commandLink>
+                            <h:commandButton class="btn btn-dark" value="#{I18N['update.userSitePage']}" action="/VIEW/updateUserSite">
+                                <f:setPropertyActionListener target="#{userSiteBean.userSite}" value="#{r}"/>
+                            </h:commandButton>
                         </p:column>
                     </p:dataTable>
-                </h:form>
-                <h:form>
-                    <p:linkButton outcome="/VIEW/addUser.xhtml" value="#{I18N['sitePage.addUserTitle']}" icon="pi pi-fw pi-user-plus" style="margin-right:20px;"></p:linkButton>
                 </h:form>
             </div>
         </div>

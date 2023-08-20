@@ -9,6 +9,7 @@ import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -29,6 +30,10 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
     private String messageErrorSiteNum = "hidden";
     private List<SiteEntity> allSite;
     private List<SiteEntity> allSiteSelected;
+    private List<SiteEntity> allSitePermitted;
+    @Inject
+    private ConnectionBean connectionBean;
+
 
     /*--- Methods ---*/
 
@@ -38,11 +43,40 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
     public void initAllEditorSite(){
         EntityManager em = EMF.getEM();
         SiteService siteService = new SiteService();
-        try{
+        EntityTransaction transaction = em.getTransaction();
+        this.allSiteSelected = new ArrayList<>();
+         try{
+            transaction.begin();
             this.allSite = siteService.findSiteAll(em);
+            transaction.commit();
         }catch(Exception e){
             this.allSite = new ArrayList<>();
         }finally{
+            if(transaction.isActive()){
+                transaction.rollback();
+            }
+            em.close();
+        }
+    }
+
+    /**
+     * Method to have all permitted sites in the select menu
+     */
+    public void initAllEditorPermittedSite(){
+        EntityManager em = EMF.getEM();
+        SiteService siteService = new SiteService();
+        EntityTransaction transaction = em.getTransaction();
+        this.allSiteSelected = new ArrayList<>();
+        try{
+            transaction.begin();
+            this.allSitePermitted = siteService.findSiteByUserConnected(connectionBean.getUser().getIdUser(),em);
+            transaction.commit();
+        }catch(Exception e){
+            this.allSitePermitted = new ArrayList<>();
+        }finally{
+            if(transaction.isActive()){
+                transaction.rollback();
+            }
             em.close();
         }
     }
@@ -50,7 +84,7 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
     /**
      * Method to filter the sites on the siteNum, the siteName and the piName
      */
-    public void ResearchFilterSite(){
+    public void researchFilterSite(){
 
         EntityManager em = EMF.getEM();
         try{
@@ -228,5 +262,21 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
 
     public void setAllSiteSelected(List<SiteEntity> allSiteSelected) {
         this.allSiteSelected = allSiteSelected;
+    }
+
+    public ConnectionBean getConnectionBean() {
+        return connectionBean;
+    }
+
+    public void setConnectionBean(ConnectionBean connectionBean) {
+        this.connectionBean = connectionBean;
+    }
+
+    public List<SiteEntity> getAllSitePermitted() {
+        return allSitePermitted;
+    }
+
+    public void setAllSitePermitted(List<SiteEntity> allSitePermitted) {
+        this.allSitePermitted = allSitePermitted;
     }
 }

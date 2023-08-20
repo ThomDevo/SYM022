@@ -13,7 +13,8 @@ import java.util.Objects;
 @NamedQueries(value = {
         @NamedQuery(name = "Event.selectEventAll", query = "SELECT ev FROM EventEntity ev ORDER BY ev.idEvent ASC"),
         @NamedQuery(name = "Event.selectEventById", query = "SELECT ev FROM EventEntity ev WHERE ev.idEvent = :idEvent"),
-        @NamedQuery(name = "Event.selectEventWithQuery", query = "SELECT ev FROM EventEntity ev WHERE ev.queried = true ")
+        @NamedQuery(name = "Event.selectEventWithQuery", query = "SELECT ev FROM EventEntity ev WHERE ev.queried = true "),
+        @NamedQuery(name = "Event.selectCountEventOccurrence", query = "SELECT ev FROM EventEntity ev WHERE (ev.subjectByIdSubject.idSubject = :idSubject AND ev.formByIdForm.idForm = :idForm)")
 })
 
 @Entity
@@ -43,13 +44,13 @@ public class EventEntity {
     @Basic
     @NotNull
     @Range(min=1,max= 99999)
-    @Column(name = "order", nullable = false)
+    @Column(name = "\"order\"", nullable = false)
     private int order;
 
     @Basic
-    @Range(min=1,max= 99999)
-    @Column(name = "available", nullable = false)
-    private boolean available = false;
+    @NotNull
+    @Column(name = "\"available\"", nullable = false)
+    private boolean available = true;
 
     @ManyToOne
     @NotNull

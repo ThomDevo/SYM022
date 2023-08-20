@@ -97,10 +97,13 @@ public class UserSiteBean extends FilterOfTable<UserSiteEntity> implements Seria
             for(int i=0;i< siteBean.getAllSiteSelected().size();i++){
                 userSite = new UserSiteEntity();
                 userSite.setUserByIdUser(userBean.getUser());
+                //ProcessUtils.debug("A "+ userBean.getUser());
                 userSite.setSiteByIdSite(siteBean.getAllSiteSelected().get(i));
                 userSiteService.addUserSite(userSite,em);
             }
             transaction.commit();
+            siteBean.initAllEditorSite();
+
         }catch(Exception e){
             ProcessUtils.debug("Catch "+e);
             redirect = "null" ;
@@ -110,7 +113,11 @@ public class UserSiteBean extends FilterOfTable<UserSiteEntity> implements Seria
             }
             em.close();
         }
-        confirmAddUserSite();
+        ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        String listOfSites = bundle.getString("listOfSites");
+        String add = bundle.getString("add");
+        addMessage(listOfSites+" "+ add,"Confirmation");
         return redirect;
     }
 
@@ -166,7 +173,11 @@ public class UserSiteBean extends FilterOfTable<UserSiteEntity> implements Seria
             }
             em.close();
         }
-        confirmUpdateUserSite();
+        ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        String listOfSites = bundle.getString("listOfSites");
+        String update = bundle.getString("update");
+        addMessage(listOfSites+" "+ update,"Confirmation");
         return redirect;
     }
 
@@ -178,28 +189,6 @@ public class UserSiteBean extends FilterOfTable<UserSiteEntity> implements Seria
     public void addMessage(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
-    /**
-     * Method for getting a popup confirming that the list of sites has been added for the user
-     */
-    public void confirmAddUserSite(){} {
-        ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
-                FacesContext.getCurrentInstance().getViewRoot().getLocale());
-        String listOfSites = bundle.getString("listOfSites");
-        String add = bundle.getString("add");
-        addMessage(listOfSites+" "+ add,"Confirmation");
-    }
-
-    /**
-     * Method for getting a popup confirming that the list of sites has been updated for the user
-     */
-    public void confirmUpdateUserSite(){} {
-        ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
-                FacesContext.getCurrentInstance().getViewRoot().getLocale());
-        String listOfSites = bundle.getString("listOfSites");
-        String update = bundle.getString("update");
-        addMessage(listOfSites+" "+ update,"Confirmation");
     }
 
     /*--- Getters and Setters ---*/

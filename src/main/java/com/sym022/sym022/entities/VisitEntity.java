@@ -28,14 +28,13 @@ public class VisitEntity {
 
     @Basic
     @Range(min=1,max= 99)
-
-
     @NotNull
     @Column(name = "visit_num", nullable = false)
     private int visitNum;
 
     @Basic
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "visit_label", nullable = false)
     private VisitLabel visitLabel;
 

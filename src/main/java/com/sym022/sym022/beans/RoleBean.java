@@ -64,7 +64,7 @@ public class RoleBean extends FilterOfTable<RoleEntity> implements Serializable 
     /**
      * Method to filter the roles on roleLabel
      */
-    public void ResearchFilterRole(){
+    public void researchFilterRole(){
 
         EntityManager em = EMF.getEM();
         try{

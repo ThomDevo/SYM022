@@ -2,8 +2,12 @@ package com.sym022.sym022.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
+
+@NamedQueries(value = {
+        @NamedQuery(name = "Dov.selectDovById", query = "SELECT dov from DovEntity dov WHERE dov.idDov = :idDov"),
+})
 
 @Entity
 @Table(name = "dov", schema = "sym022")
@@ -15,8 +19,8 @@ public class DovEntity {
 
     @Basic
     @NotNull
-    @Column(name = "visit_vn", nullable = false)
-    private boolean visitVn = false;
+    @Column(name = "visit_yn", nullable = false)
+    private boolean visitYn = false;
 
     @Basic
     @Column(name = "visit_nd", nullable = true, length = 200)
@@ -42,12 +46,12 @@ public class DovEntity {
         this.idDov = idDov;
     }
 
-    public boolean getVisitVn() {
-        return visitVn;
+    public boolean getVisitYn() {
+        return visitYn;
     }
 
-    public void setVisitVn(boolean visitVn) {
-        this.visitVn = visitVn;
+    public void setVisitYn(boolean visitYn) {
+        this.visitYn = visitYn;
     }
 
     public String getVisitNd() {

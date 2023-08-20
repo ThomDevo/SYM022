@@ -60,8 +60,18 @@
                         <p:menuitem value="#{I18N['menu.data.rolePermission.modify']}" icon="pi pi-fw pi-user pi-wrench pi-pencil" action="/VIEW/listOfRolePermission.xhtml" rendered="#{connectionBean.verifyPermissionUser('List of roles and related permissions')}"/>
                     </p:submenu>
                 </p:submenu>
-
-
+                <p:submenu label="#{I18N['menu.subject']}" icon="pi pi-fw pi-users">
+                    <p:submenu label="#{I18N['menu.data.subject']}" icon="pi pi-fw pi-users">
+                        <p:menuitem value="#{I18N['menu.data.subject.add']}" icon="pi pi-fw pi-plus" action="/VIEW/addSubject.xhtml" rendered="#{connectionBean.verifyPermissionUser('Add a subject')}"/>
+                        <p:menuitem value="#{I18N['menu.data.subject.consult']}" icon="pi pi-fw pi-building pi-pencil" action="/VIEW/listOfSubjects.xhtml" rendered="#{connectionBean.verifyPermissionUser('List of subjects')}"/>
+                        <p:divider/>
+                    </p:submenu>
+                    <p:submenu label="#{I18N['menu.data.event']}" icon="pi pi-fw pi-book">
+                        <p:menuitem value="#{I18N['menu.data.event.add']}" icon="pi pi-fw pi-plus" action="/VIEW/addEvent.xhtml" rendered="#{connectionBean.verifyPermissionUser('Add an event')}"/>
+                        <p:menuitem value="#{I18N['menu.data.event.consult']}" icon="pi pi-fw  pi-pencil" action="/VIEW/listOfSubjects.xhtml" rendered="#{connectionBean.verifyPermissionUser('List of events')}"/>
+                        <p:divider/>
+                    </p:submenu>
+                </p:submenu>
                 <f:facet name="options">
                     <p:commandButton value="Logout"  action="#{connectionBean.logOut}" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info"/>
                 </f:facet>
