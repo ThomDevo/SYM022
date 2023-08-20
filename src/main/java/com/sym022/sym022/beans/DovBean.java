@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 @Named
 @ManagedBean
@@ -34,6 +35,7 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
     private String messageErrorVisitNd = "hidden";
     private String messageErrorVisitDate = "hidden";
     private String messageErrorVisitNdFalse = "hidden";
+    private String messageErrorVisitDateMissing = "hidden";
     @Inject
     private ConnectionBean connectionBean;
     @Inject
@@ -61,6 +63,7 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
         this.messageErrorVisitNd = "hidden";
         this.messageErrorVisitDate = "hidden";
         this.messageErrorVisitNdFalse = "hidden";
+        this.messageErrorVisitDateMissing = "hidden";
     }
 
     /**
@@ -73,6 +76,10 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
+    /**
+     * Method to create a Dov and a AuditTrail in the DB
+     * @return a DOV and an auditTrail
+     */
     public String submitFormAddDov(){
         EntityManager em = EMF.getEM();
         String redirect = "/VIEW/home";
@@ -83,9 +90,7 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
         LocalDate now = LocalDate.now();
         String isoDatePattern = "yyyy-MM-dd HH:mm:ss";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
-        String dovDate = simpleDateFormat.format(dov.getVisitDate());
-        int resultDovDate = dovDate.compareTo(String.valueOf(now));
-        ProcessUtils.debug(""+ resultDovDate);
+        //ProcessUtils.debug(""+ resultDovDate);
 
 
         if(!dov.getVisitYn() && Objects.equals(dov.getVisitNd(), "")){
@@ -96,13 +101,20 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
             initErrorMessageFormDov();
             this.messageErrorVisitNd = "";
             redirect = "null";
-        }else if(resultDovDate > 0){
+        }/*else if(dov.getVisitDate() != null){
             initErrorMessageFormDov();
-            this.messageErrorVisitDate = "";
+            String dovDate = simpleDateFormat.format(dov.getVisitDate());
+            int resultDovDate = dovDate.compareTo(String.valueOf(now));
+            if(resultDovDate > 0){
+                this.messageErrorVisitDate = "";
+                redirect = "null";
+            }
+        }*/else if(dov.getVisitYn() && dov.getVisitDate() == null){
+            initErrorMessageFormDov();
+            this.messageErrorVisitDateMissing = "";
             redirect = "null";
         }else{
         try{
-
                 dov.setEventByIdEvent(eventBean.getEvent());
                 auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
                 auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
@@ -111,11 +123,9 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
 
                 transaction.begin();
                 eventService.updateEvent(eventBean.getEvent(),em);
-                dovService.addDov(dov,em);
                 auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                dovService.addDov(dov,em);
                 transaction.commit();
-
-
 
         }catch(Exception e){
             ProcessUtils.debug(" I'm in the catch of the addDov method: "+ e);
@@ -127,6 +137,14 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
             em.close();
 
         }
+            ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                    FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            String addDov = bundle.getString("dov");
+            String add = bundle.getString("add");
+            String forThe = bundle.getString("for");
+            String addSubject = bundle.getString("subject");
+
+            addMessage(addDov+" "+add+" "+forThe+" "+addSubject+" "+dov.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
             initFormDov();
         }
 
@@ -198,5 +216,13 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
 
     public void setMessageErrorVisitNdFalse(String messageErrorVisitNdFalse) {
         this.messageErrorVisitNdFalse = messageErrorVisitNdFalse;
+    }
+
+    public String getMessageErrorVisitDateMissing() {
+        return messageErrorVisitDateMissing;
+    }
+
+    public void setMessageErrorVisitDateMissing(String messageErrorVisitDateMissing) {
+        this.messageErrorVisitDateMissing = messageErrorVisitDateMissing;
     }
 }

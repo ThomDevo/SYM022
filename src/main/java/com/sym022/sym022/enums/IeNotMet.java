@@ -11,7 +11,7 @@ public enum IeNotMet {
     EXCL_01 ("Excl01"),
     EXCL_02 ("Excl02"),
     EXCL_03 ("Excl03"),
-    NA ("Not Available");
+    NA ("Not Applicable");
 
     /**
      * Field

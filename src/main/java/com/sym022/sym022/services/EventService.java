@@ -77,4 +77,16 @@ public class EventService {
         em.merge(event);
         return event;
     }
+
+    /**
+     * Method to delete an event
+     * @param event
+     * @param em
+     */
+    public void deleteEvent(EventEntity event, EntityManager em){
+        if(!em.contains(event))
+            event = em.merge(event);
+        em.remove(event);
+        em.flush();
+    }
 }

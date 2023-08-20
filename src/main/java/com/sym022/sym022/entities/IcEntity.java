@@ -4,7 +4,8 @@ import com.sym022.sym022.enums.IeNotMet;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import java.util.Collection;
+import java.util.Date;
 import java.util.Objects;
 
 @NamedQueries(value = {
@@ -33,10 +34,11 @@ public class IcEntity {
     @Basic
     @NotNull
     @Column(name = "elig_yn", nullable = false)
-    private boolean eligYn = false;
+    private boolean eligYn = true;
 
     @Basic
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "ie_not_met", nullable = false)
     private IeNotMet ieNotMet;
 
@@ -108,4 +110,5 @@ public class IcEntity {
     public int hashCode() {
         return Objects.hash(idIc);
     }
+
 }

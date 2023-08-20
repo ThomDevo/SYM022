@@ -20,16 +20,19 @@ public class DmEntity {
 
     @Basic
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "sex", nullable = false)
     private Sex sex;
 
     @Basic
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "ethnicity", nullable = false)
     private Ethnicity ethnicity;
 
     @Basic
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "culture", nullable = false)
     private Culture culture;
 

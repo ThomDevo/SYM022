@@ -21,9 +21,37 @@ public class IcService
                 .getSingleResult();
     }
 
+    /**
+     * Method to find all IC where eligible is TRUE
+     * @param em
+     * @return
+     */
     public List<VisitEntity> findIcEligibleYes (EntityManager em)
     {
         return em.createNamedQuery("Ic.icEligibleYes", VisitEntity.class)
                 .getResultList();
+    }
+
+    /**
+     * Method to add an IC in the DB
+     * @param ic
+     * @param em
+     * @return an IC
+     */
+    public IcEntity addIc (IcEntity ic, EntityManager em){
+        em.persist(ic);
+        em.flush();
+        return ic;
+    }
+
+    /**
+     * Method to update an IC in the DB
+     * @param ic
+     * @param em
+     * @return an IC
+     */
+    public IcEntity updateIc (IcEntity ic, EntityManager em){
+        em.merge(ic);
+        return ic;
     }
 }

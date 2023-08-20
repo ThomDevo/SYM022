@@ -11,7 +11,6 @@ import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -33,6 +32,27 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
     private List<EventEntity> number;
 
     /*---Method---*/
+
+    public String deleteEvent(){
+        EntityManager em = EMF.getEM();
+        EventService eventService = new EventService();
+        String redirect = "/VIEW/home";
+        EntityTransaction transaction = em.getTransaction();
+        try{
+            transaction.begin();
+            eventService.deleteEvent(event,em);
+            transaction.commit();
+        }catch(Exception e){
+            ProcessUtils.debug(" I'm in the catch of the deleteEvent method: "+ e);
+        }finally {
+            if(transaction.isActive()){
+                transaction.rollback();
+            }
+            em.close();
+        }
+        return redirect;
+
+    }
 
     /**
      * Method to reset the form of ad or update a form
@@ -90,6 +110,9 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
             transaction.begin();
             eventService.updateEvent(event,em);
             transaction.commit();
+        }catch(Exception e){
+
+            ProcessUtils.debug(" I'm in the catch of the inactiveEvent method: "+ e);
         }finally {
             if(transaction.isActive()){
                 transaction.rollback();
@@ -132,6 +155,10 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
         }
         if (event.getFormByIdForm().getFormNum() == 10){
             return "/VIEW/addDov";
+        }else if(event.getFormByIdForm().getFormNum() == 20){
+            return "/VIEW/addIc";
+        }else if(event.getFormByIdForm().getFormNum() == 30){
+            return "/VIEW/addDm";
         }else{
             return redirect;
         }
