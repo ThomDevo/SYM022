@@ -159,6 +159,8 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
             return "/VIEW/addIc";
         }else if(event.getFormByIdForm().getFormNum() == 30){
             return "/VIEW/addDm";
+        }else if(event.getFormByIdForm().getFormNum() == 40){
+            return "/VIEW/addVs";
         }else{
             return redirect;
         }

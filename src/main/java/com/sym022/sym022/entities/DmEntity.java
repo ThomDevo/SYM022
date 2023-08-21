@@ -1,9 +1,15 @@
 package com.sym022.sym022.entities;
 
 import com.sym022.sym022.enums.*;
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
+
+@NamedQueries(value = {
+        @NamedQuery(name = "Dm.selectDmById", query = "SELECT dm from DmEntity dm where dm.idDm = :idDm"),
+})
 
 @Entity
 @Table(name = "dm", schema = "sym022")
@@ -15,6 +21,7 @@ public class DmEntity {
 
     @Basic
     @NotNull
+    @Range(min=1920,max= 2005)
     @Column(name = "year_of_birth", nullable = false)
     private int yearOfBirth;
 

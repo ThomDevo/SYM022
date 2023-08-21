@@ -94,7 +94,7 @@ public class RoleService {
     public RoleEntity addRole (RoleEntity role, EntityManager em){
         em.persist(role);
         em.flush();
-        ProcessUtils.debug(String.valueOf(role.getIdRole()));
+        //ProcessUtils.debug(String.valueOf(role.getIdRole()));
         return role;
     }
 

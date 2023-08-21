@@ -90,9 +90,40 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
         LocalDate now = LocalDate.now();
         String isoDatePattern = "yyyy-MM-dd HH:mm:ss";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+        if(dov.getVisitDate() != null){
+            initErrorMessageFormDov();
+            String dovDate = simpleDateFormat.format(dov.getVisitDate());
+            int resultDovDate = dovDate.compareTo(String.valueOf(now));
+            if(resultDovDate > 0){
+                this.messageErrorVisitDate = "";
+                redirect = "null";
+            }
+            else {
+                redirect = getString(em, redirect, transaction, dovService, eventService, auditTrailService);
+            }
+
+            return redirect;
+        }else{
+            redirect = getString(em, redirect, transaction, dovService, eventService, auditTrailService);
+
+            return redirect;}
         //ProcessUtils.debug(""+ resultDovDate);
 
 
+
+    }
+
+    /**
+     * Method to process submitFormAddDov()
+     * @param em
+     * @param redirect
+     * @param transaction
+     * @param dovService
+     * @param eventService
+     * @param auditTrailService
+     * @return a DOV
+     */
+    private String getString(EntityManager em, String redirect, EntityTransaction transaction, DovService dovService, EventService eventService, AuditTrailService auditTrailService) {
         if(!dov.getVisitYn() && Objects.equals(dov.getVisitNd(), "")){
             initErrorMessageFormDov();
             this.messageErrorVisitNdFalse = "";
@@ -101,20 +132,13 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
             initErrorMessageFormDov();
             this.messageErrorVisitNd = "";
             redirect = "null";
-        }/*else if(dov.getVisitDate() != null){
-            initErrorMessageFormDov();
-            String dovDate = simpleDateFormat.format(dov.getVisitDate());
-            int resultDovDate = dovDate.compareTo(String.valueOf(now));
-            if(resultDovDate > 0){
-                this.messageErrorVisitDate = "";
-                redirect = "null";
-            }
-        }*/else if(dov.getVisitYn() && dov.getVisitDate() == null){
+
+        }else if(dov.getVisitYn() && dov.getVisitDate() == null){
             initErrorMessageFormDov();
             this.messageErrorVisitDateMissing = "";
             redirect = "null";
         }else{
-        try{
+            try{
                 dov.setEventByIdEvent(eventBean.getEvent());
                 auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
                 auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
@@ -127,16 +151,16 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
                 dovService.addDov(dov,em);
                 transaction.commit();
 
-        }catch(Exception e){
-            ProcessUtils.debug(" I'm in the catch of the addDov method: "+ e);
+            }catch(Exception e){
+                ProcessUtils.debug(" I'm in the catch of the addDov method: "+ e);
 
-        }finally {
-            if(transaction.isActive()){
-                transaction.rollback();
+            }finally {
+                if(transaction.isActive()){
+                    transaction.rollback();
+                }
+                em.close();
+
             }
-            em.close();
-
-        }
             ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
                     FacesContext.getCurrentInstance().getViewRoot().getLocale());
             String addDov = bundle.getString("dov");
@@ -147,7 +171,6 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
             addMessage(addDov+" "+add+" "+forThe+" "+addSubject+" "+dov.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
             initFormDov();
         }
-
         return redirect;
     }
 
