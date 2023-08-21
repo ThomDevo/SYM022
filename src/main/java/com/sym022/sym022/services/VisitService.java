@@ -1,5 +1,6 @@
 package com.sym022.sym022.services;
 
+import com.sym022.sym022.entities.FormEntity;
 import com.sym022.sym022.entities.VisitEntity;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -83,5 +84,63 @@ public class VisitService {
 
         int count =((Number)query.getSingleResult()).intValue();
         return count > 0;
+    }
+
+    /**
+     * Method to get only Ae and Cm
+     * @param em
+     * @return List of visits
+     */
+    public List<VisitEntity> findAeCM (EntityManager em)
+    {
+        return em.createNamedQuery("Visit.selectVisitAeCm", VisitEntity.class)
+                .getResultList();
+    }
+
+    /**
+     * Method to find all visits except Mois_1
+     * @param em
+     * @return List of visits
+     */
+    public List<VisitEntity> findVisitExceptMois1 (EntityManager em)
+    {
+        return em.createNamedQuery("Visit.selectVisitExceptMois1", VisitEntity.class)
+                .getResultList();
+    }
+
+    /**
+     * Method to find all visits except Screening
+     * @param em
+     * @return List of visits
+     */
+    public List<VisitEntity> findVisitExceptScreening (EntityManager em)
+    {
+        return em.createNamedQuery("Visit.selectVisitExceptScreening", VisitEntity.class)
+                .getResultList();
+    }
+
+
+
+    /**
+     * Method to add a new visit
+     * @param visit
+     * @param em
+     * @return visit
+     */
+    public VisitEntity addVisit(VisitEntity visit, EntityManager em){
+        em.persist(visit);
+        em.flush();
+        return visit;
+    }
+
+    /**
+     * Method to update a visit
+     * @param visit
+     * @param em
+     * @return visit
+     */
+    public VisitEntity updateVisit(VisitEntity visit, EntityManager em){
+        em.merge(visit);
+        return visit;
     }
 }

@@ -77,11 +77,104 @@ public class FormService {
      * @param em
      * @return boolean
      */
-    public boolean isFormLabelExist(int formLabel, EntityManager em){
+    public boolean isFormLabelExist(String formLabel, EntityManager em){
         Query query =em.createNamedQuery("Form.isFormLabelExist", FormEntity.class);
         query.setParameter("formLabel", formLabel);
 
         int count =((Number)query.getSingleResult()).intValue();
         return count > 0;
+    }
+
+    /**
+     * Method to get Ae form
+     * @param em
+     * @return List of forms = Ae
+     */
+    public List<FormEntity> findFormAe (EntityManager em)
+    {
+        return em.createNamedQuery("Form.selectFormAe", FormEntity.class)
+                .getResultList();
+    }
+
+    /**
+     * Method to get Cm form
+     * @param em
+     * @return List of forms = Cm
+     */
+    public List<FormEntity> findFormCm (EntityManager em)
+    {
+        return em.createNamedQuery("Form.selectFormCm", FormEntity.class)
+                .getResultList();
+    }
+
+    /**
+     * Method to get Dov form
+     * @param em
+     * @return List of forms = Dov
+     */
+    public List<FormEntity> findFormDov (EntityManager em)
+    {
+        return em.createNamedQuery("Form.selectFormDov", FormEntity.class)
+                .getResultList();
+    }
+
+    /**
+     * Method to get Ic form
+     * @param em
+     * @return List of forms = Ic
+     */
+    public List<FormEntity> findFormIc (EntityManager em)
+    {
+        return em.createNamedQuery("Form.selectFormIc", FormEntity.class)
+                .getResultList();
+    }
+
+    /**
+     * Method to find missing forms from Screening
+     * @param idSubject
+     * @param em
+     * @return List of forms
+     */
+    public List<FormEntity> findFormScreeningND (int idSubject,EntityManager em)
+    {
+        return em.createNamedQuery("Form.selectFormScreeningND", FormEntity.class)
+                .setParameter("idSubject", idSubject)
+                .getResultList();
+    }
+
+    /**
+     * Method to find missing forms from Mois 1
+     * @param idSubject
+     * @param em
+     * @return List of forms
+     */
+    public List<FormEntity> findFormMois1ND (int idSubject,EntityManager em)
+    {
+        return em.createNamedQuery("Form.selectFormMois1ND", FormEntity.class)
+                .setParameter("idSubject", idSubject)
+                .getResultList();
+    }
+
+    /**
+     * Method to add a new form
+     * @param form
+     * @param em
+     * @return form
+     */
+    public FormEntity addForm(FormEntity form, EntityManager em){
+        em.persist(form);
+        em.flush();
+        return form;
+    }
+
+    /**
+     * Method to update a form
+     * @param form
+     * @param em
+     * @return form
+     */
+    public FormEntity updateForm(FormEntity form, EntityManager em){
+        em.merge(form);
+        return form;
     }
 }

@@ -15,7 +15,17 @@ import java.util.Objects;
         @NamedQuery(name = "Form.selectFormByNum", query = "SELECT fo FROM FormEntity fo WHERE fo.formNum = :formNum"),
         @NamedQuery(name = "Form.selectFormByLabel", query = "SELECT fo FROM FormEntity fo WHERE fo.formLabel = :formLabel"),
         @NamedQuery(name = "Form.isFormNumExist", query = "SELECT COUNT(fo) FROM FormEntity fo WHERE fo.formNum = :formNum"),
-        @NamedQuery(name = "Form.isFormLabelExist", query = "SELECT COUNT(fo) FROM FormEntity fo WHERE fo.formLabel = :formLabel")
+        @NamedQuery(name = "Form.isFormLabelExist", query = "SELECT COUNT(fo) FROM FormEntity fo WHERE fo.formLabel = :formLabel"),
+        @NamedQuery(name = "Form.selectFormAe", query = "SELECT fo From FormEntity fo WHERE fo.formNum = 80"),
+        @NamedQuery(name = "Form.selectFormCm", query = "SELECT fo From FormEntity fo WHERE fo.formNum = 90"),
+        @NamedQuery(name = "Form.selectFormDov", query = "SELECT fo FROM FormEntity fo WHERE fo.formNum = 10"),
+        @NamedQuery(name = "Form.selectFormIc", query = "SELECT fo FROM FormEntity fo WHERE fo.formNum = 20"),
+        @NamedQuery(name = "Form.selectFormScreeningND", query = "SELECT fo FROM FormEntity fo WHERE ((SELECT COUNT(ev) FROM EventEntity ev " +
+                "JOIN IcEntity ic ON ev.idEvent = ic.eventByIdEvent.idEvent WHERE (ev.formByIdForm.idForm = fo.idForm AND ev.subjectByIdSubject.idSubject = :idSubject " +
+                "AND ev.visitByIdVisit.visitNum = 10 AND fo.formNum IN (30, 40) AND ic.eligYn = true ))=0) "),
+        @NamedQuery(name = "Form.selectFormMois1ND", query = "SELECT fo FROM FormEntity fo WHERE ((SELECT COUNT(ev) FROM EventEntity ev " +
+                "JOIN IcEntity ic ON ev.idEvent = ic.eventByIdEvent.idEvent WHERE (ev.formByIdForm.idForm = fo.idForm AND ev.subjectByIdSubject.idSubject = :idSubject " +
+                "AND ev.visitByIdVisit.visitNum = 20 AND fo.formNum IN (40, 50)))=0)")
 })
 
 

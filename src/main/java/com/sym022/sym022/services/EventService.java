@@ -2,6 +2,7 @@ package com.sym022.sym022.services;
 
 import com.sym022.sym022.entities.EventEntity;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 public class EventService {
@@ -53,6 +54,48 @@ public class EventService {
                 .setParameter("idSubject", idSubject)
                 .setParameter("idForm", idForm)
                 .getResultList();
+    }
+
+    /**
+     * * Method to check if subject has already an event
+     * @param idSubject
+     * @param em
+     * @return boolean
+     */
+    public boolean isEventSubjectExist(int idSubject, EntityManager em){
+        Query query =em.createNamedQuery("Event.CheckNewPatient", EventEntity.class);
+        query.setParameter("idSubject", idSubject);
+
+        int count =((Number)query.getSingleResult()).intValue();
+        return count > 0;
+    }
+
+    /**
+     * * Method to check if subject has already an Ic form
+     * @param idSubject
+     * @param em
+     * @return boolean
+     */
+    public boolean isIcSubjectExist(int idSubject, EntityManager em){
+        Query query =em.createNamedQuery("Event.CheckIcCompleted", EventEntity.class);
+        query.setParameter("idSubject", idSubject);
+
+        int count =((Number)query.getSingleResult()).intValue();
+        return count > 0;
+    }
+
+    /**
+     * * Method to check if subject has already started Mois1
+     * @param idSubject
+     * @param em
+     * @return boolean
+     */
+    public boolean isMois1SubjectExist(int idSubject, EntityManager em){
+        Query query =em.createNamedQuery("Event.CheckMois1Started", EventEntity.class);
+        query.setParameter("idSubject", idSubject);
+
+        int count =((Number)query.getSingleResult()).intValue();
+        return count > 0;
     }
 
     /**
