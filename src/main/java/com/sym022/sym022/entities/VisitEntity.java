@@ -15,7 +15,10 @@ import java.util.Objects;
         @NamedQuery(name = "Visit.selectVisitByNum", query = "SELECT vi FROM VisitEntity vi WHERE vi.visitNum = :visitNum"),
         @NamedQuery(name = "Visit.selectVisitByLabel", query = "SELECT vi FROM VisitEntity vi WHERE vi.visitLabel = :visitLabel"),
         @NamedQuery(name = "Visit.isVisitNumExist", query = "SELECT COUNT(vi) FROM VisitEntity vi WHERE vi.visitNum = :visitNum"),
-        @NamedQuery(name = "Visit.isVisitLabelExist", query = "SELECT COUNT(vi) FROM VisitEntity vi WHERE vi.visitLabel = :visitLabel")
+        @NamedQuery(name = "Visit.isVisitLabelExist", query = "SELECT COUNT(vi) FROM VisitEntity vi WHERE vi.visitLabel = :visitLabel"),
+        @NamedQuery(name = "Visit.selectVisitAeCm", query = "SELECT vi FROM VisitEntity vi WHERE vi.visitNum in (80,90)"),
+        @NamedQuery(name = "Visit.selectVisitExceptMois1", query = "SELECT vi FROM VisitEntity vi WHERE vi.visitNum != 20"),
+        @NamedQuery(name = "Visit.selectVisitExceptScreening", query = "SELECT vi FROM VisitEntity vi WHERE vi.visitNum != 10")
 })
 
 @Entity
