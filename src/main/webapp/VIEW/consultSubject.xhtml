@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{I18N['sitePage.ListOfSubjects.Consult']}"/>
+    </ui:define>
+    <ui:define name="content">
+        <div class="content">
+            <div class="block p-20 form-container">
+                <h2>
+                    <h:outputText value="#{I18N['sitePage.ListOfSubjects.Consult']}" />
+                </h2>
+                <h:form>
+                    <p:outputPanel class="form-control">
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_subjectNum" value="#{I18N['subjectPage.subjectNum']}"/>
+                            <h:outputText id="input_subjectNum" class="label" value="#{subjectBean.subject.subjectNum}"/>
+                        </span>
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="inputsiteByIdSite" value="#{I18N['sitePage.siteNum']}"/>
+                            <h:outputText id="inputsiteByIdSite" class="label" value="#{subjectBean.subject.siteByIdSite.siteNum - subjectBean.subject.siteByIdSite.siteName}"/>
+                        </span>
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="inputSubjectStatus" value="#{I18N['sitePage.status']}"/>
+                             <h:outputText id="inputSubjectStatus" class="label" value="#{subjectBean.subject.subjectStatus}"/>
+                        </span>
+                    </p:outputPanel>
+                    <span class="responsiveSubmit">
+                        <p:linkButton outcome="/VIEW/home.xhtml" value="#{I18N['connectionpage.return.button']}" class="ui-button-secondary" ></p:linkButton>
+                    </span>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

@@ -161,4 +161,6 @@ public class ConnectionBean extends FilterOfTable<UserEntity> implements Seriali
         this.password = password;
     }
 
+
+
 }

@@ -27,7 +27,6 @@ public class IcEntity {
     private Date icDate;
 
     @Basic
-    @NotNull
     @Column(name = "prot_vers", nullable = false, length = 200)
     private String protVers;
 

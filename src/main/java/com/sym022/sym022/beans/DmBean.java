@@ -58,6 +58,10 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
+    /**
+     * Method to add a DM in the DB
+     * @return a DM
+     */
     public String submitFormAddDm(){
         EntityManager em = EMF.getEM();
         String redirect = "/VIEW/home";
@@ -79,7 +83,7 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
             transaction.commit();
 
         }catch(Exception e){
-            ProcessUtils.debug(" I'm in the catch of the addIC method: "+ e);
+            ProcessUtils.debug(" I'm in the catch of the addDM method: "+ e);
 
         }finally {
             if(transaction.isActive()){

@@ -46,7 +46,7 @@ public class EventEntity {
 
     @Basic
     @NotNull
-    @Range(min=1,max= 99999)
+    @Range(min=0,max= 99999)
     @Column(name = "\"order\"", nullable = false)
     private int order;
 

@@ -17,7 +17,8 @@ import java.util.Objects;
                 " WHERE ((lower(su.subjectNum )like concat('%', :researchWord, '%'))) ORDER BY su.subjectNum ASC"),
         @NamedQuery(name = "Subject.findSubjectActiveByCharacteristic", query = "SELECT su FROM SubjectEntity su" +
                 " WHERE su.subjectStatus = TRUE AND ((lower(su.subjectNum )like concat('%', :researchWord, '%'))) ORDER BY su.subjectNum ASC"),
-        @NamedQuery(name = "Subject.selectSubjectPermitted", query = "SELECT su FROM SubjectEntity su JOIN UserSiteEntity usu ON (su.siteByIdSite.idSite = usu.siteByIdSite.idSite) WHERE  usu.userByIdUser.idUser = :idUser")
+        @NamedQuery(name = "Subject.selectSubjectPermitted", query = "SELECT su FROM SubjectEntity su JOIN UserSiteEntity usu ON (su.siteByIdSite.idSite = usu.siteByIdSite.idSite) WHERE  (usu.userByIdUser.idUser = :idUser" +
+                " AND ((lower(su.subjectNum )like concat('%', :researchWord, '%')))) ORDER BY su.subjectNum ASC")
 })
 
 @Entity
@@ -30,7 +31,7 @@ public class SubjectEntity {
 
     @Basic
     @NotNull
-    @Range(min = 1, max =999999999)
+    @Range(min = 0, max =999999999)
     @Column(name = "subject_num", nullable = false)
     private int subjectNum;
 

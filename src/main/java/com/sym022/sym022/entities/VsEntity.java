@@ -8,8 +8,12 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
+
+@NamedQueries(value = {
+        @NamedQuery(name = "Vs.selectVsById", query = "SELECT vs from VsEntity vs WHERE vs.idVs = :idVs"),
+})
 
 @Entity
 @Table(name = "vs", schema = "sym022")
@@ -38,7 +42,7 @@ public class VsEntity {
     private boolean heightNd = false;
 
     @Basic
-    @Range(min=1,max= 999)
+    @Range(min=0,max= 999)
     @Column(name = "height", nullable = true, precision = 4,scale = 1)
     private Double height;
 
@@ -53,7 +57,7 @@ public class VsEntity {
     private boolean weightNd = false;
 
     @Basic
-    @Range(min=1,max= 999)
+    @Range(min=0,max= 999)
     @Column(name = "weight", nullable = true, precision = 4,scale = 1)
     private Double weight;
 
@@ -68,12 +72,12 @@ public class VsEntity {
     private boolean bpNd = false;
 
     @Basic
-    @Range(min=1,max= 999)
+    @Range(min=0,max= 999)
     @Column(name = "sbp", nullable = true)
     private int sbp;
 
     @Basic
-    @Range(min=1,max= 999)
+    @Range(min=0,max= 999)
     @Column(name = "dbp", nullable = true)
     private int dbp;
 
@@ -83,7 +87,7 @@ public class VsEntity {
     private boolean hrNd = false;
 
     @Basic
-    @Range(min=1,max= 300)
+    @Range(min=0,max= 300)
     @Column(name = "hr", nullable = true)
     private int hr;
 
@@ -92,7 +96,7 @@ public class VsEntity {
     private boolean rrNd = false;
 
     @Basic
-    @Range(min=1,max= 150)
+    @Range(min=0,max= 150)
     @Column(name = "rr", nullable = true)
     private int rr;
 
@@ -101,7 +105,7 @@ public class VsEntity {
     private boolean tempNd = false;
 
     @Basic
-    @Range(min=1,max= 300)
+    @Range(min=0,max= 300)
     @Column(name = "temp", nullable = true, precision = 4,scale = 1)
     private Double temp;
 

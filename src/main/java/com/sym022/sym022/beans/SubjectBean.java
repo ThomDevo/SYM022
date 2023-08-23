@@ -41,7 +41,7 @@ public class SubjectBean extends FilterOfTable<SubjectEntity> implements Seriali
     public void researchFilterSubject(){
         EntityManager em = EMF.getEM();
         try{
-            filterOfTable = subjectService.findAllSubjectByFilterAndOrderAsc(this.filter,em);
+            filterOfTable = subjectService.findSubjectPermitted(connectionBean.getUser().getIdUser(),this.filter,em);
             ProcessUtils.debug(this.filter);
         }catch(Exception e){
             ProcessUtils.debug(e.getMessage());
@@ -57,14 +57,14 @@ public class SubjectBean extends FilterOfTable<SubjectEntity> implements Seriali
     public void initAllEditorSubject(){
         EntityManager em = EMF.getEM();
         EntityTransaction transaction = em.getTransaction();
-        SubjectService subjectService = new SubjectService();
-        this.allSubjectSelected = new ArrayList<>();
+        SubjectService subjectService = new SubjectService();;
         try{
             transaction.begin();
-            this.allSubject = subjectService.findSubjectPermitted(connectionBean.getUser().getIdUser(),em);
+            this.allSubject = subjectService.findSubjectPermitted(connectionBean.getUser().getIdUser(),this.filter,em);
+
             transaction.commit();
         }catch(Exception e){
-            this.allSubject = new ArrayList<>();
+            ProcessUtils.debug(e.getMessage());
         }finally{
             if(transaction.isActive()){
                 transaction.rollback();

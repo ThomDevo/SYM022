@@ -38,7 +38,7 @@ public class FormEntity {
     private int idForm;
 
     @Basic
-    @Range(min=1,max= 99)
+    @Range(min=0,max= 99)
     @NotNull
     @Column(name = "form_num", nullable = false)
     private int formNum;

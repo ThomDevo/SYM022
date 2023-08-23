@@ -88,10 +88,11 @@ public class SubjectService {
      * @param em
      * @return List of subjects
      */
-    public List<SubjectEntity> findSubjectPermitted (int idUser, EntityManager em)
+    public List<SubjectEntity> findSubjectPermitted (int idUser,String researchWord,EntityManager em)
     {
         return em.createNamedQuery("Subject.selectSubjectPermitted", SubjectEntity.class)
                 .setParameter("idUser", idUser)
+                .setParameter("researchWord", researchWord)
                 .getResultList();
     }
 
