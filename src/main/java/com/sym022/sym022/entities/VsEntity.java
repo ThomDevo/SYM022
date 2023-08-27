@@ -48,6 +48,7 @@ public class VsEntity {
 
     @Basic
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "height_u", nullable = false)
     private HeightU heightU;
 
@@ -63,6 +64,7 @@ public class VsEntity {
 
     @Basic
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "weight_u", nullable = false)
     private WeightU weightU;
 
@@ -110,10 +112,12 @@ public class VsEntity {
     private Double temp;
 
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "temp_u", nullable = false)
     private TempU tempU;
 
     @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "temp_route", nullable = true)
     private TempRoute tempRoute;
 

@@ -21,19 +21,20 @@
                     <p:outputPanel class="form-control">
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_status_vs" value="#{I18N['vsPage.status']}"/>
-                            <p:selectOneMenu id="input_status_vs"
+                            <p:selectOneButton   id="input_status_vs"
                                              value="#{vsBean.vs.vsYn}">
                                 <f:selectItem itemLabel="#{I18N['done']}"
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['notDone']}"
                                               itemValue="#{false}"/>
-                            </p:selectOneMenu>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
                         </span>
-                        <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                        <h:panelGroup class="field col-12 md:col-4 p-20-0" rendered="#{!vsBean.vs.vsYn}">
                             <h:panelGroup class="field col-12 md:col-4 p-20-0">
-                                <p:outputLabel for="input_vs_nd" value="#{I18N['dovPage.visitNd']}"/>
+                                <p:outputLabel for="input_vs_nd" value="#{I18N['vsPage.vsNd']}"/>
                                 <p:inputTextarea  rows="6" cols="33" id="input_vs_nd" class="label" value="#{vsBean.vs.vsNd}"
-                                                  placeholder="#{I18N['dovPage.visitNd.placeholder']}"/>
+                                                  placeholder="#{I18N['vsPage.vsNd.placeholder']}"/>
                             </h:panelGroup>
                         </h:panelGroup>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorVisitNd}">
@@ -42,48 +43,45 @@
                                         value="#{I18N['messageErrorVisitNd']}"/></span>
                             </div>
                         </div>
-                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorVisitNdFalse}">
-                            <div><span class="ui-message-error-icon"> </span>
-                                <span class="ui-message-error-detail"><h:outputText
-                                        value="#{I18N['messageErrorVisitNdFalse']}"/></span>
+                        <h:panelGroup rendered="#{vsBean.vs.vsYn}">
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="input_Vs_Date" value="#{I18N['dovPage.visitDate']}"/>
+                                <p:datePicker id="input_Vs_Date" value="#{vsBean.vs.vsDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"/>
                             </div>
-                        </div>
-                        <div class="field col-12 md:col-4">
-                            <p:outputLabel for="input_Vs_Date" value="#{I18N['dovPage.visitDate']}"/>
-                            <p:datePicker id="input_Vs_Date" value="#{vsBean.vs.vsDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"/>
-                        </div>
-                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorVisitDate}">
-                            <div><span class="ui-message-error-icon"> </span>
-                                <span class="ui-message-error-detail"><h:outputText
-                                        value="#{I18N['messageErrorVisitDate']}"/></span>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorVisitDate}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorVisitDate']}"/></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorVisitDateMissing}">
-                            <div><span class="ui-message-error-icon"> </span>
-                                <span class="ui-message-error-detail"><h:outputText
-                                        value="#{I18N['messageErrorVisitDateMissing']}"/></span>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorVisitDateMissing}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorVisitDateMissing']}"/></span>
+                                </div>
                             </div>
-                        </div>
-                        <span class="field col-12 md:col-4 p-20-0">
+                            <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_status_vs_height" value="#{I18N['vsPage.heightNd']}"/>
-                            <p:selectOneMenu id="input_status_vs_height"
+                            <p:selectOneButton id="input_status_vs_height"
                                              value="#{vsBean.vs.heightNd}">
                                 <f:selectItem itemLabel="#{I18N['done']}"
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['notDone']}"
                                               itemValue="#{false}"/>
-                            </p:selectOneMenu>
-                        </span>
-                        <span class="field col-12 md:col-4">
-                            <p:outputLabel for="input_height" value="#{I18N['vsPage.height']}"/>
-                            <p:inputNumber id="input_height" class="label" value="#{vsBean.vs.height}"
-                                           placeholder="#{I18N['vsPage.height.placeholder']}"
-                                           validatorMessage="#{I18N['vsPage.height.errorMessage']}">
-                                <p:ajax update="messageHeight" event="blur"/>
-                            </p:inputNumber>
-                        </span>
-                        <p:message id="messageHeight" for="@previous"/>
-                        <span class="field col-12 md:col-4 p-20-0">
+                                 <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                            </span>
+                            <h:panelGroup rendered="#{vsBean.vs.heightNd}">
+                                <span class="field col-12 md:col-4">
+                                <p:outputLabel for="input_height" value="#{I18N['vsPage.height']}"/>
+                                <p:inputNumber id="input_height" class="label" value="#{vsBean.vs.height}"
+                                               placeholder="#{I18N['vsPage.height.placeholder']}"
+                                               validatorMessage="#{I18N['vsPage.height.errorMessage']}">
+                                    <p:ajax update="messageHeight" event="blur"/>
+                                </p:inputNumber>
+                            </span>
+                                <p:message id="messageHeight" for="@previous"/>
+                                <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="inputHeight" value="#{I18N['vsPage.height.unit']}"/>
                             <p:selectOneMenu id="inputHeight"
                                              value="#{vsBean.vs.heightU}"
@@ -99,26 +97,30 @@
                                                itemValue="#{Height}"/>
                             </p:selectOneMenu>
                         </span>
-                        <span class="field col-12 md:col-4 p-20-0">
+                            </h:panelGroup>
+
+                            <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_status_vs_weight" value="#{I18N['vsPage.weightNd']}"/>
-                            <p:selectOneMenu id="input_status_vs_weight"
+                            <p:selectOneButton id="input_status_vs_weight"
                                              value="#{vsBean.vs.weightNd}">
                                 <f:selectItem itemLabel="#{I18N['done']}"
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['notDone']}"
                                               itemValue="#{false}"/>
-                            </p:selectOneMenu>
+                                 <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
                         </span>
-                        <span class="field col-12 md:col-4">
+                        <h:panelGroup rendered="#{vsBean.vs.weightNd}">
+                            <span class="field col-12 md:col-4">
                             <p:outputLabel for="input_weight" value="#{I18N['vsPage.weight']}"/>
                             <p:inputNumber id="input_weight" class="label" value="#{vsBean.vs.weight}"
                                            placeholder="#{I18N['vsPage.weight.placeholder']}"
                                            validatorMessage="#{I18N['vsPage.weight.errorMessage']}">
                                 <p:ajax update="messageWeight" event="blur"/>
                             </p:inputNumber>
-                        </span>
-                        <p:message id="messageWeight" for="@previous"/>
-                        <span class="field col-12 md:col-4 p-20-0">
+                            </span>
+                            <p:message id="messageWeight" for="@previous"/>
+                            <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="inputWeightU" value="#{I18N['vsPage.weight.unit']}"/>
                             <p:selectOneMenu id="inputWeightU"
                                              value="#{vsBean.vs.weightU}"
@@ -133,143 +135,162 @@
                                                itemLabel="#{Weight.getWeightU()}"
                                                itemValue="#{Weight}"/>
                             </p:selectOneMenu>
-                        </span>
-                        <span class="field col-12 md:col-4 p-20-0">
+                            </span>
+                        </h:panelGroup>
+
+                            <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_status_bp_nd" value="#{I18N['vsPage.bpNd']}"/>
-                            <p:selectOneMenu id="input_status_bp_nd"
+                            <p:selectOneButton id="input_status_bp_nd"
                                              value="#{vsBean.vs.bpNd}">
                                 <f:selectItem itemLabel="#{I18N['done']}"
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['notDone']}"
                                               itemValue="#{false}"/>
-                            </p:selectOneMenu>
+                                 <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
                         </span>
-                        <span class="field col-12 md:col-4">
-                            <p:outputLabel for="input_sbp" value="#{I18N['vsPage.input_sbp']}"/>
-                            <p:inputNumber id="input_sbp" class="label" value="#{vsBean.vs.sbp}"
+                            <h:panelGroup rendered="#{vsBean.vs.bpNd}">
+                                <span class="field col-12 md:col-4">
+                                    <p:outputLabel for="input_sbp" value="#{I18N['vsPage.input_sbp']}"/>
+                                    <p:inputNumber id="input_sbp" class="label" value="#{vsBean.vs.sbp}"
                                            placeholder="#{I18N['vsPage.input_sbp.placeholder']}"
                                            validatorMessage="#{I18N['vsPage.input_sbp.errorMessage']}">
-                                <p:ajax update="messageSbp" event="blur"/>
-                            </p:inputNumber>
-                        </span>
-                        <p:message id="messageSbp" for="@previous"/>
-                        <span class="field col-12 md:col-4">
-                            <p:outputLabel for="input_dbp" value="#{I18N['vsPage.input_dbp']}"/>
-                            <p:inputNumber id="input_dbp" class="label" value="#{vsBean.vs.sbp}"
+                                        <p:ajax update="messageSbp" event="blur"/>
+                                    </p:inputNumber>
+                                </span>
+                                <p:message id="messageSbp" for="@previous"/>
+                                <span class="field col-12 md:col-4">
+                                    <p:outputLabel for="input_dbp" value="#{I18N['vsPage.input_dbp']}"/>
+                                    <p:inputNumber id="input_dbp" class="label" value="#{vsBean.vs.sbp}"
                                            placeholder="#{I18N['vsPage.input_dbp.placeholder']}"
                                            validatorMessage="#{I18N['vsPage.input_dbp.errorMessage']}">
-                                <p:ajax update="messageDbp" event="blur"/>
-                            </p:inputNumber>
-                        </span>
-                        <p:message id="messageDbp" for="@previous"/>
-                        <span class="field col-12 md:col-4 p-20-0">
-                            <p:outputLabel for="input_status_hr_nd" value="#{I18N['vsPage.hrNd']}"/>
-                            <p:selectOneMenu id="input_status_hr_nd"
+                                        <p:ajax update="messageDbp" event="blur"/>
+                                    </p:inputNumber>
+                                </span>
+                                <p:message id="messageDbp" for="@previous"/>
+                            </h:panelGroup>
+
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_status_hr_nd" value="#{I18N['vsPage.hrNd']}"/>
+                                <p:selectOneButton id="input_status_hr_nd"
                                              value="#{vsBean.vs.hrNd}">
-                                <f:selectItem itemLabel="#{I18N['done']}"
+                                    <f:selectItem itemLabel="#{I18N['done']}"
                                               itemValue="#{true}"/>
-                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                    <f:selectItem itemLabel="#{I18N['notDone']}"
                                               itemValue="#{false}"/>
-                            </p:selectOneMenu>
-                        </span>
-                        <span class="field col-12 md:col-4">
-                            <p:outputLabel for="input_hr" value="#{I18N['vsPage.input_hr']}"/>
-                            <p:inputNumber id="input_hr" class="label" value="#{vsBean.vs.sbp}"
-                                           placeholder="#{I18N['vsPage.input_hr.placeholder']}"
-                                           validatorMessage="#{I18N['vsPage.input_hr.errorMessage']}">
-                                <p:ajax update="messagehr" event="blur"/>
-                            </p:inputNumber>
-                        </span>
-                        <p:message id="messagehr" for="@previous"/>
-                        <span class="field col-12 md:col-4 p-20-0">
-                            <p:outputLabel for="input_status_rr_nd" value="#{I18N['vsPage.rrNd']}"/>
-                            <p:selectOneMenu id="input_status_rr_nd"
+                                    <p:ajax process="@this" update="@all"/>
+                                </p:selectOneButton>
+                            </span>
+                            <h:panelGroup rendered="#{vsBean.vs.hrNd}">
+                                <span class="field col-12 md:col-4">
+                                <p:outputLabel for="input_hr" value="#{I18N['vsPage.input_hr']}"/>
+                                <p:inputNumber id="input_hr" class="label" value="#{vsBean.vs.sbp}"
+                                               placeholder="#{I18N['vsPage.input_hr.placeholder']}"
+                                               validatorMessage="#{I18N['vsPage.input_hr.errorMessage']}">
+                                    <p:ajax update="messagehr" event="blur"/>
+                                </p:inputNumber>
+                            </span>
+                                <p:message id="messagehr" for="@previous"/>
+                            </h:panelGroup>
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_status_rr_nd" value="#{I18N['vsPage.rrNd']}"/>
+                                <p:selectOneButton id="input_status_rr_nd"
                                              value="#{vsBean.vs.rrNd}">
                                 <f:selectItem itemLabel="#{I18N['done']}"
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['notDone']}"
                                               itemValue="#{false}"/>
-                            </p:selectOneMenu>
-                        </span>
-                        <span class="field col-12 md:col-4">
-                            <p:outputLabel for="input_rr" value="#{I18N['vsPage.input_rr']}"/>
-                            <p:inputNumber id="input_rr" class="label" value="#{vsBean.vs.sbp}"
-                                           placeholder="#{I18N['vsPage.input_rr.placeholder']}"
-                                           validatorMessage="#{I18N['vsPage.input_rr.errorMessage']}">
-                                <p:ajax update="messagerr" event="blur"/>
-                            </p:inputNumber>
-                        </span>
-                        <p:message id="messagerr" for="@previous"/>
-                        <span class="field col-12 md:col-4 p-20-0">
-                            <p:outputLabel for="input_status_temp_nd" value="#{I18N['vsPage.tempNd']}"/>
-                            <p:selectOneMenu id="input_status_temp_nd"
+                                    <p:ajax process="@this" update="@all"/>
+                                </p:selectOneButton>
+                            </span>
+                            <h:panelGroup rendered="#{vsBean.vs.rrNd}">
+                                <span class="field col-12 md:col-4">
+                                <p:outputLabel for="input_rr" value="#{I18N['vsPage.input_rr']}"/>
+                                <p:inputNumber id="input_rr" class="label" value="#{vsBean.vs.sbp}"
+                                               placeholder="#{I18N['vsPage.input_rr.placeholder']}"
+                                               validatorMessage="#{I18N['vsPage.input_rr.errorMessage']}">
+                                    <p:ajax update="messagerr" event="blur"/>
+                                </p:inputNumber>
+                            </span>
+                                <p:message id="messagerr" for="@previous"/>
+                            </h:panelGroup>
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_status_temp_nd" value="#{I18N['vsPage.tempNd']}"/>
+                                <p:selectOneButton id="input_status_temp_nd"
                                              value="#{vsBean.vs.tempNd}">
-                                <f:selectItem itemLabel="#{I18N['done']}"
+                                    <f:selectItem itemLabel="#{I18N['done']}"
                                               itemValue="#{true}"/>
-                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                    <f:selectItem itemLabel="#{I18N['notDone']}"
                                               itemValue="#{false}"/>
-                            </p:selectOneMenu>
-                        </span>
-                        <span class="field col-12 md:col-4">
-                            <p:outputLabel for="input_temp" value="#{I18N['vsPage.input_temp']}"/>
-                            <p:inputNumber id="input_temp" class="label" value="#{vsBean.vs.temp}"
-                                           placeholder="#{I18N['vsPage.input_temp.placeholder']}"
-                                           validatorMessage="#{I18N['vsPage.input_temp.errorMessage']}">
-                                <p:ajax update="messagetemp" event="blur"/>
-                            </p:inputNumber>
-                        </span>
-                        <p:message id="messagetemp" for="@previous"/>
-                        <span class="field col-12 md:col-4 p-20-0">
-                            <p:outputLabel for="inputTempU" value="#{I18N['vsPage.tempU']}"/>
-                            <p:selectOneMenu id="inputTempU"
-                                             value="#{vsBean.vs.tempU}"
-                                             converter="TempUConverter"
-                                             required="true">
+                                    <p:ajax process="@this" update="@all"/>
+                                </p:selectOneButton>
+                            </span>
+                            <h:panelGroup rendered="#{vsBean.vs.tempNd}">
+                                <span class="field col-12 md:col-4">
+                                    <p:outputLabel for="input_temp" value="#{I18N['vsPage.input_temp']}"/>
+                                    <p:inputNumber id="input_temp" class="label" value="#{vsBean.vs.temp}"
+                                               placeholder="#{I18N['vsPage.input_temp.placeholder']}"
+                                               validatorMessage="#{I18N['vsPage.input_temp.errorMessage']}">
+                                    <p:ajax update="messagetemp" event="blur"/>
+                                    </p:inputNumber>
+                                </span>
+                                <p:message id="messagetemp" for="@previous"/>
+                                <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="inputTempU" value="#{I18N['vsPage.tempU']}"/>
+                                <p:selectOneMenu id="inputTempU"
+                                                 value="#{vsBean.vs.tempU}"
+                                                 converter="TempUConverter"
+                                                 required="true">
                                 <!-- import all enum -->
-                                <p:importEnum type="com.sym022.sym022.enums.TempU"
-                                              var="enumTempU"
-                                              allSuffix="getAll"/>
-                                <f:selectItems value="#{enumTempU.getAll}"
-                                               var="Temp"
-                                               itemLabel="#{Temp.getTempU()}"
-                                               itemValue="#{Temp}"/>
-                            </p:selectOneMenu>
-                        </span>
-                        <span class="field col-12 md:col-4 p-20-0">
-                            <p:outputLabel for="inputTempRoute" value="#{I18N['vsPage.tempRoute']}"/>
-                            <p:selectOneMenu id="inputTempRoute"
-                                             value="#{vsBean.vs.tempRoute}"
-                                             converter="TempRouteConverter"
-                                             required="true">
+                                    <p:importEnum type="com.sym022.sym022.enums.TempU"
+                                                  var="enumTempU"
+                                                  allSuffix="getAll"/>
+                                    <f:selectItems value="#{enumTempU.getAll}"
+                                                   var="Temp"
+                                                   itemLabel="#{Temp.getTempU()}"
+                                                   itemValue="#{Temp}"/>
+                                </p:selectOneMenu>
+                            </span>
+                                <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="inputTempRoute" value="#{I18N['vsPage.tempRoute']}"/>
+                                <p:selectOneMenu id="inputTempRoute"
+                                                 value="#{vsBean.vs.tempRoute}"
+                                                 converter="TempRouteConverter"
+                                                 required="true">
                                 <!-- import all enum -->
-                                <p:importEnum type="com.sym022.sym022.enums.TempRoute"
-                                              var="enumTempRoute"
-                                              allSuffix="getAll"/>
+                                    <p:importEnum type="com.sym022.sym022.enums.TempRoute"
+                                                  var="enumTempRoute"
+                                                  allSuffix="getAll"/>
                                 <f:selectItems value="#{enumTempRoute.getAll}"
                                                var="TempRoute"
                                                itemLabel="#{TempRoute.getTempRoute()}"
                                                itemValue="#{TempRoute}"/>
-                            </p:selectOneMenu>
-                        </span>
-                        <span class="field col-12 md:col-4 p-20-0">
+                                </p:selectOneMenu>
+                            </span>
+                            </h:panelGroup>
+                            <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_status_oxy_nd" value="#{I18N['vsPage.oxyNd']}"/>
-                            <p:selectOneMenu id="input_status_oxy_nd"
+                            <p:selectOneButton id="input_status_oxy_nd"
                                              value="#{vsBean.vs.oxysatNd}">
                                 <f:selectItem itemLabel="#{I18N['done']}"
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['notDone']}"
                                               itemValue="#{false}"/>
-                            </p:selectOneMenu>
-                        </span>
-                        <span class="field col-12 md:col-4">
+                                    <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                            </span>
+                            <h:panelGroup rendered="#{vsBean.vs.oxysatNd}">
+                                <span class="field col-12 md:col-4">
                             <p:outputLabel for="input_oxy" value="#{I18N['vsPage.input_oxy']}"/>
                             <p:inputNumber id="input_oxy" class="label" value="#{vsBean.vs.temp}"
                                            placeholder="#{I18N['vsPage.input_oxy.placeholder']}"
                                            validatorMessage="#{I18N['vsPage.input_oxy.errorMessage']}">
                                 <p:ajax update="messageoxy" event="blur"/>
                             </p:inputNumber>
-                        </span>
-                        <p:message id="messageoxy" for="@previous"/>
+                            </span>
+                                <p:message id="messageoxy" for="@previous"/>
+                            </h:panelGroup>
+                        </h:panelGroup>
                     </p:outputPanel>
                     <span class="responsiveSubmit">
                         <p:commandButton value="#{I18N['vsPage.addVsTitle']}"

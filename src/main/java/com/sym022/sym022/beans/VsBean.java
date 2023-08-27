@@ -21,7 +21,10 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 @Named
@@ -85,6 +88,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         this.vs.setOxysat(0);
     }
 
+    public void initErrorMessageFormVS(){
+        this.messageErrorVisitDate = "hidden";
+        this.messageErrorVisitNd = "hidden";
+    }
+
     /**
      * Method to add a VS in the DB
      * @return a VS
@@ -96,38 +104,119 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         VsService vsService = new VsService();
         EventService eventService = new EventService();
         AuditTrailService auditTrailService = new AuditTrailService();
+        LocalDate now = LocalDate.now();
+        String isoDatePattern = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+        /*if(vs.getVsYn() && vs.getVsDate() != null){
+            String vsDate = simpleDateFormat.format(vs.getVsDate());
+            int resultVsDate = vsDate.compareTo(String.valueOf(now));
+            if(resultVsDate > 0){
+                this.messageErrorVisitDate = "";
+                redirect = "null";
+            }else if(!vs.getVsYn() && Objects.equals(vs.getVsNd(), "")){
+                this.messageErrorVisitNd = "";
+                redirect = "null";
+            }else{
+                try{
+                    vs.setEventByIdEvent(eventBean.getEvent());
+                    auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                    auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                    auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                    eventBean.getEvent().setCompleted(true);
 
-        try{
-            vs.setEventByIdEvent(eventBean.getEvent());
-            auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
-            auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
-            auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
-            eventBean.getEvent().setCompleted(true);
+                    transaction.begin();
+                    eventService.updateEvent(eventBean.getEvent(),em);
+                    auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                    vsService.addVs(vs,em);
+                    transaction.commit();
 
-            transaction.begin();
-            eventService.updateEvent(eventBean.getEvent(),em);
-            auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
-            vsService.addVs(vs,em);
-            transaction.commit();
+                }catch(Exception e){
+                    ProcessUtils.debug(" I'm in the catch of the addVS method: "+ e);
 
-        }catch(Exception e){
-            ProcessUtils.debug(" I'm in the catch of the addVS method: "+ e);
+                }finally {
+                    if(transaction.isActive()){
+                        transaction.rollback();
+                    }
+                    em.close();
+                }
+                ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                        FacesContext.getCurrentInstance().getViewRoot().getLocale());
+                String addVs = bundle.getString("vs");
+                String add = bundle.getString("add");
+                String forThe = bundle.getString("for");
+                String addSubject = bundle.getString("subject");
 
-        }finally {
-            if(transaction.isActive()){
-                transaction.rollback();
+                addMessage(addVs+" "+add+" "+forThe+" "+addSubject+" "+vs.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+                initFromVs();
+
             }
-            em.close();
-        }
-        ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
-                FacesContext.getCurrentInstance().getViewRoot().getLocale());
-        String addVs = bundle.getString("vs");
-        String add = bundle.getString("add");
-        String forThe = bundle.getString("for");
-        String addSubject = bundle.getString("subject");
+        }else{*/
+        if(!vs.getVsYn() && Objects.equals(vs.getVsNd(), "")){
+            this.messageErrorVisitNd = "";
+            redirect = "null";
+        }else{
+            try{
+                vs.setEventByIdEvent(eventBean.getEvent());
+                auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                eventBean.getEvent().setCompleted(true);
 
-        addMessage(addVs+" "+add+" "+forThe+" "+addSubject+" "+vs.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
-        initFromVs();
+                if(!vs.getVsYn()){;
+                    this.vs.setVsDate(null);
+                    this.vs.setHeightNd(false);
+                    this.vs.setHeight(0.0);
+                    this.vs.setHeightU(HeightU.CM);
+                    this.vs.setWeightNd(false);
+                    this.vs.setWeight(0.0);
+                    this.vs.setWeightU(WeightU.KG);
+                    this.vs.setBpNd(false);
+                    this.vs.setSbp(0);
+                    this.vs.setDbp(0);
+                    this.vs.setHrNd(false);
+                    this.vs.setHr(0);
+                    this.vs.setRrNd(false);
+                    this.vs.setRr(0);
+                    this.vs.setTempNd(false);
+                    this.vs.setTemp(0.0);
+                    this.vs.setTempU(TempU.C);
+                    this.vs.setTempRoute(TempRoute.UNKNOWN);
+                    this.vs.setOxysatNd(false);
+                    this.vs.setOxysat(0);
+                }
+
+                if(vs.getVsYn() && !vs.getHeightNd())
+                {
+                    this.vs.setVsNd("");
+                    this.vs.setHeight(0.0);
+                    this.vs.setHeightU(HeightU.CM);
+                }
+
+                transaction.begin();
+                eventService.updateEvent(eventBean.getEvent(),em);
+                auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                vsService.addVs(vs,em);
+                transaction.commit();
+
+            }catch(Exception e){
+                ProcessUtils.debug(" I'm in the catch of the addVS method: "+ e);
+
+            }finally {
+                if(transaction.isActive()){
+                    transaction.rollback();
+                }
+                em.close();
+            }
+            ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                    FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            String addVs = bundle.getString("vs");
+            String add = bundle.getString("add");
+            String forThe = bundle.getString("for");
+            String addSubject = bundle.getString("subject");
+
+            addMessage(addVs+" "+add+" "+forThe+" "+addSubject+" "+vs.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+            initFromVs();
+        }
         return redirect;
     }
 

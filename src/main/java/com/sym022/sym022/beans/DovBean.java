@@ -107,7 +107,6 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
             redirect = getString(em, redirect, transaction, dovService, eventService, auditTrailService);
 
             return redirect;}
-        //ProcessUtils.debug(""+ resultDovDate);
 
 
 

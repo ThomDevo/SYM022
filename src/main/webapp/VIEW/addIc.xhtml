@@ -31,7 +31,8 @@
                         </div>
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_protocole_version" value="#{I18N['icPage.protocoleVersion']}"/>
-                            <p:inputText id="input_protocole_version" class="label" value="#{icBean.ic.protVers}"/>
+                            <p:inputText id="input_protocole_version" class="label" value="#{icBean.ic.protVers}"
+                                         placeholder="#{I18N['icPage.protocoleVersion.placeholder']}"/>
                         </span>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{icBean.messageErrorVsProt}">
                             <div><span class="ui-message-error-icon"> </span>

@@ -1,6 +1,9 @@
 package com.sym022.sym022.beans;
 
 import com.sym022.sym022.entities.DmEntity;
+import com.sym022.sym022.enums.Culture;
+import com.sym022.sym022.enums.Ethnicity;
+import com.sym022.sym022.enums.Sex;
 import com.sym022.sym022.services.AuditTrailService;
 import com.sym022.sym022.services.DmService;
 import com.sym022.sym022.services.EventService;
@@ -43,9 +46,9 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
      */
     public void initFormDm(){
         this.dm.setYearOfBirth(1920);
-        this.dm.setSex(null);
-        this.dm.setEthnicity(null);
-        this.dm.setCulture(null);
+        this.dm.setSex(Sex.PREFER_NOT_TO_ANSWER);
+        this.dm.setEthnicity(Ethnicity.NOT_REPORTED);
+        this.dm.setCulture(Culture.NOT_REPORTED);
     }
 
     /**

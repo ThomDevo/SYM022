@@ -120,6 +120,7 @@ public class SubjectBean extends FilterOfTable<SubjectEntity> implements Seriali
         String add = bundle.getString("add");
 
         addMessage(addSubject+" "+subject.getSubjectNum()+" "+add,"Confirmation");
+        initFormSubjects();
         return redirect;
     }
 
@@ -146,6 +147,7 @@ public class SubjectBean extends FilterOfTable<SubjectEntity> implements Seriali
             em.close();
         }
         addMessage(addSubject+" "+subject.getSubjectNum()+" "+update,"Confirmation");
+        initFormSubjects();
         return redirect;
     }
 

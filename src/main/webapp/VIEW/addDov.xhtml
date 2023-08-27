@@ -27,11 +27,12 @@
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['notDone']}"
                                               itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
                             </p:selectOneMenu>
 
                         </span>
 
-                        <h:panelGroup class="field col-12 md:col-4 p-20-0" id="reason" >
+                        <h:panelGroup  id="dov_Nd" class="field col-12 md:col-4 p-20-0" rendered="#{!dovBean.dov.visitYn}">
                             <h:panelGroup class="field col-12 md:col-4 p-20-0">
                                 <p:outputLabel for="input_visit_nd" value="#{I18N['dovPage.visitNd']}"/>
                                 <p:inputTextarea  rows="6" cols="33" id="input_visit_nd" class="label" value="#{dovBean.dov.visitNd}"
@@ -50,10 +51,10 @@
                                         value="#{I18N['messageErrorVisitNdFalse']}"/></span>
                             </div>
                         </div>
-                        <div class="field col-12 md:col-4">
-                            <p:outputLabel for="input_AdmissionDate" value="#{I18N['dovPage.visitDate']}"/>
+                        <h:panelGroup class="field col-12 md:col-4" rendered="#{dovBean.dov.visitYn}">
+                            <p:outputLabel for="input_AdmissionDate" value="#{I18N['dovPage.visitDate']}" />
                             <p:datePicker id="input_AdmissionDate" value="#{dovBean.dov.visitDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"/>
-                        </div>
+                        </h:panelGroup>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{dovBean.messageErrorVisitDate}">
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText
