@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public enum TempU {
     C ("C°"),
-    T ("T°");
+    F ("F°");
 
 
     /**

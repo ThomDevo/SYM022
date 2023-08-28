@@ -45,7 +45,7 @@
                         </div>
                         <h:panelGroup rendered="#{vsBean.vs.vsYn}">
                             <div class="field col-12 md:col-4">
-                                <p:outputLabel for="input_Vs_Date" value="#{I18N['dovPage.visitDate']}"/>
+                                <p:outputLabel for="input_Vs_Date" value="#{I18N['vsPage.vsDate']}"/>
                                 <p:datePicker id="input_Vs_Date" value="#{vsBean.vs.vsDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"/>
                             </div>
                             <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorVisitDate}">
@@ -81,6 +81,18 @@
                                 </p:inputNumber>
                             </span>
                                 <p:message id="messageHeight" for="@previous"/>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHeightCm}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorHeightCm']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHeightFeet}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorHeightFeet']}"/></span>
+                                    </div>
+                                </div>
                                 <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="inputHeight" value="#{I18N['vsPage.height.unit']}"/>
                             <p:selectOneMenu id="inputHeight"
@@ -97,6 +109,18 @@
                                                itemValue="#{Height}"/>
                             </p:selectOneMenu>
                         </span>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHeightCm}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorHeightCm']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHeightFeet}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorHeightFeet']}"/></span>
+                                    </div>
+                                </div>
                             </h:panelGroup>
 
                             <span class="field col-12 md:col-4 p-20-0">
@@ -120,6 +144,18 @@
                             </p:inputNumber>
                             </span>
                             <p:message id="messageWeight" for="@previous"/>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorWeightKg}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorWeightKg']}"/></span>
+                                </div>
+                            </div>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorWeightPounds}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorWeightPounds']}"/></span>
+                                </div>
+                            </div>
                             <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="inputWeightU" value="#{I18N['vsPage.weight.unit']}"/>
                             <p:selectOneMenu id="inputWeightU"
@@ -136,6 +172,18 @@
                                                itemValue="#{Weight}"/>
                             </p:selectOneMenu>
                             </span>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorWeightKg}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorWeightKg']}"/></span>
+                                </div>
+                            </div>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorWeightPounds}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorWeightPounds']}"/></span>
+                                </div>
+                            </div>
                         </h:panelGroup>
 
                             <span class="field col-12 md:col-4 p-20-0">
@@ -159,15 +207,39 @@
                                     </p:inputNumber>
                                 </span>
                                 <p:message id="messageSbp" for="@previous"/>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorSbpGtDbp}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorSbpGtDbp']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorSbp}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorSbp']}"/></span>
+                                    </div>
+                                </div>
                                 <span class="field col-12 md:col-4">
                                     <p:outputLabel for="input_dbp" value="#{I18N['vsPage.input_dbp']}"/>
-                                    <p:inputNumber id="input_dbp" class="label" value="#{vsBean.vs.sbp}"
+                                    <p:inputNumber id="input_dbp" class="label" value="#{vsBean.vs.dbp}"
                                            placeholder="#{I18N['vsPage.input_dbp.placeholder']}"
                                            validatorMessage="#{I18N['vsPage.input_dbp.errorMessage']}">
                                         <p:ajax update="messageDbp" event="blur"/>
                                     </p:inputNumber>
                                 </span>
                                 <p:message id="messageDbp" for="@previous"/>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorSbpGtDbp}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorSbpGtDbp']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorDbp}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorDbp']}"/></span>
+                                    </div>
+                                </div>
                             </h:panelGroup>
 
                             <span class="field col-12 md:col-4 p-20-0">
@@ -184,13 +256,19 @@
                             <h:panelGroup rendered="#{vsBean.vs.hrNd}">
                                 <span class="field col-12 md:col-4">
                                 <p:outputLabel for="input_hr" value="#{I18N['vsPage.input_hr']}"/>
-                                <p:inputNumber id="input_hr" class="label" value="#{vsBean.vs.sbp}"
+                                <p:inputNumber id="input_hr" class="label" value="#{vsBean.vs.hr}"
                                                placeholder="#{I18N['vsPage.input_hr.placeholder']}"
                                                validatorMessage="#{I18N['vsPage.input_hr.errorMessage']}">
                                     <p:ajax update="messagehr" event="blur"/>
                                 </p:inputNumber>
                             </span>
                                 <p:message id="messagehr" for="@previous"/>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHr}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorHr']}"/></span>
+                                    </div>
+                                </div>
                             </h:panelGroup>
                             <span class="field col-12 md:col-4 p-20-0">
                                 <p:outputLabel for="input_status_rr_nd" value="#{I18N['vsPage.rrNd']}"/>
@@ -206,13 +284,19 @@
                             <h:panelGroup rendered="#{vsBean.vs.rrNd}">
                                 <span class="field col-12 md:col-4">
                                 <p:outputLabel for="input_rr" value="#{I18N['vsPage.input_rr']}"/>
-                                <p:inputNumber id="input_rr" class="label" value="#{vsBean.vs.sbp}"
+                                <p:inputNumber id="input_rr" class="label" value="#{vsBean.vs.rr}"
                                                placeholder="#{I18N['vsPage.input_rr.placeholder']}"
                                                validatorMessage="#{I18N['vsPage.input_rr.errorMessage']}">
                                     <p:ajax update="messagerr" event="blur"/>
                                 </p:inputNumber>
                             </span>
                                 <p:message id="messagerr" for="@previous"/>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorRr}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorRr']}"/></span>
+                                    </div>
+                                </div>
                             </h:panelGroup>
                             <span class="field col-12 md:col-4 p-20-0">
                                 <p:outputLabel for="input_status_temp_nd" value="#{I18N['vsPage.tempNd']}"/>
@@ -235,6 +319,18 @@
                                     </p:inputNumber>
                                 </span>
                                 <p:message id="messagetemp" for="@previous"/>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorTempC}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorTempC']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorTempF}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorTempF']}"/></span>
+                                    </div>
+                                </div>
                                 <span class="field col-12 md:col-4 p-20-0">
                                 <p:outputLabel for="inputTempU" value="#{I18N['vsPage.tempU']}"/>
                                 <p:selectOneMenu id="inputTempU"
@@ -251,6 +347,18 @@
                                                    itemValue="#{Temp}"/>
                                 </p:selectOneMenu>
                             </span>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorTempC}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorTempC']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorTempF}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorTempF']}"/></span>
+                                    </div>
+                                </div>
                                 <span class="field col-12 md:col-4 p-20-0">
                                 <p:outputLabel for="inputTempRoute" value="#{I18N['vsPage.tempRoute']}"/>
                                 <p:selectOneMenu id="inputTempRoute"
@@ -289,6 +397,12 @@
                             </p:inputNumber>
                             </span>
                                 <p:message id="messageoxy" for="@previous"/>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorOxy}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorOxy']}"/></span>
+                                    </div>
+                                </div>
                             </h:panelGroup>
                         </h:panelGroup>
                     </p:outputPanel>
