@@ -17,7 +17,8 @@ import java.util.Objects;
         @NamedQuery(name = "Event.selectCountEventOccurrence", query = "SELECT ev FROM EventEntity ev WHERE (ev.subjectByIdSubject.idSubject = :idSubject AND ev.formByIdForm.idForm = :idForm)"),
         @NamedQuery(name = "Event.CheckNewPatient", query = "SELECT ev FROM EventEntity ev WHERE ev.subjectByIdSubject.idSubject = :idSubject"),
         @NamedQuery(name = "Event.CheckIcCompleted", query = "SELECT ev FROM EventEntity ev WHERE ev.subjectByIdSubject.idSubject = :idSubject AND ev.formByIdForm.formNum = 20"),
-        @NamedQuery(name = "Event.CheckMois1Started", query = "SELECT ev FROM EventEntity ev WHERE ev.subjectByIdSubject.idSubject = :idSubject AND ev.visitByIdVisit.visitNum = 20 AND ev.formByIdForm.formNum = 10")
+        @NamedQuery(name = "Event.CheckMois1Started", query = "SELECT ev FROM EventEntity ev WHERE ev.subjectByIdSubject.idSubject = :idSubject AND ev.visitByIdVisit.visitNum = 20 AND ev.formByIdForm.formNum = 10"),
+        @NamedQuery(name = "Event.CheckSubjectCompleted", query = "SELECT ev FROM EventEntity ev where ev.subjectByIdSubject.idSubject = :idSubject AND ev.formByIdForm.formNum NOT IN (80, 90)")
 })
 
 @Entity

@@ -99,6 +99,18 @@ public class EventService {
     }
 
     /**
+     * Method to find all events except Ae and Cm
+     * @param em
+     * @return List of events
+     */
+    public List<EventEntity> findEventAllExceptAeCm (int idSubject, EntityManager em)
+    {
+        return em.createNamedQuery("Event.CheckSubjectCompleted", EventEntity.class)
+                .setParameter("idSubject", idSubject)
+                .getResultList();
+    }
+
+    /**
      * Method to add a new event
      * @param event
      * @param em
