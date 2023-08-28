@@ -21,14 +21,14 @@
                     <p:outputPanel class="form-control">
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_status_visit" value="#{I18N['dovPage.status']}"/>
-                            <p:selectOneMenu id="input_status_visit"
+                            <p:selectOneButton id="input_status_visit"
                                              value="#{dovBean.dov.visitYn}">
                                 <f:selectItem itemLabel="#{I18N['done']}"
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['notDone']}"
                                               itemValue="#{false}"/>
                                 <p:ajax process="@this" update="@all"/>
-                            </p:selectOneMenu>
+                            </p:selectOneButton>
 
                         </span>
 

@@ -127,11 +127,6 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
             initErrorMessageFormDov();
             this.messageErrorVisitNdFalse = "";
             redirect = "null";
-        }else if(dov.getVisitYn() && !Objects.equals(dov.getVisitNd(), "")){
-            initErrorMessageFormDov();
-            this.messageErrorVisitNd = "";
-            redirect = "null";
-
         }else if(dov.getVisitYn() && dov.getVisitDate() == null){
             initErrorMessageFormDov();
             this.messageErrorVisitDateMissing = "";
@@ -143,6 +138,14 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
                 auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
                 auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
                 eventBean.getEvent().setCompleted(true);
+
+                if(dov.getVisitYn()){
+                    this.dov.setVisitNd("");
+                }
+
+                if(!dov.getVisitYn()){
+                    this.dov.setVisitDate(null);
+                }
 
                 transaction.begin();
                 eventService.updateEvent(eventBean.getEvent(),em);

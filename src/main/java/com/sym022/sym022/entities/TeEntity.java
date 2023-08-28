@@ -6,6 +6,10 @@ import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.Objects;
 
+@NamedQueries(value = {
+        @NamedQuery(name = "Te.selectTeById", query = "SELECT te from TeEntity te where te.idTe = :idTe"),
+})
+
 @Entity
 @Table(name = "te", schema = "sym022")
 public class TeEntity {
@@ -29,11 +33,13 @@ public class TeEntity {
 
     @Basic
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "target_lesions", nullable = false)
     private TargetLesionsOverallResponse targetLesions;
 
     @Basic
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "non_target_lesions", nullable = false)
     private NonTargetLesions nonTargetLesions;
 
@@ -44,6 +50,7 @@ public class TeEntity {
 
     @Basic
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "overall_response", nullable = false)
     private TargetLesionsOverallResponse overallResponse;
 
