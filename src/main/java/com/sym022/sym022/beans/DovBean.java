@@ -46,6 +46,26 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
     /*---Method---*/
 
     /**
+     * Method to test the date in front end
+     * @return messageErrorVisitDate hidden or not
+     */
+    public String testDate(){
+        LocalDate now = LocalDate.now();
+        String redirect = "null";
+        String isoDatePattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+            initErrorMessageFormDov();
+            String dovDate = simpleDateFormat.format(dov.getVisitDate());
+            int resultDovDate = dovDate.compareTo(String.valueOf(now));
+            if(resultDovDate > 0){
+                this.messageErrorVisitDate = "";
+            }else{
+                this.messageErrorVisitDate = "hidden";
+            }
+        return redirect;
+    }
+
+    /**
      * Method to reset the form to add or update a DOV
      */
     public void initFormDov(){
@@ -88,7 +108,7 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
         EventService eventService = new EventService();
         AuditTrailService auditTrailService = new AuditTrailService();
         LocalDate now = LocalDate.now();
-        String isoDatePattern = "yyyy-MM-dd HH:mm:ss";
+        String isoDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
         if(dov.getVisitDate() != null){
             initErrorMessageFormDov();

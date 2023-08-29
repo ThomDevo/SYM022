@@ -41,7 +41,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
     private String messageErrorVisitDate = "hidden";
     private String messageErrorVisitDateMissing = "hidden";
     private String messageErrorHeightCm = "hidden";
-    private String messageErrorHeightFeet = "hidden";
+    private String messageErrorHeightInches = "hidden";
     private String messageErrorWeightKg = "hidden";
     private String messageErrorWeightPounds = "hidden";
     private String messageErrorSbpGtDbp = "hidden";
@@ -60,6 +60,207 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
     private EventBean eventBean;
 
     /*--- Method ---*/
+
+    /**
+     * Method to test the date in front end
+     * @return messageErrorVisitDate hidden or not
+     */
+    public String testDate(){
+        LocalDate now = LocalDate.now();
+        String redirect = "null";
+        String isoDatePattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+        String vsDate = simpleDateFormat.format(vs.getVsDate());
+        int resultVsDate = vsDate.compareTo(String.valueOf(now));
+        if(resultVsDate > 0){
+            this.messageErrorVisitDate = "";
+        }else{
+            this.messageErrorVisitDate = "hidden";
+        }
+
+
+        return redirect;
+    }
+
+    /**
+     * Method to test the Heights and Cm in front end
+     * @return messageErrorHeightCm hidden or not
+     */
+    public String testRangeHeightCm(){
+        String redirect = "null";
+        if(vs.getHeight() < 40.0 && vs.getHeightU() == HeightU.CM || vs.getHeight() > 280.0 && vs.getHeightU() == HeightU.CM){
+            this.messageErrorHeightCm = "";
+            redirect = "null";
+        }else{
+            this.messageErrorHeightCm = "hidden";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the Heights and Inches in front end
+     * @return messageErrorHeightInches hidden or not
+     */
+    public String testRangeHeightInches(){
+        String redirect = "null";
+        if(vs.getHeight() < 15.7 && vs.getHeightU() == HeightU.INCHES || vs.getHeight() > 110.2 && vs.getHeightU() == HeightU.INCHES){
+            this.messageErrorHeightInches = "";
+            redirect = "null";
+        }else{
+            this.messageErrorHeightInches = "hidden";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the Weight and KG in front end
+     * @return messageErrorWeightKg hidden or not
+     */
+    public String testRangeWeightKg(){
+        String redirect = "null";
+        if(vs.getWeight() < 20.0 && vs.getWeightU() == WeightU.KG || vs.getWeight() > 650.0 && vs.getWeightU() == WeightU.KG){
+            this.messageErrorWeightKg = "";
+            redirect = "null";
+        }else{
+            this.messageErrorWeightKg = "hidden";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the Weight and Pounds in front end
+     * @return messageErrorWeightPounds hidden or not
+     */
+    public String testRangeWeightPounds(){
+        String redirect = "null";
+        if(vs.getWeight() < 44.0 && vs.getWeightU() == WeightU.POUNDS || vs.getWeight() > 1435.0 && vs.getWeightU() == WeightU.POUNDS){
+            this.messageErrorWeightPounds = "";
+            redirect = "null";
+        }else{
+            this.messageErrorWeightPounds = "hidden";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the DBP and SBP in front end
+     * @return messageErrorSbpGtDbp hidden or not
+     */
+    public String testDbpGtnSbp(){
+        String redirect = "null";
+        if(vs.getSbp()<vs.getDbp()){
+            this.messageErrorSbpGtDbp = "";
+            redirect = "null";
+        }else{
+            this.messageErrorSbpGtDbp = "hidden";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the DBP > 10 in front end
+     * @return messageErrorDbp hidden or not
+     */
+    public String testDbp(){
+        String redirect = "null";
+        if(vs.getDbp()<10){
+            this.messageErrorDbp = "";
+            redirect = "null";
+        }else{
+            this.messageErrorDbp = "hidden";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the DBP < 250 in front end
+     * @return messageErrorSbp hidden or not
+     */
+    public String testSbp(){
+        String redirect = "null";
+        if(vs.getSbp()>250){
+            this.messageErrorSbp = "";
+            redirect = "null";
+        }else{
+            this.messageErrorSbp = "hidden";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the HR < 10 or HR > 240 in front end
+     * @return messageErrorHr hidden or not
+     */
+    public String testHr(){
+        String redirect = "null";
+        if(vs.getHr()<10 || vs.getHr()>240){
+            this.messageErrorHr = "";
+            redirect = "null";
+        }else{
+            this.messageErrorHr = "hidden";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the RR < 5 in front end
+     * @return messageErrorRr hidden or not
+     */
+    public String testRr(){
+        String redirect = "null";
+        if(vs.getRr()<5){
+            this.messageErrorRr = "";
+            redirect = "null";
+        }else{
+            this.messageErrorRr = "hidden";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the Temperature and °C in front end
+     * @return messageErrorTempC hidden or not
+     */
+    public String testRangeTempC(){
+        String redirect = "null";
+        if(vs.getTemp() < 30 && vs.getTempU() == TempU.C || vs.getTemp() > 45 && vs.getTempU() == TempU.C){
+            this.messageErrorTempC = "";
+            redirect = "null";
+        }else{
+            this.messageErrorTempC = "hidden";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the Temperature and °F in front end
+     * @return messageErrorTempF hidden or not
+     */
+    public String testRangeTempF(){
+        String redirect = "null";
+        if(vs.getTemp() < 86 && vs.getTempU() == TempU.F || vs.getTemp() > 113 && vs.getTempU() == TempU.F){
+            this.messageErrorTempF = "";
+            redirect = "null";
+        }else{
+            this.messageErrorTempF = "hidden";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the Oxy < 50 in front end
+     * @return messageErrorOxy hidden or not
+     */
+    public String testOxy(){
+        String redirect = "null";
+        if(vs.getOxysat()<50){
+            this.messageErrorOxy = "";
+            redirect = "null";
+        }else{
+            this.messageErrorOxy = "hidden";
+        }
+        return redirect;
+    }
 
     /**
      * Method to have I18n messages in Back-end
@@ -106,7 +307,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         this.messageErrorVisitNdFalse = "hidden";
         this.messageErrorVisitDateMissing = "hidden";
         this.messageErrorHeightCm = "hidden";
-        this.messageErrorHeightFeet = "hidden";
+        this.messageErrorHeightInches = "hidden";
         this.messageErrorWeightKg = "hidden";
         this.messageErrorWeightPounds = "hidden";
         this.messageErrorSbpGtDbp = "hidden";
@@ -131,7 +332,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         EventService eventService = new EventService();
         AuditTrailService auditTrailService = new AuditTrailService();
         LocalDate now = LocalDate.now();
-        String isoDatePattern = "yyyy-MM-dd HH:mm:ss";
+        String isoDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
         if(vs.getVsYn() && vs.getVsDate() != null){
             String vsDate = simpleDateFormat.format(vs.getVsDate());
@@ -150,7 +351,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
                 redirect = "null";
             }else if(vs.getHeightNd() && vs.getHeight() < 15.7 && vs.getHeightU() == HeightU.INCHES || vs.getHeightNd() && vs.getHeight() > 110.2 && vs.getHeightU() == HeightU.INCHES){
                 initErrorMessageFormVS();
-                this.messageErrorHeightFeet = "";
+                this.messageErrorHeightInches = "";
                 redirect = "null";
             }else if(vs.getWeightNd() && vs.getWeight() < 20.0 && vs.getWeightU() == WeightU.KG || vs.getWeightNd() && vs.getWeight() > 650.0 && vs.getWeightU() == WeightU.KG){
                 initErrorMessageFormVS();
@@ -404,12 +605,12 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         this.messageErrorHeightCm = messageErrorHeightCm;
     }
 
-    public String getMessageErrorHeightFeet() {
-        return messageErrorHeightFeet;
+    public String getMessageErrorHeightInches() {
+        return messageErrorHeightInches;
     }
 
-    public void setMessageErrorHeightFeet(String messageErrorHeightFeet) {
-        this.messageErrorHeightFeet = messageErrorHeightFeet;
+    public void setMessageErrorHeightInches(String messageErrorHeightInches) {
+        this.messageErrorHeightInches = messageErrorHeightInches;
     }
 
     public String getMessageErrorWeightKg() {

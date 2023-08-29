@@ -48,6 +48,27 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
     /*---Method---*/
 
     /**
+     * Method to test the date in front end
+     * @return messageErrorIcDate hidden or not
+     */
+    public String testDate(){
+        LocalDate now = LocalDate.now();
+        String redirect = "null";
+        String isoDatePattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+        String icDate = simpleDateFormat.format(ic.getIcDate());
+        int resultIsDate = icDate.compareTo(String.valueOf(now));
+        if(resultIsDate > 0){
+            this.messageErrorIcDate = "";
+        }else{
+            this.messageErrorIcDate = "hidden";
+        }
+
+
+        return redirect;
+    }
+
+    /**
      * Method to reset the form to add or update an IC
      */
     public void initFormIc(){
@@ -91,23 +112,19 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
         EventService eventService = new EventService();
         AuditTrailService auditTrailService = new AuditTrailService();
         LocalDate now = LocalDate.now();
-        String isoDatePattern = "yyyy-MM-dd HH:mm:ss";
+        String isoDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
         String icDate = simpleDateFormat.format(ic.getIcDate());
         int resultIcDate = icDate.compareTo(String.valueOf(now));
         //ProcessUtils.debug(""+ resultIcDate);
 
-        if(resultIcDate >= 0){
+        if(resultIcDate > 0){
             initErrorMessageFormIc();
             this.messageErrorIcDate = "";
             redirect = "null";
-        }else if(Objects.equals(ic.getProtVers(), "") || ic.getProtVers() == null){
+        }else if(Objects.equals(ic.getProtVers(), "")){
             initErrorMessageFormIc();
             this.messageErrorVsProt = "";
-            redirect = "null";
-        }else if(Objects.equals(ic.getIeNotMet().getIeNotMet(), "Not Applicable") && !ic.getEligYn()){
-            initErrorMessageFormIc();
-            this.messageErrorIeNotMeetNa = "";
             redirect = "null";
         }else{
             try{
@@ -116,6 +133,10 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
                 auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
                 auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
                 eventBean.getEvent().setCompleted(true);
+
+                if(ic.getEligYn()){
+                    ic.setIeNotMet(IeNotMet.NA);
+                }
 
                 transaction.begin();
                 eventService.updateEvent(eventBean.getEvent(),em);
