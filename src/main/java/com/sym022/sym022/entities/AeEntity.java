@@ -6,6 +6,10 @@ import java.util.Date;
 import java.util.Objects;
 import javax.validation.constraints.NotNull;
 
+@NamedQueries(value = {
+        @NamedQuery(name = "Ae.selectAeById", query = "SELECT ae from AeEntity ae where ae.idAe = :idAe"),
+})
+
 @Entity
 @Table(name = "ae", schema = "sym022")
 public class AeEntity {

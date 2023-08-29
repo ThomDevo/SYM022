@@ -42,6 +42,7 @@ public class CmEntity {
 
     @Basic
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "cmindic", nullable = false)
     private Cmindic cmindic;
 
@@ -55,6 +56,7 @@ public class CmEntity {
 
     @Basic
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "cmdosu", nullable = false)
     private Cmdosu cmdosu;
 
@@ -64,6 +66,7 @@ public class CmEntity {
 
     @Basic
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "cmroute", nullable = false)
     private Cmroute cmroute;
 
@@ -73,6 +76,7 @@ public class CmEntity {
 
     @Basic
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "cmfreq", nullable = false)
     private Cmfreq cmfreq;
 

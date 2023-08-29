@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{I18N['aePage.addAeTitle']}"/>
+    </ui:define>
+    <ui:define name="content">
+        <div class="content">
+            <div class="block p-20 form-container">
+                <h2>
+                    <h:outputText value="#{I18N['aePage.addAeTitle']}" />
+                </h2>
+                <h:form>
+                    <p:outputPanel class="form-control">
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aeterm" value="#{I18N['aePage.aeterm']}"/>
+                            <p:inputText id="input_aeterm" class="label" value="#{aeBean.ae.aeterm}"
+                                         placeholder="#{I18N['aePage.aeterm.placeHolder']}"
+                                         validatorMessage="#{I18N['aePage.aeterm.errorMessage']}">
+                                <p:ajax update="messageInputAeterm" event="blur"/>
+                            </p:inputText>
+                        </span>
+                        <p:message id="messageInputAeterm" for="@previous"/>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aetermc" value="#{I18N['aePage.aetermc']}"/>
+                            <p:inputText id="input_aetermc" class="label" value="#{aeBean.ae.aetermc}"
+                                         placeholder="#{I18N['aePage.aetermc.placeHolder']}"
+                                         validatorMessage="#{I18N['aePage.aetermc.errorMessage']}">
+                                <p:ajax update="messageInputAetermc" event="blur"/>
+                            </p:inputText>
+                        </span>
+                        <p:message id="messageInputAetermc" for="@previous"/>
+
+                        <div class="field col-12 md:col-4">
+                            <p:outputLabel for="input_aestdat" value="#{I18N['aePage.aestdat']}"/>
+                            <p:datePicker id="input_aestdat" value="#{aeBean.ae.aestdat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"/>
+                        </div>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aeout" value="#{I18N['aePage.aeout']}"/>
+                            <p:selectOneMenu id="input_aeout"
+                                             value="#{aeBean.ae.aeout}"
+                                             converter="AeoutConverter"
+                                             required="true">
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.Aeout"
+                                              var="enumAeout"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumAeout.getAll}"
+                                               var="Aeout"
+                                               itemLabel="#{Aeout.getAeout()}"
+                                               itemValue="#{Aeout}"/>
+                            </p:selectOneMenu>
+                        </span>
+
+                        <div class="field col-12 md:col-4">
+                            <p:outputLabel for="input_aeendat" value="#{I18N['aePage.aeendat']}"/>
+                            <p:datePicker id="input_aeendat" value="#{aeBean.ae.aeendat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"/>
+                        </div>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aetoxgd" value="#{I18N['aePage.aetoxgd']}"/>
+                            <p:selectOneMenu id="input_aetoxgd"
+                                             value="#{aeBean.ae.aetoxgd}"
+                                             converter="AetoxgdConverter"
+                                             required="true">
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.Aetoxgd"
+                                              var="enumAetoxgd"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumAetoxgd.getAll}"
+                                               var="Aetoxgd"
+                                               itemLabel="#{Aetoxgd.getAetoxgd()}"
+                                               itemValue="#{Aetoxgd}"/>
+                            </p:selectOneMenu>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aesev" value="#{I18N['aePage.aesev']}"/>
+                            <p:selectOneMenu id="input_aesev"
+                                             value="#{aeBean.ae.aesev}"
+                                             converter="AesevConverter"
+                                             required="true">
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.Aesev"
+                                              var="enumAesev"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumAesev.getAll}"
+                                               var="Aesev"
+                                               itemLabel="#{Aesev.getAesev()}"
+                                               itemValue="#{Aesev}"/>
+                            </p:selectOneMenu>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aerel" value="#{I18N['aePage.aerel']}"/>
+                            <p:selectOneMenu id="input_aerel"
+                                             value="#{aeBean.ae.aerel}"
+                                             converter="AerelConverter"
+                                             required="true">
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.Aerel"
+                                              var="enumAerel"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumAesev.getAll}"
+                                               var="Aerel"
+                                               itemLabel="#{Aerel.getAerel()}"
+                                               itemValue="#{Aerel}"/>
+                            </p:selectOneMenu>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aeacn" value="#{I18N['aePage.aeacn']}"/>
+                            <p:selectOneMenu id="input_aeacn"
+                                             value="#{aeBean.ae.aeacn}"
+                                             converter="AeacnConverter"
+                                             required="true">
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.Aeacn"
+                                              var="enumAeacn"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumAeacn.getAll}"
+                                               var="Aeacn"
+                                               itemLabel="#{Aeacn.getAeacn()}"
+                                               itemValue="#{Aeacn}"/>
+                            </p:selectOneMenu>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aecm" value="#{I18N['aePage.aecm']}"/>
+                            <p:selectOneButton   id="input_aecm"
+                                                 value="#{aeBean.ae.aecm}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aeproc" value="#{I18N['aePage.aeproc']}"/>
+                            <p:selectOneButton   id="input_aeproc"
+                                                 value="#{aeBean.ae.aeproc}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aeother" value="#{I18N['aePage.aeother']}"/>
+                            <p:selectOneButton   id="input_aeother"
+                                                 value="#{aeBean.ae.aeother}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aeothersp" value="#{I18N['aePage.aeothersp']}"/>
+                            <p:inputText id="input_aeothersp" class="label" value="#{aeBean.ae.aeothersp}"
+                                         placeholder="#{I18N['aePage.aeothersp.placeHolder']}"
+                                         validatorMessage="#{I18N['aePage.aeothersp.errorMessage']}">
+                                <p:ajax update="messageInputAeothersp" event="blur"/>
+                            </p:inputText>
+                        </span>
+                        <p:message id="messageInputAeothersp" for="@previous"/>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aeser" value="#{I18N['aePage.aeser']}"/>
+                            <p:selectOneButton   id="input_aeser"
+                                                 value="#{aeBean.ae.aeser}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aedeath" value="#{I18N['aePage.aedeath']}"/>
+                            <p:selectOneButton   id="input_aedeath"
+                                                 value="#{aeBean.ae.aedeath}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aelife" value="#{I18N['aePage.aelife']}"/>
+                            <p:selectOneButton   id="input_aelife"
+                                                 value="#{aeBean.ae.aelife}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aehosp" value="#{I18N['aePage.aehosp']}"/>
+                            <p:selectOneButton   id="input_aehosp"
+                                                 value="#{aeBean.ae.aehosp}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aedisab" value="#{I18N['aePage.aedisab']}"/>
+                            <p:selectOneButton   id="input_aedisab"
+                                                 value="#{aeBean.ae.aedisab}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aecong" value="#{I18N['aePage.aecong']}"/>
+                            <p:selectOneButton   id="input_aecong"
+                                                 value="#{aeBean.ae.aecong}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aemedim" value="#{I18N['aePage.aemedim']}"/>
+                            <p:selectOneButton   id="input_aemedim"
+                                                 value="#{aeBean.ae.aemedim}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aemedimsp" value="#{I18N['aePage.aemedimsp']}"/>
+                            <p:inputText id="input_aemedimsp" class="label" value="#{aeBean.ae.aemedimsp}"
+                                         placeholder="#{I18N['aePage.aemedimsp.placeHolder']}"
+                                         validatorMessage="#{I18N['aePage.aemedimsp.errorMessage']}">
+                                <p:ajax update="messageInputmedimsp" event="blur"/>
+                            </p:inputText>
+                        </span>
+                        <p:message id="messageInputmedimsp" for="@previous"/>
+
+                    </p:outputPanel>
+                    <span class="responsiveSubmit">
+                        <p:commandButton value="#{I18N['aePage.addAeTitle']}"
+                                         ajax="false"
+                                         validateClient="true"
+                                         class="ui-button-success"
+                                         action="#{aeBean.submitFormAddAe}"/>
+
+                        <p:commandButton value="#{I18N['connectionpage.return.button']}"
+                                         ajax="false"
+                                         validateClient="true"
+                                         class="ui-button-secondary"
+                                         action="#{eventBean.deleteEvent()}"/>
+                    </span>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>
