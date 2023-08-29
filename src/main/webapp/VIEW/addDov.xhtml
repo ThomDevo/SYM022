@@ -53,8 +53,13 @@
                         </div>
                         <h:panelGroup class="field col-12 md:col-4" rendered="#{dovBean.dov.visitYn}">
                             <p:outputLabel for="input_AdmissionDate" value="#{I18N['dovPage.visitDate']}" />
-                            <p:datePicker id="input_AdmissionDate" value="#{dovBean.dov.visitDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"/>
+                            <p:datePicker id="input_AdmissionDate"  value="#{dovBean.dov.visitDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"
+                                          validatorMessage="#{I18N['vsPage.height.errorMessage']}">
+                                <p:ajax event="change" process="@this" update="@all" listener="#{dovBean.testDate()}"/>
+                            </p:datePicker>
                         </h:panelGroup>
+
+                        <p:message id="messageErrorVisitDate" for="@previous"/>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{dovBean.messageErrorVisitDate}">
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText

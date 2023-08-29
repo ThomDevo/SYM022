@@ -27,7 +27,7 @@
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['notDone']}"
                                               itemValue="#{false}"/>
-                                <p:ajax process="@this" update="@all"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.initErrorMessageFormVS()}"/>
                             </p:selectOneButton>
                         </span>
                         <h:panelGroup class="field col-12 md:col-4 p-20-0" rendered="#{!vsBean.vs.vsYn}">
@@ -46,8 +46,11 @@
                         <h:panelGroup rendered="#{vsBean.vs.vsYn}">
                             <div class="field col-12 md:col-4">
                                 <p:outputLabel for="input_Vs_Date" value="#{I18N['vsPage.vsDate']}"/>
-                                <p:datePicker id="input_Vs_Date" value="#{vsBean.vs.vsDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"/>
+                                <p:datePicker id="input_Vs_Date" value="#{vsBean.vs.vsDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDate()}"/>
+                                </p:datePicker>
                             </div>
+
                             <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorVisitDate}">
                                 <div><span class="ui-message-error-icon"> </span>
                                     <span class="ui-message-error-detail"><h:outputText
@@ -76,8 +79,10 @@
                                 <p:outputLabel for="input_height" value="#{I18N['vsPage.height']}"/>
                                 <p:inputNumber id="input_height" class="label" value="#{vsBean.vs.height}"
                                                placeholder="#{I18N['vsPage.height.placeholder']}"
-                                               validatorMessage="#{I18N['vsPage.height.errorMessage']}">
+                                               validatorMessage="#{I18N['vsPage.height.errorMessage']}" decimalPlaces="1">
                                     <p:ajax update="messageHeight" event="blur"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeHeightCm()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeHeightInches()}"/>
                                 </p:inputNumber>
                             </span>
                                 <p:message id="messageHeight" for="@previous"/>
@@ -87,10 +92,10 @@
                                                 value="#{I18N['messageErrorHeightCm']}"/></span>
                                     </div>
                                 </div>
-                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHeightFeet}">
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHeightInches}">
                                     <div><span class="ui-message-error-icon"> </span>
                                         <span class="ui-message-error-detail"><h:outputText
-                                                value="#{I18N['messageErrorHeightFeet']}"/></span>
+                                                value="#{I18N['messageErrorHeightInches']}"/></span>
                                     </div>
                                 </div>
                                 <span class="field col-12 md:col-4 p-20-0">
@@ -107,6 +112,8 @@
                                                var="Height"
                                                itemLabel="#{Height.getHeightU()}"
                                                itemValue="#{Height}"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testRangeHeightCm()}"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testRangeHeightInches()}"/>
                             </p:selectOneMenu>
                         </span>
                                 <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHeightCm}">
@@ -115,10 +122,10 @@
                                                 value="#{I18N['messageErrorHeightCm']}"/></span>
                                     </div>
                                 </div>
-                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHeightFeet}">
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHeightInches}">
                                     <div><span class="ui-message-error-icon"> </span>
                                         <span class="ui-message-error-detail"><h:outputText
-                                                value="#{I18N['messageErrorHeightFeet']}"/></span>
+                                                value="#{I18N['messageErrorHeightInches']}"/></span>
                                     </div>
                                 </div>
                             </h:panelGroup>
@@ -139,8 +146,10 @@
                             <p:outputLabel for="input_weight" value="#{I18N['vsPage.weight']}"/>
                             <p:inputNumber id="input_weight" class="label" value="#{vsBean.vs.weight}"
                                            placeholder="#{I18N['vsPage.weight.placeholder']}"
-                                           validatorMessage="#{I18N['vsPage.weight.errorMessage']}">
+                                           validatorMessage="#{I18N['vsPage.weight.errorMessage']}" decimalPlaces="1">
                                 <p:ajax update="messageWeight" event="blur"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeWeightKg()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeWeightPounds()}"/>
                             </p:inputNumber>
                             </span>
                             <p:message id="messageWeight" for="@previous"/>
@@ -170,6 +179,8 @@
                                                var="Weight"
                                                itemLabel="#{Weight.getWeightU()}"
                                                itemValue="#{Weight}"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testRangeWeightKg()}"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testRangeWeightPounds()}"/>
                             </p:selectOneMenu>
                             </span>
                             <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorWeightKg}">
@@ -204,6 +215,8 @@
                                            placeholder="#{I18N['vsPage.input_sbp.placeholder']}"
                                            validatorMessage="#{I18N['vsPage.input_sbp.errorMessage']}">
                                         <p:ajax update="messageSbp" event="blur"/>
+                                        <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDbpGtnSbp()}"/>
+                                        <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDbp()}"/>
                                     </p:inputNumber>
                                 </span>
                                 <p:message id="messageSbp" for="@previous"/>
@@ -225,6 +238,8 @@
                                            placeholder="#{I18N['vsPage.input_dbp.placeholder']}"
                                            validatorMessage="#{I18N['vsPage.input_dbp.errorMessage']}">
                                         <p:ajax update="messageDbp" event="blur"/>
+                                        <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDbpGtnSbp()}"/>
+                                        <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDbp()}"/>
                                     </p:inputNumber>
                                 </span>
                                 <p:message id="messageDbp" for="@previous"/>
@@ -260,6 +275,7 @@
                                                placeholder="#{I18N['vsPage.input_hr.placeholder']}"
                                                validatorMessage="#{I18N['vsPage.input_hr.errorMessage']}">
                                     <p:ajax update="messagehr" event="blur"/>
+                                    <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testHr()}"/>
                                 </p:inputNumber>
                             </span>
                                 <p:message id="messagehr" for="@previous"/>
@@ -288,6 +304,7 @@
                                                placeholder="#{I18N['vsPage.input_rr.placeholder']}"
                                                validatorMessage="#{I18N['vsPage.input_rr.errorMessage']}">
                                     <p:ajax update="messagerr" event="blur"/>
+                                    <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testRr()}"/>
                                 </p:inputNumber>
                             </span>
                                 <p:message id="messagerr" for="@previous"/>
@@ -316,6 +333,8 @@
                                                placeholder="#{I18N['vsPage.input_temp.placeholder']}"
                                                validatorMessage="#{I18N['vsPage.input_temp.errorMessage']}">
                                     <p:ajax update="messagetemp" event="blur"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeTempC()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeTempF()}"/>
                                     </p:inputNumber>
                                 </span>
                                 <p:message id="messagetemp" for="@previous"/>
@@ -345,6 +364,8 @@
                                                    var="Temp"
                                                    itemLabel="#{Temp.getTempU()}"
                                                    itemValue="#{Temp}"/>
+                                    <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testRangeTempC()}"/>
+                                    <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testRangeTempF()}"/>
                                 </p:selectOneMenu>
                             </span>
                                 <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorTempC}">
@@ -394,6 +415,7 @@
                                            placeholder="#{I18N['vsPage.input_oxy.placeholder']}"
                                            validatorMessage="#{I18N['vsPage.input_oxy.errorMessage']}">
                                 <p:ajax update="messageoxy" event="blur"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testOxy()}"/>
                             </p:inputNumber>
                             </span>
                                 <p:message id="messageoxy" for="@previous"/>
