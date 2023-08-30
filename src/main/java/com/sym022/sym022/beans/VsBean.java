@@ -77,8 +77,6 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         }else{
             this.messageErrorVisitDate = "hidden";
         }
-
-
         return redirect;
     }
 
@@ -299,8 +297,12 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         this.vs.setTempRoute(TempRoute.UNKNOWN);
         this.vs.setOxysatNd(false);
         this.vs.setOxysat(0);
+        initErrorMessageFormVS();
     }
 
+    /**
+     * Method to reset all error messages
+     */
     public void initErrorMessageFormVS(){
         this.messageErrorVisitDate = "hidden";
         this.messageErrorVisitNd = "hidden";
@@ -465,10 +467,10 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
                     this.vs.setVsDate(null);
                     this.vs.setHeightNd(false);
                     this.vs.setHeight(0.0);
-                    this.vs.setHeightU(HeightU.CM);
+                    this.vs.setHeightU(null);
                     this.vs.setWeightNd(false);
                     this.vs.setWeight(0.0);
-                    this.vs.setWeightU(WeightU.KG);
+                    this.vs.setWeightU(null);
                     this.vs.setBpNd(false);
                     this.vs.setSbp(0);
                     this.vs.setDbp(0);

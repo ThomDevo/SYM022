@@ -2,13 +2,19 @@ package com.sym022.sym022.beans;
 
 import com.sym022.sym022.entities.AeEntity;
 import com.sym022.sym022.services.AeService;
+import com.sym022.sym022.services.AuditTrailService;
+import com.sym022.sym022.services.EventService;
+import com.sym022.sym022.utilities.EMF;
 import com.sym022.sym022.utilities.FilterOfTable;
 
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Named
 @ManagedBean
@@ -25,6 +31,20 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
     private AuditTrailBean auditTrailBean;
     @Inject
     private EventBean eventBean;
+
+    /*---Method---*/
+
+    public String submitFormAddAe(){
+        EntityManager em = EMF.getEM();
+        String redirect = "/VIEW/home";
+        EntityTransaction transaction = em.getTransaction();
+        AeService aeService = new AeService();
+        EventService eventService = new EventService();
+        AuditTrailService auditTrailService = new AuditTrailService();
+        LocalDate now = LocalDate.now();
+        String isoDatePattern = "yyyy-MM-dd";
+        return redirect;
+    }
 
     /*--- Getters and Setters ---*/
 

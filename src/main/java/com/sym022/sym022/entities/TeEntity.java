@@ -3,7 +3,7 @@ package com.sym022.sym022.entities;
 import com.sym022.sym022.enums.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 @NamedQueries(value = {
@@ -32,13 +32,11 @@ public class TeEntity {
     private Date teDate;
 
     @Basic
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "target_lesions", nullable = false)
     private TargetLesionsOverallResponse targetLesions;
 
     @Basic
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "non_target_lesions", nullable = false)
     private NonTargetLesions nonTargetLesions;
@@ -49,7 +47,6 @@ public class TeEntity {
     private boolean newLesions;
 
     @Basic
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "overall_response", nullable = false)
     private TargetLesionsOverallResponse overallResponse;
@@ -58,6 +55,8 @@ public class TeEntity {
     @NotNull
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
+
+    /*---Getters and Setters---*/
 
     public int getIdTe() {
         return idTe;
