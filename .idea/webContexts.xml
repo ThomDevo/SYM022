@@ -4,6 +4,7 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/VIEW/addIc.xhtml" value="file://$PROJECT_DIR$/src/main/webapp/VIEW" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/VIEW/addSubject.xhtml" value="file://$PROJECT_DIR$/src/main/webapp/VIEW" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/VIEW/addVs.xhtml" value="file://$PROJECT_DIR$/src/main/webapp/VIEW" />
       </map>
     </option>

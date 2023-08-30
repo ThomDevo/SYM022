@@ -6,7 +6,6 @@ import com.sym022.sym022.services.AuditTrailService;
 import com.sym022.sym022.services.EventService;
 import com.sym022.sym022.utilities.EMF;
 import com.sym022.sym022.utilities.FilterOfTable;
-
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;

@@ -9,6 +9,10 @@ import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.Objects;
 
+@NamedQueries(value = {
+        @NamedQuery(name = "Cm.selectCmById", query = "SELECT cm from CmEntity cm where cm.idCm = :idCm"),
+})
+
 @Entity
 @Table(name = "cm", schema = "sym022")
 public class CmEntity {
