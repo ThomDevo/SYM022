@@ -12,9 +12,10 @@ public class EventService {
      * @param em
      * @return List of events
      */
-    public List<EventEntity> findEventAll (EntityManager em)
+    public List<EventEntity> findEventAll (String researchWord,EntityManager em)
     {
         return em.createNamedQuery("Event.selectEventAll", EventEntity.class)
+                .setParameter("researchWord", researchWord.toLowerCase())
                 .getResultList();
     }
 

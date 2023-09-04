@@ -11,7 +11,7 @@ import java.util.Objects;
 
 
 @NamedQueries(value = {
-        @NamedQuery(name = "Event.selectEventAll", query = "SELECT ev FROM EventEntity ev ORDER BY ev.idEvent ASC"),
+        @NamedQuery(name = "Event.selectEventAll", query = "SELECT ev FROM EventEntity ev WHERE ((lower(ev.subjectByIdSubject.subjectNum) LIKE CONCAT('%', :researchWord, '%')) OR (lower(ev.formByIdForm.formLabel) LIKE CONCAT('%', :researchWord, '%'))) ORDER BY ev.subjectByIdSubject.subjectNum ASC"),
         @NamedQuery(name = "Event.selectEventById", query = "SELECT ev FROM EventEntity ev WHERE ev.idEvent = :idEvent"),
         @NamedQuery(name = "Event.selectEventWithQuery", query = "SELECT ev FROM EventEntity ev WHERE ev.queried = true "),
         @NamedQuery(name = "Event.selectCountEventOccurrence", query = "SELECT ev FROM EventEntity ev WHERE (ev.subjectByIdSubject.idSubject = :idSubject AND ev.formByIdForm.idForm = :idForm)"),
@@ -275,4 +275,5 @@ public class EventEntity {
     public int hashCode() {
         return Objects.hash(idEvent);
     }
+
 }

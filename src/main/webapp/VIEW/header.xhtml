@@ -29,9 +29,7 @@
             </p:menuButton>
         </h:form>
 
-        <p:linkButton outcome="/VIEW/home.xhtml" value="#{I18N['logo.title']}" style="margin-right:20px;">
-        </p:linkButton>
-
+        <p:linkButton outcome="/VIEW/home.xhtml" value="#{I18N['logo.title']}" style="margin-right:20px;"/>
     </div>
 
 
@@ -68,7 +66,7 @@
                     </p:submenu>
                     <p:submenu label="#{I18N['menu.data.event']}" icon="pi pi-fw pi-book">
                         <p:menuitem value="#{I18N['menu.data.event.add']}" icon="pi pi-fw pi-plus" action="/VIEW/addEvent.xhtml" rendered="#{connectionBean.verifyPermissionUser('Add an event')}"/>
-                        <p:menuitem value="#{I18N['menu.data.event.consult']}" icon="pi pi-fw  pi-pencil" action="/VIEW/listOfSubjects.xhtml" rendered="#{connectionBean.verifyPermissionUser('List of events')}"/>
+                        <p:menuitem value="#{I18N['menu.data.event.consult']}" icon="pi pi-fw  pi-pencil" action="/VIEW/listOfAllEvents.xhtml"/>
                         <p:divider/>
                     </p:submenu>
                 </p:submenu>

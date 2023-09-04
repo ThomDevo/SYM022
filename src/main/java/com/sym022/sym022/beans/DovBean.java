@@ -46,6 +46,16 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
     /*---Method---*/
 
     /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelForm(){
+        String redirect = "/VIEW/home";
+        initFormDov();
+        return redirect;
+    }
+
+    /**
      * Method to test the date in front end
      * @return messageErrorVisitDate hidden or not
      */
@@ -62,6 +72,23 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
             }else{
                 this.messageErrorVisitDate = "hidden";
             }
+        return redirect;
+    }
+
+    /**
+     * Method to find a Dov based on the IdEvent
+     * @param idEvent
+     */
+    public String findEvent(int idEvent){
+        String redirect = "/VIEW/updateDov";
+        EntityManager em = EMF.getEM();
+        try{
+            dov = dovService.findDovByIdEvent(idEvent,em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
         return redirect;
     }
 
@@ -191,6 +218,102 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
             String addSubject = bundle.getString("subject");
 
             addMessage(addDov+" "+add+" "+forThe+" "+addSubject+" "+dov.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+            initFormDov();
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to update a Dov and a AuditTrail in the DB
+     * @return a DOV and an auditTrail
+     */
+    public String submitFormUpdateDov(){
+        EntityManager em = EMF.getEM();
+        String redirect = "/VIEW/home";
+        EntityTransaction transaction = em.getTransaction();
+        DovService dovService = new DovService();
+        EventService eventService = new EventService();
+        AuditTrailService auditTrailService = new AuditTrailService();
+        LocalDate now = LocalDate.now();
+        String isoDatePattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+        if(dov.getVisitDate() != null){
+            initErrorMessageFormDov();
+            String dovDate = simpleDateFormat.format(dov.getVisitDate());
+            int resultDovDate = dovDate.compareTo(String.valueOf(now));
+            if(resultDovDate > 0){
+                this.messageErrorVisitDate = "";
+                redirect = "null";
+            }
+            else {
+                redirect = getStringUpdate(em, redirect, transaction, dovService, eventService, auditTrailService);
+                return redirect;
+            }
+
+            return redirect;
+        }else{
+            if(!dov.getVisitYn() && Objects.equals(dov.getVisitNd(), "")){
+                initErrorMessageFormDov();
+                this.messageErrorVisitNdFalse = "";
+                redirect = "null";
+            }else redirect = getStringUpdate(em, redirect, transaction, dovService, eventService, auditTrailService);
+            return redirect;
+        }
+
+
+
+    }
+
+    /**
+     * Method to update a Dov and a AuditTrail in the DB
+     * @return a DOV and an auditTrail
+     */
+    private String getStringUpdate(EntityManager em, String redirect, EntityTransaction transaction, DovService dovService, EventService eventService, AuditTrailService auditTrailService) {
+        if(dov.getVisitYn() && dov.getVisitDate() == null){
+            initErrorMessageFormDov();
+            this.messageErrorVisitDateMissing = "";
+            redirect = "null";
+        }else{
+            try{
+                dov.setEventByIdEvent(eventBean.getEvent());
+                auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                eventBean.getEvent().setCompleted(true);
+                eventBean.getEvent().setMonitored(false);
+
+                if(dov.getVisitYn()){
+                    this.dov.setVisitNd("");
+                }
+
+                if(!dov.getVisitYn()){
+                    this.dov.setVisitDate(null);
+                }
+
+                transaction.begin();
+                eventService.updateEvent(eventBean.getEvent(),em);
+                auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                dovService.updateDov(dov,em);
+                transaction.commit();
+
+            }catch(Exception e){
+                ProcessUtils.debug(" I'm in the catch of the addDov method: "+ e);
+
+            }finally {
+                if(transaction.isActive()){
+                    transaction.rollback();
+                }
+                em.close();
+
+            }
+            ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                    FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            String addDov = bundle.getString("dov");
+            String update = bundle.getString("update");
+            String forThe = bundle.getString("for");
+            String addSubject = bundle.getString("subject");
+
+            addMessage(addDov+" "+update+" "+forThe+" "+addSubject+" "+dov.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
             initFormDov();
         }
         return redirect;

@@ -13,6 +13,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 @Named
@@ -22,8 +23,9 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
 
     /*--- Variable declaration ---*/
 
-   private AeEntity ae = new AeEntity();
-   private AeService aeService = new AeService();
+    private AeEntity ae = new AeEntity();
+    private AeService aeService = new AeService();
+    private String messageErrorVisitDate = "hidden";
     @Inject
     private ConnectionBean connectionBean;
     @Inject
@@ -32,6 +34,25 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
     private EventBean eventBean;
 
     /*---Method---*/
+
+    /**
+     * Method to test the date in front end
+     * @return messageErrorVisitDate hidden or not
+     */
+    public String testDate(){
+        LocalDate now = LocalDate.now();
+        String redirect = "null";
+        String isoDatePattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+        String aeDate = simpleDateFormat.format(ae.getAeendat());
+        int resultAeDate = aeDate.compareTo(String.valueOf(now));
+        if(resultAeDate > 0){
+            this.messageErrorVisitDate = "";
+        }else{
+            this.messageErrorVisitDate = "hidden";
+        }
+        return redirect;
+    }
 
     public String submitFormAddAe(){
         EntityManager em = EMF.getEM();
@@ -85,5 +106,13 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
 
     public void setEventBean(EventBean eventBean) {
         this.eventBean = eventBean;
+    }
+
+    public String getMessageErrorVisitDate() {
+        return messageErrorVisitDate;
+    }
+
+    public void setMessageErrorVisitDate(String messageErrorVisitDate) {
+        this.messageErrorVisitDate = messageErrorVisitDate;
     }
 }

@@ -11,6 +11,7 @@ import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -30,8 +31,28 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
     private EventService eventService = new EventService();
     private List<EventEntity> allEvents;
     private List<EventEntity> number;
+    @Inject
+    private ConnectionBean connectionBean;
+    @Inject
+    private AuditTrailBean auditTrailBean;
 
     /*---Method---*/
+
+    /**
+     * Method to filter the roles on roleLabel
+     */
+    public void researchFilterAllEvents(){
+
+        EntityManager em = EMF.getEM();
+        try{
+            filterOfTable = eventService.findEventAll(this.filter,em);
+            ProcessUtils.debug(this.filter);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally{
+            em.close();
+        }
+    }
 
     public String deleteEvent(){
         EntityManager em = EMF.getEM();
@@ -105,10 +126,47 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
         String redirect = "/VIEW/home";
         EntityTransaction transaction = em.getTransaction();
         EventService eventService = new EventService();
+        AuditTrailService auditTrailService = new AuditTrailService();
         try{
+            auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+            auditTrailBean.getAuditTrail().setEventByIdEvent(event);
+            auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
             event.setAvailable(false);
             transaction.begin();
             eventService.updateEvent(event,em);
+            auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+            transaction.commit();
+        }catch(Exception e){
+
+            ProcessUtils.debug(" I'm in the catch of the inactiveEvent method: "+ e);
+        }finally {
+            if(transaction.isActive()){
+                transaction.rollback();
+            }
+            em.close();
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to inactivate an event
+     * @return an event
+     */
+    public String setEventMonitored() {
+        EntityManager em = EMF.getEM();
+        String redirect = "/VIEW/home";
+        EntityTransaction transaction = em.getTransaction();
+        EventService eventService = new EventService();
+        AuditTrailService auditTrailService = new AuditTrailService();
+        try{
+
+            auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+            auditTrailBean.getAuditTrail().setEventByIdEvent(event);
+            auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+            event.setMonitored(true);
+            transaction.begin();
+            eventService.updateEvent(event,em);
+            auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
             transaction.commit();
         }catch(Exception e){
 

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{I18N['dovPage.addDovTitle']}"/>
+    </ui:define>
+    <ui:define name="content">
+        <div class="content">
+            <div class="block p-20 form-container">
+                <h2>
+                    <h:outputText value="#{I18N['dovPage.addDovTitle']}" />
+                </h2>
+                <h:form id="updateDov">
+                    <p:outputPanel class="form-control">
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_status_visit" value="#{I18N['dovPage.status']}"/>
+                            <p:selectOneButton id="input_status_visit"
+                                               value="#{dovBean.dov.visitYn}"
+                                               disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !dovBean.dov.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['done']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+
+                        </span>
+
+                        <h:panelGroup  id="dov_Nd" class="field col-12 md:col-4 p-20-0" rendered="#{!dovBean.dov.visitYn}">
+                            <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_visit_nd" value="#{I18N['dovPage.visitNd']}"/>
+                                <p:inputTextarea  rows="6" cols="33" id="input_visit_nd" class="label" value="#{dovBean.dov.visitNd}"
+                                                  placeholder="#{I18N['dovPage.visitNd.placeholder']}"
+                                                  disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !dovBean.dov.eventByIdEvent.available}"/>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{dovBean.messageErrorVisitNd}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorVisitNd']}"/></span>
+                            </div>
+                        </div>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{dovBean.messageErrorVisitNdFalse}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorVisitNdFalse']}"/></span>
+                            </div>
+                        </div>
+                        <h:panelGroup class="field col-12 md:col-4" rendered="#{dovBean.dov.visitYn}">
+                            <p:outputLabel for="input_AdmissionDate" value="#{I18N['dovPage.visitDate']}" />
+                            <p:datePicker id="input_AdmissionDate"  value="#{dovBean.dov.visitDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"
+                                          validatorMessage="#{I18N['vsPage.height.errorMessage']}"
+                                          disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !dovBean.dov.eventByIdEvent.available}">
+                                <p:ajax event="change" process="@this" update="@form" listener="#{dovBean.testDate()}"/>
+                            </p:datePicker>
+                        </h:panelGroup>
+
+                        <p:message id="messageErrorVisitDate" for="@previous"/>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{dovBean.messageErrorVisitDate}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorVisitDate']}"/></span>
+                            </div>
+                        </div>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{dovBean.messageErrorVisitDateMissing}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorVisitDateMissing']}"/></span>
+                            </div>
+                        </div>
+                    </p:outputPanel>
+                    <span class="responsiveSubmit">
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'SITE' and dovBean.dov.eventByIdEvent.available}">
+                            <p:commandButton value="#{I18N['application.create.dov']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="#{dovBean.submitFormUpdateDov}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA'}">
+                            <p:commandButton value="#{I18N['application.dov.validate']}"
+                                            ajax="false"
+                                            validateClient="true"
+                                            class="ui-button-success"
+                                            action="#{eventBean.setEventMonitored}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL'}">
+                            <p:commandButton value="#{I18N['application.dov.query']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="/VIEW/addQuery"/>
+                        </p:outputPanel>
+
+                        <p:commandButton value="#{I18N['connectionpage.return.button']}" action="#{dovBean.cancelForm()}"
+                                         class="ui-button-secondary" id="cancelButton"/>
+                    </span>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

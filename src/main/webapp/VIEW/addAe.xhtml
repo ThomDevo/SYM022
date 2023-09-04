@@ -40,7 +40,9 @@
 
                         <div class="field col-12 md:col-4">
                             <p:outputLabel for="input_aestdat" value="#{I18N['aePage.aestdat']}"/>
-                            <p:datePicker id="input_aestdat" value="#{aeBean.ae.aestdat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"/>
+                            <p:datePicker id="input_aestdat" value="#{aeBean.ae.aestdat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
+                                <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDate()}"/>
+                            </p:datePicker>
                         </div>
 
                         <span class="field col-12 md:col-4 p-20-0">
@@ -64,7 +66,12 @@
                             <p:outputLabel for="input_aeendat" value="#{I18N['aePage.aeendat']}"/>
                             <p:datePicker id="input_aeendat" value="#{aeBean.ae.aeendat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"/>
                         </div>
-
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorVisitDate}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorVisitDate']}"/></span>
+                            </div>
+                        </div>
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_aetoxgd" value="#{I18N['aePage.aetoxgd']}"/>
                             <p:selectOneMenu id="input_aetoxgd"

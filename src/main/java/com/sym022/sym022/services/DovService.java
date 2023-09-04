@@ -20,6 +20,19 @@ public class DovService {
     }
 
     /**
+     * Method to find a DOV based on the idEvent
+     * @param idEvent
+     * @param em
+     * @return a DOV
+     */
+    public DovEntity findDovByIdEvent(int idEvent, EntityManager em)
+    {
+        return em.createNamedQuery("Dov.selectDovByIdEvent",DovEntity.class)
+                .setParameter("idEvent",idEvent)
+                .getSingleResult();
+    }
+
+    /**
      * Method to add a DOV in the DB
      * @param dov
      * @param em
