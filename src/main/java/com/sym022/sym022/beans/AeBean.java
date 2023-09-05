@@ -1,13 +1,18 @@
 package com.sym022.sym022.beans;
 
 import com.sym022.sym022.entities.AeEntity;
+import com.sym022.sym022.enums.*;
 import com.sym022.sym022.services.AeService;
 import com.sym022.sym022.services.AuditTrailService;
 import com.sym022.sym022.services.EventService;
 import com.sym022.sym022.utilities.EMF;
 import com.sym022.sym022.utilities.FilterOfTable;
+import com.sym022.sym022.utilities.ProcessUtils;
+
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -15,6 +20,9 @@ import javax.persistence.EntityTransaction;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.Objects;
+import java.util.ResourceBundle;
 
 @Named
 @ManagedBean
@@ -32,6 +40,9 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
     private String messageErrorAeendatMis = "hidden";
     private String messageErrorAeotherspMis = "hidden";
     private String messageErrorAemedimspMis = "hidden";
+    private String messageErrorVisitDateAeendat = "hidden";
+    private String messageErrorAeterm = "hidden";
+    private String messageErrorAaeser = "hidden";
     @Inject
     private ConnectionBean connectionBean;
     @Inject
@@ -42,6 +53,48 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
     /*---Method---*/
 
     /**
+     * Method to reset the form to add or update an AE
+     */
+    public void initFormAe(){
+        Date now = new Date();
+        this.ae.setAeterm("");
+        this.ae.setAetermc("");
+        this.ae.setAestdat(now);
+        this.ae.setAeout(Aeout.UNKNOWN);
+        this.ae.setAeendat(now);
+        this.ae.setAetoxgd(Aetoxgd.NA);
+        this.ae.setAesev(Aesev.NA);
+        this.ae.setAerel(Aerel.NA);
+        this.ae.setAeacn(Aeacn.NOT_APPLICABLE);
+        this.ae.setAecm(false);
+        this.ae.setAeproc(false);
+        this.ae.setAeother(false);
+        this.ae.setAeothersp("");
+        this.ae.setAeser(false);
+        this.ae.setAedeath(false);
+        this.ae.setAelife(false);
+        this.ae.setAehosp(false);
+        this.ae.setAedisab(false);
+        this.ae.setAecong(false);
+        this.ae.setAemedim(false);
+        this.ae.setAemedimsp("");
+        initErrorMessageFormAe();
+    }
+
+    /**
+     * Method to reset all Error Messages in the form to add or update an AE
+     */
+    public void initErrorMessageFormAe(){
+        this.messageErrorAeterm = "hidden";
+        this.messageErrorVisitDate = "hidden";
+        this.messageErrorVisitDateAeendat = "hidden";
+        this.messageErrorAeendatBeforAestdat = "hidden";
+        this.messageErrorAeotherspMis = "hidden";
+        this.messageErrorAaeser = "hidden";
+        this.messageErrorAemedimspMis = "hidden";
+    }
+
+    /**
      * Method to test the date in front end
      * @return messageErrorVisitDate hidden or not
      */
@@ -50,7 +103,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         String redirect = "null";
         String isoDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
-        String aeDate = simpleDateFormat.format(ae.getAeendat());
+        String aeDate = simpleDateFormat.format(ae.getAestdat());
         int resultAeDate = aeDate.compareTo(String.valueOf(now));
         if(resultAeDate > 0){
             this.messageErrorVisitDate = "";
@@ -60,6 +113,101 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         return redirect;
     }
 
+    /**
+     * Method to test the aeterm empty in front end
+     * @return messageErrorAeterm hidden or not
+     */
+    public String testAeterm(){
+        String redirect = "null";
+        if(ae.getAeterm() == null || Objects.equals(ae.getAeterm(), "")){
+            this.messageErrorAeterm = "";
+        }else{
+            this.messageErrorAeterm = "hidden";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the date in front end
+     * @return messageErrorVisitDate hidden or not
+     */
+    public String testDatetestDateAeout(){
+        LocalDate now = LocalDate.now();
+        String redirect = "null";
+        String isoDatePattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+        String aeoutDate = simpleDateFormat.format(ae.getAeendat());
+        int resultAeoutDate = aeoutDate.compareTo(String.valueOf(now));
+        if(resultAeoutDate > 0){
+            this.messageErrorVisitDateAeendat = "";
+        }else{
+            this.messageErrorVisitDateAeendat = "hidden";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the AeendatBeforAestdat in front end
+     * @return messageErrorAeendatBeforAestdat hidden or not
+     */
+    public String testAeendatBeforAestdat(){
+        String redirect = "null";
+        String isoDatePattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+        String aeendatDate = simpleDateFormat.format(ae.getAeendat());
+        String aeestdatDate = simpleDateFormat.format(ae.getAestdat());
+        int resultAendatDate = aeendatDate.compareTo(aeestdatDate);
+        if(resultAendatDate < 0){
+            this.messageErrorAeendatBeforAestdat = "";
+        }else{
+            this.messageErrorAeendatBeforAestdat = "hidden";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the AemedimspMis empty in front end
+     * @return messageErrorAemedimspMis hidden or not
+     */
+    public String testAemedimspMis(){
+        String redirect = "null";
+        if(ae.isAemedim() && (ae.getAemedimsp() == null || Objects.equals(ae.getAemedimsp(), ""))){
+            this.messageErrorAemedimspMis = "";
+        }else{
+            this.messageErrorAemedimspMis = "hidden";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the AeotherspMis empty in front end
+     * @return messageErrorAeotherspMis hidden or not
+     */
+    public String testAeotherspMis(){
+        String redirect = "null";
+        if(ae.isAeother() && (ae.getAeothersp() == null || Objects.equals(ae.getAeothersp(), ""))){
+            this.messageErrorAeotherspMis = "";
+        }else{
+            this.messageErrorAeotherspMis = "hidden";
+        }
+        return redirect;
+    }
+
+
+    /**
+     * Method to have I18n messages in Back-end
+     * @param summary
+     * @param detail
+     */
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    /**
+     * Method to add an AE in the DB
+     * @return an AE
+     */
     public String submitFormAddAe(){
         EntityManager em = EMF.getEM();
         String redirect = "/VIEW/home";
@@ -69,6 +217,157 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         AuditTrailService auditTrailService = new AuditTrailService();
         LocalDate now = LocalDate.now();
         String isoDatePattern = "yyyy-MM-dd";
+
+
+        if(ae.getAestdat() == null && ae.getAeendat() == null){
+            initErrorMessageFormAe();
+            this.messageErrorVisitNdFalse = "";
+            redirect = "null";
+        }else if(ae.getAestdat() != null && ae.getAeendat() == null){
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+            String aeStDate = simpleDateFormat.format(ae.getAestdat());
+            int resultAeDateDate = aeStDate.compareTo(String.valueOf(now));
+            if(ae.getAeterm() == null || Objects.equals(ae.getAeterm(), "")){
+                initErrorMessageFormAe();
+                this.messageErrorAeterm = "";
+                redirect = "null";
+            }else if(resultAeDateDate > 0){
+                initErrorMessageFormAe();
+                this.messageErrorVisitDate = "";
+                redirect = "null";
+            }else if(ae.isAeother() && (Objects.equals(ae.getAeothersp(), "") || ae.getAeothersp() == null)){
+                initErrorMessageFormAe();
+                this.messageErrorAeotherspMis = "";
+                redirect = "null";
+            }else if(ae.isAemedim() && (Objects.equals(ae.getAemedimsp(), "") || ae.getAemedimsp() == null)){
+                initErrorMessageFormAe();
+                this.messageErrorAemedimspMis = "";
+                redirect = "null";
+            }else if(ae.isAeser() && !ae.isAedeath() && !ae.isAelife() && !ae.isAehosp() && !ae.isAedisab() && !ae.isAecong() && !ae.isAemedim()){
+                initErrorMessageFormAe();
+                this.messageErrorAaeser = "";
+                redirect = "null";
+            }else{
+                try{
+                    ae.setEventByIdEvent(eventBean.getEvent());
+                    auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                    auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                    auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                    eventBean.getEvent().setCompleted(true);
+                    ae.setAetermc("");
+
+                    if(!ae.isAeother()){
+                        this.ae.setAeothersp("");
+                    }
+
+                    if(!ae.isAemedim()){
+                        this.ae.setAemedimsp("");
+                    }
+
+                    transaction.begin();
+                    eventService.updateEvent(eventBean.getEvent(),em);
+                    auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                    aeService.addAe(ae, em);
+                    transaction.commit();
+                }catch(Exception e){
+                    ProcessUtils.debug(" I'm in the catch of the addAe method: "+ e);
+
+                }finally {
+                    if(transaction.isActive()){
+                        transaction.rollback();
+                    }
+                    em.close();
+                }
+                ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                        FacesContext.getCurrentInstance().getViewRoot().getLocale());
+                String addAe = bundle.getString("ae");
+                String add = bundle.getString("add");
+                String forThe = bundle.getString("for");
+                String addSubject = bundle.getString("subject");
+
+                addMessage(addAe+" "+add+" "+forThe+" "+addSubject+" "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+                initFormAe();
+            }
+        }else{
+            if(ae.getAestdat() != null && ae.getAeendat() != null){
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+                String aeStDate = simpleDateFormat.format(ae.getAestdat());
+                int resultAeDateDate = aeStDate.compareTo(String.valueOf(now));
+                String aeendateDate = simpleDateFormat.format(ae.getAeendat());
+                int resultAendateDate = aeendateDate.compareTo(aeStDate);
+                String aeoutDate = simpleDateFormat.format(ae.getAeendat());
+                int resultAeoutDate = aeoutDate.compareTo(String.valueOf(now));
+                if(ae.getAeterm() == null || Objects.equals(ae.getAeterm(), "")){
+                    initErrorMessageFormAe();
+                    this.messageErrorAeterm = "";
+                    redirect = "null";
+                }else if(resultAeDateDate > 0){
+                    initErrorMessageFormAe();
+                    this.messageErrorVisitDate = "";
+                    redirect = "null";
+                }else if(resultAeoutDate > 0){
+                    initErrorMessageFormAe();
+                    this.messageErrorVisitDateAeendat = "";
+                    redirect = "null";
+                }else if(resultAendateDate < 0){
+                    initErrorMessageFormAe();
+                    this.messageErrorAeendatBeforAestdat = "";
+                    redirect = "null";
+                }else if(ae.isAeother() && (Objects.equals(ae.getAeothersp(), "") || ae.getAeothersp() == null)){
+                    initErrorMessageFormAe();
+                    this.messageErrorAeotherspMis = "";
+                    redirect = "null";
+                }else if(ae.isAemedim() && (Objects.equals(ae.getAemedimsp(), "") || ae.getAemedimsp() == null)){
+                    initErrorMessageFormAe();
+                    this.messageErrorAemedimspMis = "";
+                    redirect = "null";
+                }else if(ae.isAeser() && !ae.isAedeath() && !ae.isAelife() && !ae.isAehosp() && !ae.isAedisab() && !ae.isAecong() && !ae.isAemedim()){
+                    initErrorMessageFormAe();
+                    this.messageErrorAaeser = "";
+                    redirect = "null";
+                }else{
+                    try{
+                        ae.setEventByIdEvent(eventBean.getEvent());
+                        auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                        auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                        auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                        eventBean.getEvent().setCompleted(true);
+                        ae.setAetermc("");
+
+                        if(!ae.isAeother()){
+                            this.ae.setAeothersp("");
+                        }
+
+                        if(!ae.isAemedim()){
+                            this.ae.setAemedimsp("");
+                        }
+
+                        transaction.begin();
+                        eventService.updateEvent(eventBean.getEvent(),em);
+                        auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                        aeService.addAe(ae, em);
+                        transaction.commit();
+                    }catch(Exception e){
+                        ProcessUtils.debug(" I'm in the catch of the addAe method: "+ e);
+
+                    }finally {
+                        if(transaction.isActive()){
+                            transaction.rollback();
+                        }
+                        em.close();
+                    }
+                    ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                    FacesContext.getCurrentInstance().getViewRoot().getLocale());
+                    String addAe = bundle.getString("ae");
+                    String add = bundle.getString("add");
+                    String forThe = bundle.getString("for");
+                    String addSubject = bundle.getString("subject");
+
+                    addMessage(addAe+" "+add+" "+forThe+" "+addSubject+" "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+                    initFormAe();
+                }
+            }
+        }
         return redirect;
     }
 
@@ -168,5 +467,29 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
 
     public void setMessageErrorAemedimspMis(String messageErrorAemedimspMis) {
         this.messageErrorAemedimspMis = messageErrorAemedimspMis;
+    }
+
+    public String getMessageErrorVisitDateAeendat() {
+        return messageErrorVisitDateAeendat;
+    }
+
+    public void setMessageErrorVisitDateAeendat(String messageErrorVisitDateAeendat) {
+        this.messageErrorVisitDateAeendat = messageErrorVisitDateAeendat;
+    }
+
+    public String getMessageErrorAeterm() {
+        return messageErrorAeterm;
+    }
+
+    public void setMessageErrorAeterm(String messageErrorAeterm) {
+        this.messageErrorAeterm = messageErrorAeterm;
+    }
+
+    public String getMessageErrorAaeser() {
+        return messageErrorAaeser;
+    }
+
+    public void setMessageErrorAaeser(String messageErrorAaeser) {
+        this.messageErrorAaeser = messageErrorAaeser;
     }
 }
