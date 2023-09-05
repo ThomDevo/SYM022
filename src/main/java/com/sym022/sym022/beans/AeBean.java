@@ -26,6 +26,12 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
     private AeEntity ae = new AeEntity();
     private AeService aeService = new AeService();
     private String messageErrorVisitDate = "hidden";
+    private String messageErrorVisitNdFalse = "hidden";
+    private String messageErrorAeendatBeforAestdat = "hidden";
+    private String messageErrorAeendatPres = "hidden";
+    private String messageErrorAeendatMis = "hidden";
+    private String messageErrorAeotherspMis = "hidden";
+    private String messageErrorAemedimspMis = "hidden";
     @Inject
     private ConnectionBean connectionBean;
     @Inject
@@ -114,5 +120,53 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
 
     public void setMessageErrorVisitDate(String messageErrorVisitDate) {
         this.messageErrorVisitDate = messageErrorVisitDate;
+    }
+
+    public String getMessageErrorVisitNdFalse() {
+        return messageErrorVisitNdFalse;
+    }
+
+    public void setMessageErrorVisitNdFalse(String messageErrorVisitNdFalse) {
+        this.messageErrorVisitNdFalse = messageErrorVisitNdFalse;
+    }
+
+    public String getMessageErrorAeendatBeforAestdat() {
+        return messageErrorAeendatBeforAestdat;
+    }
+
+    public void setMessageErrorAeendatBeforAestdat(String messageErrorAeendatBeforAestdat) {
+        this.messageErrorAeendatBeforAestdat = messageErrorAeendatBeforAestdat;
+    }
+
+    public String getMessageErrorAeendatPres() {
+        return messageErrorAeendatPres;
+    }
+
+    public void setMessageErrorAeendatPres(String messageErrorAeendatPres) {
+        this.messageErrorAeendatPres = messageErrorAeendatPres;
+    }
+
+    public String getMessageErrorAeendatMis() {
+        return messageErrorAeendatMis;
+    }
+
+    public void setMessageErrorAeendatMis(String messageErrorAeendatMis) {
+        this.messageErrorAeendatMis = messageErrorAeendatMis;
+    }
+
+    public String getMessageErrorAeotherspMis() {
+        return messageErrorAeotherspMis;
+    }
+
+    public void setMessageErrorAeotherspMis(String messageErrorAeotherspMis) {
+        this.messageErrorAeotherspMis = messageErrorAeotherspMis;
+    }
+
+    public String getMessageErrorAemedimspMis() {
+        return messageErrorAemedimspMis;
+    }
+
+    public void setMessageErrorAemedimspMis(String messageErrorAemedimspMis) {
+        this.messageErrorAemedimspMis = messageErrorAemedimspMis;
     }
 }

@@ -29,22 +29,24 @@
                         </span>
                         <p:message id="messageInputAeterm" for="@previous"/>
 
-                        <span class="field col-12 md:col-4 p-20-0">
-                            <p:outputLabel for="input_aetermc" value="#{I18N['aePage.aetermc']}"/>
-                            <p:inputText id="input_aetermc" class="label" value="#{aeBean.ae.aetermc}"
-                                         placeholder="#{I18N['aePage.aetermc.placeHolder']}">
-                                <p:ajax update="messageInputAetermc" event="blur"/>
-                            </p:inputText>
-                        </span>
-                        <p:message id="messageInputAetermc" for="@previous"/>
-
                         <div class="field col-12 md:col-4">
                             <p:outputLabel for="input_aestdat" value="#{I18N['aePage.aestdat']}"/>
                             <p:datePicker id="input_aestdat" value="#{aeBean.ae.aestdat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
                                 <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDate()}"/>
                             </p:datePicker>
                         </div>
-
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorVisitDate}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorVisitDate']}"/></span>
+                            </div>
+                        </div>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorVisitNdFalse}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorVisitNdFalse']}"/></span>
+                            </div>
+                        </div>
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_aeout" value="#{I18N['aePage.aeout']}"/>
                             <p:selectOneMenu id="input_aeout"
@@ -70,6 +72,24 @@
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText
                                         value="#{I18N['messageErrorVisitDate']}"/></span>
+                            </div>
+                        </div>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAeendatBeforAestdat}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorAeendatBeforAestdat']}"/></span>
+                            </div>
+                        </div>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAeendatPres}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorAeendatPres']}"/></span>
+                            </div>
+                        </div>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAeendatMis}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorAeendatMis']}"/></span>
                             </div>
                         </div>
                         <span class="field col-12 md:col-4 p-20-0">
@@ -175,16 +195,22 @@
                                 <p:ajax process="@this" update="@all"/>
                             </p:selectOneButton>
                         </span>
-
-                        <span class="field col-12 md:col-4 p-20-0">
-                            <p:outputLabel for="input_aeothersp" value="#{I18N['aePage.aeothersp']}"/>
-                            <p:inputText id="input_aeothersp" class="label" value="#{aeBean.ae.aeothersp}"
+                        <h:panelGroup rendered="#{aeBean.ae.aeother}">
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_aeothersp" value="#{I18N['aePage.aeothersp']}"/>
+                                <p:inputText id="input_aeothersp" class="label" value="#{aeBean.ae.aeothersp}"
                                          placeholder="#{I18N['aePage.aeothersp.placeHolder']}"
                                          validatorMessage="#{I18N['aePage.aeothersp.errorMessage']}">
-                                <p:ajax update="messageInputAeothersp" event="blur"/>
-                            </p:inputText>
-                        </span>
-                        <p:message id="messageInputAeothersp" for="@previous"/>
+                                </p:inputText>
+                            </span>
+
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAeotherspMis}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorAeotherspMis']}"/></span>
+                                </div>
+                            </div>
+                        </h:panelGroup>
 
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_aeser" value="#{I18N['aePage.aeser']}"/>
@@ -198,7 +224,8 @@
                             </p:selectOneButton>
                         </span>
 
-                        <span class="field col-12 md:col-4 p-20-0">
+                        <h:panelGroup rendered="#{aeBean.ae.aeser}">
+                            <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_aedeath" value="#{I18N['aePage.aedeath']}"/>
                             <p:selectOneButton   id="input_aedeath"
                                                  value="#{aeBean.ae.aedeath}">
@@ -210,7 +237,7 @@
                             </p:selectOneButton>
                         </span>
 
-                        <span class="field col-12 md:col-4 p-20-0">
+                            <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_aelife" value="#{I18N['aePage.aelife']}"/>
                             <p:selectOneButton   id="input_aelife"
                                                  value="#{aeBean.ae.aelife}">
@@ -222,7 +249,7 @@
                             </p:selectOneButton>
                         </span>
 
-                        <span class="field col-12 md:col-4 p-20-0">
+                            <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_aehosp" value="#{I18N['aePage.aehosp']}"/>
                             <p:selectOneButton   id="input_aehosp"
                                                  value="#{aeBean.ae.aehosp}">
@@ -234,7 +261,7 @@
                             </p:selectOneButton>
                         </span>
 
-                        <span class="field col-12 md:col-4 p-20-0">
+                            <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_aedisab" value="#{I18N['aePage.aedisab']}"/>
                             <p:selectOneButton   id="input_aedisab"
                                                  value="#{aeBean.ae.aedisab}">
@@ -246,7 +273,7 @@
                             </p:selectOneButton>
                         </span>
 
-                        <span class="field col-12 md:col-4 p-20-0">
+                            <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_aecong" value="#{I18N['aePage.aecong']}"/>
                             <p:selectOneButton   id="input_aecong"
                                                  value="#{aeBean.ae.aecong}">
@@ -258,7 +285,7 @@
                             </p:selectOneButton>
                         </span>
 
-                        <span class="field col-12 md:col-4 p-20-0">
+                            <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_aemedim" value="#{I18N['aePage.aemedim']}"/>
                             <p:selectOneButton   id="input_aemedim"
                                                  value="#{aeBean.ae.aemedim}">
@@ -269,16 +296,24 @@
                                 <p:ajax process="@this" update="@all"/>
                             </p:selectOneButton>
                         </span>
-
-                        <span class="field col-12 md:col-4 p-20-0">
-                            <p:outputLabel for="input_aemedimsp" value="#{I18N['aePage.aemedimsp']}"/>
-                            <p:inputText id="input_aemedimsp" class="label" value="#{aeBean.ae.aemedimsp}"
-                                         placeholder="#{I18N['aePage.aemedimsp.placeHolder']}"
-                                         validatorMessage="#{I18N['aePage.aemedimsp.errorMessage']}">
-                                <p:ajax update="messageInputmedimsp" event="blur"/>
-                            </p:inputText>
-                        </span>
-                        <p:message id="messageInputmedimsp" for="@previous"/>
+                        <h:panelGroup rendered="#{aeBean.ae.aemedim}">
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_aemedimsp" value="#{I18N['aePage.aemedimsp']}"/>
+                                <p:inputText id="input_aemedimsp" class="label" value="#{aeBean.ae.aemedimsp}"
+                                             placeholder="#{I18N['aePage.aemedimsp.placeHolder']}"
+                                             validatorMessage="#{I18N['aePage.aemedimsp.errorMessage']}">
+                                    <p:ajax update="messageInputmedimsp" event="blur"/>
+                                </p:inputText>
+                            </span>
+                            <p:message id="messageInputmedimsp" for="@previous"/>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAemedimspMis}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorAemedimspMis']}"/></span>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+                        </h:panelGroup>
 
                     </p:outputPanel>
                     <span class="responsiveSubmit">
