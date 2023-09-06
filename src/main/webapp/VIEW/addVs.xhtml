@@ -35,6 +35,7 @@
                                 <p:outputLabel for="input_vs_nd" value="#{I18N['vsPage.vsNd']}"/>
                                 <p:inputTextarea  rows="6" cols="33" id="input_vs_nd" class="label" value="#{vsBean.vs.vsNd}"
                                                   placeholder="#{I18N['vsPage.vsNd.placeholder']}"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testInputVsNd()}"/>
                             </h:panelGroup>
                         </h:panelGroup>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorVisitNd}">
@@ -220,7 +221,7 @@
                                            validatorMessage="#{I18N['vsPage.input_sbp.errorMessage']}" decimalPlaces="1">
                                         <p:ajax update="messageSbp" event="blur"/>
                                         <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDbpGtnSbp()}"/>
-                                        <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDbp()}"/>
+                                        <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testSbp()}"/>
                                     </p:inputNumber>
                                 </span>
                                 <p:message id="messageSbp" for="@previous"/>
@@ -445,7 +446,7 @@
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-secondary"
-                                         action="#{eventBean.deleteEvent()}"/>
+                                         action="#{vsBean.cancelForm()}"/>
                     </span>
                 </h:form>
             </div>

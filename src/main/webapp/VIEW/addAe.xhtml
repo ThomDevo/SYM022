@@ -327,13 +327,14 @@
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-success"
+                                         disabled="#{aeBean.buttonSuccess}"
                                          action="#{aeBean.submitFormAddAe}"/>
 
                         <p:commandButton value="#{I18N['connectionpage.return.button']}"
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-secondary"
-                                         action="#{eventBean.deleteEvent()}"/>
+                                         action="#{aeBean.cancelForm()}"/>
                     </span>
                 </h:form>
             </div>

@@ -36,6 +36,7 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
     private String messageErrorVisitDate = "hidden";
     private String messageErrorVisitNdFalse = "hidden";
     private String messageErrorVisitDateMissing = "hidden";
+    private String buttonSuccess = "false";
     @Inject
     private ConnectionBean connectionBean;
     @Inject
@@ -52,12 +53,13 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
     public String cancelForm(){
         String redirect = "/VIEW/home";
         initFormDov();
+        eventBean.deleteEvent();
         return redirect;
     }
 
     /**
      * Method to test the date in front end
-     * @return messageErrorVisitDate hidden or not
+     * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
      */
     public String testDate(){
         LocalDate now = LocalDate.now();
@@ -69,9 +71,28 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
             int resultDovDate = dovDate.compareTo(String.valueOf(now));
             if(resultDovDate > 0){
                 this.messageErrorVisitDate = "";
+                this.buttonSuccess = "true";
             }else{
                 this.messageErrorVisitDate = "hidden";
+                this.buttonSuccess = "false";
             }
+        return redirect;
+    }
+
+    /**
+     * Method to test the InputVsNd in front end
+     * @return messageErrorVisitNd hidden or not and button create/update deactivate or not
+     */
+    public String testInputVsNd(){
+        initErrorMessageFormDov();
+        String redirect = "null";
+        if(!dov.getVisitYn() && (dov.getVisitNd() == null || Objects.equals(dov.getVisitNd(), ""))){
+            this.messageErrorVisitNdFalse = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorVisitNdFalse = "hidden";
+            this.buttonSuccess = "false";
+        }
         return redirect;
     }
 
@@ -97,9 +118,9 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
      */
     public void initFormDov(){
         Date now = new Date();
-        this.dov.setVisitYn(true);
+        this.dov.setVisitYn(false);
         this.dov.setVisitNd("");
-        this.dov.setVisitDate(now);
+        this.dov.setVisitDate(null);
         initErrorMessageFormDov();
     }
 
@@ -111,6 +132,7 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
         this.messageErrorVisitDate = "hidden";
         this.messageErrorVisitNdFalse = "hidden";
         this.messageErrorVisitDateMissing = "hidden";
+        this.buttonSuccess = "false";
     }
 
     /**
@@ -392,5 +414,13 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
 
     public void setMessageErrorVisitDateMissing(String messageErrorVisitDateMissing) {
         this.messageErrorVisitDateMissing = messageErrorVisitDateMissing;
+    }
+
+    public String getButtonSuccess() {
+        return buttonSuccess;
+    }
+
+    public void setButtonSuccess(String buttonSuccess) {
+        this.buttonSuccess = buttonSuccess;
     }
 }

@@ -54,10 +54,9 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
         }
     }
 
-    public String deleteEvent(){
+    public void deleteEvent(){
         EntityManager em = EMF.getEM();
         EventService eventService = new EventService();
-        String redirect = "/VIEW/home";
         EntityTransaction transaction = em.getTransaction();
         try{
             transaction.begin();
@@ -71,7 +70,6 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
             }
             em.close();
         }
-        return redirect;
 
     }
 

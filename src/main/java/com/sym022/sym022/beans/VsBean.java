@@ -171,7 +171,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
     }
 
     /**
-     * Method to test the DBP < 250 in front end
+     * Method to test the SBP < 250 in front end
      * @return messageErrorSbp hidden or not
      */
     public String testSbp(){

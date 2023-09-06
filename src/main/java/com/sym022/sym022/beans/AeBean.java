@@ -43,6 +43,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
     private String messageErrorVisitDateAeendat = "hidden";
     private String messageErrorAeterm = "hidden";
     private String messageErrorAaeser = "hidden";
+    private String buttonSuccess = "false";
     @Inject
     private ConnectionBean connectionBean;
     @Inject
@@ -51,6 +52,17 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
     private EventBean eventBean;
 
     /*---Method---*/
+
+    /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelForm(){
+        String redirect = "/VIEW/home";
+        initFormAe();
+        eventBean.deleteEvent();
+        return redirect;
+    }
 
     /**
      * Method to reset the form to add or update an AE
@@ -92,6 +104,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         this.messageErrorAeotherspMis = "hidden";
         this.messageErrorAaeser = "hidden";
         this.messageErrorAemedimspMis = "hidden";
+        this.buttonSuccess = "false";
     }
 
     /**
@@ -107,8 +120,10 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         int resultAeDate = aeDate.compareTo(String.valueOf(now));
         if(resultAeDate > 0){
             this.messageErrorVisitDate = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorVisitDate = "hidden";
+            this.buttonSuccess = "false";
         }
         return redirect;
     }
@@ -121,8 +136,10 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         String redirect = "null";
         if(ae.getAeterm() == null || Objects.equals(ae.getAeterm(), "")){
             this.messageErrorAeterm = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorAeterm = "hidden";
+            this.buttonSuccess = "false";
         }
         return redirect;
     }
@@ -140,8 +157,10 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         int resultAeoutDate = aeoutDate.compareTo(String.valueOf(now));
         if(resultAeoutDate > 0){
             this.messageErrorVisitDateAeendat = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorVisitDateAeendat = "hidden";
+            this.buttonSuccess = "false";
         }
         return redirect;
     }
@@ -159,8 +178,10 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         int resultAendatDate = aeendatDate.compareTo(aeestdatDate);
         if(resultAendatDate < 0){
             this.messageErrorAeendatBeforAestdat = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorAeendatBeforAestdat = "hidden";
+            this.buttonSuccess = "false";
         }
         return redirect;
     }
@@ -173,8 +194,10 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         String redirect = "null";
         if(ae.isAemedim() && (ae.getAemedimsp() == null || Objects.equals(ae.getAemedimsp(), ""))){
             this.messageErrorAemedimspMis = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorAemedimspMis = "hidden";
+            this.buttonSuccess = "false";
         }
         return redirect;
     }
@@ -187,8 +210,10 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         String redirect = "null";
         if(ae.isAeother() && (ae.getAeothersp() == null || Objects.equals(ae.getAeothersp(), ""))){
             this.messageErrorAeotherspMis = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorAeotherspMis = "hidden";
+            this.buttonSuccess = "false";
         }
         return redirect;
     }
@@ -491,5 +516,13 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
 
     public void setMessageErrorAaeser(String messageErrorAaeser) {
         this.messageErrorAaeser = messageErrorAaeser;
+    }
+
+    public String getButtonSuccess() {
+        return buttonSuccess;
+    }
+
+    public void setButtonSuccess(String buttonSuccess) {
+        this.buttonSuccess = buttonSuccess;
     }
 }

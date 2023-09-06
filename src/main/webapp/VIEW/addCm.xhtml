@@ -29,7 +29,7 @@
                             </p:inputText>
                         </span>
                         <p:message id="messageInputCmterm" for="@previous"/>
-                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorVisitNdFalse}">
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmtermFalse}">
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText
                                         value="#{I18N['messageErrorVisitNdFalse']}"/></span>
@@ -219,7 +219,7 @@
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-secondary"
-                                         action="#{eventBean.deleteEvent()}"/>
+                                         action="#{cmBean.cancelForm()}"/>
                     </span>
                 </h:form>
             </div>
