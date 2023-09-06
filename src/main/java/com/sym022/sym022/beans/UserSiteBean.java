@@ -107,6 +107,7 @@ public class UserSiteBean extends FilterOfTable<UserSiteEntity> implements Seria
         }catch(Exception e){
             ProcessUtils.debug("Catch "+e);
             redirect = "null" ;
+            return redirect;
         }finally{
             if(transaction.isActive()){
                 transaction.rollback();
@@ -167,6 +168,7 @@ public class UserSiteBean extends FilterOfTable<UserSiteEntity> implements Seria
         }catch(Exception e){
             ProcessUtils.debug("Catch "+e);
             redirect = "null" ;
+            return redirect;
         }finally{
             if(transaction.isActive()){
                 transaction.rollback();

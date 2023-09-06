@@ -114,6 +114,7 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
             if(siteService.isSiteExist(site.getSiteNum(),em)){
                 this.messageErrorSiteNum="";
                 redirect = "null" ;
+                return redirect;
             }
             siteService.addSite(site,em);
             transaction.commit();

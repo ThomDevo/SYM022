@@ -137,10 +137,12 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
             initErrorMessageFormIc();
             this.messageErrorIcDate = "";
             redirect = "null";
+            return redirect;
         }else if(Objects.equals(ic.getProtVers(), "")){
             initErrorMessageFormIc();
             this.messageErrorVsProt = "";
             redirect = "null";
+            return redirect;
         }else{
             try{
                 ic.setEventByIdEvent(eventBean.getEvent());

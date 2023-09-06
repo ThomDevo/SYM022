@@ -85,7 +85,7 @@
                                              action="#{dovBean.submitFormUpdateDov}"/>
                         </p:outputPanel>
 
-                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA'}">
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and !eventBean.event.monitored}">
                             <p:commandButton value="#{I18N['application.dov.validate']}"
                                             ajax="false"
                                             validateClient="true"

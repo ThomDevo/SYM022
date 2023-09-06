@@ -93,6 +93,7 @@ public class RoleBean extends FilterOfTable<RoleEntity> implements Serializable 
             if(roleService.isRoleExist(role.getRoleLabel(), em)){
                 this.messageErrorRoleName = "";
                 redirect = "null" ;
+                return redirect;
             }
             roleService.addRole(role,em);
             transaction.commit();
@@ -127,6 +128,7 @@ public class RoleBean extends FilterOfTable<RoleEntity> implements Serializable 
             if(roleService.isRoleExist(role.getRoleLabel(), em)){
                 this.messageErrorRoleName = "";
                 redirect = "null" ;
+                return redirect;
             }
             roleService.updateRole(role,em);
             transaction.commit();
@@ -135,6 +137,7 @@ public class RoleBean extends FilterOfTable<RoleEntity> implements Serializable 
         }catch(Exception e){
             ProcessUtils.debug(" I'm in the catch of the updateRole method: "+ e);
             redirect = "null" ;
+            return redirect;
         }finally {
             if(transaction.isActive()){
                 transaction.rollback();

@@ -128,7 +128,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
     /**
      * Method to test the date in front end
-     * @return messageErrorVisitDate hidden or not
+     * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
      */
     public String testDate(){
         LocalDate now = LocalDate.now();
@@ -149,7 +149,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
     /**
      * Method to test the Heights and Cm in front end
-     * @return messageErrorHeightCm hidden or not
+     * @return messageErrorHeightCm hidden or not and button create/update deactivate or not
      */
     public String testRangeHeightCm(){
         String redirect = "null";
@@ -166,7 +166,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
     /**
      * Method to test the Heights and Inches in front end
-     * @return messageErrorHeightInches hidden or not
+     * @return messageErrorHeightInches hidden or not and button create/update deactivate or not
      */
     public String testRangeHeightInches(){
         String redirect = "null";
@@ -182,7 +182,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
     /**
      * Method to test the Weight and KG in front end
-     * @return messageErrorWeightKg hidden or not
+     * @return messageErrorWeightKg hidden or not and button create/update deactivate or not
      */
     public String testRangeWeightKg(){
         String redirect = "null";
@@ -198,7 +198,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
     /**
      * Method to test the Weight and Pounds in front end
-     * @return messageErrorWeightPounds hidden or not
+     * @return messageErrorWeightPounds hidden or not and button create/update deactivate or not
      */
     public String testRangeWeightPounds(){
         String redirect = "null";
@@ -214,7 +214,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
     /**
      * Method to test the DBP and SBP in front end
-     * @return messageErrorSbpGtDbp hidden or not
+     * @return messageErrorSbpGtDbp hidden or not and button create/update deactivate or not
      */
     public String testDbpGtnSbp(){
         String redirect = "null";
@@ -230,7 +230,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
     /**
      * Method to test the DBP > 10 in front end
-     * @return messageErrorDbp hidden or not
+     * @return messageErrorDbp hidden or not and button create/update deactivate or not
      */
     public String testDbp(){
         String redirect = "null";
@@ -246,7 +246,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
     /**
      * Method to test the SBP < 250 in front end
-     * @return messageErrorSbp hidden or not
+     * @return messageErrorSbp hidden or not and button create/update deactivate or not
      */
     public String testSbp(){
         String redirect = "null";
@@ -262,7 +262,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
     /**
      * Method to test the HR < 10 or HR > 240 in front end
-     * @return messageErrorHr hidden or not
+     * @return messageErrorHr hidden or not and button create/update deactivate or not
      */
     public String testHr(){
         String redirect = "null";
@@ -278,7 +278,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
     /**
      * Method to test the RR < 5 in front end
-     * @return messageErrorRr hidden or not
+     * @return messageErrorRr hidden or not and button create/update deactivate or not
      */
     public String testRr(){
         String redirect = "null";
@@ -294,7 +294,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
     /**
      * Method to test the Temperature and °C in front end
-     * @return messageErrorTempC hidden or not
+     * @return messageErrorTempC hidden or not and button create/update deactivate or not
      */
     public String testRangeTempC(){
         String redirect = "null";
@@ -310,7 +310,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
     /**
      * Method to test the Temperature and °F in front end
-     * @return messageErrorTempF hidden or not
+     * @return messageErrorTempF hidden or not and button create/update deactivate or not
      */
     public String testRangeTempF(){
         String redirect = "null";
@@ -326,7 +326,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
     /**
      * Method to test the Oxy < 50 in front end
-     * @return messageErrorOxy hidden or not
+     * @return messageErrorOxy hidden or not and button create/update deactivate or not
      */
     public String testOxy(){
         String redirect = "null";

@@ -103,6 +103,7 @@ public class SubjectBean extends FilterOfTable<SubjectEntity> implements Seriali
             if(subjectService.isSubjectExist(subject.getSubjectNum(),em)){
                 this.messageErrorSubjectNum="";
                 redirect = "null";
+                return redirect;
             }
             subjectService.addSubject(subject,em);
             transaction.commit();

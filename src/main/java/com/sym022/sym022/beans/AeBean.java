@@ -109,7 +109,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
 
     /**
      * Method to test the date in front end
-     * @return messageErrorVisitDate hidden or not
+     * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
      */
     public String testDate(){
         LocalDate now = LocalDate.now();
@@ -130,7 +130,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
 
     /**
      * Method to test the aeterm empty in front end
-     * @return messageErrorAeterm hidden or not
+     * @return messageErrorAeterm hidden or not and button create/update deactivate or not
      */
     public String testAeterm(){
         String redirect = "null";
@@ -146,7 +146,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
 
     /**
      * Method to test the date in front end
-     * @return messageErrorVisitDate hidden or not
+     * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
      */
     public String testDatetestDateAeout(){
         LocalDate now = LocalDate.now();
@@ -167,7 +167,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
 
     /**
      * Method to test the AeendatBeforAestdat in front end
-     * @return messageErrorAeendatBeforAestdat hidden or not
+     * @return messageErrorAeendatBeforAestdat hidden or not and button create/update deactivate or not
      */
     public String testAeendatBeforAestdat(){
         String redirect = "null";
@@ -188,7 +188,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
 
     /**
      * Method to test the AemedimspMis empty in front end
-     * @return messageErrorAemedimspMis hidden or not
+     * @return messageErrorAemedimspMis hidden or not and button create/update deactivate or not
      */
     public String testAemedimspMis(){
         String redirect = "null";
@@ -204,7 +204,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
 
     /**
      * Method to test the AeotherspMis empty in front end
-     * @return messageErrorAeotherspMis hidden or not
+     * @return messageErrorAeotherspMis hidden or not and button create/update deactivate or not
      */
     public String testAeotherspMis(){
         String redirect = "null";
@@ -256,22 +256,27 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                 initErrorMessageFormAe();
                 this.messageErrorAeterm = "";
                 redirect = "null";
+                return redirect;
             }else if(resultAeDateDate > 0){
                 initErrorMessageFormAe();
                 this.messageErrorVisitDate = "";
                 redirect = "null";
+                return redirect;
             }else if(ae.isAeother() && (Objects.equals(ae.getAeothersp(), "") || ae.getAeothersp() == null)){
                 initErrorMessageFormAe();
                 this.messageErrorAeotherspMis = "";
                 redirect = "null";
+                return redirect;
             }else if(ae.isAemedim() && (Objects.equals(ae.getAemedimsp(), "") || ae.getAemedimsp() == null)){
                 initErrorMessageFormAe();
                 this.messageErrorAemedimspMis = "";
                 redirect = "null";
+                return redirect;
             }else if(ae.isAeser() && !ae.isAedeath() && !ae.isAelife() && !ae.isAehosp() && !ae.isAedisab() && !ae.isAecong() && !ae.isAemedim()){
                 initErrorMessageFormAe();
                 this.messageErrorAaeser = "";
                 redirect = "null";
+                return redirect;
             }else{
                 try{
                     ae.setEventByIdEvent(eventBean.getEvent());
@@ -326,30 +331,37 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                     initErrorMessageFormAe();
                     this.messageErrorAeterm = "";
                     redirect = "null";
+                    return redirect;
                 }else if(resultAeDateDate > 0){
                     initErrorMessageFormAe();
                     this.messageErrorVisitDate = "";
                     redirect = "null";
+                    return redirect;
                 }else if(resultAeoutDate > 0){
                     initErrorMessageFormAe();
                     this.messageErrorVisitDateAeendat = "";
                     redirect = "null";
+                    return redirect;
                 }else if(resultAendateDate < 0){
                     initErrorMessageFormAe();
                     this.messageErrorAeendatBeforAestdat = "";
                     redirect = "null";
+                    return redirect;
                 }else if(ae.isAeother() && (Objects.equals(ae.getAeothersp(), "") || ae.getAeothersp() == null)){
                     initErrorMessageFormAe();
                     this.messageErrorAeotherspMis = "";
                     redirect = "null";
+                    return redirect;
                 }else if(ae.isAemedim() && (Objects.equals(ae.getAemedimsp(), "") || ae.getAemedimsp() == null)){
                     initErrorMessageFormAe();
                     this.messageErrorAemedimspMis = "";
                     redirect = "null";
+                    return redirect;
                 }else if(ae.isAeser() && !ae.isAedeath() && !ae.isAelife() && !ae.isAehosp() && !ae.isAedisab() && !ae.isAecong() && !ae.isAemedim()){
                     initErrorMessageFormAe();
                     this.messageErrorAaeser = "";
                     redirect = "null";
+                    return redirect;
                 }else{
                     try{
                         ae.setEventByIdEvent(eventBean.getEvent());

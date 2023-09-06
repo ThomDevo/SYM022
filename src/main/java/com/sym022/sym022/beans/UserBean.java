@@ -87,6 +87,7 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
             if(userService.isUserExist(user.getUsername(),em)){
                 this.messageErrorUserName="";
                 redirect = "null" ;
+                return redirect;
             }
             userService.addUser(user,em);
             transaction.commit();
