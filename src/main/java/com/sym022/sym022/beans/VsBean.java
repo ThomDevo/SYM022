@@ -52,6 +52,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
     private String messageErrorTempC = "hidden";
     private String messageErrorTempF = "hidden";
     private String messageErrorOxy = "hidden";
+    private String buttonSuccess = "false";
     @Inject
     private ConnectionBean connectionBean;
     @Inject
@@ -62,212 +63,14 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
     /*--- Method ---*/
 
     /**
-     * Method to test the date in front end
-     * @return messageErrorVisitDate hidden or not
+     * Method to return on the homepage
+     * @return homepage
      */
-    public String testDate(){
-        LocalDate now = LocalDate.now();
-        String redirect = "null";
-        String isoDatePattern = "yyyy-MM-dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
-        String vsDate = simpleDateFormat.format(vs.getVsDate());
-        int resultVsDate = vsDate.compareTo(String.valueOf(now));
-        if(resultVsDate > 0){
-            this.messageErrorVisitDate = "";
-        }else{
-            this.messageErrorVisitDate = "hidden";
-        }
+    public String cancelForm(){
+        String redirect = "/VIEW/home";
+        initFromVs();
+        eventBean.deleteEvent();
         return redirect;
-    }
-
-    /**
-     * Method to test the Heights and Cm in front end
-     * @return messageErrorHeightCm hidden or not
-     */
-    public String testRangeHeightCm(){
-        String redirect = "null";
-        if(vs.getHeight() < 40.0 && vs.getHeightU() == HeightU.CM || vs.getHeight() > 280.0 && vs.getHeightU() == HeightU.CM){
-            this.messageErrorHeightCm = "";
-            redirect = "null";
-        }else{
-            this.messageErrorHeightCm = "hidden";
-        }
-        return redirect;
-    }
-
-    /**
-     * Method to test the Heights and Inches in front end
-     * @return messageErrorHeightInches hidden or not
-     */
-    public String testRangeHeightInches(){
-        String redirect = "null";
-        if(vs.getHeight() < 15.7 && vs.getHeightU() == HeightU.INCHES || vs.getHeight() > 110.2 && vs.getHeightU() == HeightU.INCHES){
-            this.messageErrorHeightInches = "";
-            redirect = "null";
-        }else{
-            this.messageErrorHeightInches = "hidden";
-        }
-        return redirect;
-    }
-
-    /**
-     * Method to test the Weight and KG in front end
-     * @return messageErrorWeightKg hidden or not
-     */
-    public String testRangeWeightKg(){
-        String redirect = "null";
-        if(vs.getWeight() < 20.0 && vs.getWeightU() == WeightU.KG || vs.getWeight() > 650.0 && vs.getWeightU() == WeightU.KG){
-            this.messageErrorWeightKg = "";
-            redirect = "null";
-        }else{
-            this.messageErrorWeightKg = "hidden";
-        }
-        return redirect;
-    }
-
-    /**
-     * Method to test the Weight and Pounds in front end
-     * @return messageErrorWeightPounds hidden or not
-     */
-    public String testRangeWeightPounds(){
-        String redirect = "null";
-        if(vs.getWeight() < 44.0 && vs.getWeightU() == WeightU.POUNDS || vs.getWeight() > 1435.0 && vs.getWeightU() == WeightU.POUNDS){
-            this.messageErrorWeightPounds = "";
-            redirect = "null";
-        }else{
-            this.messageErrorWeightPounds = "hidden";
-        }
-        return redirect;
-    }
-
-    /**
-     * Method to test the DBP and SBP in front end
-     * @return messageErrorSbpGtDbp hidden or not
-     */
-    public String testDbpGtnSbp(){
-        String redirect = "null";
-        if(vs.getSbp()<vs.getDbp()){
-            this.messageErrorSbpGtDbp = "";
-            redirect = "null";
-        }else{
-            this.messageErrorSbpGtDbp = "hidden";
-        }
-        return redirect;
-    }
-
-    /**
-     * Method to test the DBP > 10 in front end
-     * @return messageErrorDbp hidden or not
-     */
-    public String testDbp(){
-        String redirect = "null";
-        if(vs.getDbp()<10){
-            this.messageErrorDbp = "";
-            redirect = "null";
-        }else{
-            this.messageErrorDbp = "hidden";
-        }
-        return redirect;
-    }
-
-    /**
-     * Method to test the SBP < 250 in front end
-     * @return messageErrorSbp hidden or not
-     */
-    public String testSbp(){
-        String redirect = "null";
-        if(vs.getSbp()>250){
-            this.messageErrorSbp = "";
-            redirect = "null";
-        }else{
-            this.messageErrorSbp = "hidden";
-        }
-        return redirect;
-    }
-
-    /**
-     * Method to test the HR < 10 or HR > 240 in front end
-     * @return messageErrorHr hidden or not
-     */
-    public String testHr(){
-        String redirect = "null";
-        if(vs.getHr()<10 || vs.getHr()>240){
-            this.messageErrorHr = "";
-            redirect = "null";
-        }else{
-            this.messageErrorHr = "hidden";
-        }
-        return redirect;
-    }
-
-    /**
-     * Method to test the RR < 5 in front end
-     * @return messageErrorRr hidden or not
-     */
-    public String testRr(){
-        String redirect = "null";
-        if(vs.getRr()<5){
-            this.messageErrorRr = "";
-            redirect = "null";
-        }else{
-            this.messageErrorRr = "hidden";
-        }
-        return redirect;
-    }
-
-    /**
-     * Method to test the Temperature and °C in front end
-     * @return messageErrorTempC hidden or not
-     */
-    public String testRangeTempC(){
-        String redirect = "null";
-        if(vs.getTemp() < 30 && vs.getTempU() == TempU.C || vs.getTemp() > 45 && vs.getTempU() == TempU.C){
-            this.messageErrorTempC = "";
-            redirect = "null";
-        }else{
-            this.messageErrorTempC = "hidden";
-        }
-        return redirect;
-    }
-
-    /**
-     * Method to test the Temperature and °F in front end
-     * @return messageErrorTempF hidden or not
-     */
-    public String testRangeTempF(){
-        String redirect = "null";
-        if(vs.getTemp() < 86 && vs.getTempU() == TempU.F || vs.getTemp() > 113 && vs.getTempU() == TempU.F){
-            this.messageErrorTempF = "";
-            redirect = "null";
-        }else{
-            this.messageErrorTempF = "hidden";
-        }
-        return redirect;
-    }
-
-    /**
-     * Method to test the Oxy < 50 in front end
-     * @return messageErrorOxy hidden or not
-     */
-    public String testOxy(){
-        String redirect = "null";
-        if(vs.getOxysat()<50){
-            this.messageErrorOxy = "";
-            redirect = "null";
-        }else{
-            this.messageErrorOxy = "hidden";
-        }
-        return redirect;
-    }
-
-    /**
-     * Method to have I18n messages in Back-end
-     * @param summary
-     * @param detail
-     */
-    public void addMessage(String summary, String detail) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
-        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     /**
@@ -320,6 +123,231 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         this.messageErrorTempC = "hidden";
         this.messageErrorTempF = "hidden";
         this.messageErrorOxy = "hidden";
+        this.buttonSuccess = "false";
+    }
+
+    /**
+     * Method to test the date in front end
+     * @return messageErrorVisitDate hidden or not
+     */
+    public String testDate(){
+        LocalDate now = LocalDate.now();
+        String redirect = "null";
+        String isoDatePattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+        String vsDate = simpleDateFormat.format(vs.getVsDate());
+        int resultVsDate = vsDate.compareTo(String.valueOf(now));
+        if(resultVsDate > 0){
+            this.messageErrorVisitDate = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorVisitDate = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the Heights and Cm in front end
+     * @return messageErrorHeightCm hidden or not
+     */
+    public String testRangeHeightCm(){
+        String redirect = "null";
+        if(vs.getHeight() < 40.0 && vs.getHeightU() == HeightU.CM || vs.getHeight() > 280.0 && vs.getHeightU() == HeightU.CM){
+            this.messageErrorHeightCm = "";
+            this.buttonSuccess = "true";
+
+        }else{
+            this.messageErrorHeightCm = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the Heights and Inches in front end
+     * @return messageErrorHeightInches hidden or not
+     */
+    public String testRangeHeightInches(){
+        String redirect = "null";
+        if(vs.getHeight() < 15.7 && vs.getHeightU() == HeightU.INCHES || vs.getHeight() > 110.2 && vs.getHeightU() == HeightU.INCHES){
+            this.messageErrorHeightInches = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorHeightInches = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the Weight and KG in front end
+     * @return messageErrorWeightKg hidden or not
+     */
+    public String testRangeWeightKg(){
+        String redirect = "null";
+        if(vs.getWeight() < 20.0 && vs.getWeightU() == WeightU.KG || vs.getWeight() > 650.0 && vs.getWeightU() == WeightU.KG){
+            this.messageErrorWeightKg = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorWeightKg = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the Weight and Pounds in front end
+     * @return messageErrorWeightPounds hidden or not
+     */
+    public String testRangeWeightPounds(){
+        String redirect = "null";
+        if(vs.getWeight() < 44.0 && vs.getWeightU() == WeightU.POUNDS || vs.getWeight() > 1435.0 && vs.getWeightU() == WeightU.POUNDS){
+            this.messageErrorWeightPounds = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorWeightPounds = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the DBP and SBP in front end
+     * @return messageErrorSbpGtDbp hidden or not
+     */
+    public String testDbpGtnSbp(){
+        String redirect = "null";
+        if(vs.getSbp()<vs.getDbp()){
+            this.messageErrorSbpGtDbp = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorSbpGtDbp = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the DBP > 10 in front end
+     * @return messageErrorDbp hidden or not
+     */
+    public String testDbp(){
+        String redirect = "null";
+        if(vs.getDbp()<10){
+            this.messageErrorDbp = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorDbp = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the SBP < 250 in front end
+     * @return messageErrorSbp hidden or not
+     */
+    public String testSbp(){
+        String redirect = "null";
+        if(vs.getSbp()>250){
+            this.messageErrorSbp = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorSbp = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the HR < 10 or HR > 240 in front end
+     * @return messageErrorHr hidden or not
+     */
+    public String testHr(){
+        String redirect = "null";
+        if(vs.getHr()<10 || vs.getHr()>240){
+            this.messageErrorHr = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorHr = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the RR < 5 in front end
+     * @return messageErrorRr hidden or not
+     */
+    public String testRr(){
+        String redirect = "null";
+        if(vs.getRr()<5){
+            this.messageErrorRr = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorRr = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the Temperature and °C in front end
+     * @return messageErrorTempC hidden or not
+     */
+    public String testRangeTempC(){
+        String redirect = "null";
+        if(vs.getTemp() < 30 && vs.getTempU() == TempU.C || vs.getTemp() > 45 && vs.getTempU() == TempU.C){
+            this.messageErrorTempC = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorTempC = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the Temperature and °F in front end
+     * @return messageErrorTempF hidden or not
+     */
+    public String testRangeTempF(){
+        String redirect = "null";
+        if(vs.getTemp() < 86 && vs.getTempU() == TempU.F || vs.getTemp() > 113 && vs.getTempU() == TempU.F){
+            this.messageErrorTempF = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorTempF = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the Oxy < 50 in front end
+     * @return messageErrorOxy hidden or not
+     */
+    public String testOxy(){
+        String redirect = "null";
+        if(vs.getOxysat()<50){
+            this.messageErrorOxy = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorOxy = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to have I18n messages in Back-end
+     * @param summary
+     * @param detail
+     */
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     /**
@@ -693,5 +721,13 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
     public void setMessageErrorOxy(String messageErrorOxy) {
         this.messageErrorOxy = messageErrorOxy;
+    }
+
+    public String getButtonSuccess() {
+        return buttonSuccess;
+    }
+
+    public void setButtonSuccess(String buttonSuccess) {
+        this.buttonSuccess = buttonSuccess;
     }
 }

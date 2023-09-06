@@ -22,8 +22,7 @@
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_cmterm" value="#{I18N['cmPage.cmterm']}"/>
                             <p:inputText id="input_cmterm" class="label" value="#{cmBean.cm.cmterm}"
-                                         placeholder="#{I18N['cmPage.cmterm.placeHolder']}"
-                                         validatorMessage="#{I18N['cmPage.cmterm.errorMessage']}">
+                                         placeholder="#{I18N['cmPage.cmterm.placeHolder']}">
                                 <p:ajax update="messageInputCmterm" event="blur"/>
                                 <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmterm()}"/>
                             </p:inputText>
@@ -32,7 +31,7 @@
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmtermFalse}">
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText
-                                        value="#{I18N['messageErrorVisitNdFalse']}"/></span>
+                                        value="#{I18N['messageErrorCmtermFalse']}"/></span>
                             </div>
                         </div>
 
@@ -42,10 +41,10 @@
                                 <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testDate()}"/>
                             </p:datePicker>
                         </div>
-                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorVisitDate}">
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmDate}">
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText
-                                        value="#{I18N['messageErrorVisitDate']}"/></span>
+                                        value="#{I18N['messageErrorCmFuture']}"/></span>
                             </div>
                         </div>
                         <span class="field col-12 md:col-4 p-20-0">
@@ -101,19 +100,24 @@
                             <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_cmindicsp" value="#{I18N['cmPage.cmindicsp']}"/>
                             <p:inputText id="input_cmindicsp" class="label" value="#{cmBean.cm.cmindicsp}"
-                                         placeholder="#{I18N['cmPage.cmindicsp.placeHolder']}"
-                                         validatorMessage="#{I18N['cmPage.cmindicsp.errorMessage']}">
+                                         placeholder="#{I18N['cmPage.cmindicsp.placeHolder']}">
                                 <p:ajax update="messageInputCmindicsp" event="blur"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testIndicspIndicOther()}"/>
                             </p:inputText>
                         </span>
-                            <p:message id="messageInputCmindicsp" for="@previous"/>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorIndicspIndicOther}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['cmPage.cmindicsp.errorMessage']}"/></span>
+                                </div>
+                            </div>
                         </h:panelGroup>
                         <span class="field col-12 md:col-4">
                                     <p:outputLabel for="input_cmdose" value="#{I18N['cmPage.input_cmdose']}"/>
                                     <p:inputNumber id="input_cmdose" class="label" value="#{cmBean.cm.cmdose}"
                                                    placeholder="#{I18N['cmPage.input_cmdose.placeholder']}"
                                                    validatorMessage="#{I18N['cmPage.input_cmdose.errorMessage']}">
-                                                   <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testCmdoseAndCmdosu()}"/>
+                                                   <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmdoseAndCmdosuUnknown()}"/>
                                     </p:inputNumber>
                         </span>
                         <span class="field col-12 md:col-4 p-20-0">
@@ -131,25 +135,29 @@
                                                itemLabel="#{Cmdosu.getCmdosu()}"
                                                itemValue="#{Cmdosu}"/>
                                 <p:ajax process="@this" update="@all"/>
-                                <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmdoseAndCmdosu()}"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmdoseAndCmdosuUnknown()}"/>
                             </p:selectOneMenu>
                         </span>
-                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorCmdoseAndCmdosu}">
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorCmdoseAndCmdosuUnknown}">
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText
-                                        value="#{I18N['messageErrorCmdoseAndCmdosu']}"/></span>
+                                        value="#{I18N['messageErrorCmdoseAndCmdosuUnknown']}"/></span>
                             </div>
                         </div>
                         <h:panelGroup rendered="#{cmBean.cm.cmdosu == 'OTHER'}">
                             <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_cmdosusp" value="#{I18N['cmPage.cmdosusp']}"/>
                             <p:inputText id="input_cmdosusp" class="label" value="#{cmBean.cm.cmdosusp}"
-                                         placeholder="#{I18N['cmPage.cmdosusp.placeHolder']}"
-                                         validatorMessage="#{I18N['cmPage.cmdosusp.errorMessage']}">
-                                <p:ajax update="messageInputCmdosusp" event="blur"/>
+                                         placeholder="#{I18N['cmPage.cmdosusp.placeHolder']}">
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmdosuspOther()}"/>
                             </p:inputText>
                         </span>
-                            <p:message id="messageInputCmdosusp" for="@previous"/>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorCmdosuspOther}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['cmPage.cmdosusp.errorMessage']}"/></span>
+                                </div>
+                            </div>
                         </h:panelGroup>
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_cmroute" value="#{I18N['cmPage.cmroute']}"/>
@@ -172,12 +180,16 @@
                             <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_cmroutesp" value="#{I18N['cmPage.cmroutesp']}"/>
                             <p:inputText id="input_cmroutesp" class="label" value="#{cmBean.cm.cmroutesp}"
-                                         placeholder="#{I18N['cmPage.cmroutesp.placeHolder']}"
-                                         validatorMessage="#{I18N['cmPage.cmroutesp.errorMessage']}">
-                                <p:ajax update="messageInputCmroutesp" event="blur"/>
+                                         placeholder="#{I18N['cmPage.cmroutesp.placeHolder']}">
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmrootespOther()}"/>
                             </p:inputText>
                         </span>
-                            <p:message id="messageInputCmroutesp" for="@previous"/>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorCmrootespOther}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['cmPage.cmroutesp.errorMessage']}"/></span>
+                                </div>
+                            </div>
                         </h:panelGroup>
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_cmfreq" value="#{I18N['cmPage.cmfreq']}"/>
@@ -202,10 +214,15 @@
                             <p:inputText id="input_cmfreqsp" class="label" value="#{cmBean.cm.cmfreqsp}"
                                          placeholder="#{I18N['cmPage.cmfreqsp.placeHolder']}"
                                          validatorMessage="#{I18N['cmPage.cmfreqsp.errorMessage']}">
-                                <p:ajax update="messageInputCmfreqsp" event="blur"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmfreqspOther()}"/>
                             </p:inputText>
                         </span>
-                            <p:message id="messageInputCmfreqsp" for="@previous"/>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorCmfreqspOther}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['cmPage.cmfreqsp.errorMessage']}"/></span>
+                                </div>
+                            </div>
                         </h:panelGroup>
                     </p:outputPanel>
                     <span class="responsiveSubmit">
@@ -219,6 +236,7 @@
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-secondary"
+                                         disabled="#{cmBean.buttonSuccess}"
                                          action="#{cmBean.cancelForm()}"/>
                     </span>
                 </h:form>
