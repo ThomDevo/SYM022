@@ -220,7 +220,7 @@
                                            validatorMessage="#{I18N['vsPage.input_sbp.errorMessage']}" decimalPlaces="1">
                                         <p:ajax update="messageSbp" event="blur"/>
                                         <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDbpGtnSbp()}"/>
-                                        <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDbp()}"/>
+                                        <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testSbp()}"/>
                                     </p:inputNumber>
                                 </span>
                                 <p:message id="messageSbp" for="@previous"/>

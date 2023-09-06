@@ -22,8 +22,7 @@
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_aeterm" value="#{I18N['aePage.aeterm']}"/>
                             <p:inputText id="input_aeterm" class="label" value="#{aeBean.ae.aeterm}"
-                                         placeholder="#{I18N['aePage.aeterm.placeHolder']}"
-                                         validatorMessage="#{I18N['aePage.aeterm.errorMessage']}">
+                                         placeholder="#{I18N['aePage.aeterm.placeHolder']}">
                                          <p:ajax event="blur" process="@this" update="@all" listener="#{aeBean.testAeterm()}"/>
                             </p:inputText>
                         </span>
@@ -44,14 +43,14 @@
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorVisitDate}">
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText
-                                        value="#{I18N['messageErrorVisitDate']}"/></span>
+                                        value="#{I18N['messageErrorAestdatFuture']}"/></span>
                             </div>
                         </div>
 
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorVisitNdFalse}">
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText
-                                        value="#{I18N['messageErrorVisitNdFalse']}"/></span>
+                                        value="#{I18N['messageErrorAeMisDate']}"/></span>
                             </div>
                         </div>
                         <span class="field col-12 md:col-4 p-20-0">
@@ -82,7 +81,7 @@
                             <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorVisitDateAeendat}">
                                 <div><span class="ui-message-error-icon"> </span>
                                     <span class="ui-message-error-detail"><h:outputText
-                                            value="#{I18N['messageErrorVisitDateAeendat']}"/></span>
+                                            value="#{I18N['messageErrorAeendatFuture']}"/></span>
                                 </div>
                             </div>
                             <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAeendatBeforAestdat}">
@@ -200,8 +199,7 @@
                             <span class="field col-12 md:col-4 p-20-0">
                                 <p:outputLabel for="input_aeothersp" value="#{I18N['aePage.aeothersp']}"/>
                                 <p:inputText id="input_aeothersp" class="label" value="#{aeBean.ae.aeothersp}"
-                                         placeholder="#{I18N['aePage.aeothersp.placeHolder']}"
-                                         validatorMessage="#{I18N['aePage.aeothersp.errorMessage']}">
+                                         placeholder="#{I18N['aePage.aeothersp.placeHolder']}">
                                 <p:ajax event="blur" process="@this" update="@all" listener="#{aeBean.testAeotherspMis()}"/>
                                 </p:inputText>
                             </span>
