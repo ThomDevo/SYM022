@@ -38,6 +38,7 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
     private String messageErrorIeNotMeet = "hidden";
     private String messageErrorIeNotMeetNa = "hidden";
     private String messageErrorVsProt = "hidden";
+    private String buttonSuccess = "false";
     @Inject
     private ConnectionBean connectionBean;
     @Inject
@@ -46,6 +47,17 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
     private EventBean eventBean;
 
     /*---Method---*/
+
+    /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelForm(){
+        String redirect = "/VIEW/home";
+        initFormIc();
+        eventBean.deleteEvent();
+        return redirect;
+    }
 
     /**
      * Method to test the date in front end
@@ -60,8 +72,10 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
         int resultIsDate = icDate.compareTo(String.valueOf(now));
         if(resultIsDate > 0){
             this.messageErrorIcDate = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorIcDate = "hidden";
+            this.messageErrorIcDate = "false";
         }
 
 
@@ -87,7 +101,8 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
         this.messageErrorIcDate = "hidden";
         this.messageErrorIeNotMeet = "hidden";
         this.messageErrorIeNotMeetNa = "hidden";
-        this.messageErrorVsProt = "";
+        this.messageErrorVsProt = "hidden";
+        this.buttonSuccess = "false";
     }
 
     /**
@@ -238,5 +253,13 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
 
     public void setMessageErrorVsProt(String messageErrorVsProt) {
         this.messageErrorVsProt = messageErrorVsProt;
+    }
+
+    public String getButtonSuccess() {
+        return buttonSuccess;
+    }
+
+    public void setButtonSuccess(String buttonSuccess) {
+        this.buttonSuccess = buttonSuccess;
     }
 }

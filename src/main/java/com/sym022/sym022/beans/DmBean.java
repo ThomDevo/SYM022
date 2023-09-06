@@ -42,6 +42,17 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
     /*--- Method ---*/
 
     /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelForm(){
+        String redirect = "/VIEW/home";
+        initFormDm();
+        eventBean.deleteEvent();
+        return redirect;
+    }
+
+    /**
      * Method to reset the form to add or update an IC
      */
     public void initFormDm(){

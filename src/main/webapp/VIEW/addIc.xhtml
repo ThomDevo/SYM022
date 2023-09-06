@@ -111,7 +111,8 @@
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-secondary"
-                                         action="#{eventBean.deleteEvent()}"/>
+                                         disabled="#{icBean.buttonSuccess}"/>
+                                         action="#{icBean.cancelForm()}"/>
                     </span>
                 </h:form>
             </div>

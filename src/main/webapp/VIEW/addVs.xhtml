@@ -35,6 +35,7 @@
                                 <p:outputLabel for="input_vs_nd" value="#{I18N['vsPage.vsNd']}"/>
                                 <p:inputTextarea  rows="6" cols="33" id="input_vs_nd" class="label" value="#{vsBean.vs.vsNd}"
                                                   placeholder="#{I18N['vsPage.vsNd.placeholder']}"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testInputVsNd()}"/>
                             </h:panelGroup>
                         </h:panelGroup>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorVisitNd}">
@@ -445,7 +446,7 @@
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-secondary"
-                                         action="#{eventBean.deleteEvent()}"/>
+                                         action="#{vsBean.cancelForm()}"/>
                     </span>
                 </h:form>
             </div>

@@ -42,6 +42,7 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
     private String messageErrorPD = "hidden";
     private String messageErrorNAE = "hidden";
     private String messageErrorNE = "hidden";
+    private String buttonSuccess = "false";
     @Inject
     private ConnectionBean connectionBean;
     @Inject
@@ -50,6 +51,33 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
     private EventBean eventBean;
 
     /*---Method---*/
+
+    /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelForm(){
+        String redirect = "/VIEW/home";
+        initErrorMessageFormTE();
+        eventBean.deleteEvent();
+        return redirect;
+    }
+
+    /**
+     * Method to reset the form for Add/Update a VS
+     */
+    public void initFromTe(){
+        Date now = new Date();
+        this.te.setTeYn(false);
+        this.te.setTeNd("");
+        this.te.setTeDate(now);
+        this.te.setTargetLesions(null);
+        this.te.setNonTargetLesions(null);
+        this.te.setNewLesions(false);
+        this.te.setOverallResponse(null);
+        initErrorMessageFormTE();
+    }
+
 
     /**
      * Method to reset all error messages
@@ -64,6 +92,7 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
         this.messageErrorNAE = "hidden";
         this.messageErrorNE = "hidden";
         this.messageErrorVisitDateMissing = "hidden";
+        this.buttonSuccess = "false";
     }
 
     /**
@@ -79,8 +108,10 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
         int resultTeDate = teDate.compareTo(String.valueOf(now));
         if(resultTeDate > 0){
             this.messageErrorVisitDate = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorVisitDate = "hidden";
+            this.buttonSuccess = "false";
         }
         return redirect;
     }
@@ -94,182 +125,242 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
         initErrorMessageFormTE();
         if(te.getTargetLesions() == TargetLesionsOverallResponse.COMPLETE_RESPONSE && te.getNonTargetLesions() == NonTargetLesions.COMPLETE_RESPONSE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.COMPLETE_RESPONSE){
             this.messageErrorCR = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorCR = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.COMPLETE_RESPONSE && te.getNonTargetLesions() == NonTargetLesions.PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PROGRESSIVE_DISEASE){
             this.messageErrorPD = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPD = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.COMPLETE_RESPONSE && te.getNonTargetLesions() == NonTargetLesions.NOT_ALL_EVALUATED && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PARTIAL_RESPONSE){
             this.messageErrorPR = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPR = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.COMPLETE_RESPONSE && te.getNonTargetLesions() == NonTargetLesions.NOT_EVALUABLE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PARTIAL_RESPONSE){
             this.messageErrorPR = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPR = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.COMPLETE_RESPONSE && te.getNonTargetLesions() == NonTargetLesions.NON_COMPLETE_RESPONSE_NON_PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PARTIAL_RESPONSE){
             this.messageErrorPR = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPR = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.PARTIAL_RESPONSE && te.getNonTargetLesions() == NonTargetLesions.COMPLETE_RESPONSE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PARTIAL_RESPONSE){
             this.messageErrorPR = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPR = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.PARTIAL_RESPONSE && te.getNonTargetLesions() == NonTargetLesions.PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PROGRESSIVE_DISEASE){
             this.messageErrorPD = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPD = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.PARTIAL_RESPONSE && te.getNonTargetLesions() == NonTargetLesions.NOT_ALL_EVALUATED && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PARTIAL_RESPONSE){
             this.messageErrorPR = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPR = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.PARTIAL_RESPONSE && te.getNonTargetLesions() == NonTargetLesions.NOT_EVALUABLE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PARTIAL_RESPONSE){
             this.messageErrorPR = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPR = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.PARTIAL_RESPONSE && te.getNonTargetLesions() == NonTargetLesions.NON_COMPLETE_RESPONSE_NON_PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PARTIAL_RESPONSE){
             this.messageErrorPR = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPR = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.STABLE_DISEASE && te.getNonTargetLesions() == NonTargetLesions.COMPLETE_RESPONSE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.STABLE_DISEASE){
             this.messageErrorSD = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorSD = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.STABLE_DISEASE && te.getNonTargetLesions() == NonTargetLesions.PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PROGRESSIVE_DISEASE){
             this.messageErrorPD = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPD = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.STABLE_DISEASE && te.getNonTargetLesions() == NonTargetLesions.NOT_ALL_EVALUATED && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.STABLE_DISEASE){
             this.messageErrorSD = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorSD = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.STABLE_DISEASE && te.getNonTargetLesions() == NonTargetLesions.NOT_EVALUABLE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.STABLE_DISEASE){
             this.messageErrorSD = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorSD = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.STABLE_DISEASE && te.getNonTargetLesions() == NonTargetLesions.NON_COMPLETE_RESPONSE_NON_PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.STABLE_DISEASE){
             this.messageErrorSD = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorSD = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.PROGRESSIVE_DISEASE && te.getNonTargetLesions() == NonTargetLesions.PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PROGRESSIVE_DISEASE){
             this.messageErrorPD = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPD = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.PROGRESSIVE_DISEASE && te.getNonTargetLesions() == NonTargetLesions.NOT_ALL_EVALUATED && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PROGRESSIVE_DISEASE){
             this.messageErrorPD = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPD = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.PROGRESSIVE_DISEASE && te.getNonTargetLesions() == NonTargetLesions.NOT_EVALUABLE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PROGRESSIVE_DISEASE){
             this.messageErrorPD = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPD = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.PROGRESSIVE_DISEASE && te.getNonTargetLesions() == NonTargetLesions.NON_COMPLETE_RESPONSE_NON_PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PROGRESSIVE_DISEASE){
             this.messageErrorPD = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPD = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.NOT_ALL_EVALUATED && te.getNonTargetLesions() == NonTargetLesions.COMPLETE_RESPONSE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.NOT_ALL_EVALUATED){
             this.messageErrorNAE = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorNAE = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.NOT_ALL_EVALUATED && te.getNonTargetLesions() == NonTargetLesions.PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.NOT_ALL_EVALUATED){
             this.messageErrorPD = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPD = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.NOT_ALL_EVALUATED && te.getNonTargetLesions() == NonTargetLesions.NOT_ALL_EVALUATED && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.NOT_ALL_EVALUATED){
             this.messageErrorNAE = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorNAE = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.NOT_ALL_EVALUATED && te.getNonTargetLesions() == NonTargetLesions.NOT_EVALUABLE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.NOT_ALL_EVALUATED){
             this.messageErrorNAE = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorNAE = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.NOT_ALL_EVALUATED && te.getNonTargetLesions() == NonTargetLesions.NON_COMPLETE_RESPONSE_NON_PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.NOT_ALL_EVALUATED){
             this.messageErrorNAE = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorNAE = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.NOT_EVALUABLE && te.getNonTargetLesions() == NonTargetLesions.COMPLETE_RESPONSE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.NOT_EVALUABLE){
             this.messageErrorNE = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorNE = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.NOT_EVALUABLE && te.getNonTargetLesions() == NonTargetLesions.PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PROGRESSIVE_DISEASE){
             this.messageErrorPD = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPD = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.NOT_EVALUABLE && te.getNonTargetLesions() == NonTargetLesions.NOT_ALL_EVALUATED && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.NOT_EVALUABLE){
             this.messageErrorNE = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorNE = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.NOT_EVALUABLE && te.getNonTargetLesions() == NonTargetLesions.NOT_EVALUABLE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.NOT_EVALUABLE){
             this.messageErrorNE = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorNE = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.NOT_EVALUABLE && te.getNonTargetLesions() == NonTargetLesions.NON_COMPLETE_RESPONSE_NON_PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.NOT_EVALUABLE){
             this.messageErrorNE = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorNE = "hidden";
+            this.buttonSuccess = "false";
         }
 
         if(te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PROGRESSIVE_DISEASE){
             this.messageErrorPD = "";
+            this.buttonSuccess = "true";
         }else{
             this.messageErrorPD = "hidden";
+            this.buttonSuccess = "false";
         }
 
         return redirect;
@@ -300,21 +391,6 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
 
         addMessage(addTe+" "+add+" "+forThe+" "+addSubject+" "+te.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
         initFromTe();
-    }
-
-    /**
-     * Method to reset the form for Add/Update a VS
-     */
-    public void initFromTe(){
-        Date now = new Date();
-        this.te.setTeYn(false);
-        this.te.setTeNd("");
-        this.te.setTeDate(now);
-        this.te.setTargetLesions(null);
-        this.te.setNonTargetLesions(null);
-        this.te.setNewLesions(false);
-        this.te.setOverallResponse(null);
-        initErrorMessageFormTE();
     }
 
     /**
@@ -768,5 +844,13 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
 
     public void setMessageErrorNE(String messageErrorNE) {
         this.messageErrorNE = messageErrorNE;
+    }
+
+    public String getButtonSuccess() {
+        return buttonSuccess;
+    }
+
+    public void setButtonSuccess(String buttonSuccess) {
+        this.buttonSuccess = buttonSuccess;
     }
 }

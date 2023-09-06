@@ -36,6 +36,18 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
     private EventBean eventBean;
 
     /*---Method---*/
+
+    /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelForm(){
+        String redirect = "/VIEW/home";
+        initFormCm();
+        eventBean.deleteEvent();
+        return redirect;
+    }
+
     /**
      * Method to reset the form to add or update an IC
      */

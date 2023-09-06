@@ -28,6 +28,7 @@
                                 <f:selectItem itemLabel="#{I18N['notDone']}"
                                               itemValue="#{false}"/>
                                 <p:ajax process="@this" update="@all"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{dovBean.initErrorMessageFormDov()}"/>
                             </p:selectOneButton>
 
                         </span>
@@ -36,7 +37,9 @@
                             <h:panelGroup class="field col-12 md:col-4 p-20-0">
                                 <p:outputLabel for="input_visit_nd" value="#{I18N['dovPage.visitNd']}"/>
                                 <p:inputTextarea  rows="6" cols="33" id="input_visit_nd" class="label" value="#{dovBean.dov.visitNd}"
-                                            placeholder="#{I18N['dovPage.visitNd.placeholder']}"/>
+                                                  placeholder="#{I18N['dovPage.visitNd.placeholder']}">
+                                    <p:ajax event="blur" process="@this" update="@all" listener="#{dovBean.testInputVsNd()}"/>
+                                </p:inputTextarea>
                             </h:panelGroup>
                         </h:panelGroup>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{dovBean.messageErrorVisitNd}">
@@ -77,13 +80,14 @@
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-success"
+                                         disabled="#{dovBean.buttonSuccess}"
                                          action="#{dovBean.submitFormAddDov}"/>
 
                         <p:commandButton value="#{I18N['connectionpage.return.button']}"
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-secondary"
-                                         action="#{eventBean.deleteEvent()}"/>
+                                         action="#{dovBean.cancelForm()}"/>
                     </span>
                 </h:form>
             </div>
