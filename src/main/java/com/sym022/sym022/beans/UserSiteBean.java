@@ -160,7 +160,7 @@ public class UserSiteBean extends FilterOfTable<UserSiteEntity> implements Seria
                     }
                 }
                 if(!findMatch){
-                    userSite=userSiteService.findUserSiteByIdUserAndByIdSite(getUserSite().getUserByIdUser().getIdUser(),getUserSite().getSiteByIdSite().getIdSite(),em);
+                    userSite=userSiteService.findUserSiteByIdUserAndByIdSite(getUserSite().getUserByIdUser().getIdUser(),allUserSitesPerUser.get(j).getSiteByIdSite().getIdSite(),em);
                     userSiteService.deleteUserSite(userSite,em);
                 }
             }

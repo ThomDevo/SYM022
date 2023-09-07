@@ -23,7 +23,8 @@
                             <p:outputLabel for="inputSiteNum" value="#{I18N['sitePage.siteNum']}"/>
                             <p:inputNumber id="inputSiteNum" class="label" value="#{siteBean.site.siteNum}"
                                            placeholder="#{I18N['sitePage.siteNum.placeHolder']}"
-                                           validatorMessage="#{I18N['sitePage.siteNum.errorMessage']}">
+                                           validatorMessage="#{I18N['sitePage.siteNum.errorMessage']}"
+                                           minValue="1000">
                                 <p:ajax update="messageInputSiteNum" event="blur"/>
                             </p:inputNumber>
                         </span>
@@ -60,7 +61,8 @@
                                          validateClient="true"
                                          class="ui-button-success"
                                          action="#{siteBean.submitFormAddSite}"/>
-                        <p:linkButton outcome="/VIEW/home.xhtml" value="#{I18N['connectionpage.return.button']}" class="ui-button-secondary" ></p:linkButton>
+                        <p:commandButton value="#{I18N['connectionpage.return.button']}" action="#{siteBean.cancelForm()}"
+                                         class="ui-button-secondary" id="cancelButton"/>
                     </span>
                 </h:form>
             </div>

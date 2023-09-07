@@ -4,7 +4,7 @@ import com.sym022.sym022.enums.QueryStatus;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity

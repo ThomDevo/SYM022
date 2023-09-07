@@ -34,7 +34,7 @@ public class SiteEntity {
 
     @Basic
     @NotNull
-    @Range(min = 0, max =999999)
+    @Range(min = 1000, max =9999)
     @Column(name = "site_num", nullable = false)
     private int siteNum;
 

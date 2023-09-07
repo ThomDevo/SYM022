@@ -97,6 +97,9 @@
                                 <h:commandButton class="btn btn-dark" value="#{I18N['event.inactive']}" action="#{eventBean.inactivateAnEvent()}" rendered="#{r.available and connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER'}">
                                     <f:setPropertyActionListener target="#{eventBean.event}" value="#{r}"/>
                                 </h:commandButton>
+                            <h:commandButton class="btn btn-dark" value="#{I18N['event.active']}" action="#{eventBean.reactivateAnEvent()}" rendered="#{!r.available and connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER'}">
+                                <f:setPropertyActionListener target="#{eventBean.event}" value="#{r}"/>
+                            </h:commandButton>
                         </p:column>
                     </p:dataTable>
                 </h:form>

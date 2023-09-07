@@ -32,6 +32,16 @@ public class RoleBean extends FilterOfTable<RoleEntity> implements Serializable 
     /*---Method---*/
 
     /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelForm(){
+        String redirect = "/VIEW/home";
+        initFormRole();
+        return redirect;
+    }
+
+    /**
      * Method to have all roles in the select Menu
      */
     public void initAllEditor(){

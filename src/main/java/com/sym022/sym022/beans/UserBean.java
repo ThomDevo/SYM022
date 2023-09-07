@@ -35,6 +35,16 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
     /*--- Methods ---*/
 
     /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelForm(){
+        String redirect = "/VIEW/home";
+        initFormUser();
+        return redirect;
+    }
+
+    /**
      * Method to find all the users who have no sites in the select menu
      */
     public void initAllUserAllEmptySites(){

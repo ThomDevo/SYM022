@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 
 @Named
 @ManagedBean
@@ -98,10 +99,7 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
         }finally{
             em.close();
         }
-
         nextNumber = String.valueOf(number.size());
-        //ProcessUtils.debug(""+number.size());
-        //ProcessUtils.debug(""+nextNumber);
         return nextNumber;
     }
 
@@ -142,6 +140,51 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
                 transaction.rollback();
             }
             em.close();
+            ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                    FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            String addEvent = bundle.getString("event");
+            String inactive = bundle.getString("inactive");
+            String forThe = bundle.getString("for");
+            String addSubject = bundle.getString("subject");
+            addMessage(addEvent+" "+inactive+" "+forThe+" "+addSubject+" "+event.getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to inactivate an event
+     * @return an event
+     */
+    public String reactivateAnEvent() {
+        EntityManager em = EMF.getEM();
+        String redirect = "/VIEW/home";
+        EntityTransaction transaction = em.getTransaction();
+        EventService eventService = new EventService();
+        AuditTrailService auditTrailService = new AuditTrailService();
+        try{
+            auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+            auditTrailBean.getAuditTrail().setEventByIdEvent(event);
+            auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+            event.setAvailable(true);
+            transaction.begin();
+            eventService.updateEvent(event,em);
+            auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+            transaction.commit();
+        }catch(Exception e){
+
+            ProcessUtils.debug(" I'm in the catch of the inactiveEvent method: "+ e);
+        }finally {
+            if(transaction.isActive()){
+                transaction.rollback();
+            }
+            em.close();
+            ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                    FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            String addEvent = bundle.getString("event");
+            String reactive = bundle.getString("reactive");
+            String forThe = bundle.getString("for");
+            String addSubject = bundle.getString("subject");
+            addMessage(addEvent+" "+reactive+" "+forThe+" "+addSubject+" "+event.getSubjectByIdSubject().getSubjectNum(),"Confirmation");
         }
         return redirect;
     }

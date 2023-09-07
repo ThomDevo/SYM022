@@ -24,7 +24,7 @@
                 <h:form>
                     <p:outputPanel class="form-control">
                         <span class="field col-12 md:col-4 p-20-0">
-                            <p:outputLabel for="inputUser" value="#{I18N['user']}"/>
+                            <p:outputLabel for="inputUser" value="#{I18N['user']} :"/>
                             <h:outputText id="inputUser" value="#{userSiteBean.userSite.userByIdUser.username} - #{userSiteBean.userSite.userByIdUser.lastName} #{userSiteBean.userSite.userByIdUser.firstName}"></h:outputText>
                         </span>
                         <span class="field col-12 md:col-4 p-20-0">
@@ -41,7 +41,8 @@
                                 <f:selectItems value="#{siteBean.allSite}"
                                                var="site"
                                                itemLabel="#{site.siteNum} - #{site.siteName}"
-                                               itemValue="#{site}"/>
+                                               itemValue="#{site}"
+                                               selected="true"/>
                             </p:selectManyCheckbox>
                         </span>
                     </p:outputPanel>

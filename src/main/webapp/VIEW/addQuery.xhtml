@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{I18N['queryPage.addQueryTitle']}"/>
+    </ui:define>
+    <ui:define name="content">
+        <div class="content">
+            <div class="block p-20 form-container">
+                <h2>
+                    <h:outputText value="#{I18N['queryPage.addQueryTitle']}" />
+                </h2>
+                <h:form>
+                    <p:outputPanel class="form-control">
+                        <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_query_text" value="#{I18N['queryPage.text']}"/>
+                            <p:inputTextarea  rows="6" cols="33" id="input_query_text" class="label" value="#{queryBean.query.queryText}"
+                                              placeholder="#{I18N['vsPage.vsNd.placeholder']}"/>
+                            <p:ajax event="blur" process="@this" update="@all" listener="#{queryBean.testInputQueryTextNd()}"/>
+                        </h:panelGroup>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{queryBean.messageErrorInputQueryTextNd}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorInputQueryTextNd']}"/></span>
+                            </div>
+                        </div>
+                    </p:outputPanel>
+                    <span class="responsiveSubmit">
+                        <p:commandButton value="#{I18N['application.create.query']}"
+                                         ajax="false"
+                                         validateClient="true"
+                                         class="ui-button-success"
+                                         action="#{queryBean.submitFormAddQuery}"/>
+
+                        <p:linkButton outcome="/VIEW/home.xhtml" value="#{I18N['connectionpage.return.button']}" class="ui-button-secondary" ></p:linkButton>
+                    </span>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

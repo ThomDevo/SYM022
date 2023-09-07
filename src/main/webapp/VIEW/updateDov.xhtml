@@ -85,7 +85,7 @@
                                              action="#{dovBean.submitFormUpdateDov}"/>
                         </p:outputPanel>
 
-                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and !eventBean.event.monitored}">
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and !eventBean.event.monitored and eventBean.event.available}">
                             <p:commandButton value="#{I18N['application.dov.validate']}"
                                             ajax="false"
                                             validateClient="true"
@@ -93,7 +93,7 @@
                                             action="#{eventBean.setEventMonitored}"/>
                         </p:outputPanel>
 
-                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL' or connectionBean.user.roleByIdRole.roleLabel == 'SAFETY'}">
+                        <p:outputPanel rendered="#{eventBean.event.available and (connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL' or connectionBean.user.roleByIdRole.roleLabel == 'SAFETY')}">
                             <p:commandButton value="#{I18N['application.dov.query']}"
                                              ajax="false"
                                              validateClient="true"
@@ -101,7 +101,7 @@
                                              action="/VIEW/addQuery"/>
                         </p:outputPanel>
 
-                        <p:commandButton value="#{I18N['connectionpage.return.button']}" action="#{dovBean.cancelForm()}"
+                        <p:commandButton value="#{I18N['connectionpage.return.button']}" action="#{dovBean.cancelUpdateForm()}"
                                          class="ui-button-secondary" id="cancelButton"/>
                     </span>
                 </h:form>

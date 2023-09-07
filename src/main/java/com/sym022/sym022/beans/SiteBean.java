@@ -38,13 +38,22 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
     /*--- Methods ---*/
 
     /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelForm(){
+        String redirect = "/VIEW/home";
+        initFormSite();
+        return redirect;
+    }
+
+    /**
      * Method to have all sites in the select menu
      */
     public void initAllEditorSite(){
         EntityManager em = EMF.getEM();
         SiteService siteService = new SiteService();
         EntityTransaction transaction = em.getTransaction();
-        this.allSiteSelected = new ArrayList<>();
          try{
             transaction.begin();
             this.allSite = siteService.findSiteAll(em);
@@ -66,7 +75,6 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
         EntityManager em = EMF.getEM();
         SiteService siteService = new SiteService();
         EntityTransaction transaction = em.getTransaction();
-        this.allSiteSelected = new ArrayList<>();
         try{
             transaction.begin();
             this.allSitePermitted = siteService.findSiteByUserConnected(connectionBean.getUser().getIdUser(),em);
@@ -107,28 +115,35 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
         EntityTransaction transaction = em.getTransaction();
         SiteService siteService = new SiteService();
 
-        try{
-            setSiteNameInCapitalization(site.getSiteName());
-            site.setSiteStatus(true);
-            transaction.begin();
-            if(siteService.isSiteExist(site.getSiteNum(),em)){
-                this.messageErrorSiteNum="";
-                redirect = "null" ;
-                return redirect;
-            }
-            siteService.addSite(site,em);
-            transaction.commit();
-            confirmAddSite();
-            initFormSite();
+        if(site.getSiteNum()< 1000 || site.getSiteNum() > 9999){
+            this.messageErrorSiteNum = "";
+            redirect = null;
+            return redirect;
+        }else{
+            try{
+                setSiteNameInCapitalization(site.getSiteName());
+                site.setSiteStatus(true);
+                transaction.begin();
+                if(siteService.isSiteExist(site.getSiteNum(),em)){
+                    this.messageErrorSiteNum="";
+                    redirect = "null" ;
+                    return redirect;
+                }
+                siteService.addSite(site,em);
+                transaction.commit();
+                confirmAddSite();
+                initFormSite();
 
-        }catch(Exception e){
-            ProcessUtils.debug(" I'm in the catch of the addSite method: "+ e);
-        }finally {
-            if(transaction.isActive()){
-                transaction.rollback();
+            }catch(Exception e){
+                ProcessUtils.debug(" I'm in the catch of the addSite method: "+ e);
+            }finally {
+                if(transaction.isActive()){
+                    transaction.rollback();
+                }
+                em.close();
             }
-            em.close();
         }
+
         return redirect;
     }
 
@@ -165,7 +180,7 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
      * Method to reset the form to add or update a site
      */
     public void initFormSite(){
-        this.site.setSiteNum(0);
+        this.site.setSiteNum(1000);
         this.site.setSiteName("");
         this.site.setPiName("");
         this.messageErrorSiteNum = "hidden";

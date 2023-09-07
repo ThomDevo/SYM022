@@ -58,6 +58,17 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
     }
 
     /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelUpdateForm(){
+        String redirect = "/VIEW/home";
+        initFormDov();
+        eventBean.deleteEvent();
+        return redirect;
+    }
+
+    /**
      * Method to test the date in front end
      * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
      */

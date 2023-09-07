@@ -29,18 +29,16 @@
                         </span>
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="inputPermissions" value="#{I18N['select.permission']}"/>
-                            <p:selectManyMenu id="inputPermissions"
+                            <p:selectManyCheckbox id="inputPermissions"
                                               value="#{rolePermissionBean.permissionsBean.allPermissionsSelected}"
                                               converter="PermissionConverter"
                                               effect="fade"
                                               var="v"
                                               filter="true"
                                               filterMatchMode="contains"
+                                              layout="responsive" columns="3"
                                               required="true">
                                 <!-- reload list editor from db. -->
-
-                                <f:selectItem itemLabel="#{I18N['select.permission']}"
-                                              itemValue="#{null}"/>
                                 <f:selectItems value="#{permissionBean.allPermissions}"
                                                var="permission"
                                                itemLabel="#{permission.permissionDescription}"
@@ -53,7 +51,7 @@
                                     <h:outputText value="#{v.permissionLabel}"/>
                                 </p:column>
 
-                            </p:selectManyMenu>
+                            </p:selectManyCheckbox>
                         </span>
                     </p:outputPanel>
                     <span class="responsiveSubmit">

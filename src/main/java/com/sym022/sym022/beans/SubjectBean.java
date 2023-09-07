@@ -30,10 +30,21 @@ public class SubjectBean extends FilterOfTable<SubjectEntity> implements Seriali
     private String messageErrorSubjectNum = "hidden";
     private List<SubjectEntity> allSubject;
     private List<SubjectEntity> allSubjectSelected;
+    private List<SubjectEntity> allSubjectsBySite;
     @Inject
     private ConnectionBean connectionBean;
 
     /*---Method---*/
+
+    /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelForm(){
+        String redirect = "/VIEW/home";
+        initFormSubjects();
+        return redirect;
+    }
 
     /**
      * Method to filter all ACTIVE subjects on the subjectNum
@@ -52,7 +63,7 @@ public class SubjectBean extends FilterOfTable<SubjectEntity> implements Seriali
     }
 
     /**
-     *
+     * Method to filter all ACTIVE subjects on the authorized sites
      */
     public void initAllEditorSubject(){
         EntityManager em = EMF.getEM();
@@ -61,7 +72,6 @@ public class SubjectBean extends FilterOfTable<SubjectEntity> implements Seriali
         try{
             transaction.begin();
             this.allSubject = subjectService.findSubjectPermitted(connectionBean.getUser().getIdUser(),this.filter,em);
-
             transaction.commit();
         }catch(Exception e){
             ProcessUtils.debug(e.getMessage());
@@ -71,6 +81,33 @@ public class SubjectBean extends FilterOfTable<SubjectEntity> implements Seriali
             }
             em.close();
         }
+    }
+
+    public String CalculateNumSubject(){
+        String numSubject= "";
+        int siteNumber;
+        int sizeSubject;
+        int total;
+        EntityManager em = EMF.getEM();
+        EntityTransaction transaction = em.getTransaction();
+        SubjectService subjectService = new SubjectService();;
+        try{
+            transaction.begin();
+            this.allSubjectsBySite = subjectService.findSubjectPermittedBySite(connectionBean.getUser().getIdUser(), this.subject.getSiteByIdSite().getIdSite(),this.filter,em);
+            transaction.commit();
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally{
+            if(transaction.isActive()){
+                transaction.rollback();
+            }
+            em.close();
+        }
+        sizeSubject = this.allSubjectsBySite.size() + 1;
+        siteNumber = subject.getSiteByIdSite().getSiteNum() * 100;
+        total = siteNumber + sizeSubject;
+        numSubject = String.valueOf(total);
+        return numSubject;
     }
 
     /**
@@ -99,12 +136,8 @@ public class SubjectBean extends FilterOfTable<SubjectEntity> implements Seriali
         SubjectService subjectService = new SubjectService();
         try{
             subject.setSubjectStatus(true);
+            subject.setSubjectNum(Integer.parseInt(CalculateNumSubject()));
             transaction.begin();
-            if(subjectService.isSubjectExist(subject.getSubjectNum(),em)){
-                this.messageErrorSubjectNum="";
-                redirect = "null";
-                return redirect;
-            }
             subjectService.addSubject(subject,em);
             transaction.commit();
         }catch(Exception e){
@@ -192,5 +225,21 @@ public class SubjectBean extends FilterOfTable<SubjectEntity> implements Seriali
 
     public void setAllSubjectSelected(List<SubjectEntity> allSubjectSelected) {
         this.allSubjectSelected = allSubjectSelected;
+    }
+
+    public List<SubjectEntity> getAllSubjectsBySite() {
+        return allSubjectsBySite;
+    }
+
+    public void setAllSubjectsBySite(List<SubjectEntity> allSubjectsBySite) {
+        this.allSubjectsBySite = allSubjectsBySite;
+    }
+
+    public ConnectionBean getConnectionBean() {
+        return connectionBean;
+    }
+
+    public void setConnectionBean(ConnectionBean connectionBean) {
+        this.connectionBean = connectionBean;
     }
 }

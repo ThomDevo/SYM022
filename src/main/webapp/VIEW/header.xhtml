@@ -47,7 +47,7 @@
                     <p:submenu label="#{I18N['menu.data.users']}" icon="pi pi-fw pi-user">
                         <p:menuitem value="#{I18N['menu.data.users.add']}" icon="pi pi-fw pi-user-plus" action="/VIEW/addUser.xhtml" rendered="#{connectionBean.verifyPermissionUser('Add a user')}"/>
                         <p:menuitem value="#{I18N['menu.data.users.consult']}" icon="pi pi-fw pi-user pi-pencil" action="/VIEW/listOfUsers.xhtml" rendered="#{connectionBean.verifyPermissionUser('List of users')}"/>
-                        <p:menuitem value="#{I18N['menu.data.usersSite.add']}" icon="pi pi-fw pi-user pi-building pi-plus" action="/VIEW/AddUserSite.xhtml" rendered="#{connectionBean.verifyPermissionUser('Add a list of sites for a user')}"/>
+                        <p:menuitem value="#{I18N['menu.data.usersSite.add']}" icon="pi pi-fw pi-user pi-building pi-plus" action="/VIEW/addUserSite.xhtml" rendered="#{connectionBean.verifyPermissionUser('Add a list of sites for a user')}"/>
                         <p:menuitem value="#{I18N['menu.data.usersSite.consult']}" icon="pi pi-fw pi-user pi-building pi-pencil" action="/VIEW/listOfUsersSites.xhtml" rendered="#{connectionBean.verifyPermissionUser('List of users and related sites')}"/>
                     </p:submenu>
                     <p:divider/>
@@ -67,6 +67,12 @@
                     <p:submenu label="#{I18N['menu.data.event']}" icon="pi pi-fw pi-book">
                         <p:menuitem value="#{I18N['menu.data.event.add']}" icon="pi pi-fw pi-plus" action="/VIEW/addEvent.xhtml" rendered="#{connectionBean.verifyPermissionUser('Add an event')}"/>
                         <p:menuitem value="#{I18N['menu.data.event.consult']}" icon="pi pi-fw  pi-pencil" action="/VIEW/listOfAllEvents.xhtml"/>
+                        <p:divider/>
+                    </p:submenu>
+                </p:submenu>
+                <p:submenu label="#{I18N['menu.CRA']}" icon="pi pi-fw pi-book" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA'}">
+                    <p:submenu label="#{I18N['menu.data.CRA']}" icon="pi pi-fw pi-book" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA'}">
+                        <p:menuitem value="#{I18N['menu.data.CRA.to.validate']}" icon="pi pi-fw pi-bookmark" action="/VIEW/addSubject.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA'}"/>
                         <p:divider/>
                     </p:submenu>
                 </p:submenu>

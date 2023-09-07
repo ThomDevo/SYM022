@@ -25,11 +25,32 @@
                         </span>
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="inputsiteByIdSite" value="#{I18N['sitePage.siteNum']}"/>
-                            <h:outputText id="inputsiteByIdSite" class="label" value="#{subjectBean.subject.siteByIdSite.siteNum - subjectBean.subject.siteByIdSite.siteName}"/>
+                            <p:selectOneMenu id="inputsiteByIdSite"
+                                             value="#{subjectBean.subject.siteByIdSite}"
+                                             converter="SiteConverter"
+                                             effect="fade"
+                                             var="e"
+                                             disabled="true">
+                                <!-- reload list editor from db. -->
+                                <f:metadata>
+                                    <f:event type="preRenderView" listener="#{siteBean.initAllEditorPermittedSite()}"/>
+                                </f:metadata>
+                                <f:selectItems value="#{siteBean.allSitePermitted}"
+                                               var="site"
+                                               itemLabel="#{site.siteNum} - #{site.siteName}"
+                                               itemValue="#{site}"/>
+                            </p:selectOneMenu>
                         </span>
-                        <span class="field col-12 md:col-4 p-20-0">
-                            <p:outputLabel for="inputSubjectStatus" value="#{I18N['sitePage.status']}"/>
-                             <h:outputText id="inputSubjectStatus" class="label" value="#{subjectBean.subject.subjectStatus}"/>
+                        <span class="field col-12 md:col-4">
+                            <p:outputLabel for="inputStatutUser" value="#{I18N['sitePage.status']}"/>
+                            <p:selectOneMenu id="inputStatutUser"
+                                             value="#{userBean.user.status}"
+                                             disabled="true">
+                                <f:selectItem itemLabel="#{I18N['sitePage.Active']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['sitePage.Inactive']}"
+                                              itemValue="#{false}"/>
+                            </p:selectOneMenu>
                         </span>
                     </p:outputPanel>
                     <span class="responsiveSubmit">
