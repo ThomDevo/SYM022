@@ -11,14 +11,19 @@ import java.util.Objects;
 
 
 @NamedQueries(value = {
-        @NamedQuery(name = "Event.selectEventAll", query = "SELECT ev FROM EventEntity ev WHERE ((lower(ev.subjectByIdSubject.subjectNum) LIKE CONCAT('%', :researchWord, '%')) OR (lower(ev.formByIdForm.formLabel) LIKE CONCAT('%', :researchWord, '%'))) ORDER BY ev.subjectByIdSubject.subjectNum ASC"),
+        @NamedQuery(name = "Event.selectEventAll", query = "SELECT ev FROM EventEntity ev WHERE ((lower(ev.subjectByIdSubject.subjectNum) " +
+                "LIKE CONCAT('%', :researchWord, '%')) OR (lower(ev.formByIdForm.formLabel) LIKE CONCAT('%', :researchWord, '%'))) " +
+                "ORDER BY ev.subjectByIdSubject.subjectNum ASC"),
         @NamedQuery(name = "Event.selectEventById", query = "SELECT ev FROM EventEntity ev WHERE ev.idEvent = :idEvent"),
         @NamedQuery(name = "Event.selectEventWithQuery", query = "SELECT ev FROM EventEntity ev WHERE ev.queried = true "),
         @NamedQuery(name = "Event.selectCountEventOccurrence", query = "SELECT ev FROM EventEntity ev WHERE (ev.subjectByIdSubject.idSubject = :idSubject AND ev.formByIdForm.idForm = :idForm)"),
         @NamedQuery(name = "Event.CheckNewPatient", query = "SELECT ev FROM EventEntity ev WHERE ev.subjectByIdSubject.idSubject = :idSubject"),
         @NamedQuery(name = "Event.CheckIcCompleted", query = "SELECT ev FROM EventEntity ev WHERE ev.subjectByIdSubject.idSubject = :idSubject AND ev.formByIdForm.formNum = 20"),
         @NamedQuery(name = "Event.CheckMois1Started", query = "SELECT ev FROM EventEntity ev WHERE ev.subjectByIdSubject.idSubject = :idSubject AND ev.visitByIdVisit.visitNum = 20 AND ev.formByIdForm.formNum = 10"),
-        @NamedQuery(name = "Event.CheckSubjectCompleted", query = "SELECT ev FROM EventEntity ev where ev.subjectByIdSubject.idSubject = :idSubject AND ev.formByIdForm.formNum NOT IN (80, 90)")
+        @NamedQuery(name = "Event.CheckSubjectCompleted", query = "SELECT ev FROM EventEntity ev where ev.subjectByIdSubject.idSubject = :idSubject AND ev.formByIdForm.formNum NOT IN (80, 90)"),
+        @NamedQuery(name = "Event.selectEventPermitted", query = "SELECT ev FROM EventEntity ev JOIN UserSiteEntity usu ON (ev.subjectByIdSubject.siteByIdSite.idSite = usu.siteByIdSite.idSite) " +
+                "WHERE (usu.userByIdUser.idUser = :idUser AND (lower(ev.subjectByIdSubject.subjectNum) LIKE CONCAT('%', :researchWord, '%')) " +
+                "OR (usu.userByIdUser.idUser = :idUser AND lower(ev.formByIdForm.formLabel) LIKE CONCAT('%', :researchWord, '%'))) ORDER BY ev.subjectByIdSubject.subjectNum ASC")
 })
 
 @Entity
