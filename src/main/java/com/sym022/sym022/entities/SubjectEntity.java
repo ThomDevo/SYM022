@@ -34,7 +34,7 @@ public class SubjectEntity {
 
     @Basic
     @NotNull
-    @Range(min = 0, max =999999999)
+    @Range(min = 100000, max =999999)
     @Column(name = "subject_num", nullable = false)
     private int subjectNum;
 

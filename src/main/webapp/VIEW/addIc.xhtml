@@ -35,7 +35,9 @@
                             <p:outputLabel for="input_protocole_version" value="#{I18N['icPage.protocoleVersion']}"/>
                             <p:inputText id="input_protocole_version" class="label" value="#{icBean.ic.protVers}"
                                          placeholder="#{I18N['icPage.protocoleVersion.placeholder']}"
-                                         required="true"/>
+                                         required="true">
+                                <p:ajax event="change" process="@this" update="@all" listener="#{icBean.testVsProtoEmpty()}"/>
+                            </p:inputText>
                         </span>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{icBean.messageErrorVsProt}">
                             <div><span class="ui-message-error-icon"> </span>
@@ -52,6 +54,7 @@
                                 <f:selectItem itemLabel="#{I18N['notEligible']}"
                                               itemValue="#{false}"/>
                                 <p:ajax process="@this" update="@all"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{icBean.testIeNotMeetNa()}"/>
                             </p:selectOneMenu>
                         </span>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{icBean.messageErrorIeNotMeet}">
@@ -83,6 +86,7 @@
                                                var="ieNotMet"
                                                itemLabel="#{ieNotMet.getIeNotMet()}"
                                                itemValue="#{ieNotMet}"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{icBean.testIeNotMeetNa()}"/>
                             </p:selectOneMenu>
                         </span>
                             <div class="ui-message ui-message-error ui-widget ui-corner-all #{icBean.messageErrorIeNotMeet}">
@@ -105,13 +109,13 @@
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-success"
+                                         disabled="#{icBean.buttonSuccess}"
                                          action="#{icBean.submitFormAddIc}"/>
 
                         <p:commandButton value="#{I18N['connectionpage.return.button']}"
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-secondary"
-                                         disabled="#{icBean.buttonSuccess}"/>
                                          action="#{icBean.cancelForm()}"/>
                     </span>
                 </h:form>

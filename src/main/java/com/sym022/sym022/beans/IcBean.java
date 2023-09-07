@@ -61,7 +61,7 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
 
     /**
      * Method to test the date in front end
-     * @return messageErrorIcDate hidden or not
+     * @return messageErrorIcDate hidden or not and button create/update deactivate or not
      */
     public String testDate(){
         LocalDate now = LocalDate.now();
@@ -75,10 +75,40 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
             this.buttonSuccess = "true";
         }else{
             this.messageErrorIcDate = "hidden";
-            this.messageErrorIcDate = "false";
+            this.buttonSuccess = "false";
         }
+        return redirect;
+    }
 
+    /**
+     * Method to test the ProtVers in front end
+     * @return messageErrorVsProt hidden or not and button create/update deactivate or not
+     */
+    public String testVsProtoEmpty(){
+        String redirect = "null";
+        if(ic.getProtVers() == null || Objects.equals(ic.getProtVers(), "")){
+            this.messageErrorVsProt = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorVsProt = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
 
+    /**
+     * Method to test the ProtVers in front end
+     * @return messageErrorIeNotMeetNa hidden or not and button create/update deactivate or not
+     */
+    public String testIeNotMeetNa(){
+        String redirect = "null";
+        if(!ic.getEligYn() && ic.getIeNotMet() == IeNotMet.NA){
+            this.messageErrorIeNotMeetNa = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorIeNotMeetNa = "hidden";
+            this.buttonSuccess = "false";
+        }
         return redirect;
     }
 
@@ -141,6 +171,11 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
         }else if(Objects.equals(ic.getProtVers(), "")){
             initErrorMessageFormIc();
             this.messageErrorVsProt = "";
+            redirect = "null";
+            return redirect;
+        }else if(!ic.getEligYn() && ic.getIeNotMet() == IeNotMet.NA){
+            initErrorMessageFormIc();
+            this.messageErrorIeNotMeetNa = "";
             redirect = "null";
             return redirect;
         }else{
