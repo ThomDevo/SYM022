@@ -23,7 +23,8 @@
                             <p:outputLabel for="input_year" value="#{I18N['dmPage.year']}"/>
                             <p:inputNumber id="input_year" class="label" value="#{dmBean.dm.yearOfBirth}"
                                            placeholder="#{I18N['dmPage.year.placeholder']}"
-                                           validatorMessage="#{I18N['dmPage.year.errorMessage']}">
+                                           validatorMessage="#{I18N['dmPage.year.errorMessage']}"
+                                           minValue="1920">
                                 <p:ajax update="messageYear" event="blur"/>
                             </p:inputNumber>
                         </span>
@@ -34,6 +35,8 @@
                                              value="#{dmBean.dm.sex}"
                                              converter="SexConverter"
                                              required="true">
+                                <f:selectItem itemLabel="#{I18N['dmPage.sex']}"
+                                              itemValue="#{null}"/>
                                 <!-- import all enum -->
                                 <p:importEnum type="com.sym022.sym022.enums.Sex"
                                               var="enumSex"
@@ -50,6 +53,8 @@
                                              value="#{dmBean.dm.ethnicity}"
                                              converter="EthnicityConverter"
                                              required="true">
+                                <f:selectItem itemLabel="#{I18N['dmPage.ethnicity']}"
+                                              itemValue="#{null}"/>
                                 <!-- import all enum -->
                                 <p:importEnum type="com.sym022.sym022.enums.Ethnicity"
                                               var="enumEthnicity"
@@ -66,6 +71,8 @@
                                              value="#{dmBean.dm.culture}"
                                              converter="CultureConverter"
                                              required="true">
+                                <f:selectItem itemLabel="#{I18N['dmPage.culture']}"
+                                              itemValue="#{null}"/>
                                 <!-- import all enum -->
                                 <p:importEnum type="com.sym022.sym022.enums.Culture"
                                               var="enumCulture"
