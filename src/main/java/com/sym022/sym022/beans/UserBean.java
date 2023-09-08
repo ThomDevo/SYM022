@@ -1,8 +1,10 @@
 package com.sym022.sym022.beans;
 
 import com.sym022.sym022.entities.UserEntity;
-import com.sym022.sym022.services.SiteService;
+import com.sym022.sym022.services.EventService;
+import com.sym022.sym022.services.IcService;
 import com.sym022.sym022.services.UserService;
+import com.sym022.sym022.services.VisitService;
 import com.sym022.sym022.utilities.EMF;
 import com.sym022.sym022.utilities.FilterOfTable;
 import com.sym022.sym022.utilities.ProcessUtils;
@@ -11,6 +13,7 @@ import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -18,6 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 @Named
 @ManagedBean
@@ -31,6 +35,17 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
     private List<UserEntity> allUsers;
     private List<UserEntity> allUsersEmptySites;
     private String messageErrorUserName = "hidden";
+    private String messageErrorlastName = "hidden";
+    private String messageErrorfirstName = "hidden";
+    private String messageErrorUserNameTest = "hidden";
+    private String messageErrorUserMail = "hidden";
+    private String buttonSuccess = "false";
+    @Inject
+    private EventBean eventBean;
+    @Inject
+    private VisitBean visiteBean;
+    @Inject
+    private IcBean icBean;
 
     /*--- Methods ---*/
 
@@ -41,6 +56,100 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
     public String cancelForm(){
         String redirect = "/VIEW/home";
         initFormUser();
+        return redirect;
+    }
+
+
+    /**
+     * Method to reset the form to add or update a user
+     */
+    public void initFormUser(){
+        this.user.setUsername("");
+        this.user.setPassword("");
+        this.user.setLastName("");
+        this.user.setFirstName("");
+        this.user.setMail("");
+        this.user.setStatus(true);
+        initErrorMessageUser();
+    }
+
+    /**
+     * Method to reset all the errors messages in the form for add or update a user
+     */
+    public void initErrorMessageUser(){
+        this.messageErrorUserName = "hidden";
+        this.messageErrorlastName = "hidden";
+        this.messageErrorfirstName = "hidden";
+        this.messageErrorUserNameTest = "hidden";
+        this.messageErrorUserMail = "hidden";
+        this.buttonSuccess = "false";
+    }
+
+    /**
+     * Method to test the LastName in front end
+     * @return messageErrorlastName hidden or not and button create/update deactivate or not
+     */
+    public String testLastName(){
+        String redirect = "null";
+
+        if(!Pattern.matches("^\\D{2,200}$", user.getLastName())){
+            this.messageErrorlastName = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorlastName = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the FirstName in front end
+     * @return messageErrorfirstName hidden or not and button create/update deactivate or not
+     */
+    public String testFirstName(){
+        String redirect = "null";
+
+        if(!Pattern.matches("^\\D{2,200}$", user.getFirstName())){
+            this.messageErrorfirstName = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorfirstName = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the UsertName in front end
+     * @return messageErrorUserNameTest hidden or not and button create/update deactivate or not
+     */
+    public String testUserName(){
+        String redirect = "null";
+
+        if(!Pattern.matches("^[A-Za-z ',\\-.-éèçàâêîûôù]{2,255}$", user.getUsername())){
+            this.messageErrorUserNameTest = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorUserNameTest = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the UsertMail in front end
+     * @return messageErrorUserMail hidden or not and button create/update deactivate or not
+     */
+    public String testMail(){
+        String redirect = "null";
+
+        if(!Pattern.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", user.getMail())){
+            this.messageErrorUserMail = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorUserMail = "hidden";
+            this.buttonSuccess = "false";
+        }
         return redirect;
     }
 
@@ -73,6 +182,54 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
             ProcessUtils.debug(e.getMessage());
         }finally{
             em.close();
+        }
+    }
+
+    public void getFilterVisit(){
+        EntityManager em = EMF.getEM();
+        EventService eventService = new EventService();
+        VisitService visitService = new VisitService();
+        IcService icService = new IcService();
+        try{
+            eventBean.setAllEvents(eventService.findEventAllExceptAeCm(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(), em));
+            //ProcessUtils.debug("List récup et update"+ licensesService.findLicenseNotOwnByUser(this.licenseUserBean.getLicenseUser().getUsersByIdUser().getIdUser(), em).size());
+        }catch(Exception e){
+            ProcessUtils.debug("catch methodfindEventAllExceptAeCmr " + e);
+
+        }
+
+        try{
+            icBean.setIcAll(icService.findIcEligibleNo(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(), em));
+        }catch(Exception e){
+            ProcessUtils.debug("catch methodfindEventAllExceptAeCmr " + e);
+
+        }
+
+        try{
+            ;
+        }catch(Exception e){
+            ProcessUtils.debug("catch methodfindEventAllExceptAeCmr " + e);
+
+        }
+
+        if(eventBean.getAllEvents().size() == 7){
+            try{
+                visiteBean.setAllVisit(visitService.findAeCM(em));
+            }catch(Exception e){
+                ProcessUtils.debug("catch methodfindAeCM " + e);
+            }
+        }else if(icBean.getIcAll().size() != 0){
+            try{
+                visiteBean.setAllVisit(visitService.findAeCM(em));
+            }catch(Exception e){
+                ProcessUtils.debug("catch methodfindAeCM " + e);
+            }
+        }else if(!eventService.isEventSubjectExist(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(), em)){
+            try{
+                visiteBean.setAllVisit(visitService.findVisitExceptMois1(em));
+            }catch(Exception e){
+                ProcessUtils.debug("catch methodfindAeCM " + e);
+            }
         }
     }
 
@@ -150,36 +307,6 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
     }
 
     /**
-     * Method to reset the form to add or update a user
-     */
-    public void initFormUser(){
-        this.user.setUsername("");
-        this.user.setPassword("");
-        this.user.setLastName("");
-        this.user.setFirstName("");
-        this.user.setMail("");
-        this.user.setStatus(true);
-        initErrorMessageUser();
-    }
-
-    /**
-     * Method to reset all the errors messages in the form for add or update a user
-     */
-    public void initErrorMessageUser(){
-        this.messageErrorUserName = "hidden";
-    }
-
-    /**
-     * Method to quit the page add or update a user and reset the form
-     * @return home Page
-     */
-    public String cancelFormUser(){
-        String redirect = "/VIEW/home";
-        initFormUser();
-        return redirect;
-    }
-
-    /**
      * Method to have I18n messages in Back-end
      * @param summary
      * @param detail
@@ -253,5 +380,69 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
 
     public void setAllUsersEmptySites(List<UserEntity> allUsersEmptySites) {
         this.allUsersEmptySites = allUsersEmptySites;
+    }
+
+    public String getMessageErrorlastName() {
+        return messageErrorlastName;
+    }
+
+    public void setMessageErrorlastName(String messageErrorlastName) {
+        this.messageErrorlastName = messageErrorlastName;
+    }
+
+    public String getMessageErrorfirstName() {
+        return messageErrorfirstName;
+    }
+
+    public void setMessageErrorfirstName(String messageErrorfirstName) {
+        this.messageErrorfirstName = messageErrorfirstName;
+    }
+
+    public String getMessageErrorUserNameTest() {
+        return messageErrorUserNameTest;
+    }
+
+    public void setMessageErrorUserNameTest(String messageErrorUserNameTest) {
+        this.messageErrorUserNameTest = messageErrorUserNameTest;
+    }
+
+    public String getMessageErrorUserMail() {
+        return messageErrorUserMail;
+    }
+
+    public void setMessageErrorUserMail(String messageErrorUserMail) {
+        this.messageErrorUserMail = messageErrorUserMail;
+    }
+
+    public String getButtonSuccess() {
+        return buttonSuccess;
+    }
+
+    public void setButtonSuccess(String buttonSuccess) {
+        this.buttonSuccess = buttonSuccess;
+    }
+
+    public EventBean getEventBean() {
+        return eventBean;
+    }
+
+    public void setEventBean(EventBean eventBean) {
+        this.eventBean = eventBean;
+    }
+
+    public VisitBean getVisiteBean() {
+        return visiteBean;
+    }
+
+    public void setVisiteBean(VisitBean visiteBean) {
+        this.visiteBean = visiteBean;
+    }
+
+    public IcBean getIcBean() {
+        return icBean;
+    }
+
+    public void setIcBean(IcBean icBean) {
+        this.icBean = icBean;
     }
 }

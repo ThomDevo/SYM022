@@ -15,6 +15,7 @@ import javax.persistence.EntityTransaction;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 @Named
@@ -25,9 +26,11 @@ public class RoleBean extends FilterOfTable<RoleEntity> implements Serializable 
     /*--- Variable declaration ---*/
     private RoleEntity role = new RoleEntity();
     private RoleService roleService = new RoleService();
+    private String buttonSuccess = "false";
     private List<RoleEntity> allRole;
     private List<RoleEntity> allRoleEmptyPermission;
     private String messageErrorRoleName = "hidden";
+    private String messageErrorRoleNameLabel = "hidden";
 
     /*---Method---*/
 
@@ -42,6 +45,15 @@ public class RoleBean extends FilterOfTable<RoleEntity> implements Serializable 
     }
 
     /**
+     * Method to reset the form to add or update a role
+     */
+    public void initFormRole(){
+        this.role.setRoleLabel("");
+        this.messageErrorRoleName = "hidden";
+    }
+
+
+    /**
      * Method to have all roles in the select Menu
      */
     public void initAllEditor(){
@@ -54,6 +66,22 @@ public class RoleBean extends FilterOfTable<RoleEntity> implements Serializable 
         }finally{
             em.close();
         }
+    }
+
+    /**
+     * Method to test the roleLabel empty in front end
+     * @return messageErrorRoleName hidden or not and button create/update deactivate or not
+     */
+    public String testRoleLabel(){
+        String redirect = "null";
+        if(role.getRoleLabel().length() < 2 || role.getRoleLabel().length() > 200){
+            this.messageErrorRoleNameLabel = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorRoleNameLabel = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
     }
 
     /**
@@ -97,27 +125,36 @@ public class RoleBean extends FilterOfTable<RoleEntity> implements Serializable 
         RoleService roleService = new RoleService();
         EntityTransaction transaction = em.getTransaction();
 
-        try{
-            role.setRoleLabel(role.getRoleLabel().toUpperCase());
-            transaction.begin();
-            if(roleService.isRoleExist(role.getRoleLabel(), em)){
-                this.messageErrorRoleName = "";
+        if(role.getRoleLabel().length() < 2 || role.getRoleLabel().length() > 200){
+            this.messageErrorRoleName = "hidden";
+            this.messageErrorRoleNameLabel = "";
+            redirect = "null";
+            return redirect;
+        }else{
+            try{
+                role.setRoleLabel(role.getRoleLabel().toUpperCase());
+                transaction.begin();
+                if(roleService.isRoleExist(role.getRoleLabel(), em)){
+                    this.messageErrorRoleName = "";
+                    this.messageErrorRoleNameLabel = "hidden";
+                    redirect = "null" ;
+                    return redirect;
+                }
+                roleService.addRole(role,em);
+                transaction.commit();
+                confirmAddRole();
+                initFormRole();
+            }catch(Exception e){
+                ProcessUtils.debug(" I'm in the catch of the addRole method: "+ e);
                 redirect = "null" ;
-                return redirect;
+            }finally {
+                if(transaction.isActive()){
+                    transaction.rollback();
+                }
+                em.close();
             }
-            roleService.addRole(role,em);
-            transaction.commit();
-            confirmAddRole();
-            initFormRole();
-        }catch(Exception e){
-            ProcessUtils.debug(" I'm in the catch of the addRole method: "+ e);
-            redirect = "null" ;
-        }finally {
-            if(transaction.isActive()){
-                transaction.rollback();
-            }
-            em.close();
         }
+
         return redirect;
     }
 
@@ -131,47 +168,35 @@ public class RoleBean extends FilterOfTable<RoleEntity> implements Serializable 
         RoleService roleService = new RoleService();
         EntityTransaction transaction = em.getTransaction();
 
-
-        try{
-            role.setRoleLabel(role.getRoleLabel().toUpperCase());
-            transaction.begin();
-            if(roleService.isRoleExist(role.getRoleLabel(), em)){
-                this.messageErrorRoleName = "";
-                redirect = "null" ;
-                return redirect;
-            }
-            roleService.updateRole(role,em);
-            transaction.commit();
-            confirmUpdateRole();
-            initFormRole();
-        }catch(Exception e){
-            ProcessUtils.debug(" I'm in the catch of the updateRole method: "+ e);
-            redirect = "null" ;
+        if(role.getRoleLabel().length() < 2 || role.getRoleLabel().length() > 200){
+            this.messageErrorRoleName = "hidden";
+            this.messageErrorRoleNameLabel = "";
+            redirect = "null";
             return redirect;
-        }finally {
-            if(transaction.isActive()){
-                transaction.rollback();
+        }else {
+            try {
+                role.setRoleLabel(role.getRoleLabel().toUpperCase());
+                transaction.begin();
+                if (roleService.isRoleExist(role.getRoleLabel(), em)) {
+                    this.messageErrorRoleName = "";
+                    redirect = "null";
+                    return redirect;
+                }
+                roleService.updateRole(role, em);
+                transaction.commit();
+                confirmUpdateRole();
+                initFormRole();
+            } catch (Exception e) {
+                ProcessUtils.debug(" I'm in the catch of the updateRole method: " + e);
+                redirect = "null";
+                return redirect;
+            } finally {
+                if (transaction.isActive()) {
+                    transaction.rollback();
+                }
+                em.close();
             }
-            em.close();
         }
-        return redirect;
-    }
-
-    /**
-     * Method to reset the form to add or update a role
-     */
-    public void initFormRole(){
-        this.role.setRoleLabel("");
-        this.messageErrorRoleName = "hidden";
-    }
-
-    /**
-     * Method to quit the page add or update a role and reset the form
-     * @return home Page
-     */
-    public String cancelFormRole(){
-        String redirect = "/VIEW/home";
-        initFormRole();
         return redirect;
     }
 
@@ -249,5 +274,21 @@ public class RoleBean extends FilterOfTable<RoleEntity> implements Serializable 
 
     public void setMessageErrorRoleName(String messageErrorRoleName) {
         this.messageErrorRoleName = messageErrorRoleName;
+    }
+
+    public String getButtonSuccess() {
+        return buttonSuccess;
+    }
+
+    public void setButtonSuccess(String buttonSuccess) {
+        this.buttonSuccess = buttonSuccess;
+    }
+
+    public String getMessageErrorRoleNameLabel() {
+        return messageErrorRoleNameLabel;
+    }
+
+    public void setMessageErrorRoleNameLabel(String messageErrorRoleNameLabel) {
+        this.messageErrorRoleNameLabel = messageErrorRoleNameLabel;
     }
 }

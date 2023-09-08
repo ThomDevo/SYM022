@@ -47,6 +47,7 @@
                                     </f:facet>
                                     <h:outputText value="#{e.subjectNum}"/>
                                 </p:column>
+                                <p:ajax event="change" listener="#{userBean.getFilterVisit}" update="inputVisit"/>
                             </p:selectOneMenu>
                         </span>
                         <span class="field col-12 md:col-4 p-20-0">
@@ -59,9 +60,7 @@
                                              filter="true"
                                              filterMatchMode="contains">
                                 <!-- reload list editor from db. -->
-                                <f:metadata>
-                                    <f:event type="preRenderView" listener="#{visitBean.initAllEditorVisit()}"/>
-                                </f:metadata>
+
                                 <f:selectItem itemLabel="#{I18N['visitPage.visit']}"
                                               itemValue="#{null}"/>
                                 <f:selectItems value="#{visitBean.allVisit}"

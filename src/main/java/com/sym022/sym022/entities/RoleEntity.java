@@ -27,8 +27,6 @@ public class RoleEntity {
     private int idRole;
 
     @Basic
-    @NotNull
-    @Pattern(regexp = "^.{2,200}$")
     @Column(name = "role_label", nullable = false, length = 200)
     private String roleLabel;
 

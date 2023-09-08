@@ -35,28 +35,18 @@ public class UserEntity {
     @Column(name = "id_user", nullable = false)
     private int idUser;
     @Basic
-    @NotNull
-    @Pattern(regexp = "^[A-Za-z ',\\-.-éèçàâêîûôù]{2,255}$")
     @Column(name = "username", nullable = false, length = 200)
     private String username;
     @Basic
-    @NotNull
-    //@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$")
     @Column(name = "password", nullable = false, length = 200)
     private String password;
     @Basic
-    @NotNull
-    @Pattern(regexp = "^\\D{2,200}$")
     @Column(name = "last_name", nullable = false, length = 200)
     private String lastName;
     @Basic
-    @NotNull
-    @Pattern(regexp = "^\\D{2,200}$")
     @Column(name = "first_name", nullable = false, length = 200)
     private String firstName;
     @Basic
-    @NotNull
-    @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
     @Column(name = "mail", nullable = false, length = 200)
     private String mail;
     @Basic

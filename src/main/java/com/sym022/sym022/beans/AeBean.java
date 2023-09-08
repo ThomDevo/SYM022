@@ -5,6 +5,7 @@ import com.sym022.sym022.enums.*;
 import com.sym022.sym022.services.AeService;
 import com.sym022.sym022.services.AuditTrailService;
 import com.sym022.sym022.services.EventService;
+import com.sym022.sym022.services.VisitService;
 import com.sym022.sym022.utilities.EMF;
 import com.sym022.sym022.utilities.FilterOfTable;
 import com.sym022.sym022.utilities.ProcessUtils;
@@ -217,7 +218,6 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         }
         return redirect;
     }
-
 
     /**
      * Method to have I18n messages in Back-end
