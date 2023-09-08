@@ -120,7 +120,7 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
         this.ic.setIcDate(now);
         this.ic.setProtVers("");
         this.ic.setEligYn(true);
-        this.ic.setIeNotMet(IeNotMet.NA);
+        this.ic.setIeNotMet(null);
         initErrorMessageFormIc();
     }
 
