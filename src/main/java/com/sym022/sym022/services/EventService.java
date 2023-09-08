@@ -112,6 +112,45 @@ public class EventService {
     }
 
     /**
+     * Method to find all permitted events for the User
+     * @param idUser
+     * @param em
+     * @return List of events
+     */
+    public List<EventEntity> findPermittedEventAll (int idUser, EntityManager em)
+    {
+        return em.createNamedQuery("Event.selectEventPermitted", EventEntity.class)
+                .setParameter("idUser", idUser)
+                .getResultList();
+    }
+
+    /**
+     * Method to find all events from Screening
+     * @param idSubject
+     * @param em
+     * @return List of events
+     */
+    public List<EventEntity> findEventScreening (int idSubject, EntityManager em)
+    {
+        return em.createNamedQuery("Event.selectEventScreening", EventEntity.class)
+                .setParameter("idSubject", idSubject)
+                .getResultList();
+    }
+
+    /**
+     * Method to find all events from Mois_1
+     * @param idSubject
+     * @param em
+     * @return List of events
+     */
+    public List<EventEntity> findEventMois1 (int idSubject, EntityManager em)
+    {
+        return em.createNamedQuery("Event.selectEventMois1", EventEntity.class)
+                .setParameter("idSubject", idSubject)
+                .getResultList();
+    }
+
+    /**
      * Method to add a new event
      * @param event
      * @param em

@@ -23,7 +23,9 @@ import java.util.Objects;
         @NamedQuery(name = "Event.CheckSubjectCompleted", query = "SELECT ev FROM EventEntity ev where ev.subjectByIdSubject.idSubject = :idSubject AND ev.formByIdForm.formNum NOT IN (80, 90)"),
         @NamedQuery(name = "Event.selectEventPermitted", query = "SELECT ev FROM EventEntity ev JOIN UserSiteEntity usu ON (ev.subjectByIdSubject.siteByIdSite.idSite = usu.siteByIdSite.idSite) " +
                 "WHERE (usu.userByIdUser.idUser = :idUser AND (lower(ev.subjectByIdSubject.subjectNum) LIKE CONCAT('%', :researchWord, '%')) " +
-                "OR (usu.userByIdUser.idUser = :idUser AND lower(ev.formByIdForm.formLabel) LIKE CONCAT('%', :researchWord, '%'))) ORDER BY ev.subjectByIdSubject.subjectNum ASC")
+                "OR (usu.userByIdUser.idUser = :idUser AND lower(ev.formByIdForm.formLabel) LIKE CONCAT('%', :researchWord, '%'))) ORDER BY ev.subjectByIdSubject.subjectNum ASC"),
+        @NamedQuery(name = "Event.selectEventScreening", query = "SELECT ev FROM EventEntity ev WHERE ev.subjectByIdSubject.idSubject = :idSubject AND ev.visitByIdVisit.visitNum = 10"),
+        @NamedQuery(name = "Event.selectEventMois1", query = "SELECT ev FROM EventEntity ev WHERE ev.subjectByIdSubject.idSubject = :idSubject AND ev.visitByIdVisit.visitNum = 20")
 })
 
 @Entity
