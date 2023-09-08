@@ -33,6 +33,7 @@ public class QueryEntity {
 
     @Basic
     @Column(name = "query_status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private QueryStatus queryStatus;
 
     @ManyToOne

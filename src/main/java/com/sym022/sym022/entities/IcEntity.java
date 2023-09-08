@@ -11,7 +11,8 @@ import java.util.Objects;
 @NamedQueries(value = {
         @NamedQuery(name = "Ic.selectIcById", query = "SELECT ic FROM IcEntity ic WHERE ic.idIc = :idIc"),
         @NamedQuery(name = "Ic.icEligibleYes", query = "SELECT ic FROM IcEntity ic WHERE ic.eligYn = true"),
-        @NamedQuery(name = "Ic.icEligibleNo", query = "SELECT ic FROM IcEntity ic WHERE ic.eligYn = false and ic.eventByIdEvent.subjectByIdSubject.idSubject = :idSubject")
+        @NamedQuery(name = "Ic.icEligibleNo", query = "SELECT ic FROM IcEntity ic WHERE ic.eligYn = false and ic.eventByIdEvent.subjectByIdSubject.idSubject = :idSubject"),
+        @NamedQuery(name = "Ic.selectIcByIdEvent", query = "SELECT ic FROM IcEntity ic WHERE ic.eventByIdEvent.idEvent = :idEvent")
 
 })
 

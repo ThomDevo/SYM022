@@ -323,4 +323,6 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
     public void setAuditTrailBean(AuditTrailBean auditTrailBean) {
         this.auditTrailBean = auditTrailBean;
     }
+
+
 }

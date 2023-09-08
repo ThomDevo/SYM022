@@ -64,7 +64,6 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
     public String cancelUpdateForm(){
         String redirect = "/VIEW/home";
         initFormDov();
-        eventBean.deleteEvent();
         return redirect;
     }
 
@@ -437,4 +436,6 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
     public void setButtonSuccess(String buttonSuccess) {
         this.buttonSuccess = buttonSuccess;
     }
+
+
 }

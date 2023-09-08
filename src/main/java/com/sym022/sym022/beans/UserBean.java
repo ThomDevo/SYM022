@@ -218,7 +218,15 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
             }catch(Exception e){
                 ProcessUtils.debug("catch methodfindAeCM " + e);
             }
-        }else if(icBean.getIcAll().size() != 0){
+        }else{
+            try{
+                visiteBean.setAllVisit(visitService.findVisitAll(em));
+            }catch(Exception e){
+                ProcessUtils.debug("catch methodfindAeCM " + e);
+            }
+        }
+
+        /*else if(icBean.getIcAll().size() != 0){
             try{
                 visiteBean.setAllVisit(visitService.findAeCM(em));
             }catch(Exception e){
@@ -230,7 +238,7 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
             }catch(Exception e){
                 ProcessUtils.debug("catch methodfindAeCM " + e);
             }
-        }
+        }*/
     }
 
     /**

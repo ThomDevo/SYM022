@@ -46,6 +46,19 @@ public class IcService
     }
 
     /**
+     * Method to find all IC based on idEvent
+     * @param idEvent
+     * @param em
+     * @return
+     */
+    public IcEntity findIcByIdEvent (int idEvent, EntityManager em)
+    {
+        return em.createNamedQuery("Ic.selectIcByIdEvent", IcEntity.class)
+                .setParameter("idEvent", idEvent)
+                .getSingleResult();
+    }
+
+    /**
      * Method to add an IC in the DB
      * @param ic
      * @param em

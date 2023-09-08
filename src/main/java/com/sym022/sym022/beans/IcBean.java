@@ -61,6 +61,49 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
     }
 
     /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelUpdateForm(){
+        String redirect = "/VIEW/home";
+        initFormIc();
+        return redirect;
+    }
+
+    /**
+     * Method to reset the form to add or update an IC
+     */
+    public void initFormIc(){
+        Date now = new Date();
+        this.ic.setIcDate(now);
+        this.ic.setProtVers("");
+        this.ic.setEligYn(true);
+        this.ic.setIeNotMet(null);
+        initErrorMessageFormIc();
+    }
+
+    /**
+     * Method to reset all Error Messages in the form to add or update an IC
+     */
+    public void initErrorMessageFormIc(){
+        this.messageErrorIcDate = "hidden";
+        this.messageErrorIeNotMeet = "hidden";
+        this.messageErrorIeNotMeetNa = "hidden";
+        this.messageErrorVsProt = "hidden";
+        this.buttonSuccess = "false";
+    }
+
+    /**
+     * Method to have I18n messages in Back-end
+     * @param summary
+     * @param detail
+     */
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    /**
      * Method to test the date in front end
      * @return messageErrorIcDate hidden or not and button create/update deactivate or not
      */
@@ -114,36 +157,20 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
     }
 
     /**
-     * Method to reset the form to add or update an IC
+     * Method to find a Dov based on the IdEvent
+     * @param idEvent
      */
-    public void initFormIc(){
-        Date now = new Date();
-        this.ic.setIcDate(now);
-        this.ic.setProtVers("");
-        this.ic.setEligYn(true);
-        this.ic.setIeNotMet(null);
-        initErrorMessageFormIc();
-    }
-
-    /**
-     * Method to reset all Error Messages in the form to add or update an IC
-     */
-    public void initErrorMessageFormIc(){
-        this.messageErrorIcDate = "hidden";
-        this.messageErrorIeNotMeet = "hidden";
-        this.messageErrorIeNotMeetNa = "hidden";
-        this.messageErrorVsProt = "hidden";
-        this.buttonSuccess = "false";
-    }
-
-    /**
-     * Method to have I18n messages in Back-end
-     * @param summary
-     * @param detail
-     */
-    public void addMessage(String summary, String detail) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
-        FacesContext.getCurrentInstance().addMessage(null, message);
+    public String findEvent(int idEvent){
+        String redirect = "/VIEW/updateIc";
+        EntityManager em = EMF.getEM();
+        try{
+            ic = icService.findIcByIdEvent(idEvent,em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+        return redirect;
     }
 
     /**
@@ -195,6 +222,80 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
                 eventService.updateEvent(eventBean.getEvent(),em);
                 auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
                 icService.addIc(ic, em);
+                transaction.commit();
+
+            }catch(Exception e){
+                ProcessUtils.debug(" I'm in the catch of the addIC method: "+ e);
+
+            }finally {
+                if(transaction.isActive()){
+                    transaction.rollback();
+                }
+                em.close();
+            }
+            ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                    FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            String addIc = bundle.getString("ic");
+            String add = bundle.getString("add");
+            String forThe = bundle.getString("for");
+            String addSubject = bundle.getString("subject");
+
+            addMessage(addIc+" "+add+" "+forThe+" "+addSubject+" "+ic.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+            initFormIc();
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to create an IC and an auditTrail in the DB
+     * @return an IC and a AuditTrail
+     */
+    public String submitFormUpdateIc(){
+        EntityManager em = EMF.getEM();
+        String redirect = "/VIEW/home";
+        EntityTransaction transaction = em.getTransaction();
+        IcService icService = new IcService();
+        EventService eventService = new EventService();
+        AuditTrailService auditTrailService = new AuditTrailService();
+        LocalDate now = LocalDate.now();
+        String isoDatePattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+        String icDate = simpleDateFormat.format(ic.getIcDate());
+        int resultIcDate = icDate.compareTo(String.valueOf(now));
+        //ProcessUtils.debug(""+ resultIcDate);
+
+        if(resultIcDate > 0){
+            initErrorMessageFormIc();
+            this.messageErrorIcDate = "";
+            redirect = "null";
+            return redirect;
+        }else if(Objects.equals(ic.getProtVers(), "")){
+            initErrorMessageFormIc();
+            this.messageErrorVsProt = "";
+            redirect = "null";
+            return redirect;
+        }else if(!ic.getEligYn() && ic.getIeNotMet() == IeNotMet.NA){
+            initErrorMessageFormIc();
+            this.messageErrorIeNotMeetNa = "";
+            redirect = "null";
+            return redirect;
+        }else{
+            try{
+                ic.setEventByIdEvent(eventBean.getEvent());
+                auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                eventBean.getEvent().setCompleted(true);
+                eventBean.getEvent().setMonitored(false);
+
+                if(ic.getEligYn()){
+                    ic.setIeNotMet(IeNotMet.NA);
+                }
+
+                transaction.begin();
+                eventService.updateEvent(eventBean.getEvent(),em);
+                auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                icService.updateIc(ic, em);
                 transaction.commit();
 
             }catch(Exception e){

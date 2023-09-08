@@ -148,6 +148,7 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
             String addSubject = bundle.getString("subject");
 
             addMessage(addQuery+" "+add+" "+forThe+" "+query.getEventByIdEvent().getFormByIdForm().getFormLabel()+" "+forThe+" "+addSubject+" "+query.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+            eventBean.initEvent();
             initFormQuery();
         }
 

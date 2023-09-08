@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{I18N['icPage.addIcTitle']}"/>
+    </ui:define>
+    <ui:define name="content">
+        <div class="content">
+            <div class="block p-20 form-container">
+                <h2>
+                    <h:outputText value="#{I18N['icPage.addIcTitle']}" />
+                </h2>
+                <h:form>
+                    <p:outputPanel class="form-control">
+                        <div class="field col-12 md:col-4">
+                            <p:outputLabel for="input_ic_date" value="#{I18N['icPage.visitDate']}"/>
+                            <p:datePicker id="input_ic_date" value="#{icBean.ic.icDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"
+                                          disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !icBean.ic.eventByIdEvent.available}">
+                                <p:ajax event="change" process="@this" update="@all" listener="#{icBean.testDate()}"/>
+                            </p:datePicker>
+                        </div>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{icBean.messageErrorIcDate}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorIcDate']}"/></span>
+                            </div>
+                        </div>
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_protocole_version" value="#{I18N['icPage.protocoleVersion']}"/>
+                            <p:inputText id="input_protocole_version" class="label" value="#{icBean.ic.protVers}"
+                                         placeholder="#{I18N['icPage.protocoleVersion.placeholder']}"
+                                         disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !icBean.ic.eventByIdEvent.available}">
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{icBean.testVsProtoEmpty()}"/>
+                            </p:inputText>
+                        </span>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{icBean.messageErrorVsProt}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['icPage.protocoleVersion.errorMessage']}"/></span>
+                            </div>
+                        </div>
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_eligible_ic" value="#{I18N['icPage.status']}"/>
+                            <p:selectOneMenu id="input_eligible_ic"
+                                             value="#{icBean.ic.eligYn}"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !icBean.ic.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['eligible']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['notEligible']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneMenu>
+                        </span>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{icBean.messageErrorIeNotMeet}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorIeNotMeet']}"/></span>
+                            </div>
+                        </div>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{icBean.messageErrorIeNotMeetNa}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorIeNotMeetNa']}"/></span>
+                            </div>
+                        </div>
+                        <p:outputPanel rendered="#{!icBean.ic.eligYn}">
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="inputIeNotMete" value="#{I18N['icPage.ie_not_met']}"/>
+                            <p:selectOneMenu id="inputIeNotMete"
+                                             value="#{icBean.ic.ieNotMet}"
+                                             converter="IeNotMetConverter"
+                                             required="true"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !icBean.ic.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['icPage.ie_not_met']}"
+                                              itemValue="#{null}"/>
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.IeNotMet"
+                                              var="enumIeNotMet"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumIeNotMet.getAll}"
+                                               var="ieNotMet"
+                                               itemLabel="#{ieNotMet.getIeNotMet()}"
+                                               itemValue="#{ieNotMet}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{icBean.testIeNotMeetNa()}"/>
+                            </p:selectOneMenu>
+                        </span>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{icBean.messageErrorIeNotMeet}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorIeNotMeet']}"/></span>
+                                </div>
+                            </div>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{icBean.messageErrorIeNotMeetNa}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorIeNotMeetNa']}"/></span>
+                                </div>
+                            </div>
+                        </p:outputPanel>
+
+                    </p:outputPanel>
+                    <span class="responsiveSubmit">
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'SITE' and icBean.ic.eventByIdEvent.available}">
+                            <p:commandButton value="#{I18N['icPage.addIcTitle']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             disabled="#{icBean.buttonSuccess}"
+                                             action="#{icBean.submitFormUpdateIc}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and !eventBean.event.monitored and eventBean.event.available}">
+                            <p:commandButton value="#{I18N['application.ic.validate']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="#{eventBean.setEventMonitored}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{eventBean.event.available and (connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL' or connectionBean.user.roleByIdRole.roleLabel == 'SAFETY')}">
+                            <p:commandButton value="#{I18N['application.dov.query']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="/VIEW/addQuery"/>
+                        </p:outputPanel>
+
+
+                        <p:commandButton value="#{I18N['connectionpage.return.button']}"
+                                         ajax="false"
+                                         validateClient="true"
+                                         class="ui-button-secondary"
+                                         action="#{icBean.cancelUpdateForm()}"/>
+                    </span>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

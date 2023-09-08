@@ -21,7 +21,8 @@ import java.util.Objects;
                 " AND ((lower(su.subjectNum )like concat('%', :researchWord, '%')))) ORDER BY su.subjectNum ASC"),
         @NamedQuery(name = "Subject.selectSubjectPermittedBySite", query = "SELECT su FROM SubjectEntity su JOIN UserSiteEntity usu ON (su.siteByIdSite.idSite = usu.siteByIdSite.idSite) WHERE  (usu.userByIdUser.idUser = :idUser" +
                 " AND (usu.siteByIdSite.idSite = :idSite)" +
-                " AND ((lower(su.subjectNum )like concat('%', :researchWord, '%')))) ORDER BY su.subjectNum ASC")
+                " AND ((lower(su.subjectNum )like concat('%', :researchWord, '%')) OR (lower(su.siteByIdSite.siteNum )like concat('%', :researchWord, '%')))" +
+                " OR (lower(su.siteByIdSite.siteName )like concat('%', :researchWord, '%'))) ORDER BY su.subjectNum ASC")
 })
 
 @Entity

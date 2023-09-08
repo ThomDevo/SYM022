@@ -22,8 +22,10 @@
                         <h:panelGroup class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_query_text" value="#{I18N['queryPage.text']}"/>
                             <p:inputTextarea  rows="6" cols="33" id="input_query_text" class="label" value="#{queryBean.query.queryText}"
-                                              placeholder="#{I18N['vsPage.vsNd.placeholder']}"/>
-                            <p:ajax event="blur" process="@this" update="@all" listener="#{queryBean.testInputQueryTextNd()}"/>
+                                              placeholder="#{I18N['vsPage.vsNd.placeholder']}">
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{queryBean.testInputQueryTextNd()}"/>
+                            </p:inputTextarea>
+
                         </h:panelGroup>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{queryBean.messageErrorInputQueryTextNd}">
                             <div><span class="ui-message-error-icon"> </span>
