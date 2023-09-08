@@ -16,12 +16,10 @@ public class QueryEntity {
     private int idQuery;
 
     @Basic
-    @NotNull
     @Column(name = "query_datetime", nullable = false)
     private Date queryDatetime;
 
     @Basic
-    @NotNull
     @Column(name = "query_text", nullable = false, length = 200)
     private String queryText;
 
@@ -34,17 +32,14 @@ public class QueryEntity {
     private boolean queryClosed = false;
 
     @Basic
-    @NotNull
     @Column(name = "query_status", nullable = false)
     private QueryStatus queryStatus;
 
     @ManyToOne
-    @NotNull
     @JoinColumn(name = "id_user", referencedColumnName = "id_user", nullable = false)
     private UserEntity userByIdUser;
 
     @ManyToOne
-    @NotNull
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
 

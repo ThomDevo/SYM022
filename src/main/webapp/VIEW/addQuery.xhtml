@@ -37,9 +37,14 @@
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-success"
+                                         disabled="#{queryBean.buttonSuccess}"
                                          action="#{queryBean.submitFormAddQuery}"/>
 
-                        <p:linkButton outcome="/VIEW/home.xhtml" value="#{I18N['connectionpage.return.button']}" class="ui-button-secondary" ></p:linkButton>
+                        <p:commandButton value="#{I18N['connectionpage.return.button']}"
+                                         ajax="false"
+                                         validateClient="true"
+                                         class="ui-button-secondary"
+                                         action="#{cmBean.cancelForm()}"/>
                     </span>
                 </h:form>
             </div>

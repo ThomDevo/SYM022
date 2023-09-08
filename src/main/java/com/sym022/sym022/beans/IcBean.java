@@ -39,6 +39,7 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
     private String messageErrorIeNotMeetNa = "hidden";
     private String messageErrorVsProt = "hidden";
     private String buttonSuccess = "false";
+    private List<IcEntity> icAll;
     @Inject
     private ConnectionBean connectionBean;
     @Inject
@@ -298,5 +299,13 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
 
     public void setButtonSuccess(String buttonSuccess) {
         this.buttonSuccess = buttonSuccess;
+    }
+
+    public List<IcEntity> getIcAll() {
+        return icAll;
+    }
+
+    public void setIcAll(List<IcEntity> icAll) {
+        this.icAll = icAll;
     }
 }

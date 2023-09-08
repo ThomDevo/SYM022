@@ -39,14 +39,12 @@ public class SiteEntity {
     private int siteNum;
 
     @Basic
-    @NotNull
-    @Pattern(regexp = "^\\D{2,200}$")
+    @Pattern(regexp = "^\\D{0,200}$")
     @Column(name = "site_name", nullable = false, length = 200)
     private String siteName;
 
     @Basic
-    @NotNull
-    @Pattern(regexp = "^\\D{2,200}$")
+    @Pattern(regexp = "^\\D{0,200}$")
     @Column(name = "pi_name", nullable = false, length = 200)
     private String piName;
 

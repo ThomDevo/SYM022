@@ -26,24 +26,39 @@
                                            placeholder="#{I18N['userPage.lastName.placeHolder']}"
                                            validatorMessage="#{I18N['userPage.lastName.errorMessage']}">
                                 <p:ajax update="messageInputLastName" event="blur"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{userBean.testLastName()}"/>
                             </p:inputText>
                         </span>
                         <p:message id="messageInputLastName" for="@previous"/>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{userBean.messageErrorlastName}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['userPage.lastName.errorMessage']}"/></span>
+                            </div>
+                        </div>
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="inputFirstName" value="#{I18N['userPage.firstName']}"/>
                             <p:inputText id="inputFirstName" class="label" value="#{userBean.user.firstName}"
                                          placeholder="#{I18N['userPage.firstName.placeHolder']}"
                                          validatorMessage="#{I18N['userPage.firstName.errorMessage']}">
                                 <p:ajax update="messageInputFirstName" event="blur"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{userBean.testFirstName()}"/>
                             </p:inputText>
                         </span>
                         <p:message id="messageInputFirstName" for="@previous"/>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{userBean.messageErrorfirstName}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['userPage.firstName.errorMessage']}"/></span>
+                            </div>
+                        </div>
                         <span class="field col-12 md:col-4">
                             <p:outputLabel for="inputUsername" value="#{I18N['userPage.username']}"/>
                             <p:inputText id="inputUsername" class="label" value="#{userBean.user.username}"
                                            placeholder="#{I18N['userPage.username.placeHolder']}"
                                            validatorMessage="#{I18N['userPage.username.errorMessage']}">
                                 <p:ajax update="messageInputUsername" event="blur"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{userBean.testUserName()}"/>
                             </p:inputText>
                         </span>
                         <p:message id="messageInputUsername" for="@previous"/>
@@ -53,15 +68,28 @@
                                         value="#{I18N['messageErrorUserName']}"/></span>
                             </div>
                         </div>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{userBean.messageErrorUserNameTest}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['userPage.username.errorMessage']}"/></span>
+                            </div>
+                        </div>
                         <span class="field col-12 md:col-4">
                             <p:outputLabel for="inputMail" value="#{I18N['userPage.mail']}"/>
                             <p:inputText id="inputMail" class="label" value="#{userBean.user.mail}"
                                            placeholder="#{I18N['userPage.mail.placeHolder']}"
                                            validatorMessage="#{I18N['userPage.mail.errorMessage']}">
                                 <p:ajax update="messageInputMail" event="blur"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{userBean.testMail()}"/>
                             </p:inputText>
                         </span>
                         <p:message id="messageInputMail" for="@previous"/>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{userBean.messageErrorUserMail}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['userPage.mail.errorMessage']}"/></span>
+                            </div>
+                        </div>
                         <span class="field col-12 md:col-4">
                             <p:outputLabel value="#{I18N['userPage.Password']}"/>
                             <p:password  id="password" class="label" value="#{userBean.user.password}"
@@ -105,8 +133,10 @@
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-success"
+                                         disabled="#{userBean.buttonSuccess}"
                                          action="#{userBean.submitFormAddUser}"/>
-                        <p:linkButton outcome="/VIEW/home.xhtml" value="#{I18N['connectionpage.return.button']}" class="ui-button-secondary" ></p:linkButton>
+                        <p:commandButton value="#{I18N['connectionpage.return.button']}" action="#{userBean.cancelForm()}"
+                                         class="ui-button-secondary" id="cancelButton"/>
                     </span>
                 </h:form>
             </div>

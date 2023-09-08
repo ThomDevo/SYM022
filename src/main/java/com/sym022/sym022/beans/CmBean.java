@@ -230,7 +230,7 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
     }
 
     /**
-     * Method to test the Cmroutes empty in front end
+     * Method to test the Cmroutesp empty in front end
      * @return messageErrorCmroutespOther hidden or not and button create/update deactivate or not
      */
     public String testCmroutespOther(){
@@ -240,6 +240,22 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
             this.buttonSuccess = "true";
         }else{
             this.messageErrorCmroutespOther = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the Cmfreqsp empty in front end
+     * @return messageErrorCmfreqspOther hidden or not and button create/update deactivate or not
+     */
+    public String testCmfreqspOther(){
+        String redirect = "null";
+        if(cm.getCmfreq() == Cmfreq.OTHER && (cm.getCmfreqsp() == null || Objects.equals(cm.getCmfreqsp(), ""))){
+            this.messageErrorCmfreqspOther = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorCmfreqspOther = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;

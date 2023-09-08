@@ -26,9 +26,22 @@ public class IcService
      * @param em
      * @return
      */
-    public List<VisitEntity> findIcEligibleYes (EntityManager em)
+    public List<IcEntity> findIcEligibleYes (EntityManager em)
     {
-        return em.createNamedQuery("Ic.icEligibleYes", VisitEntity.class)
+        return em.createNamedQuery("Ic.icEligibleYes", IcEntity.class)
+                .getResultList();
+    }
+
+    /**
+     * Method to find all IC where eligible is FALSE
+     * @param idSubject
+     * @param em
+     * @return
+     */
+    public List<IcEntity> findIcEligibleNo (int idSubject, EntityManager em)
+    {
+        return em.createNamedQuery("Ic.icEligibleNo", IcEntity.class)
+                .setParameter("idSubject", idSubject)
                 .getResultList();
     }
 

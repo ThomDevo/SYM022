@@ -24,14 +24,19 @@
                             <p:inputText id="input_rolename_new" class="label" value="#{roleBean.role.roleLabel}"
                                          placeholder="#{I18N['rolePage.roleLabel.placeholder']}"
                                          validatorMessage="#{I18N['rolePage.roleLabel.errorMessage']}">
-                                <p:ajax update="messageRoleName" event="blur"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{roleBean.testRoleLabel()}"/>
                             </p:inputText>
                         </span>
-                        <p:message id="messageRoleName" for="@previous"/>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{roleBean.messageErrorRoleName}">
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText
                                         value="#{I18N['messageErrorRoleName']}"/></span>
+                            </div>
+                        </div>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{roleBean.messageErrorRoleNameLabel}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['rolePage.roleLabel.errorMessage']}"/></span>
                             </div>
                         </div>
                     </p:outputPanel>
@@ -40,6 +45,7 @@
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-success"
+                                         disabled="#{roleBean.buttonSuccess}"
                                          action="#{roleBean.submitFormAddRole}"/>
 
                         <p:commandButton value="#{I18N['connectionpage.return.button']}" action="#{roleBean.cancelForm()}"

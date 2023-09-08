@@ -307,4 +307,20 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
     public void setNumber(List<EventEntity> number) {
         this.number = number;
     }
+
+    public ConnectionBean getConnectionBean() {
+        return connectionBean;
+    }
+
+    public void setConnectionBean(ConnectionBean connectionBean) {
+        this.connectionBean = connectionBean;
+    }
+
+    public AuditTrailBean getAuditTrailBean() {
+        return auditTrailBean;
+    }
+
+    public void setAuditTrailBean(AuditTrailBean auditTrailBean) {
+        this.auditTrailBean = auditTrailBean;
+    }
 }

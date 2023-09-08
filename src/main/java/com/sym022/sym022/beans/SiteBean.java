@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 @Named
 @ManagedBean
@@ -28,6 +29,10 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
     private SiteEntity site = new SiteEntity();
     private SiteService siteService = new SiteService();
     private String messageErrorSiteNum = "hidden";
+    private String messageErrorSiteNumMinMax = "hidden";
+    private String messageErrorSiteName = "hidden";
+    private String messageErrorPiName = "hidden";
+    private String buttonSuccess = "false";
     private List<SiteEntity> allSite;
     private List<SiteEntity> allSiteSelected;
     private List<SiteEntity> allSitePermitted;
@@ -44,6 +49,77 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
     public String cancelForm(){
         String redirect = "/VIEW/home";
         initFormSite();
+        return redirect;
+    }
+
+
+    /**
+     * Method to reset the form to add or update a site
+     */
+    public void initFormSite(){
+        this.site.setSiteNum(1000);
+        this.site.setSiteName("");
+        this.site.setPiName("");
+        initErrorMessageFormCm();
+    }
+
+    /**
+     * Method to reset all Error Messages in the form to add or update a Site
+     */
+    public void initErrorMessageFormCm(){
+        this.messageErrorSiteNum = "hidden";
+        this.messageErrorSiteNumMinMax = "hidden";
+        this.messageErrorSiteName = "hidden";
+        this.messageErrorPiName = "hidden";
+        this.buttonSuccess = "false";
+    }
+
+    /**
+     * Method to test the SiteName empty in front end
+     * @return messageErrorSiteName hidden or not and button create/update deactivate or not
+     */
+    public String testSiteNum(){
+        String redirect = "null";
+        if(site.getSiteNum() < 1000 || site.getSiteNum() > 9999){
+            this.messageErrorSiteNumMinMax = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorSiteNumMinMax = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the SiteName empty in front end
+     * @return messageErrorSiteName hidden or not and button create/update deactivate or not
+     */
+    public String testSiteName(){
+        String redirect = "null";
+        if(!Pattern.matches("^\\D{2,200}$", site.getSiteName())){
+            this.messageErrorSiteName = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorSiteName = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the PiName empty in front end
+     * @return messageErrorPiName hidden or not and button create/update deactivate or not
+     */
+    public String testPiName(){
+        String redirect = "null";
+
+        if(!Pattern.matches("^\\D{2,200}$", site.getPiName())){
+            this.messageErrorPiName = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorPiName = "hidden";
+            this.buttonSuccess = "false";
+        }
         return redirect;
     }
 
@@ -116,9 +192,18 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
         SiteService siteService = new SiteService();
 
         if(site.getSiteNum()< 1000 || site.getSiteNum() > 9999){
+            initErrorMessageFormCm();
             this.messageErrorSiteNum = "";
             redirect = null;
             return redirect;
+        }else if(!Pattern.matches("^\\D{2,200}$", site.getSiteName())){
+            initErrorMessageFormCm();
+            this.messageErrorSiteName = "";
+            redirect = null;
+        }else if(!Pattern.matches("^\\D{2,200}$", site.getPiName())){
+            initErrorMessageFormCm();
+            this.messageErrorPiName = "";
+            redirect = null;
         }else{
             try{
                 setSiteNameInCapitalization(site.getSiteName());
@@ -157,42 +242,32 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
         EntityTransaction transaction = em.getTransaction();
         SiteService siteService = new SiteService();
 
-        try{
-            setSiteNameInCapitalization(site.getSiteName());
-            transaction.begin();
-            siteService.updateSite(site,em);
-            transaction.commit();
-            confirmUpdateSite();
-            initFormSite();
+        if(!Pattern.matches("^\\D{2,200}$", site.getSiteName())){
+            initErrorMessageFormCm();
+            this.messageErrorSiteName = "";
+            redirect = null;
+        }else if(!Pattern.matches("^\\D{2,200}$", site.getPiName())){
+            initErrorMessageFormCm();
+            this.messageErrorPiName = "";
+            redirect = null;
+        }else{
+            try{
+                setSiteNameInCapitalization(site.getSiteName());
+                transaction.begin();
+                siteService.updateSite(site,em);
+                transaction.commit();
+                confirmUpdateSite();
+                initFormSite();
 
-        }catch(Exception e){
-            ProcessUtils.debug(" I'm in the catch of the updateSite method: "+ e);
-        }finally {
-            if(transaction.isActive()){
-                transaction.rollback();
+            }catch(Exception e){
+                ProcessUtils.debug(" I'm in the catch of the updateSite method: "+ e);
+            }finally {
+                if(transaction.isActive()){
+                    transaction.rollback();
+                }
+                em.close();
             }
-            em.close();
         }
-        return redirect;
-    }
-
-    /**
-     * Method to reset the form to add or update a site
-     */
-    public void initFormSite(){
-        this.site.setSiteNum(1000);
-        this.site.setSiteName("");
-        this.site.setPiName("");
-        this.messageErrorSiteNum = "hidden";
-    }
-
-    /**
-     * Method to quit the page add or update a site and reset the form
-     * @return home Page
-     */
-    public String cancelFormSite(){
-        String redirect = "/VIEW/home";
-        initFormSite();
         return redirect;
     }
 
@@ -294,5 +369,37 @@ public class SiteBean extends FilterOfTable<SiteEntity> implements Serializable 
 
     public void setAllSitePermitted(List<SiteEntity> allSitePermitted) {
         this.allSitePermitted = allSitePermitted;
+    }
+
+    public String getMessageErrorSiteName() {
+        return messageErrorSiteName;
+    }
+
+    public void setMessageErrorSiteName(String messageErrorSiteName) {
+        this.messageErrorSiteName = messageErrorSiteName;
+    }
+
+    public String getMessageErrorPiName() {
+        return messageErrorPiName;
+    }
+
+    public void setMessageErrorPiName(String messageErrorPiName) {
+        this.messageErrorPiName = messageErrorPiName;
+    }
+
+    public String getButtonSuccess() {
+        return buttonSuccess;
+    }
+
+    public void setButtonSuccess(String buttonSuccess) {
+        this.buttonSuccess = buttonSuccess;
+    }
+
+    public String getMessageErrorSiteNumMinMax() {
+        return messageErrorSiteNumMinMax;
+    }
+
+    public void setMessageErrorSiteNumMinMax(String messageErrorSiteNumMinMax) {
+        this.messageErrorSiteNumMinMax = messageErrorSiteNumMinMax;
     }
 }

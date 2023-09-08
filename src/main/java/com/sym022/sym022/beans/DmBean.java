@@ -57,9 +57,9 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
      */
     public void initFormDm(){
         this.dm.setYearOfBirth(1920);
-        this.dm.setSex(Sex.PREFER_NOT_TO_ANSWER);
-        this.dm.setEthnicity(Ethnicity.NOT_REPORTED);
-        this.dm.setCulture(Culture.NOT_REPORTED);
+        this.dm.setSex(null);
+        this.dm.setEthnicity(null);
+        this.dm.setCulture(null);
     }
 
     /**
