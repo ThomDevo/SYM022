@@ -4,6 +4,7 @@ import com.sym022.sym022.entities.IcEntity;
 import com.sym022.sym022.entities.VisitEntity;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 public class IcService
@@ -23,13 +24,17 @@ public class IcService
 
     /**
      * Method to find all IC where eligible is TRUE
+     * @param idSubject
      * @param em
      * @return
      */
-    public List<IcEntity> findIcEligibleYes (EntityManager em)
+    public boolean findIcEligibleYes (int idSubject, EntityManager em)
     {
-        return em.createNamedQuery("Ic.icEligibleYes", IcEntity.class)
-                .getResultList();
+        Query query =em.createNamedQuery("Ic.icEligibleYes", IcEntity.class);
+        query.setParameter("idSubject", idSubject);
+
+        int count =((Number)query.getSingleResult()).intValue();
+        return count > 0;
     }
 
     /**

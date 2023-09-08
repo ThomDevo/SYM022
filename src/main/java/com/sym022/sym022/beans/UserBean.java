@@ -1,10 +1,8 @@
 package com.sym022.sym022.beans;
 
+import com.sym022.sym022.entities.SubjectEntity;
 import com.sym022.sym022.entities.UserEntity;
-import com.sym022.sym022.services.EventService;
-import com.sym022.sym022.services.IcService;
-import com.sym022.sym022.services.UserService;
-import com.sym022.sym022.services.VisitService;
+import com.sym022.sym022.services.*;
 import com.sym022.sym022.utilities.EMF;
 import com.sym022.sym022.utilities.FilterOfTable;
 import com.sym022.sym022.utilities.ProcessUtils;
@@ -45,7 +43,11 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
     @Inject
     private VisitBean visiteBean;
     @Inject
+    private FormBean formBean;
+    @Inject
     private IcBean icBean;
+    @Inject
+    private SubjectBean subjectBean;
 
     /*--- Methods ---*/
 
@@ -216,29 +218,97 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
             try{
                 visiteBean.setAllVisit(visitService.findAeCM(em));
             }catch(Exception e){
-                ProcessUtils.debug("catch methodfindAeCM " + e);
+                ProcessUtils.debug("catch methodFindAeCM " + e);
             }
-        }else{
-            try{
-                visiteBean.setAllVisit(visitService.findVisitAll(em));
-            }catch(Exception e){
-                ProcessUtils.debug("catch methodfindAeCM " + e);
-            }
-        }
-
-        /*else if(icBean.getIcAll().size() != 0){
+        }else if(icBean.getIcAll().size() != 0){
             try{
                 visiteBean.setAllVisit(visitService.findAeCM(em));
             }catch(Exception e){
-                ProcessUtils.debug("catch methodfindAeCM " + e);
+                ProcessUtils.debug("catch methodFindAeCM " + e);
+            }
+        }else if(!icService.findIcEligibleYes(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em)){
+            try{
+                visiteBean.setAllVisit(visitService.findVisitExceptMois1(em));
+            }catch(Exception e){
+                ProcessUtils.debug("catch methodFindVisitExceptMois1 " + e);
             }
         }else if(!eventService.isEventSubjectExist(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(), em)){
             try{
                 visiteBean.setAllVisit(visitService.findVisitExceptMois1(em));
             }catch(Exception e){
-                ProcessUtils.debug("catch methodfindAeCM " + e);
+                ProcessUtils.debug("catch methodFindVisitExceptMois1 " + e);
             }
-        }*/
+        }else if(eventService.findEventMois1(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em) && eventService.findEventScreening(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em)){
+            try{
+                visiteBean.setAllVisit(visitService.findVisitAll(em));
+            }catch(Exception e) {
+                ProcessUtils.debug("catch methodFindAeCM " + e);
+            }
+        }else if(eventService.findEventMois1(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em) && !eventService.findEventScreening(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em)){
+            try{
+                visiteBean.setAllVisit(visitService.findVisitExceptScreening(em));
+            }catch(Exception e) {
+                ProcessUtils.debug("catch methodFindVisitScreening " + e);
+            }
+        }else if(!eventService.findEventMois1(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em) && eventService.findEventScreening(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em)){
+            try{
+                visiteBean.setAllVisit(visitService.findVisitExceptMois1(em));
+            }catch(Exception e) {
+                ProcessUtils.debug("catch methodFindVisitExceptMois1 " + e);
+            }
+        }
+    }
+
+    public void getFilterForm(){
+        EntityManager em = EMF.getEM();
+        EventService eventService = new EventService();
+        FormService formService = new FormService();
+        SubjectService subjectService = new SubjectService();
+
+
+        if(this.eventBean.getEvent().getVisitByIdVisit().getVisitNum() == 80){
+            try{
+                formBean.setAllForm(formService.findFormAe(em));
+            }catch(Exception e) {
+                ProcessUtils.debug("catch methodFindFormAe " + e);
+            }
+        }else if(this.eventBean.getEvent().getVisitByIdVisit().getVisitNum() == 90){
+            try{
+                formBean.setAllForm(formService.findFormCm(em));
+            }catch(Exception e) {
+                ProcessUtils.debug("catch methodFindFormCm " + e);
+            }
+        }else if(this.eventBean.getEvent().getVisitByIdVisit().getVisitNum() == 10 && subjectBean.getSubject().getSubjectNum() == 562501){
+            try{
+                formBean.setAllForm(formService.findFormDov(em));
+            }catch(Exception e) {
+                ProcessUtils.debug("catch methodFindFormCm " + e);
+            }
+        }else if(!eventService.isIcSubjectExist(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(), em)){
+            try{
+                formBean.setAllForm(formService.findFormIc(em));
+            }catch(Exception e) {
+                ProcessUtils.debug("catch methodFindFormCm " + e);
+            }
+        }else if(this.eventBean.getEvent().getVisitByIdVisit().getVisitNum() == 10){
+            try{
+                formBean.setAllForm(formService.findFormScreeningND(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em));
+            }catch(Exception e) {
+                ProcessUtils.debug("catch methodFindFormCm " + e);
+            }
+        }else if(this.eventBean.getEvent().getVisitByIdVisit().getVisitNum() == 20 && !eventService.isMois1SubjectExist(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(), em)){
+            try{
+                formBean.setAllForm(formService.findFormDov(em));
+            }catch(Exception e) {
+                ProcessUtils.debug("catch methodFindFormCm " + e);
+            }
+        }else if(this.eventBean.getEvent().getVisitByIdVisit().getVisitNum() == 20){
+            try{
+                formBean.setAllForm(formService.findFormMois1ND(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em));
+            }catch(Exception e) {
+                ProcessUtils.debug("catch methodFindFormCm " + e);
+            }
+        }
     }
 
     /**

@@ -1,6 +1,8 @@
 package com.sym022.sym022.services;
 
 import com.sym022.sym022.entities.EventEntity;
+import com.sym022.sym022.utilities.ProcessUtils;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
@@ -67,7 +69,8 @@ public class EventService {
         Query query =em.createNamedQuery("Event.CheckNewPatient", EventEntity.class);
         query.setParameter("idSubject", idSubject);
 
-        int count =((Number)query.getSingleResult()).intValue();
+        int count =((Number)query.getResultList()).intValue();
+        ProcessUtils.debug(""+count);
         return count > 0;
     }
 
@@ -95,7 +98,7 @@ public class EventService {
         Query query =em.createNamedQuery("Event.CheckMois1Started", EventEntity.class);
         query.setParameter("idSubject", idSubject);
 
-        int count =((Number)query.getSingleResult()).intValue();
+        int count =((Number)query.getResultList()).intValue();
         return count > 0;
     }
 
@@ -130,11 +133,13 @@ public class EventService {
      * @param em
      * @return List of events
      */
-    public List<EventEntity> findEventScreening (int idSubject, EntityManager em)
+    public boolean findEventScreening (int idSubject, EntityManager em)
     {
-        return em.createNamedQuery("Event.selectEventScreening", EventEntity.class)
-                .setParameter("idSubject", idSubject)
-                .getResultList();
+        Query query =em.createNamedQuery("Event.selectEventScreening", EventEntity.class);
+        query.setParameter("idSubject", idSubject);
+
+        int count =((Number)query.getResultList()).intValue();
+        return count < 4;
     }
 
     /**
@@ -143,11 +148,13 @@ public class EventService {
      * @param em
      * @return List of events
      */
-    public List<EventEntity> findEventMois1 (int idSubject, EntityManager em)
+    public boolean findEventMois1 (int idSubject, EntityManager em)
     {
-        return em.createNamedQuery("Event.selectEventMois1", EventEntity.class)
-                .setParameter("idSubject", idSubject)
-                .getResultList();
+        Query query =em.createNamedQuery("Event.selectEventMois1", EventEntity.class);
+        query.setParameter("idSubject", idSubject);
+
+        int count =((Number)query.getResultList()).intValue();
+        return count < 3;
     }
 
     /**

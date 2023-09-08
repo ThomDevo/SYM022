@@ -15,7 +15,6 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -187,14 +186,6 @@ public class SubjectBean extends FilterOfTable<SubjectEntity> implements Seriali
 
     /*--- Getters and Setters ---*/
 
-    public SubjectEntity getSubject() {
-        return subject;
-    }
-
-    public void setSubject(SubjectEntity subject) {
-        this.subject = subject;
-    }
-
     public SubjectService getSubjectService() {
         return subjectService;
     }
@@ -241,5 +232,13 @@ public class SubjectBean extends FilterOfTable<SubjectEntity> implements Seriali
 
     public void setConnectionBean(ConnectionBean connectionBean) {
         this.connectionBean = connectionBean;
+    }
+
+    public SubjectEntity getSubject() {
+        return subject;
+    }
+
+    public void setSubject(SubjectEntity subject) {
+        this.subject = subject;
     }
 }
