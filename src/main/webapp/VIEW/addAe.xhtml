@@ -23,7 +23,8 @@
                             <p:outputLabel for="input_aeterm" value="#{I18N['aePage.aeterm']}"/>
                             <p:inputText id="input_aeterm" class="label" value="#{aeBean.ae.aeterm}"
                                          placeholder="#{I18N['aePage.aeterm.placeHolder']}">
-                                         <p:ajax event="blur" process="@this" update="@all" listener="#{aeBean.testAeterm()}"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{aeBean.testAeterm()}"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{aeBean.testDateNull()}"/>
                             </p:inputText>
                         </span>
 
@@ -38,6 +39,7 @@
                             <p:outputLabel for="input_aestdat" value="#{I18N['aePage.aestdat']}"/>
                             <p:datePicker id="input_aestdat" value="#{aeBean.ae.aestdat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
                                 <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDate()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDateNull()}"/>
                             </p:datePicker>
                         </div>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorVisitDate}">
@@ -67,15 +69,16 @@
                                                var="Aeout"
                                                itemLabel="#{Aeout.getAeout()}"
                                                itemValue="#{Aeout}"/>
-                                <p:ajax process="@this" update="@all"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDateaeendatNull()}"/>
                             </p:selectOneMenu>
                         </span>
                         <h:panelGroup rendered="#{aeBean.ae.aeout == 'RECOVERED_RESOLVED' or aeBean.ae.aeout == 'RECOVERED_RESOLVED_WITH_SEQUELAE' or aeBean.ae.aeout == 'FATAL'}">
                             <div class="field col-12 md:col-4">
                                 <p:outputLabel for="input_aeendat" value="#{I18N['aePage.aeendat']}"/>
                                 <p:datePicker id="input_aeendat" value="#{aeBean.ae.aeendat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
-                                    <p:ajax event="change" process="@this" listener="#{aeBean.testDatetestDateAeout()}"/>
-                                    <p:ajax event="change" process="@this" listener="#{aeBean.testAeendatBeforAestdat()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDatetestDateAeout()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testAeendatBeforAestdat()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDateaeendatNull()}"/>
                                 </p:datePicker>
                             </div>
                             <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorVisitDateAeendat}">
@@ -88,6 +91,12 @@
                                 <div><span class="ui-message-error-icon"> </span>
                                     <span class="ui-message-error-detail"><h:outputText
                                             value="#{I18N['messageErrorAeendatBeforAestdat']}"/></span>
+                                </div>
+                            </div>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAeendatMis}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorAeendatMis']}"/></span>
                                 </div>
                             </div>
                         </h:panelGroup>
@@ -106,6 +115,7 @@
                                                var="Aetoxgd"
                                                itemLabel="#{Aetoxgd.getAetoxgd()}"
                                                itemValue="#{Aetoxgd}"/>
+                                <p:ajax process="@this" update="@all"/>
                             </p:selectOneMenu>
                         </span>
 
@@ -123,6 +133,7 @@
                                                var="Aesev"
                                                itemLabel="#{Aesev.getAesev()}"
                                                itemValue="#{Aesev}"/>
+                                <p:ajax process="@this" update="@all"/>
                             </p:selectOneMenu>
                         </span>
 
@@ -140,6 +151,7 @@
                                                var="Aerel"
                                                itemLabel="#{Aerel.getAerel()}"
                                                itemValue="#{Aerel}"/>
+                                <p:ajax process="@this" update="@all"/>
                             </p:selectOneMenu>
                         </span>
 
@@ -156,6 +168,7 @@
                                                var="Aeacn"
                                                itemLabel="#{Aeacn.getAeacn()}"
                                                itemValue="#{Aeacn}"/>
+                                <p:ajax process="@this" update="@all"/>
                             </p:selectOneMenu>
                         </span>
 
@@ -167,6 +180,7 @@
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['no']}"
                                               itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
                             </p:selectOneButton>
                         </span>
 
@@ -179,7 +193,7 @@
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['no']}"
                                               itemValue="#{false}"/>
-
+                                <p:ajax process="@this" update="@all"/>
                             </p:selectOneButton>
                         </span>
 
@@ -194,7 +208,7 @@
                                 <p:ajax process="@this" update="@all"/>
                             </p:selectOneButton>
                         </span>
-                        <h:panelGroup  rendered="#{aeBean.ae.aeother}">
+                        <h:panelGroup  id="inputAeothersp" rendered="#{aeBean.ae.aeother}">
                             <span class="field col-12 md:col-4 p-20-0">
                                 <p:outputLabel for="input_aeothersp" value="#{I18N['aePage.aeothersp']}"/>
                                 <p:inputText id="input_aeothersp" class="label" value="#{aeBean.ae.aeothersp}"

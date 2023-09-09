@@ -142,10 +142,6 @@ public class AeEntity {
         return aestdat;
     }
 
-    public void setAestdat(java.sql.Date aestdat) {
-        this.aestdat = aestdat;
-    }
-
     public void setAestdat(Date aestdat) {
         this.aestdat = aestdat;
     }
@@ -160,10 +156,6 @@ public class AeEntity {
 
     public Date getAeendat() {
         return aeendat;
-    }
-
-    public void setAeendat(java.sql.Date aeendat) {
-        this.aeendat = aeendat;
     }
 
     public void setAeendat(Date aeendat) {

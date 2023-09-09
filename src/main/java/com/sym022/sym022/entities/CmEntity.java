@@ -35,7 +35,7 @@ public class CmEntity {
 
     @Basic
     @Column(name = "cmong", nullable = false)
-    private boolean cmong = false;
+    private boolean cmong = true;
 
     @Basic
     @Column(name = "cmendat", nullable = true)
