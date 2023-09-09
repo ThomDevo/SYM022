@@ -20,6 +20,18 @@ public class DmService {
     }
 
     /**
+     * Method to find a DM based on idEvent
+     * @param idEvent
+     * @param em
+     * @return a DM based on idDm
+     */
+    public DmEntity findDmByIdEvent(int idEvent, EntityManager em){
+        return em.createNamedQuery("Dm.selectDmByIdEvent", DmEntity.class)
+                .setParameter("idEvent", idEvent)
+                .getSingleResult();
+    }
+
+    /**
      * Method to add a DM in the DB
      * @param dm
      * @param em

@@ -58,7 +58,7 @@
                                 <h:commandLink class="btn btn-dark" value="#{I18N['ic.modify']}" action="#{icBean.findEvent(r.idEvent)}" rendered="#{r.formByIdForm.formNum == 20 and connectionBean.user.roleByIdRole.roleLabel == 'SITE' and r.available}">
                                     <f:setPropertyActionListener target="#{eventBean.event}" value="#{r}"/>
                                 </h:commandLink>
-                                <h:commandLink class="btn btn-dark" value="#{I18N['dm.modify']}" action="/VIEW/updateDm" rendered="#{r.formByIdForm.formNum == 30 and connectionBean.user.roleByIdRole.roleLabel == 'SITE' and r.available}">
+                                <h:commandLink class="btn btn-dark" value="#{I18N['dm.modify']}" action="#{dmBean.findEvent(r.idEvent)}" rendered="#{r.formByIdForm.formNum == 30 and connectionBean.user.roleByIdRole.roleLabel == 'SITE' and r.available}">
                                     <f:setPropertyActionListener target="#{eventBean.event}" value="#{r}"/>
                                 </h:commandLink>
                                 <h:commandLink class="btn btn-dark" value="#{I18N['vs.modify']}" action="/VIEW/updateVs" rendered="#{r.formByIdForm.formNum == 40 and connectionBean.user.roleByIdRole.roleLabel == 'SITE' and r.available}">
@@ -79,7 +79,7 @@
                                 <h:commandLink class="btn btn-dark" value="#{I18N['ic.consult']}" action="#{icBean.findEvent(r.idEvent)}" rendered="#{r.formByIdForm.formNum == 20 and connectionBean.user.roleByIdRole.roleLabel != 'SITE' or (r.formByIdForm.formNum == 20 and connectionBean.user.roleByIdRole.roleLabel == 'SITE' and !r.available)}">
                                     <f:setPropertyActionListener target="#{eventBean.event}" value="#{r}"/>
                                 </h:commandLink>
-                                <h:commandLink class="btn btn-dark" value="#{I18N['dm.consult']}" action="/VIEW/updateDm" rendered="#{r.formByIdForm.formNum == 30 and connectionBean.user.roleByIdRole.roleLabel != 'SITE'}">
+                                <h:commandLink class="btn btn-dark" value="#{I18N['dm.consult']}" action="#{dmBean.findEvent(r.idEvent)}" rendered="#{r.formByIdForm.formNum == 30 and connectionBean.user.roleByIdRole.roleLabel != 'SITE'}">
                                     <f:setPropertyActionListener target="#{eventBean.event}" value="#{r}"/>
                                 </h:commandLink>
                                 <h:commandLink class="btn btn-dark" value="#{I18N['vs.consult']}" action="/VIEW/updateVs" rendered="#{r.formByIdForm.formNum == 40 and connectionBean.user.roleByIdRole.roleLabel != 'SITE'}">

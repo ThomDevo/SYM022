@@ -36,7 +36,7 @@
                             </div>
                         </div>
 
-                        <div class="field col-12 md:col-4">
+                        <div class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_cmstdat" value="#{I18N['cmPage.cmstdat']}"/>
                             <p:datePicker id="input_cmstdat" value="#{cmBean.cm.cmstdat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
                                 <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testDate()}"/>
@@ -68,7 +68,7 @@
                             </p:selectOneButton>
                         </span>
                         <h:panelGroup rendered="#{!cmBean.cm.cmong}">
-                            <div class="field col-12 md:col-4">
+                            <div class="field col-12 md:col-4 p-20-0">
                                 <p:outputLabel for="input_cmendat" value="#{I18N['cmPage.cmendat']}"/>
                                 <p:datePicker id="input_cmendat" value="#{cmBean.cm.cmendat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
                                     <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testDateCmendat()}"/>
@@ -127,12 +127,13 @@
                                 </div>
                             </div>
                         </h:panelGroup>
-                        <span class="field col-12 md:col-4">
+                        <span class="field col-12 md:col-4 p-20-0">
                                     <p:outputLabel for="input_cmdose" value="#{I18N['cmPage.input_cmdose']}"/>
                                     <p:inputNumber id="input_cmdose" class="label" value="#{cmBean.cm.cmdose}"
                                                    placeholder="#{I18N['cmPage.input_cmdose.placeholder']}"
                                                    validatorMessage="#{I18N['cmPage.input_cmdose.errorMessage']}" decimalPlaces="1">
                                                    <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testCmdoseAndCmdosuUnknown()}"/>
+                                                   <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmdoseAndCmdosuControl()}"/>
                                     </p:inputNumber>
                         </span>
                         <span class="field col-12 md:col-4 p-20-0">
@@ -152,12 +153,19 @@
                                                itemValue="#{Cmdosu}"/>
                                 <p:ajax process="@this" update="@all"/>
                                 <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testCmdoseAndCmdosuUnknown()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testCmdoseAndCmdosuControl()}"/>
                             </p:selectOneMenu>
                         </span>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmdoseAndCmdosuUnknown}">
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText
                                         value="#{I18N['messageErrorCmdoseAndCmdosuUnknown']}"/></span>
+                            </div>
+                        </div>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmdoseAndCmdosuControl}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorCmdoseAndCmdosuControl']}"/></span>
                             </div>
                         </div>
                         <h:panelGroup rendered="#{cmBean.cm.cmdosu == 'OTHER'}">

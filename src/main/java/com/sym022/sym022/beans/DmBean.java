@@ -73,6 +73,23 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
     }
 
     /**
+     * Method to find a DM based on the IdEvent
+     * @param idEvent
+     */
+    public String findEvent(int idEvent){
+        String redirect = "/VIEW/updateDm";
+        EntityManager em = EMF.getEM();
+        try{
+            dm = dmService.findDmByIdEvent(idEvent,em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+        return redirect;
+    }
+
+    /**
      * Method to add a DM in the DB
      * @return a DM
      */
@@ -88,6 +105,52 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
             auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
             auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
             auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+            eventBean.getEvent().setCompleted(true);
+
+            transaction.begin();
+            eventService.updateEvent(eventBean.getEvent(),em);
+            auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+            dmService.addDm(dm, em);
+            transaction.commit();
+
+        }catch(Exception e){
+            ProcessUtils.debug(" I'm in the catch of the addDM method: "+ e);
+
+        }finally {
+            if(transaction.isActive()){
+                transaction.rollback();
+            }
+            em.close();
+        }
+        ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        String addDm = bundle.getString("dm");
+        String add = bundle.getString("add");
+        String forThe = bundle.getString("for");
+        String addSubject = bundle.getString("subject");
+
+        addMessage(addDm+" "+add+" "+forThe+" "+addSubject+" "+dm.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+        initFormDm();
+        return redirect;
+    }
+
+    /**
+     * Method to add a DM in the DB
+     * @return a DM
+     */
+    public String submitFormUpdateDm(){
+        EntityManager em = EMF.getEM();
+        String redirect = "/VIEW/home";
+        EntityTransaction transaction = em.getTransaction();
+        DmService dmService = new DmService();
+        EventService eventService = new EventService();
+        AuditTrailService auditTrailService = new AuditTrailService();
+        try{
+            dm.setEventByIdEvent(eventBean.getEvent());
+            auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+            auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+            auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+            eventBean.getEvent().setCompleted(true);
             eventBean.getEvent().setCompleted(true);
 
             transaction.begin();

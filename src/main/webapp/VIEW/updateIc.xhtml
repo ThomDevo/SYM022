@@ -124,6 +124,14 @@
                                              action="#{eventBean.setEventMonitored}"/>
                         </p:outputPanel>
 
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and eventBean.event.monitored and eventBean.event.available}">
+                            <p:commandButton value="#{I18N['application.dov.revalidate']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="#{eventBean.setEventNoMonitored}"/>
+                        </p:outputPanel>
+
                         <p:outputPanel rendered="#{eventBean.event.available and (connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL' or connectionBean.user.roleByIdRole.roleLabel == 'SAFETY')}">
                             <p:commandButton value="#{I18N['application.dov.query']}"
                                              ajax="false"

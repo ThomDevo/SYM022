@@ -190,7 +190,7 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
     }
 
     /**
-     * Method to inactivate an event
+     * Method to set Monitored an event
      * @return an event
      */
     public String setEventMonitored() {
@@ -205,6 +205,38 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
             auditTrailBean.getAuditTrail().setEventByIdEvent(event);
             auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
             event.setMonitored(true);
+            transaction.begin();
+            eventService.updateEvent(event,em);
+            auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+            transaction.commit();
+        }catch(Exception e){
+
+            ProcessUtils.debug(" I'm in the catch of the inactiveEvent method: "+ e);
+        }finally {
+            if(transaction.isActive()){
+                transaction.rollback();
+            }
+            em.close();
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to set NoMonitored an event
+     * @return an event
+     */
+    public String setEventNoMonitored() {
+        EntityManager em = EMF.getEM();
+        String redirect = "/VIEW/home";
+        EntityTransaction transaction = em.getTransaction();
+        EventService eventService = new EventService();
+        AuditTrailService auditTrailService = new AuditTrailService();
+        try{
+
+            auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+            auditTrailBean.getAuditTrail().setEventByIdEvent(event);
+            auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+            event.setMonitored(false);
             transaction.begin();
             eventService.updateEvent(event,em);
             auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);

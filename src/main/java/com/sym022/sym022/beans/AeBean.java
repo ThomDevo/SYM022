@@ -207,16 +207,22 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         String redirect = "null";
         String isoDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
-        String aeendatDate = simpleDateFormat.format(ae.getAeendat());
-        String aeestdatDate = simpleDateFormat.format(ae.getAestdat());
-        int resultAendatDate = aeendatDate.compareTo(aeestdatDate);
-        if(resultAendatDate < 0){
-            this.messageErrorAeendatBeforAestdat = "";
-            this.buttonSuccess = "true";
+
+        if(ae.getAestdat() == null){
+            testDateNull();
         }else{
-            this.messageErrorAeendatBeforAestdat = "hidden";
-            this.buttonSuccess = "false";
+            String aeendatDate = simpleDateFormat.format(ae.getAeendat());
+            String aeestdatDate = simpleDateFormat.format(ae.getAestdat());
+            int resultAendatDate = aeendatDate.compareTo(aeestdatDate);
+            if(resultAendatDate < 0){
+                this.messageErrorAeendatBeforAestdat = "";
+                this.buttonSuccess = "true";
+            }else{
+                this.messageErrorAeendatBeforAestdat = "hidden";
+                this.buttonSuccess = "false";
+            }
         }
+
         return redirect;
     }
 

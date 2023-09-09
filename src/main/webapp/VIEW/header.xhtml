@@ -72,7 +72,8 @@
                 </p:submenu>
                 <p:submenu label="#{I18N['menu.CRA']}" icon="pi pi-fw pi-book" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA'}">
                     <p:submenu label="#{I18N['menu.data.CRA']}" icon="pi pi-fw pi-book" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA'}">
-                        <p:menuitem value="#{I18N['menu.data.CRA.to.validate']}" icon="pi pi-fw pi-bookmark" action="/VIEW/addSubject.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA'}"/>
+                        <p:menuitem value="#{I18N['menu.data.CRA.to.validate']}" icon="pi pi-fw pi-bookmark" action="/VIEW/listOFAllEventsToValidate.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA'}"/>
+                        <p:menuitem value="#{I18N['menu.data.CRA.to.validate']}" icon="pi pi-fw pi-bookmark-fill" action="/VIEW/listOFAllEventsAleadyValidate.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA'}"/>
                         <p:divider/>
                     </p:submenu>
                 </p:submenu>

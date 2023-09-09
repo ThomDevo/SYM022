@@ -14,6 +14,12 @@ import java.util.Objects;
         @NamedQuery(name = "Event.selectEventAll", query = "SELECT ev FROM EventEntity ev WHERE ((lower(ev.subjectByIdSubject.subjectNum) " +
                 "LIKE CONCAT('%', :researchWord, '%')) OR (lower(ev.formByIdForm.formLabel) LIKE CONCAT('%', :researchWord, '%'))) " +
                 "ORDER BY ev.subjectByIdSubject.subjectNum ASC"),
+        @NamedQuery(name = "Event.selectEventAllMonitored", query = "SELECT ev FROM EventEntity ev WHERE ev.monitored = TRUE AND ((lower(ev.subjectByIdSubject.subjectNum) " +
+                "LIKE CONCAT('%', :researchWord, '%')) OR (lower(ev.formByIdForm.formLabel) LIKE CONCAT('%', :researchWord, '%'))) " +
+                "ORDER BY ev.subjectByIdSubject.subjectNum ASC"),
+        @NamedQuery(name = "Event.selectEventAllNotMonitored", query = "SELECT ev FROM EventEntity ev WHERE ev.monitored = FALSE AND ((lower(ev.subjectByIdSubject.subjectNum) " +
+                "LIKE CONCAT('%', :researchWord, '%')) OR (lower(ev.formByIdForm.formLabel) LIKE CONCAT('%', :researchWord, '%'))) " +
+                "ORDER BY ev.subjectByIdSubject.subjectNum ASC"),
         @NamedQuery(name = "Event.selectEventById", query = "SELECT ev FROM EventEntity ev WHERE ev.idEvent = :idEvent"),
         @NamedQuery(name = "Event.selectEventWithQuery", query = "SELECT ev FROM EventEntity ev WHERE ev.queried = true "),
         @NamedQuery(name = "Event.selectCountEventOccurrence", query = "SELECT ev FROM EventEntity ev WHERE (ev.subjectByIdSubject.idSubject = :idSubject AND ev.formByIdForm.idForm = :idForm)"),

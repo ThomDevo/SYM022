@@ -46,6 +46,7 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
     private String messageErrorCmfreqspOther = "hidden";
     private String messageErrorCmstdatMis = "hidden";
     private String messageErrorCmendatMis = "hidden";
+    private String messageErrorCmdoseAndCmdosuControl = "hidden";
     private String buttonSuccess = "false";
     @Inject
     private ConnectionBean connectionBean;
@@ -103,6 +104,7 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
         this.messageErrorCmfreqspOther = "hidden";
         this.messageErrorCmstdatMis = "hidden";
         this.messageErrorCmendatMis = "hidden";
+        this.messageErrorCmdoseAndCmdosuControl = "hidden";
         this.buttonSuccess = "false";
     }
 
@@ -204,15 +206,19 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
         String redirect = "null";
         String isoDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
-        String cmstdatDate = simpleDateFormat.format(cm.getCmstdat());
-        String cmendatDate = simpleDateFormat.format(cm.getCmendat());
-        int resultAendatDate = cmendatDate.compareTo(cmstdatDate);
-        if(resultAendatDate < 0){
-            this.messageErrorCmendatBeforcmstdat = "";
-            this.buttonSuccess = "true";
+        if(cm.getCmstdat() == null){
+            testDatecmstdatNull();
         }else{
-            this.messageErrorCmendatBeforcmstdat = "hidden";
-            this.buttonSuccess = "false";
+            String cmstdatDate = simpleDateFormat.format(cm.getCmstdat());
+            String cmendatDate = simpleDateFormat.format(cm.getCmendat());
+            int resultAendatDate = cmendatDate.compareTo(cmstdatDate);
+            if(resultAendatDate < 0){
+                this.messageErrorCmendatBeforcmstdat = "";
+                this.buttonSuccess = "true";
+            }else{
+                this.messageErrorCmendatBeforcmstdat = "hidden";
+                this.buttonSuccess = "false";
+            }
         }
         return redirect;
     }
@@ -244,6 +250,22 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
             this.buttonSuccess = "true";
         }else{
             this.messageErrorCmdoseAndCmdosuUnknown = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the Cmdose different of ZERO when Cmdosu different of UNKNOWN in front end
+     * @return messageErrorCmdoseAndCmdosuUnknown hidden or not and button create/update deactivate or not
+     */
+    public String testCmdoseAndCmdosuControl(){
+        String redirect = "null";
+        if(cm.getCmdosu() != Cmdosu.UNKNOWN && (cm.getCmdose() == null || cm.getCmdose() == 0)){
+            this.messageErrorCmdoseAndCmdosuControl = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorCmdoseAndCmdosuControl = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -321,7 +343,12 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
         LocalDate now = LocalDate.now();
         String isoDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
-        if(cm.getCmstdat() != null && cm.getCmendat() == null){
+        if(cm.getCmstdat() == null && cm.getCmendat() == null){
+            initErrorMessageFormCm();
+            this.messageErrorCmstdatMis = "";
+            redirect = "null";
+            return redirect;
+        }else if(cm.getCmstdat() != null && cm.getCmendat() == null){
             String AddCmcmstdat = simpleDateFormat.format(cm.getCmstdat());
             int resultAddCmcmstdat = AddCmcmstdat.compareTo(String.valueOf(now));
             if(cm.getCmterm() == null || Objects.equals(cm.getCmterm(), "")){
@@ -637,5 +664,13 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
 
     public void setMessageErrorCmendatMis(String messageErrorCmendatMis) {
         this.messageErrorCmendatMis = messageErrorCmendatMis;
+    }
+
+    public String getMessageErrorCmdoseAndCmdosuControl() {
+        return messageErrorCmdoseAndCmdosuControl;
+    }
+
+    public void setMessageErrorCmdoseAndCmdosuControl(String messageErrorCmdoseAndCmdosuControl) {
+        this.messageErrorCmdoseAndCmdosuControl = messageErrorCmdoseAndCmdosuControl;
     }
 }
