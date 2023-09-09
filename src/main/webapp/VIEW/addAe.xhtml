@@ -74,8 +74,8 @@
                             <div class="field col-12 md:col-4">
                                 <p:outputLabel for="input_aeendat" value="#{I18N['aePage.aeendat']}"/>
                                 <p:datePicker id="input_aeendat" value="#{aeBean.ae.aeendat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
-                                    <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDatetestDateAeout()}"/>
-                                    <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testAeendatBeforAestdat()}"/>
+                                    <p:ajax event="change" process="@this" listener="#{aeBean.testDatetestDateAeout()}"/>
+                                    <p:ajax event="change" process="@this" listener="#{aeBean.testAeendatBeforAestdat()}"/>
                                 </p:datePicker>
                             </div>
                             <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorVisitDateAeendat}">
@@ -147,8 +147,7 @@
                             <p:outputLabel for="input_aeacn" value="#{I18N['aePage.aeacn']}"/>
                             <p:selectOneMenu id="input_aeacn"
                                              value="#{aeBean.ae.aeacn}"
-                                             converter="AeacnConverter"
-                                             required="true">
+                                             converter="AeacnConverter">
                                 <!-- import all enum -->
                                 <p:importEnum type="com.sym022.sym022.enums.Aeacn"
                                               var="enumAeacn"
@@ -168,19 +167,19 @@
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['no']}"
                                               itemValue="#{false}"/>
-                                <p:ajax process="@this" update="@all"/>
                             </p:selectOneButton>
                         </span>
 
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_aeproc" value="#{I18N['aePage.aeproc']}"/>
                             <p:selectOneButton   id="input_aeproc"
-                                                 value="#{aeBean.ae.aeproc}">
+                                                 value="#{aeBean.ae.aeproc}"
+                                                 ignoreAutoUpdate="true">
                                 <f:selectItem itemLabel="#{I18N['yes']}"
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['no']}"
                                               itemValue="#{false}"/>
-                                <p:ajax process="@this" update="@all"/>
+
                             </p:selectOneButton>
                         </span>
 
@@ -195,7 +194,7 @@
                                 <p:ajax process="@this" update="@all"/>
                             </p:selectOneButton>
                         </span>
-                        <h:panelGroup rendered="#{aeBean.ae.aeother}">
+                        <h:panelGroup  rendered="#{aeBean.ae.aeother}">
                             <span class="field col-12 md:col-4 p-20-0">
                                 <p:outputLabel for="input_aeothersp" value="#{I18N['aePage.aeothersp']}"/>
                                 <p:inputText id="input_aeothersp" class="label" value="#{aeBean.ae.aeothersp}"

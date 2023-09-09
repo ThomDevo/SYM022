@@ -45,6 +45,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
     private String messageErrorAeterm = "hidden";
     private String messageErrorAaeser = "hidden";
     private String buttonSuccess = "false";
+    private String aeothertest = "false";
     @Inject
     private ConnectionBean connectionBean;
     @Inject
@@ -106,6 +107,14 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         this.messageErrorAaeser = "hidden";
         this.messageErrorAemedimspMis = "hidden";
         this.buttonSuccess = "false";
+    }
+
+    public String testAeOther(){
+        String redirect = "null";
+        if(ae.isAeother()){
+            this.aeothertest = "true";
+        }
+        return redirect;
     }
 
     /**
@@ -536,5 +545,13 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
 
     public void setButtonSuccess(String buttonSuccess) {
         this.buttonSuccess = buttonSuccess;
+    }
+
+    public String getAeothertest() {
+        return aeothertest;
+    }
+
+    public void setAeothertest(String aeothertest) {
+        this.aeothertest = aeothertest;
     }
 }

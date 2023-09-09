@@ -6,7 +6,7 @@ import com.sym022.sym022.enums.Cmindic;
 import com.sym022.sym022.enums.Cmroute;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 @NamedQueries(value = {
@@ -22,7 +22,6 @@ public class CmEntity {
     private int idCm;
 
     @Basic
-    @NotNull
     @Column(name = "cmterm", nullable = false, length = 200)
     private String cmterm;
 
@@ -31,12 +30,10 @@ public class CmEntity {
     private String cmtermc;
 
     @Basic
-    @NotNull
     @Column(name = "cmstdat", nullable = false)
     private Date cmstdat;
 
     @Basic
-    @NotNull
     @Column(name = "cmong", nullable = false)
     private boolean cmong = false;
 
@@ -45,7 +42,6 @@ public class CmEntity {
     private Date cmendat;
 
     @Basic
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "cmindic", nullable = false)
     private Cmindic cmindic;
@@ -59,7 +55,6 @@ public class CmEntity {
     private Double cmdose;
 
     @Basic
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "cmdosu", nullable = false)
     private Cmdosu cmdosu;
@@ -69,7 +64,6 @@ public class CmEntity {
     private String cmdosusp;
 
     @Basic
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "cmroute", nullable = false)
     private Cmroute cmroute;
@@ -89,7 +83,6 @@ public class CmEntity {
     private String cmfreqsp;
 
     @ManyToOne
-    @NotNull
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
 

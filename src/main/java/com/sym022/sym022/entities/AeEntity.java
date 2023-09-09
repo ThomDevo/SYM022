@@ -19,7 +19,6 @@ public class AeEntity {
     private int idAe;
 
     @Basic
-    @NotNull
     @Column(name = "aeterm", nullable = false, length = 200)
     private String aeterm;
 
@@ -28,12 +27,10 @@ public class AeEntity {
     private String aetermc;
 
     @Basic
-    @NotNull
     @Column(name = "aestdat", nullable = false)
     private Date aestdat;
 
     @Basic
-    @NotNull
     @Column(name = "aeout", nullable = false)
     @Enumerated(EnumType.STRING)
     private Aeout aeout;
@@ -43,41 +40,34 @@ public class AeEntity {
     private Date aeendat;
 
     @Basic
-    @NotNull
     @Column(name = "aetoxgd", nullable = false)
     @Enumerated(EnumType.STRING)
     private Aetoxgd aetoxgd;
 
     @Basic
-    @NotNull
     @Column(name = "aesev", nullable = false)
     @Enumerated(EnumType.STRING)
     private Aesev aesev;
 
     @Basic
-    @NotNull
     @Column(name = "aerel", nullable = false)
     @Enumerated(EnumType.STRING)
     private Aerel aerel;
 
     @Basic
-    @NotNull
     @Column(name = "aeacn", nullable = false)
     @Enumerated(EnumType.STRING)
     private Aeacn aeacn;
 
     @Basic
-    @NotNull
     @Column(name = "aecm", nullable = false)
     private boolean aecm = false;
 
     @Basic
-    @NotNull
     @Column(name = "aeproc", nullable = false)
-    private boolean aeproc = false;
+    private boolean aeproc;
 
     @Basic
-    @NotNull
     @Column(name = "aeother", nullable = false)
     private boolean aeother = false;
 
@@ -86,37 +76,30 @@ public class AeEntity {
     private String aeothersp;
 
     @Basic
-    @NotNull
     @Column(name = "aeser", nullable = false)
     private boolean aeser = false;
 
     @Basic
-    @NotNull
     @Column(name = "aedeath", nullable = false)
     private boolean aedeath = false;
 
     @Basic
-    @NotNull
     @Column(name = "aelife", nullable = false)
     private boolean aelife = false;
 
     @Basic
-    @NotNull
     @Column(name = "aehosp", nullable = false)
     private boolean aehosp = false;
 
     @Basic
-    @NotNull
     @Column(name = "aedisab", nullable = false)
     private boolean aedisab = false;
 
     @Basic
-    @NotNull
     @Column(name = "aecong", nullable = false)
     private boolean aecong = false;
 
     @Basic
-    @NotNull
     @Column(name = "aemedim", nullable = false)
     private boolean aemedim = false;
 
