@@ -44,6 +44,8 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
     private String messageErrorCmdosuspOther = "hidden";
     private String messageErrorCmroutespOther = "hidden";
     private String messageErrorCmfreqspOther = "hidden";
+    private String messageErrorCmstdatMis = "hidden";
+    private String messageErrorCmendatMis = "hidden";
     private String buttonSuccess = "false";
     @Inject
     private ConnectionBean connectionBean;
@@ -99,6 +101,8 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
         this.messageErrorCmdosuspOther = "hidden";
         this.messageErrorCmroutespOther = "hidden";
         this.messageErrorCmfreqspOther = "hidden";
+        this.messageErrorCmstdatMis = "hidden";
+        this.messageErrorCmendatMis = "hidden";
         this.buttonSuccess = "false";
     }
 
@@ -140,6 +144,38 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
     }
 
     /**
+     * Method to test the Cmstdat null in front end
+     * @return messageErrorCmstdatMis hidden or not and button create/update deactivate or not
+     */
+    public String testDatecmstdatNull(){
+        String redirect = "null";
+        if(cm.getCmstdat() == null){
+            this.messageErrorCmstdatMis = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorCmstdatMis = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the Cmstdat null in front end
+     * @return messageErrorCmstdatMis hidden or not and button create/update deactivate or not
+     */
+    public String testDatecmendatNull(){
+        String redirect = "null";
+        if(cm.getCmendat() == null && !cm.getCmong()){
+            this.messageErrorCmendatMis = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorCmendatMis = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
      * Method to test the Cmendat in front end
      * @return messageErrorCmendat hidden or not and button create/update deactivate or not
      */
@@ -151,10 +187,10 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
         String cmendat = simpleDateFormat.format(cm.getCmstdat());
         int resultCmendat = cmendat.compareTo(String.valueOf(now));
         if(resultCmendat > 0){
-            this.messageErrorCmendat = "";
+            this.messageErrorCmendatMis = "";
             this.buttonSuccess = "true";
         }else{
-            this.messageErrorCmendat = "hidden";
+            this.messageErrorCmendatMis = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -585,5 +621,21 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
 
     public void setButtonSuccess(String buttonSuccess) {
         this.buttonSuccess = buttonSuccess;
+    }
+
+    public String getMessageErrorCmstdatMis() {
+        return messageErrorCmstdatMis;
+    }
+
+    public void setMessageErrorCmstdatMis(String messageErrorCmstdatMis) {
+        this.messageErrorCmstdatMis = messageErrorCmstdatMis;
+    }
+
+    public String getMessageErrorCmendatMis() {
+        return messageErrorCmendatMis;
+    }
+
+    public void setMessageErrorCmendatMis(String messageErrorCmendatMis) {
+        this.messageErrorCmendatMis = messageErrorCmendatMis;
     }
 }

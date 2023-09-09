@@ -44,8 +44,9 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
     private String messageErrorVisitDateAeendat = "hidden";
     private String messageErrorAeterm = "hidden";
     private String messageErrorAaeser = "hidden";
+    private String messageErrormessageErrorAeendatMis = "hidden";
     private String buttonSuccess = "false";
-    private String aeothertest = "false";
+    LocalDate now = LocalDate.now();
     @Inject
     private ConnectionBean connectionBean;
     @Inject
@@ -106,13 +107,38 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         this.messageErrorAeotherspMis = "hidden";
         this.messageErrorAaeser = "hidden";
         this.messageErrorAemedimspMis = "hidden";
+        this.messageErrormessageErrorAeendatMis = "hidden";
         this.buttonSuccess = "false";
     }
 
-    public String testAeOther(){
+    /**
+     * Method to test the date in front end
+     * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
+     */
+    public String testDateNull(){
         String redirect = "null";
-        if(ae.isAeother()){
-            this.aeothertest = "true";
+        if(ae.getAestdat() == null){
+            this.messageErrorVisitNdFalse = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorVisitNdFalse = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the aeendat in front end
+     * @return messageErrorAeendatMis hidden or not and button create/update deactivate or not
+     */
+    public String testDateaeendatNull(){
+        String redirect = "null";
+        if(ae.getAeendat() == null && (ae.getAeout() == Aeout.RECOVERED_RESOLVED || ae.getAeout() == Aeout.RECOVERED_RESOLVED_WITH_SEQUELAE || ae.getAeout() == Aeout.FATAL)){
+            this.messageErrorAeendatMis = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorAeendatMis = "hidden";
+            this.buttonSuccess = "false";
         }
         return redirect;
     }
@@ -122,7 +148,6 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
      * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
      */
     public String testDate(){
-        LocalDate now = LocalDate.now();
         String redirect = "null";
         String isoDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
@@ -159,7 +184,6 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
      * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
      */
     public String testDatetestDateAeout(){
-        LocalDate now = LocalDate.now();
         String redirect = "null";
         String isoDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
@@ -547,11 +571,11 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         this.buttonSuccess = buttonSuccess;
     }
 
-    public String getAeothertest() {
-        return aeothertest;
+    public String getMessageErrormessageErrorAeendatMis() {
+        return messageErrormessageErrorAeendatMis;
     }
 
-    public void setAeothertest(String aeothertest) {
-        this.aeothertest = aeothertest;
+    public void setMessageErrormessageErrorAeendatMis(String messageErrormessageErrorAeendatMis) {
+        this.messageErrormessageErrorAeendatMis = messageErrormessageErrorAeendatMis;
     }
 }

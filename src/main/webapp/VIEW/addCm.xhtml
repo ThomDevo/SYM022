@@ -25,6 +25,7 @@
                                          placeholder="#{I18N['cmPage.cmterm.placeHolder']}">
                                 <p:ajax update="messageInputCmterm" event="blur"/>
                                 <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmterm()}"/>
+                                    <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testDatecmstdatNull()}"/>
                             </p:inputText>
                         </span>
                         <p:message id="messageInputCmterm" for="@previous"/>
@@ -39,12 +40,19 @@
                             <p:outputLabel for="input_cmstdat" value="#{I18N['cmPage.cmstdat']}"/>
                             <p:datePicker id="input_cmstdat" value="#{cmBean.cm.cmstdat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
                                 <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testDate()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testDatecmstdatNull()}"/>
                             </p:datePicker>
                         </div>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmDate}">
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText
                                         value="#{I18N['messageErrorCmFuture']}"/></span>
+                            </div>
+                        </div>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmstdatMis}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorCmstdatMis']}"/></span>
                             </div>
                         </div>
                         <span class="field col-12 md:col-4 p-20-0">
@@ -56,6 +64,7 @@
                                 <f:selectItem itemLabel="#{I18N['no']}"
                                               itemValue="#{false}"/>
                                 <p:ajax process="@this" update="@all"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testDatecmendatNull()}"/>
                             </p:selectOneButton>
                         </span>
                         <h:panelGroup rendered="#{!cmBean.cm.cmong}">
@@ -64,6 +73,7 @@
                                 <p:datePicker id="input_cmendat" value="#{cmBean.cm.cmendat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
                                     <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testDateCmendat()}"/>
                                     <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testCmendatBeforcmstdat()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testDatecmendatNull()}"/>
                                 </p:datePicker>
                             </div>
                             <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmendat}">
@@ -76,6 +86,12 @@
                                 <div><span class="ui-message-error-icon"> </span>
                                     <span class="ui-message-error-detail"><h:outputText
                                             value="#{I18N['messageErrorCmendatBeforcmstdat']}"/></span>
+                                </div>
+                            </div>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmendatMis}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorCmendatMis']}"/></span>
                                 </div>
                             </div>
                         </h:panelGroup>
@@ -98,13 +114,12 @@
                         </span>
                         <h:panelGroup rendered="#{cmBean.cm.cmindic == 'OTHER'}">
                             <span class="field col-12 md:col-4 p-20-0">
-                            <p:outputLabel for="input_cmindicsp" value="#{I18N['cmPage.cmindicsp']}"/>
-                            <p:inputText id="input_cmindicsp" class="label" value="#{cmBean.cm.cmindicsp}"
+                                <p:outputLabel for="input_cmindicsp" value="#{I18N['cmPage.cmindicsp']}"/>
+                                <p:inputText id="input_cmindicsp" class="label" value="#{cmBean.cm.cmindicsp}"
                                          placeholder="#{I18N['cmPage.cmindicsp.placeHolder']}">
-                                <p:ajax update="messageInputCmindicsp" event="blur"/>
                                 <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testIndicspIndicOther()}"/>
-                            </p:inputText>
-                        </span>
+                                </p:inputText>
+                            </span>
                             <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorIndicspIndicOther}">
                                 <div><span class="ui-message-error-icon"> </span>
                                     <span class="ui-message-error-detail"><h:outputText
@@ -117,7 +132,7 @@
                                     <p:inputNumber id="input_cmdose" class="label" value="#{cmBean.cm.cmdose}"
                                                    placeholder="#{I18N['cmPage.input_cmdose.placeholder']}"
                                                    validatorMessage="#{I18N['cmPage.input_cmdose.errorMessage']}" decimalPlaces="1">
-                                                   <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmdoseAndCmdosuUnknown()}"/>
+                                                   <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testCmdoseAndCmdosuUnknown()}"/>
                                     </p:inputNumber>
                         </span>
                         <span class="field col-12 md:col-4 p-20-0">
@@ -130,12 +145,13 @@
                                 <p:importEnum type="com.sym022.sym022.enums.Cmdosu"
                                               var="enumCmdosu"
                                               allSuffix="getAll"/>
+
                                 <f:selectItems value="#{enumCmdosu.getAll}"
                                                var="Cmdosu"
                                                itemLabel="#{Cmdosu.getCmdosu()}"
                                                itemValue="#{Cmdosu}"/>
                                 <p:ajax process="@this" update="@all"/>
-                                <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmdoseAndCmdosuUnknown()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testCmdoseAndCmdosuUnknown()}"/>
                             </p:selectOneMenu>
                         </span>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmdoseAndCmdosuUnknown}">
