@@ -96,6 +96,23 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
     }
 
     /**
+     * Method to test the date is null in front end
+     * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
+     */
+    public String testDateNull(){
+        LocalDate now = LocalDate.now();
+        String redirect = "null";
+        if(te.getTeDate() == null){
+            this.messageErrorVisitDateMissing = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorVisitDateMissing = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
      * Method to test the date in front end
      * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
      */
@@ -104,15 +121,21 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
         String redirect = "null";
         String isoDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
-        String teDate = simpleDateFormat.format(te.getTeDate());
-        int resultTeDate = teDate.compareTo(String.valueOf(now));
-        if(resultTeDate > 0){
-            this.messageErrorVisitDate = "";
-            this.buttonSuccess = "true";
+
+        if(te.getTeDate() == null){
+            testDateNull();
         }else{
-            this.messageErrorVisitDate = "hidden";
-            this.buttonSuccess = "false";
+            String teDate = simpleDateFormat.format(te.getTeDate());
+            int resultTeDate = teDate.compareTo(String.valueOf(now));
+            if(resultTeDate > 0){
+                this.messageErrorVisitDate = "";
+                this.buttonSuccess = "true";
+            }else{
+                this.messageErrorVisitDate = "hidden";
+                this.buttonSuccess = "false";
+            }
         }
+
         return redirect;
     }
 
@@ -377,6 +400,22 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
+    /**
+     * Method to find a TE based on the IdEvent
+     * @param idEvent
+     */
+    public String findEvent(int idEvent){
+        String redirect = "/VIEW/updateTe";
+        EntityManager em = EMF.getEM();
+        try{
+            te = teService.findTeByIdEvent(idEvent,em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+        return redirect;
+    }
 
     /**
      * Method to add a popup

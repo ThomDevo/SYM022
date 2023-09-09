@@ -19,6 +19,18 @@ public class VsService {
     }
 
     /**
+     * Method to find a VS based on idVs
+     * @param idEvent
+     * @param em
+     * @return VS
+     */
+    public VsEntity findVsByIdEvent (int idEvent, EntityManager em){
+        return em.createNamedQuery("Vs.selectVsByIdEvent", VsEntity.class)
+                .setParameter("idEvent", idEvent)
+                .getSingleResult();
+    }
+
+    /**
      * Method to add a VS in the DB
      * @param vs
      * @param em

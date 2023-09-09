@@ -22,6 +22,18 @@ public class EventService {
     }
 
     /**
+     * Method to find all events who are not monitored
+     * @param em
+     * @return List of events
+     */
+    public List<EventEntity> findEventAllNotMonitored (String researchWord,EntityManager em)
+    {
+        return em.createNamedQuery("Event.selectEventAllNotMonitored", EventEntity.class)
+                .setParameter("researchWord", researchWord.toLowerCase())
+                .getResultList();
+    }
+
+    /**
      * Method to find an event by id
       * @param idEvent
      * @param em

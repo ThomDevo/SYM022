@@ -29,6 +29,7 @@
                                               itemValue="#{false}"/>
                                 <p:ajax process="@this" update="@all"/>
                                 <p:ajax event="change" process="@this" update="@all" listener="#{dovBean.initErrorMessageFormDov()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{dovBean.testDateNull()}"/>
                             </p:selectOneButton>
 
                         </span>
@@ -58,6 +59,7 @@
                             <p:outputLabel for="input_AdmissionDate" value="#{I18N['dovPage.visitDate']}" />
                             <p:datePicker id="input_AdmissionDate"  value="#{dovBean.dov.visitDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
                                 <p:ajax event="change" process="@this" update="@all" listener="#{dovBean.testDate()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{dovBean.testDateNull()}"/>
                             </p:datePicker>
                         </h:panelGroup>
 

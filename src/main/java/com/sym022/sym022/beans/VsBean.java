@@ -130,18 +130,56 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
      * Method to test the date in front end
      * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
      */
+    public String testDateNull(){
+        LocalDate now = LocalDate.now();
+        String redirect = "null";
+        if(vs.getVsDate() == null){
+            this.messageErrorVisitDateMissing = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorVisitDateMissing = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the date in front end
+     * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
+     */
     public String testDate(){
         LocalDate now = LocalDate.now();
         String redirect = "null";
         String isoDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
-        String vsDate = simpleDateFormat.format(vs.getVsDate());
-        int resultVsDate = vsDate.compareTo(String.valueOf(now));
-        if(resultVsDate > 0){
-            this.messageErrorVisitDate = "";
+        if(vs.getVsDate() == null){
+            testDateNull();
+        }else{
+            String vsDate = simpleDateFormat.format(vs.getVsDate());
+            int resultVsDate = vsDate.compareTo(String.valueOf(now));
+            if(resultVsDate > 0){
+                this.messageErrorVisitDate = "";
+                this.buttonSuccess = "true";
+            }else{
+                this.messageErrorVisitDate = "hidden";
+                this.buttonSuccess = "false";
+            }
+        }
+
+        return redirect;
+    }
+
+    /**
+     * Method to test the InputVsNd in front end
+     * @return messageErrorVisitNd hidden or not and button create/update deactivate or not
+     */
+    public String testInputVsNd(){
+        String redirect = "null";
+        if(!vs.getVsYn() && (vs.getVsNd() == null || Objects.equals(vs.getVsNd(), ""))){
+            this.messageErrorVisitNd = "";
             this.buttonSuccess = "true";
         }else{
-            this.messageErrorVisitDate = "hidden";
+            this.messageErrorVisitNd = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -348,6 +386,23 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
     public void addMessage(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    /**
+     * Method to find a DM based on the IdEvent
+     * @param idEvent
+     */
+    public String findEvent(int idEvent){
+        String redirect = "/VIEW/updateVs";
+        EntityManager em = EMF.getEM();
+        try{
+            vs = vsService.findVsByIdEvent(idEvent,em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+        return redirect;
     }
 
     /**

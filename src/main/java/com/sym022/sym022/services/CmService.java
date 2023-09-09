@@ -18,6 +18,18 @@ public class CmService {
     }
 
     /**
+     * Method to find a Cm based on the id
+     * @param idEvent
+     * @param em
+     * @return a Cm
+     */
+    public CmEntity findCmByIdEvent(int idEvent, EntityManager em){
+        return em.createNamedQuery("Cm.selectCmByIdEvent", CmEntity.class)
+                .setParameter("idEvent",idEvent)
+                .getSingleResult();
+    }
+
+    /**
      * Method to add a Cm in the DB
      * @param cm
      * @param em

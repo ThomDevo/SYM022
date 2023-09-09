@@ -29,6 +29,8 @@
                                 <f:selectItem itemLabel="#{I18N['notDone']}"
                                               itemValue="#{false}"/>
                                 <p:ajax process="@this" update="@all"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{dovBean.initErrorMessageFormDov()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{dovBean.testDateNull()}"/>
                             </p:selectOneButton>
 
                         </span>
@@ -58,7 +60,8 @@
                             <p:datePicker id="input_AdmissionDate"  value="#{dovBean.dov.visitDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"
                                           validatorMessage="#{I18N['vsPage.height.errorMessage']}"
                                           disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !dovBean.dov.eventByIdEvent.available}">
-                                <p:ajax event="change" process="@this" update="@form" listener="#{dovBean.testDate()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{dovBean.initErrorMessageFormDov()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{dovBean.testDateNull()}"/>
                             </p:datePicker>
                         </h:panelGroup>
 

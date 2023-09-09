@@ -13,6 +13,7 @@ import java.util.Objects;
 
 @NamedQueries(value = {
         @NamedQuery(name = "Vs.selectVsById", query = "SELECT vs from VsEntity vs WHERE vs.idVs = :idVs"),
+        @NamedQuery(name = "Vs.selectVsByIdEvent", query = "SELECT vs from VsEntity vs WHERE vs.eventByIdEvent.idEvent = :idEvent"),
 })
 
 @Entity
