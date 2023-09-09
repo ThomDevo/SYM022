@@ -23,7 +23,7 @@
                 <h:form>
                     <p:outputPanel class="form-control">
                         <span class="field col-12 md:col-4 p-20-0">
-                            <p:outputLabel for="inputSubject" value="#{I18N['select.user']}"/>
+                            <p:outputLabel for="inputSubject" value="#{I18N['select.subject']}"/>
                             <p:selectOneMenu id="inputSubject"
                                              value="#{eventBean.event.subjectByIdSubject}"
                                              converter="SubjectConverter"
@@ -35,7 +35,7 @@
                                 <f:metadata>
                                     <f:event type="preRenderView" listener="#{subjectBean.initAllEditorSubject()}"/>
                                 </f:metadata>
-                                <f:selectItem itemLabel="#{I18N['select.user']}"
+                                <f:selectItem itemLabel="#{I18N['select.subject']}"
                                               itemValue="#{null}"/>
                                 <f:selectItems value="#{subjectBean.allSubject}"
                                                var="subject"
@@ -112,8 +112,12 @@
                                          class="ui-button-success"
                                          action="#{eventBean.submitFormAddEvent()}"/>
 
-                        <p:linkButton outcome="/VIEW/home.xhtml" value="#{I18N['connectionpage.return.button']}" class="ui-button-secondary" ></p:linkButton>
-                    </span>
+                        <p:commandButton value="#{I18N['connectionpage.return.button']}"
+                                         ajax="false"
+                                         validateClient="true"
+                                         class="ui-button-secondary"
+                                         action="#{eventBean.cancelForm}"/>
+                        </span>
                 </h:form>
             </div>
         </div>

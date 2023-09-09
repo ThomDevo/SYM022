@@ -5,7 +5,6 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
     <ui:define name="title">
@@ -35,13 +34,15 @@
                             </div>
                         </div>
 
-                        <div class="field col-12 md:col-4">
+                        <div class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_aestdat" value="#{I18N['aePage.aestdat']}"/>
                             <p:datePicker id="input_aestdat" value="#{aeBean.ae.aestdat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
                                 <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDate()}"/>
                                 <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDateNull()}"/>
                             </p:datePicker>
+                            <p:tooltip for="input_aestdat" value="#{I18N['aePage.ttaestdat']}"/>
                         </div>
+
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorVisitDate}">
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText
@@ -52,7 +53,7 @@
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorVisitNdFalse}">
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText
-                                        value="#{I18N['messageErrorAeMisDate']}"/></span>
+                                        value="#{I18N['messageErrorAestdatMis']}"/></span>
                             </div>
                         </div>
                         <span class="field col-12 md:col-4 p-20-0">
@@ -73,13 +74,14 @@
                             </p:selectOneMenu>
                         </span>
                         <h:panelGroup rendered="#{aeBean.ae.aeout == 'RECOVERED_RESOLVED' or aeBean.ae.aeout == 'RECOVERED_RESOLVED_WITH_SEQUELAE' or aeBean.ae.aeout == 'FATAL'}">
-                            <div class="field col-12 md:col-4">
+                            <div class="field col-12 md:col-4 p-20-0">
                                 <p:outputLabel for="input_aeendat" value="#{I18N['aePage.aeendat']}"/>
                                 <p:datePicker id="input_aeendat" value="#{aeBean.ae.aeendat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
                                     <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDatetestDateAeout()}"/>
                                     <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testAeendatBeforAestdat()}"/>
                                     <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDateaeendatNull()}"/>
                                 </p:datePicker>
+                                <p:tooltip for="input_aeendat" value="#{I18N['aePage.ttaeendat']}"/>
                             </div>
                             <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorVisitDateAeendat}">
                                 <div><span class="ui-message-error-icon"> </span>

@@ -42,6 +42,7 @@
                                 <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testDate()}"/>
                                 <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testDatecmstdatNull()}"/>
                             </p:datePicker>
+                            <p:tooltip for="input_cmstdat" value="#{I18N['cmPage.ttcmstdat']}"/>
                         </div>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmDate}">
                             <div><span class="ui-message-error-icon"> </span>
@@ -75,6 +76,7 @@
                                     <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testCmendatBeforcmstdat()}"/>
                                     <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testDatecmendatNull()}"/>
                                 </p:datePicker>
+                                <p:tooltip for="input_cmendat" value="#{I18N['cmPage.ttcmendat']}"/>
                             </div>
                             <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmendat}">
                                 <div><span class="ui-message-error-icon"> </span>

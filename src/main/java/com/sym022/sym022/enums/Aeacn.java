@@ -8,7 +8,7 @@ public enum Aeacn {
     DOSE_REDUCED ("Dose Reduced"),
     DRUG_INTERRUPTED ("Drug interrupted"),
     DRUG_WITHDRAWN ("Drug Withdrawn"),
-    NOT_APPLICABLE("Not Applicable");
+    NOT_APPLICABLE("Not Applicable/Not Available");
 
     /**
      * Field

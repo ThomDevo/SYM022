@@ -40,6 +40,17 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
     /*---Method---*/
 
     /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelForm(){
+        String redirect = "/VIEW/home";
+        initEvent();
+        deleteEvent();
+        return redirect;
+    }
+
+    /**
      * Method to filter the roles on roleLabel
      */
     public void researchFilterAllEvents(){

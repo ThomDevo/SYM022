@@ -56,7 +56,6 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
     public String cancelForm(){
         String redirect = "/VIEW/home";
         initFormIc();
-        eventBean.deleteEvent();
         return redirect;
     }
 

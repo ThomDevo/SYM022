@@ -8,7 +8,7 @@ public enum Aerel {
     POSSIBLY_RELATED ("Possibly Related"),
     PROBABLY_RELATED ("Probably Related"),
     DEFINITELY_RELATED ("Definitely Related"),
-    NA("NA");
+    NA("Not Applicable/Not Available");
 
     /**
      * Field
