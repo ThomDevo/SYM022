@@ -4,7 +4,6 @@ import com.sym022.sym022.enums.*;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
-import javax.validation.constraints.NotNull;
 
 @NamedQueries(value = {
         @NamedQuery(name = "Ae.selectAeById", query = "SELECT ae from AeEntity ae where ae.idAe = :idAe"),
@@ -108,7 +107,6 @@ public class AeEntity {
     private String aemedimsp;
 
     @ManyToOne
-    @NotNull
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
 
