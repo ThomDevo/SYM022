@@ -80,6 +80,7 @@
                                                var="targetLesion"
                                                itemLabel="#{targetLesion.getTargetLesionsOverallResponse()}"
                                                itemValue="#{targetLesion}"/>
+                                <p:ajax process="@this" update="@all"/>
                                     <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testOverallResponse()}"/>
                                 </p:selectOneMenu>
                             </span>
@@ -99,6 +100,7 @@
                                                var="nonTargetLesion"
                                                itemLabel="#{nonTargetLesion.getNonTargetLesions()}"
                                                itemValue="#{nonTargetLesion}"/>
+                                <p:ajax process="@this" update="@all"/>
                                     <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testOverallResponse()}"/>
                                 </p:selectOneMenu>
                             </span>
@@ -129,6 +131,7 @@
                                                var="overallResponse"
                                                itemLabel="#{overallResponse.getTargetLesionsOverallResponse()}"
                                                itemValue="#{overallResponse}"/>
+                                <p:ajax process="@this" update="@all"/>
                                     <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testOverallResponse()}"/>
                                 </p:selectOneMenu>
                             </span>

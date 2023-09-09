@@ -171,11 +171,11 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
         ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
                 FacesContext.getCurrentInstance().getViewRoot().getLocale());
         String addDm = bundle.getString("dm");
-        String add = bundle.getString("add");
+        String update = bundle.getString("update");
         String forThe = bundle.getString("for");
         String addSubject = bundle.getString("subject");
 
-        addMessage(addDm+" "+add+" "+forThe+" "+addSubject+" "+dm.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+        addMessage(addDm+" "+update+" "+forThe+" "+addSubject+" "+dm.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
         initFormDm();
         return redirect;
     }

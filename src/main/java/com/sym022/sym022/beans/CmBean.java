@@ -194,13 +194,13 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
         if(cm.getCmendat() == null && !cm.getCmong()){
             testDatecmendatNull();
         }else{
-            String cmendat = simpleDateFormat.format(cm.getCmstdat());
+            String cmendat = simpleDateFormat.format(cm.getCmendat());
             int resultCmendat = cmendat.compareTo(String.valueOf(now));
             if(resultCmendat > 0){
-                this.messageErrorCmendatMis = "";
+                this.messageErrorCmendat = "";
                 this.buttonSuccess = "true";
             }else{
-                this.messageErrorCmendatMis = "hidden";
+                this.messageErrorCmendat = "hidden";
                 this.buttonSuccess = "false";
             }
         }
@@ -464,12 +464,17 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
         }else if(cm.getCmstdat() != null && cm.getCmendat() != null){
                 String AddCmcmstdat = simpleDateFormat.format(cm.getCmstdat());
                 int resultAddCmcmstdat = AddCmcmstdat.compareTo(String.valueOf(now));
-                String AddCmcmendat = simpleDateFormat.format(cm.getCmstdat());
+                String AddCmcmendat = simpleDateFormat.format(cm.getCmendat());
                 int resultAddCmCmendat = AddCmcmendat.compareTo(String.valueOf(now));
                 int resultAddCmendBeforeStDate = AddCmcmendat.compareTo(AddCmcmstdat);
                 if(cm.getCmterm() == null || Objects.equals(cm.getCmterm(), "")){
                     initErrorMessageFormCm();
                     this.messageErrorCmtermFalse = "";
+                    redirect = "null";
+                    return redirect;
+                }else if(resultAddCmendBeforeStDate < 0){
+                    initErrorMessageFormCm();
+                    this.messageErrorCmendatBeforcmstdat = "";
                     redirect = "null";
                     return redirect;
                 }else if(resultAddCmcmstdat > 0){
@@ -480,11 +485,6 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
                 }else if(resultAddCmCmendat > 0){
                     initErrorMessageFormCm();
                     this.messageErrorCmendat = "";
-                    redirect = "null";
-                    return redirect;
-                }else if(resultAddCmendBeforeStDate < 0){
-                    initErrorMessageFormCm();
-                    this.messageErrorCmendatBeforcmstdat = "";
                     redirect = "null";
                     return redirect;
                 }else if(cm.getCmindic() == Cmindic.OTHER && (cm.getCmindicsp() == null || Objects.equals(cm.getCmindicsp(), ""))){

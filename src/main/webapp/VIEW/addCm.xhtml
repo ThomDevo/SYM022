@@ -64,7 +64,6 @@
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['no']}"
                                               itemValue="#{false}"/>
-                                <p:ajax process="@this" update="@all"/>
                                 <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testDatecmendatNull()}"/>
                             </p:selectOneButton>
                         </span>

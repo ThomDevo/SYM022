@@ -328,11 +328,11 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
             ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
                     FacesContext.getCurrentInstance().getViewRoot().getLocale());
             String addIc = bundle.getString("ic");
-            String add = bundle.getString("add");
+            String update = bundle.getString("update");
             String forThe = bundle.getString("for");
             String addSubject = bundle.getString("subject");
 
-            addMessage(addIc+" "+add+" "+forThe+" "+addSubject+" "+ic.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+            addMessage(addIc+" "+update+" "+forThe+" "+addSubject+" "+ic.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
             initFormIc();
         }
         return redirect;

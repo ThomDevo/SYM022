@@ -145,7 +145,6 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
      */
     public String testOverallResponse(){
         String redirect = "null";
-        initErrorMessageFormTE();
         if(te.getTargetLesions() == TargetLesionsOverallResponse.COMPLETE_RESPONSE && te.getNonTargetLesions() == NonTargetLesions.COMPLETE_RESPONSE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.COMPLETE_RESPONSE){
             this.messageErrorCR = "";
             this.buttonSuccess = "true";
@@ -155,10 +154,10 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
         }
 
         if(te.getTargetLesions() == TargetLesionsOverallResponse.COMPLETE_RESPONSE && te.getNonTargetLesions() == NonTargetLesions.PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PROGRESSIVE_DISEASE){
-            this.messageErrorPD = "";
+            this.messageErrorCR = "";
             this.buttonSuccess = "true";
         }else{
-            this.messageErrorPD = "hidden";
+            this.messageErrorCR = "hidden";
             this.buttonSuccess = "false";
         }
 
