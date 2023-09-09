@@ -133,15 +133,20 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
         String redirect = "null";
         String isoDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
-        String cmstdat = simpleDateFormat.format(cm.getCmstdat());
-        int resultCmstdat = cmstdat.compareTo(String.valueOf(now));
-        if(resultCmstdat > 0){
-            this.messageErrorCmDate = "";
-            this.buttonSuccess = "true";
+        if(cm.getCmstdat() == null){
+            testDatecmstdatNull();
         }else{
-            this.messageErrorCmDate = "hidden";
-            this.buttonSuccess = "false";
+            String cmstdat = simpleDateFormat.format(cm.getCmstdat());
+            int resultCmstdat = cmstdat.compareTo(String.valueOf(now));
+            if(resultCmstdat > 0){
+                this.messageErrorCmDate = "";
+                this.buttonSuccess = "true";
+            }else{
+                this.messageErrorCmDate = "hidden";
+                this.buttonSuccess = "false";
+            }
         }
+
         return redirect;
     }
 
@@ -186,15 +191,20 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
         String redirect = "null";
         String isoDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
-        String cmendat = simpleDateFormat.format(cm.getCmstdat());
-        int resultCmendat = cmendat.compareTo(String.valueOf(now));
-        if(resultCmendat > 0){
-            this.messageErrorCmendatMis = "";
-            this.buttonSuccess = "true";
+        if(cm.getCmendat() == null && !cm.getCmong()){
+            testDatecmendatNull();
         }else{
-            this.messageErrorCmendatMis = "hidden";
-            this.buttonSuccess = "false";
+            String cmendat = simpleDateFormat.format(cm.getCmstdat());
+            int resultCmendat = cmendat.compareTo(String.valueOf(now));
+            if(resultCmendat > 0){
+                this.messageErrorCmendatMis = "";
+                this.buttonSuccess = "true";
+            }else{
+                this.messageErrorCmendatMis = "hidden";
+                this.buttonSuccess = "false";
+            }
         }
+
         return redirect;
     }
 
@@ -208,6 +218,8 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
         if(cm.getCmstdat() == null){
             testDatecmstdatNull();
+        }else if(cm.getCmendat() == null && !cm.getCmong()){
+            testDatecmendatNull();
         }else{
             String cmstdatDate = simpleDateFormat.format(cm.getCmstdat());
             String cmendatDate = simpleDateFormat.format(cm.getCmendat());
@@ -327,6 +339,23 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
     public void addMessage(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    /**
+     * Method to find a TE based on the IdEvent
+     * @param idEvent
+     */
+    public String findEvent(int idEvent){
+        String redirect = "/VIEW/updateCm";
+        EntityManager em = EMF.getEM();
+        try{
+            cm = cmService.findCmByIdEvent(idEvent,em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+        return redirect;
     }
 
     /**

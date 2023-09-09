@@ -39,6 +39,7 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
     private String messageErrorIeNotMeetNa = "hidden";
     private String messageErrorVsProt = "hidden";
     private String buttonSuccess = "false";
+    private String messageErrorVisitDateMissing = "false";
     private List<IcEntity> icAll;
     @Inject
     private ConnectionBean connectionBean;
@@ -90,6 +91,7 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
         this.messageErrorIeNotMeet = "hidden";
         this.messageErrorIeNotMeetNa = "hidden";
         this.messageErrorVsProt = "hidden";
+        this.messageErrorVisitDateMissing = "hidden";
         this.buttonSuccess = "false";
     }
 
@@ -101,6 +103,23 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
     public void addMessage(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    /**
+     * Method to test the date is null in front end
+     * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
+     */
+    public String testDateNull(){
+        LocalDate now = LocalDate.now();
+        String redirect = "null";
+        if(ic.getIcDate() == null){
+            this.messageErrorVisitDateMissing = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorVisitDateMissing = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
     }
 
     /**
@@ -408,5 +427,13 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
 
     public void setIcAll(List<IcEntity> icAll) {
         this.icAll = icAll;
+    }
+
+    public String getMessageErrorVisitDateMissing() {
+        return messageErrorVisitDateMissing;
+    }
+
+    public void setMessageErrorVisitDateMissing(String messageErrorVisitDateMissing) {
+        this.messageErrorVisitDateMissing = messageErrorVisitDateMissing;
     }
 }

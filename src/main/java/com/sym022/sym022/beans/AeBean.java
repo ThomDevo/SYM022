@@ -151,14 +151,18 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         String redirect = "null";
         String isoDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
-        String aeDate = simpleDateFormat.format(ae.getAestdat());
-        int resultAeDate = aeDate.compareTo(String.valueOf(now));
-        if(resultAeDate > 0){
-            this.messageErrorVisitDate = "";
-            this.buttonSuccess = "true";
+        if(ae.getAestdat() == null){
+            testDateNull();
         }else{
-            this.messageErrorVisitDate = "hidden";
-            this.buttonSuccess = "false";
+            String aeDate = simpleDateFormat.format(ae.getAestdat());
+            int resultAeDate = aeDate.compareTo(String.valueOf(now));
+            if(resultAeDate > 0){
+                this.messageErrorVisitDate = "";
+                this.buttonSuccess = "true";
+            }else{
+                this.messageErrorVisitDate = "hidden";
+                this.buttonSuccess = "false";
+            }
         }
         return redirect;
     }
@@ -187,15 +191,20 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         String redirect = "null";
         String isoDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
-        String aeoutDate = simpleDateFormat.format(ae.getAeendat());
-        int resultAeoutDate = aeoutDate.compareTo(String.valueOf(now));
-        if(resultAeoutDate > 0){
-            this.messageErrorVisitDateAeendat = "";
-            this.buttonSuccess = "true";
+        if(ae.getAeendat() == null && (ae.getAeout() == Aeout.RECOVERED_RESOLVED || ae.getAeout() == Aeout.RECOVERED_RESOLVED_WITH_SEQUELAE || ae.getAeout() == Aeout.FATAL)){
+            testDateaeendatNull();
         }else{
-            this.messageErrorVisitDateAeendat = "hidden";
-            this.buttonSuccess = "false";
+            String aeoutDate = simpleDateFormat.format(ae.getAeendat());
+            int resultAeoutDate = aeoutDate.compareTo(String.valueOf(now));
+            if(resultAeoutDate > 0){
+                this.messageErrorVisitDateAeendat = "";
+                this.buttonSuccess = "true";
+            }else{
+                this.messageErrorVisitDateAeendat = "hidden";
+                this.buttonSuccess = "false";
+            }
         }
+
         return redirect;
     }
 
@@ -210,6 +219,8 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
 
         if(ae.getAestdat() == null){
             testDateNull();
+        }else if(ae.getAeendat() == null && (ae.getAeout() == Aeout.RECOVERED_RESOLVED || ae.getAeout() == Aeout.RECOVERED_RESOLVED_WITH_SEQUELAE || ae.getAeout() == Aeout.FATAL)){
+            testDateaeendatNull();
         }else{
             String aeendatDate = simpleDateFormat.format(ae.getAeendat());
             String aeestdatDate = simpleDateFormat.format(ae.getAestdat());
@@ -266,6 +277,23 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
     public void addMessage(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    /**
+     * Method to find a TE based on the IdEvent
+     * @param idEvent
+     */
+    public String findEvent(int idEvent){
+        String redirect = "/VIEW/updateDAe";
+        EntityManager em = EMF.getEM();
+        try{
+            ae = aeService.findAeByIdEvent(idEvent,em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+        return redirect;
     }
 
     /**

@@ -19,6 +19,18 @@ public class TeService {
     }
 
     /**
+     * Method to find a TE based on the id
+     * @param idEvent
+     * @param em
+     * @return a TE
+     */
+    public TeEntity findTeByIdEvent(int idEvent, EntityManager em){
+        return em.createNamedQuery("Te.selectTeByIdEvent", TeEntity.class)
+                .setParameter("idEvent",idEvent)
+                .getSingleResult();
+    }
+
+    /**
      * Method to add a Te in the DB
      * @param te
      * @param em

@@ -19,6 +19,18 @@ public class AeService {
     }
 
     /**
+     * Method to find an Ae based on the id
+     * @param idEvent
+     * @param em
+     * @return an Ae
+     */
+    public AeEntity findAeByIdEvent(int idEvent, EntityManager em){
+        return em.createNamedQuery("Ae.selectAeByIdEvent", AeEntity.class)
+                .setParameter("idEvent",idEvent)
+                .getSingleResult();
+    }
+
+    /**
      * Method to add an Ae in the DB
      * @param ae
      * @param em

@@ -29,6 +29,7 @@
                                               itemValue="#{false}"/>
                                 <p:ajax process="@this" update="@all"/>
                                 <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.initErrorMessageFormVS()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDateNull()}"/>
                             </p:selectOneButton>
                         </span>
                         <h:panelGroup class="field col-12 md:col-4 p-20-0" rendered="#{!vsBean.vs.vsYn}">
@@ -51,6 +52,7 @@
                                 <p:datePicker id="input_Vs_Date" value="#{vsBean.vs.vsDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
                                     <p:ajax process="@this" update="@all"/>
                                     <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDate()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDateNull()}"/>
                                 </p:datePicker>
                             </div>
 

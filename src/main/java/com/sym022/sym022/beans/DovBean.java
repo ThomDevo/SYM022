@@ -68,6 +68,23 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
     }
 
     /**
+     * Method to test the date is null in front end
+     * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
+     */
+    public String testDateNull(){
+        LocalDate now = LocalDate.now();
+        String redirect = "null";
+        if(dov.getVisitDate() == null){
+            this.messageErrorVisitDateMissing = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorVisitDateMissing = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
      * Method to test the date in front end
      * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
      */
@@ -76,7 +93,9 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
         String redirect = "null";
         String isoDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
-            initErrorMessageFormDov();
+        if(dov.getVisitDate() == null){
+            testDateNull();
+        }else{
             String dovDate = simpleDateFormat.format(dov.getVisitDate());
             int resultDovDate = dovDate.compareTo(String.valueOf(now));
             if(resultDovDate > 0){
@@ -86,6 +105,8 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
                 this.messageErrorVisitDate = "hidden";
                 this.buttonSuccess = "false";
             }
+        }
+
         return redirect;
     }
 

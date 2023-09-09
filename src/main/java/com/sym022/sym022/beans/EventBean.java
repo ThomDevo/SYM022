@@ -55,6 +55,22 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
         }
     }
 
+    /**
+     * Method to filter the roles on roleLabel
+     */
+    public void researchFilterAllEventsNotMonitored(){
+
+        EntityManager em = EMF.getEM();
+        try{
+            filterOfTable = eventService.findEventAllNotMonitored(this.filter,em);
+            ProcessUtils.debug(this.filter);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally{
+            em.close();
+        }
+    }
+
     public void deleteEvent(){
         EntityManager em = EMF.getEM();
         EventService eventService = new EventService();

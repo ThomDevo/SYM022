@@ -23,12 +23,19 @@
                             <p:outputLabel for="input_ic_date" value="#{I18N['icPage.visitDate']}"/>
                             <p:datePicker id="input_ic_date" value="#{icBean.ic.icDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
                                 <p:ajax event="change" process="@this" update="@all" listener="#{icBean.testDate()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{icBean.testDateNull()}"/>
                             </p:datePicker>
                         </div>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{icBean.messageErrorIcDate}">
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText
                                         value="#{I18N['messageErrorIcDate']}"/></span>
+                            </div>
+                        </div>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{icBean.messageErrorVisitDateMissing}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorVisitDateMissing']}"/></span>
                             </div>
                         </div>
                         <span class="field col-12 md:col-4 p-20-0">
