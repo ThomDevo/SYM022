@@ -19,10 +19,11 @@
                 </h2>
                 <h:form>
                     <p:outputPanel class="form-control">
-                        <span class="field col-12 md:col-4 p-20-0">
+                        <h:panelGroup rendered="#{eventBean.findNumberOfEventsDov()}">
+                            <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_status_visit" value="#{I18N['dovPage.status']}"/>
                             <p:selectOneButton id="input_status_visit"
-                                             value="#{dovBean.dov.visitYn}">
+                                               value="#{dovBean.dov.visitYn}">
                                 <f:selectItem itemLabel="#{I18N['done']}"
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['notDone']}"
@@ -34,27 +35,28 @@
 
                         </span>
 
-                        <h:panelGroup  id="dov_Nd" class="field col-12 md:col-4 p-20-0" rendered="#{!dovBean.dov.visitYn}">
-                            <h:panelGroup class="field col-12 md:col-4 p-20-0">
-                                <p:outputLabel for="input_visit_nd" value="#{I18N['dovPage.visitNd']}"/>
-                                <p:inputTextarea  rows="6" cols="33" id="input_visit_nd" class="label" value="#{dovBean.dov.visitNd}"
-                                                  placeholder="#{I18N['dovPage.visitNd.placeholder']}">
-                                    <p:ajax event="blur" process="@this" update="@all" listener="#{dovBean.testInputVsNd()}"/>
-                                </p:inputTextarea>
+                            <h:panelGroup  id="dov_Nd" class="field col-12 md:col-4 p-20-0" rendered="#{!dovBean.dov.visitYn}">
+                                <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                                    <p:outputLabel for="input_visit_nd" value="#{I18N['dovPage.visitNd']}"/>
+                                    <p:inputTextarea  rows="6" cols="33" id="input_visit_nd" class="label" value="#{dovBean.dov.visitNd}"
+                                                      placeholder="#{I18N['dovPage.visitNd.placeholder']}">
+                                        <p:ajax event="blur" process="@this" update="@all" listener="#{dovBean.testInputVsNd()}"/>
+                                    </p:inputTextarea>
+                                </h:panelGroup>
                             </h:panelGroup>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{dovBean.messageErrorVisitNd}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorVisitNd']}"/></span>
+                                </div>
+                            </div>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{dovBean.messageErrorVisitNdFalse}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorVisitNdFalse']}"/></span>
+                                </div>
+                            </div>
                         </h:panelGroup>
-                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{dovBean.messageErrorVisitNd}">
-                            <div><span class="ui-message-error-icon"> </span>
-                                <span class="ui-message-error-detail"><h:outputText
-                                        value="#{I18N['messageErrorVisitNd']}"/></span>
-                            </div>
-                        </div>
-                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{dovBean.messageErrorVisitNdFalse}">
-                            <div><span class="ui-message-error-icon"> </span>
-                                <span class="ui-message-error-detail"><h:outputText
-                                        value="#{I18N['messageErrorVisitNdFalse']}"/></span>
-                            </div>
-                        </div>
                         <h:panelGroup class="field col-12 md:col-4" rendered="#{dovBean.dov.visitYn}">
                             <p:outputLabel for="input_AdmissionDate" value="#{I18N['dovPage.visitDate']}" />
                             <p:datePicker id="input_AdmissionDate"  value="#{dovBean.dov.visitDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">

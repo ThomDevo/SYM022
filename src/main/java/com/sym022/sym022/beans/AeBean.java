@@ -68,15 +68,25 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
     }
 
     /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelUpdateForm(){
+        String redirect = "/VIEW/home";
+        initFormAe();
+        return redirect;
+    }
+
+    /**
      * Method to reset the form to add or update an AE
      */
     public void initFormAe(){
         Date now = new Date();
         this.ae.setAeterm("");
         this.ae.setAetermc("");
-        this.ae.setAestdat(now);
+        this.ae.setAestdat(null);
         this.ae.setAeout(Aeout.UNKNOWN);
-        this.ae.setAeendat(now);
+        this.ae.setAeendat(null);
         this.ae.setAetoxgd(Aetoxgd.NA);
         this.ae.setAesev(Aesev.NA);
         this.ae.setAerel(Aerel.NA);
@@ -285,7 +295,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
      * @param idEvent
      */
     public String findEvent(int idEvent){
-        String redirect = "/VIEW/updateDAe";
+        String redirect = "/VIEW/updateAe";
         EntityManager em = EMF.getEM();
         try{
             ae = aeService.findAeByIdEvent(idEvent,em);
@@ -469,6 +479,185 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                     String addSubject = bundle.getString("subject");
 
                     addMessage(addAe+" "+add+" "+forThe+" "+addSubject+" "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+                    initFormAe();
+                }
+            }
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to add an AE in the DB
+     * @return an AE
+     */
+    public String submitFormUpdateAe(){
+        EntityManager em = EMF.getEM();
+        String redirect = "/VIEW/home";
+        EntityTransaction transaction = em.getTransaction();
+        AeService aeService = new AeService();
+        EventService eventService = new EventService();
+        AuditTrailService auditTrailService = new AuditTrailService();
+        LocalDate now = LocalDate.now();
+        String isoDatePattern = "yyyy-MM-dd";
+
+
+        if(ae.getAestdat() == null && ae.getAeendat() == null){
+            initErrorMessageFormAe();
+            this.messageErrorVisitNdFalse = "";
+            redirect = "null";
+        }else if(ae.getAestdat() != null && ae.getAeendat() == null){
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+            String aeStDate = simpleDateFormat.format(ae.getAestdat());
+            int resultAeDateDate = aeStDate.compareTo(String.valueOf(now));
+            if(ae.getAeterm() == null || Objects.equals(ae.getAeterm(), "")){
+                initErrorMessageFormAe();
+                this.messageErrorAeterm = "";
+                redirect = "null";
+                return redirect;
+            }else if(resultAeDateDate > 0){
+                initErrorMessageFormAe();
+                this.messageErrorVisitDate = "";
+                redirect = "null";
+                return redirect;
+            }else if(ae.isAeother() && (Objects.equals(ae.getAeothersp(), "") || ae.getAeothersp() == null)){
+                initErrorMessageFormAe();
+                this.messageErrorAeotherspMis = "";
+                redirect = "null";
+                return redirect;
+            }else if(ae.isAemedim() && (Objects.equals(ae.getAemedimsp(), "") || ae.getAemedimsp() == null)){
+                initErrorMessageFormAe();
+                this.messageErrorAemedimspMis = "";
+                redirect = "null";
+                return redirect;
+            }else if(ae.isAeser() && !ae.isAedeath() && !ae.isAelife() && !ae.isAehosp() && !ae.isAedisab() && !ae.isAecong() && !ae.isAemedim()){
+                initErrorMessageFormAe();
+                this.messageErrorAaeser = "";
+                redirect = "null";
+                return redirect;
+            }else{
+                try{
+                    ae.setEventByIdEvent(eventBean.getEvent());
+                    auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                    auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                    auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                    eventBean.getEvent().setCompleted(true);
+                    eventBean.getEvent().setMonitored(false);
+
+
+                    if(!ae.isAeother()){
+                        this.ae.setAeothersp("");
+                    }
+
+                    if(!ae.isAemedim()){
+                        this.ae.setAemedimsp("");
+                    }
+
+                    transaction.begin();
+                    eventService.updateEvent(eventBean.getEvent(),em);
+                    auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                    aeService.updateAe(ae, em);
+                    transaction.commit();
+                }catch(Exception e){
+                    ProcessUtils.debug(" I'm in the catch of the addAe method: "+ e);
+
+                }finally {
+                    if(transaction.isActive()){
+                        transaction.rollback();
+                    }
+                    em.close();
+                }
+                ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                        FacesContext.getCurrentInstance().getViewRoot().getLocale());
+                String addAe = bundle.getString("ae");
+                String update = bundle.getString("update");
+                String forThe = bundle.getString("for");
+                String addSubject = bundle.getString("subject");
+
+                addMessage(addAe+" "+update+" "+forThe+" "+addSubject+" "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+                initFormAe();
+            }
+        }else{
+            if(ae.getAestdat() != null && ae.getAeendat() != null){
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+                String aeStDate = simpleDateFormat.format(ae.getAestdat());
+                int resultAeDateDate = aeStDate.compareTo(String.valueOf(now));
+                String aeendateDate = simpleDateFormat.format(ae.getAeendat());
+                int resultAendateDate = aeendateDate.compareTo(aeStDate);
+                String aeoutDate = simpleDateFormat.format(ae.getAeendat());
+                int resultAeoutDate = aeoutDate.compareTo(String.valueOf(now));
+                if(ae.getAeterm() == null || Objects.equals(ae.getAeterm(), "")){
+                    initErrorMessageFormAe();
+                    this.messageErrorAeterm = "";
+                    redirect = "null";
+                    return redirect;
+                }else if(resultAeDateDate > 0){
+                    initErrorMessageFormAe();
+                    this.messageErrorVisitDate = "";
+                    redirect = "null";
+                    return redirect;
+                }else if(resultAeoutDate > 0){
+                    initErrorMessageFormAe();
+                    this.messageErrorVisitDateAeendat = "";
+                    redirect = "null";
+                    return redirect;
+                }else if(resultAendateDate < 0){
+                    initErrorMessageFormAe();
+                    this.messageErrorAeendatBeforAestdat = "";
+                    redirect = "null";
+                    return redirect;
+                }else if(ae.isAeother() && (Objects.equals(ae.getAeothersp(), "") || ae.getAeothersp() == null)){
+                    initErrorMessageFormAe();
+                    this.messageErrorAeotherspMis = "";
+                    redirect = "null";
+                    return redirect;
+                }else if(ae.isAemedim() && (Objects.equals(ae.getAemedimsp(), "") || ae.getAemedimsp() == null)){
+                    initErrorMessageFormAe();
+                    this.messageErrorAemedimspMis = "";
+                    redirect = "null";
+                    return redirect;
+                }else if(ae.isAeser() && !ae.isAedeath() && !ae.isAelife() && !ae.isAehosp() && !ae.isAedisab() && !ae.isAecong() && !ae.isAemedim()){
+                    initErrorMessageFormAe();
+                    this.messageErrorAaeser = "";
+                    redirect = "null";
+                    return redirect;
+                }else{
+                    try{
+                        ae.setEventByIdEvent(eventBean.getEvent());
+                        auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                        auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                        auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                        eventBean.getEvent().setCompleted(true);
+
+                        if(!ae.isAeother()){
+                            this.ae.setAeothersp("");
+                        }
+
+                        if(!ae.isAemedim()){
+                            this.ae.setAemedimsp("");
+                        }
+
+                        transaction.begin();
+                        eventService.updateEvent(eventBean.getEvent(),em);
+                        auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                        aeService.updateAe(ae, em);
+                        transaction.commit();
+                    }catch(Exception e){
+                        ProcessUtils.debug(" I'm in the catch of the addAe method: "+ e);
+
+                    }finally {
+                        if(transaction.isActive()){
+                            transaction.rollback();
+                        }
+                        em.close();
+                    }
+                    ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                            FacesContext.getCurrentInstance().getViewRoot().getLocale());
+                    String addAe = bundle.getString("ae");
+                    String update = bundle.getString("update");
+                    String forThe = bundle.getString("for");
+                    String addSubject = bundle.getString("subject");
+
+                    addMessage(addAe+" "+update+" "+forThe+" "+addSubject+" "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
                     initFormAe();
                 }
             }

@@ -115,7 +115,7 @@
                         </p:outputPanel>
 
                         <p:outputPanel rendered="#{eventBean.event.available and (connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL' or connectionBean.user.roleByIdRole.roleLabel == 'SAFETY')}">
-                            <p:commandButton value="#{I18N['application.dov.query']}"
+                            <p:commandButton value="#{I18N['application.dm.query']}"
                                              ajax="false"
                                              validateClient="true"
                                              class="ui-button-success"
@@ -126,7 +126,7 @@
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-secondary"
-                                         action="#{dmBean.cancelForm()}"/>
+                                         action="#{dmBean.cancelUpdateForm()}"/>
                     </span>
                 </h:form>
             </div>

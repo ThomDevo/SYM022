@@ -11,24 +11,42 @@ public class EventService {
 
     /**
      * Method to find all events
+     * @param idUser
      * @param em
      * @return List of events
      */
-    public List<EventEntity> findEventAll (String researchWord,EntityManager em)
+    public List<EventEntity> findEventAll (int idUser, String researchWord,EntityManager em)
     {
         return em.createNamedQuery("Event.selectEventAll", EventEntity.class)
+                .setParameter("idUser", idUser)
                 .setParameter("researchWord", researchWord.toLowerCase())
                 .getResultList();
     }
 
     /**
      * Method to find all events who are not monitored
+     * @param idUser
      * @param em
      * @return List of events
      */
-    public List<EventEntity> findEventAllNotMonitored (String researchWord,EntityManager em)
+    public List<EventEntity> findEventAllNotMonitored (int idUser,String researchWord,EntityManager em)
     {
         return em.createNamedQuery("Event.selectEventAllNotMonitored", EventEntity.class)
+                .setParameter("idUser", idUser)
+                .setParameter("researchWord", researchWord.toLowerCase())
+                .getResultList();
+    }
+
+    /**
+     * Method to find all events who are not monitored
+     * @param idUser
+     * @param em
+     * @return List of events
+     */
+    public List<EventEntity> findEventAllNotCoded(int idUser,String researchWord,EntityManager em)
+    {
+        return em.createNamedQuery("Event.selectEventAllNotCoded", EventEntity.class)
+                .setParameter("idUser", idUser)
                 .setParameter("researchWord", researchWord.toLowerCase())
                 .getResultList();
     }
@@ -81,7 +99,7 @@ public class EventService {
         Query query =em.createNamedQuery("Event.CheckNewPatient", EventEntity.class);
         query.setParameter("idSubject", idSubject);
 
-        int count =((Number)query.getResultList()).intValue();
+        int count =((Number)query.getSingleResult()).intValue();
         ProcessUtils.debug(""+count);
         return count > 0;
     }
@@ -110,7 +128,7 @@ public class EventService {
         Query query =em.createNamedQuery("Event.CheckMois1Started", EventEntity.class);
         query.setParameter("idSubject", idSubject);
 
-        int count =((Number)query.getResultList()).intValue();
+        int count =((Number)query.getSingleResult()).intValue();
         return count > 0;
     }
 
@@ -150,8 +168,21 @@ public class EventService {
         Query query =em.createNamedQuery("Event.selectEventScreening", EventEntity.class);
         query.setParameter("idSubject", idSubject);
 
-        int count =((Number)query.getResultList()).intValue();
+        int count =((Number)query.getSingleResult()).intValue();
         return count < 4;
+    }
+
+    /**
+     * Method to find all events from Screening
+     * @param idSubject
+     * @param em
+     * @return List of events
+     */
+    public List<EventEntity> findEventDOV (int idSubject, EntityManager em)
+    {
+        return em.createNamedQuery("Event.selectEventDov", EventEntity.class)
+                .setParameter("idSubject", idSubject)
+                .getResultList();
     }
 
     /**
@@ -165,7 +196,7 @@ public class EventService {
         Query query =em.createNamedQuery("Event.selectEventMois1", EventEntity.class);
         query.setParameter("idSubject", idSubject);
 
-        int count =((Number)query.getResultList()).intValue();
+        int count =((Number)query.getSingleResult()).intValue();
         return count < 3;
     }
 

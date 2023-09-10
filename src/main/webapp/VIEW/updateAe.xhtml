@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{I18N['aePage.updateAeTitle']}"/>
+    </ui:define>
+    <ui:define name="content">
+        <div class="content">
+            <div class="block p-20 form-container">
+                <h2>
+                    <h:outputText value="#{I18N['aePage.updateAeTitle']}" />
+                </h2>
+                <h:form>
+                    <p:outputPanel class="form-control">
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aeterm" value="#{I18N['aePage.aeterm']}"/>
+                            <p:inputText id="input_aeterm" class="label" value="#{aeBean.ae.aeterm}"
+                                         placeholder="#{I18N['aePage.aeterm.placeHolder']}"
+                                         disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{aeBean.testAeterm()}"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{aeBean.testDateNull()}"/>
+                            </p:inputText>
+                        </span>
+
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAeterm}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorAeterm']}"/></span>
+                            </div>
+                        </div>
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aetermc" value="#{I18N['aePage.aetermc']}"/>
+                            <p:inputText id="input_aetermc" class="label" value="#{aeBean.ae.aetermc}"
+                                         placeholder="#{I18N['aePage.aetermc.placeHolder']}"
+                                         disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'MEDICAL' or !aeBean.ae.eventByIdEvent.available}">
+                            </p:inputText>
+                        </span>
+
+                        <div class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aestdat" value="#{I18N['aePage.aestdat']}"/>
+                            <p:datePicker id="input_aestdat" value="#{aeBean.ae.aestdat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"
+                                          disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDate()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDateNull()}"/>
+                            </p:datePicker>
+                            <p:tooltip for="input_aestdat" value="#{I18N['aePage.ttaestdat']}"/>
+                        </div>
+
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorVisitDate}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorAestdatFuture']}"/></span>
+                            </div>
+                        </div>
+
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorVisitNdFalse}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorAestdatMis']}"/></span>
+                            </div>
+                        </div>
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aeout" value="#{I18N['aePage.aeout']}"/>
+                            <p:selectOneMenu id="input_aeout"
+                                             value="#{aeBean.ae.aeout}"
+                                             converter="AeoutConverter"
+                                             required="true"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.Aeout"
+                                              var="enumAeout"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumAeout.getAll}"
+                                               var="Aeout"
+                                               itemLabel="#{Aeout.getAeout()}"
+                                               itemValue="#{Aeout}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDateaeendatNull()}"/>
+                            </p:selectOneMenu>
+                        </span>
+                        <h:panelGroup rendered="#{aeBean.ae.aeout == 'RECOVERED_RESOLVED' or aeBean.ae.aeout == 'RECOVERED_RESOLVED_WITH_SEQUELAE' or aeBean.ae.aeout == 'FATAL'}">
+                            <div class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_aeendat" value="#{I18N['aePage.aeendat']}"/>
+                                <p:datePicker id="input_aeendat" value="#{aeBean.ae.aeendat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"
+                                              disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDatetestDateAeout()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testAeendatBeforAestdat()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDateaeendatNull()}"/>
+                                </p:datePicker>
+                                <p:tooltip for="input_aeendat" value="#{I18N['aePage.ttaeendat']}"/>
+                            </div>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorVisitDateAeendat}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorAeendatFuture']}"/></span>
+                                </div>
+                            </div>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAeendatBeforAestdat}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorAeendatBeforAestdat']}"/></span>
+                                </div>
+                            </div>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAeendatMis}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorAeendatMis']}"/></span>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aetoxgd" value="#{I18N['aePage.aetoxgd']}"/>
+                            <p:selectOneMenu id="input_aetoxgd"
+                                             value="#{aeBean.ae.aetoxgd}"
+                                             converter="AetoxgdConverter"
+                                             required="true"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.Aetoxgd"
+                                              var="enumAetoxgd"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumAetoxgd.getAll}"
+                                               var="Aetoxgd"
+                                               itemLabel="#{Aetoxgd.getAetoxgd()}"
+                                               itemValue="#{Aetoxgd}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneMenu>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aesev" value="#{I18N['aePage.aesev']}"/>
+                            <p:selectOneMenu id="input_aesev"
+                                             value="#{aeBean.ae.aesev}"
+                                             converter="AesevConverter"
+                                             required="true"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.Aesev"
+                                              var="enumAesev"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumAesev.getAll}"
+                                               var="Aesev"
+                                               itemLabel="#{Aesev.getAesev()}"
+                                               itemValue="#{Aesev}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneMenu>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aerel" value="#{I18N['aePage.aerel']}"/>
+                            <p:selectOneMenu id="input_aerel"
+                                             value="#{aeBean.ae.aerel}"
+                                             converter="AerelConverter"
+                                             required="true"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.Aerel"
+                                              var="enumAerel"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumAerel.getAll}"
+                                               var="Aerel"
+                                               itemLabel="#{Aerel.getAerel()}"
+                                               itemValue="#{Aerel}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneMenu>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aeacn" value="#{I18N['aePage.aeacn']}"/>
+                            <p:selectOneMenu id="input_aeacn"
+                                             value="#{aeBean.ae.aeacn}"
+                                             converter="AeacnConverter"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.Aeacn"
+                                              var="enumAeacn"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumAeacn.getAll}"
+                                               var="Aeacn"
+                                               itemLabel="#{Aeacn.getAeacn()}"
+                                               itemValue="#{Aeacn}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneMenu>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aecm" value="#{I18N['aePage.aecm']}"/>
+                            <p:selectOneButton   id="input_aecm"
+                                                 value="#{aeBean.ae.aecm}"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aeproc" value="#{I18N['aePage.aeproc']}"/>
+                            <p:selectOneButton   id="input_aeproc"
+                                                 value="#{aeBean.ae.aeproc}"
+                                                 ignoreAutoUpdate="true"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aeother" value="#{I18N['aePage.aeother']}"/>
+                            <p:selectOneButton   id="input_aeother"
+                                                 value="#{aeBean.ae.aeother}"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+                        <h:panelGroup  id="inputAeothersp" rendered="#{aeBean.ae.aeother}">
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_aeothersp" value="#{I18N['aePage.aeothersp']}"/>
+                                <p:inputText id="input_aeothersp" class="label" value="#{aeBean.ae.aeothersp}"
+                                             placeholder="#{I18N['aePage.aeothersp.placeHolder']}">
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{aeBean.testAeotherspMis()}"/>
+                                </p:inputText>
+                            </span>
+
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAeotherspMis}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorAeotherspMis']}"/></span>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aeser" value="#{I18N['aePage.aeser']}"/>
+                            <p:selectOneButton   id="input_aeser"
+                                                 value="#{aeBean.ae.aeser}"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAaeser}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorAaeser']}"/></span>
+                            </div>
+                        </div>
+
+                        <h:panelGroup rendered="#{aeBean.ae.aeser}">
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aedeath" value="#{I18N['aePage.aedeath']}"/>
+                            <p:selectOneButton   id="input_aedeath"
+                                                 value="#{aeBean.ae.aedeath}"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aelife" value="#{I18N['aePage.aelife']}"/>
+                            <p:selectOneButton   id="input_aelife"
+                                                 value="#{aeBean.ae.aelife}"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aehosp" value="#{I18N['aePage.aehosp']}"/>
+                            <p:selectOneButton   id="input_aehosp"
+                                                 value="#{aeBean.ae.aehosp}"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aedisab" value="#{I18N['aePage.aedisab']}"/>
+                            <p:selectOneButton   id="input_aedisab"
+                                                 value="#{aeBean.ae.aedisab}"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aecong" value="#{I18N['aePage.aecong']}"/>
+                            <p:selectOneButton   id="input_aecong"
+                                                 value="#{aeBean.ae.aecong}"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aemedim" value="#{I18N['aePage.aemedim']}"/>
+                            <p:selectOneButton   id="input_aemedim"
+                                                 value="#{aeBean.ae.aemedim}"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+                            <h:panelGroup rendered="#{aeBean.ae.aemedim}">
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_aemedimsp" value="#{I18N['aePage.aemedimsp']}"/>
+                                <p:inputText id="input_aemedimsp" class="label" value="#{aeBean.ae.aemedimsp}"
+                                             placeholder="#{I18N['aePage.aemedimsp.placeHolder']}"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !aeBean.ae.eventByIdEvent.available}">
+                                    <p:ajax event="blur" process="@this" update="@all" listener="#{aeBean.testAemedimspMis()}"/>
+                                </p:inputText>
+                            </span>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAemedimspMis}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorAemedimspMis']}"/></span>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                        </h:panelGroup>
+
+                    </p:outputPanel>
+                    <span class="responsiveSubmit">
+                        <p:outputPanel rendered="#{(connectionBean.user.roleByIdRole.roleLabel == 'SITE' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL') and aeBean.ae.eventByIdEvent.available}">
+                            <p:commandButton value="#{I18N['application.update.ae']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             disabled="#{vsBean.buttonSuccess}"
+                                             action="#{aeBean.submitFormUpdateAe}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and !eventBean.event.monitored and eventBean.event.available}">
+                            <p:commandButton value="#{I18N['application.ae.validate']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="#{eventBean.setEventMonitored}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and eventBean.event.monitored and eventBean.event.available}">
+                            <p:commandButton value="#{I18N['application.ae.revalidate']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="#{eventBean.setEventNoMonitored}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{eventBean.event.available and (connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL' or connectionBean.user.roleByIdRole.roleLabel == 'SAFETY')}">
+                            <p:commandButton value="#{I18N['application.ae.query']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="/VIEW/addQuery"/>
+                        </p:outputPanel>
+
+                        <p:commandButton value="#{I18N['connectionpage.return.button']}"
+                                         ajax="false"
+                                         validateClient="true"
+                                         class="ui-button-secondary"
+                                         action="#{aeBean.cancelUpdateForm()}"/>
+                    </span>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>
