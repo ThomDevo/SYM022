@@ -19,11 +19,17 @@ import java.util.Objects;
                 "WHERE usu.userByIdUser.idUser = :idUser AND ev.monitored = FALSE AND ev.available = true AND ((lower(ev.subjectByIdSubject.subjectNum) " +
                 "LIKE CONCAT('%', :researchWord, '%')) OR (lower(ev.formByIdForm.formLabel) LIKE CONCAT('%', :researchWord, '%'))) " +
                 "ORDER BY ev.subjectByIdSubject.subjectNum ASC"),
-        @NamedQuery(name = "Event.selectEventAllNotCoded", query = "SELECT ev FROM EventEntity ev JOIN UserSiteEntity usu ON (ev.subjectByIdSubject.siteByIdSite.idSite = usu.siteByIdSite.idSite) " +
+        @NamedQuery(name = "Event.selectEventAllNotCodedAe", query = "SELECT ev FROM EventEntity ev JOIN UserSiteEntity usu ON (ev.subjectByIdSubject.siteByIdSite.idSite = usu.siteByIdSite.idSite) " +
                 "JOIN AeEntity ae ON (ev.idEvent = ae.eventByIdEvent.idEvent) " +
+                "WHERE usu.userByIdUser.idUser = :idUser AND ev.available = true " +
+                "AND ((ae.aetermc is null or ae.aetermc = '') )" +
+                "AND ((lower(ev.subjectByIdSubject.subjectNum) " +
+                "LIKE CONCAT('%', :researchWord, '%')) OR (lower(ev.formByIdForm.formLabel) LIKE CONCAT('%', :researchWord, '%'))) " +
+                "ORDER BY ev.subjectByIdSubject.subjectNum ASC"),
+        @NamedQuery(name = "Event.selectEventAllNotCodedCm", query = "SELECT ev FROM EventEntity ev JOIN UserSiteEntity usu ON (ev.subjectByIdSubject.siteByIdSite.idSite = usu.siteByIdSite.idSite) " +
                 "JOIN CmEntity cm ON (ev.idEvent = cm.eventByIdEvent.idEvent) " +
                 "WHERE usu.userByIdUser.idUser = :idUser AND ev.available = true " +
-                "AND ((ae.aetermc is null or ae.aetermc = '') or (cm.cmtermc is null or cm.cmtermc = ''))" +
+                "AND ((cm.cmtermc is null or cm.cmtermc= '') )" +
                 "AND ((lower(ev.subjectByIdSubject.subjectNum) " +
                 "LIKE CONCAT('%', :researchWord, '%')) OR (lower(ev.formByIdForm.formLabel) LIKE CONCAT('%', :researchWord, '%'))) " +
                 "ORDER BY ev.subjectByIdSubject.subjectNum ASC"),

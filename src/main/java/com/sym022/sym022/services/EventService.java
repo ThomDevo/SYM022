@@ -43,9 +43,23 @@ public class EventService {
      * @param em
      * @return List of events
      */
-    public List<EventEntity> findEventAllNotCoded(int idUser,String researchWord,EntityManager em)
+    public List<EventEntity> findEventAllNotCodedAe(int idUser,String researchWord,EntityManager em)
     {
-        return em.createNamedQuery("Event.selectEventAllNotCoded", EventEntity.class)
+        return em.createNamedQuery("Event.selectEventAllNotCodedAe", EventEntity.class)
+                .setParameter("idUser", idUser)
+                .setParameter("researchWord", researchWord.toLowerCase())
+                .getResultList();
+    }
+
+    /**
+     * Method to find all events who are not monitored
+     * @param idUser
+     * @param em
+     * @return List of events
+     */
+    public List<EventEntity> findEventAllNotCodedCm(int idUser,String researchWord,EntityManager em)
+    {
+        return em.createNamedQuery("Event.selectEventAllNotCodedCm", EventEntity.class)
                 .setParameter("idUser", idUser)
                 .setParameter("researchWord", researchWord.toLowerCase())
                 .getResultList();

@@ -25,7 +25,6 @@ public class VsEntity {
     private int idVs;
 
     @Basic
-    @NotNull
     @Column(name = "vs_yn", nullable = false)
     private boolean vsYn = false;
 
@@ -38,7 +37,6 @@ public class VsEntity {
     private Date vsDate;
 
     @Basic
-    @NotNull
     @Column(name = "height_nd", nullable = false)
     private boolean heightNd = false;
 
@@ -48,13 +46,11 @@ public class VsEntity {
     private Double height;
 
     @Basic
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "height_u", nullable = false)
     private HeightU heightU;
 
     @Basic
-    @NotNull
     @Column(name = "weight_nd", nullable = false)
     private boolean weightNd = false;
 
@@ -64,13 +60,11 @@ public class VsEntity {
     private Double weight;
 
     @Basic
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "weight_u", nullable = false)
     private WeightU weightU;
 
     @Basic
-    @NotNull
     @Column(name = "bp_nd", nullable = false)
     private boolean bpNd = false;
 
@@ -85,7 +79,6 @@ public class VsEntity {
     private int dbp;
 
     @Basic
-    @NotNull
     @Column(name = "hr_nd", nullable = false)
     private boolean hrNd = false;
 
