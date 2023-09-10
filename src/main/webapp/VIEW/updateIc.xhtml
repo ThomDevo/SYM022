@@ -9,13 +9,13 @@
       xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
     <ui:define name="title">
-        <h:outputText value="#{I18N['icPage.addIcTitle']}"/>
+        <h:outputText value="#{I18N['icPage.updateIcTitle']}"/>
     </ui:define>
     <ui:define name="content">
         <div class="content">
             <div class="block p-20 form-container">
                 <h2>
-                    <h:outputText value="#{I18N['icPage.addIcTitle']}" />
+                    <h:outputText value="#{I18N['icPage.updateIcTitle']}" />
                 </h2>
                 <h:form>
                     <p:outputPanel class="form-control">
@@ -109,7 +109,7 @@
                     </p:outputPanel>
                     <span class="responsiveSubmit">
                         <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'SITE' and icBean.ic.eventByIdEvent.available}">
-                            <p:commandButton value="#{I18N['icPage.addIcTitle']}"
+                            <p:commandButton value="#{I18N['icPage.updateIcTitle']}"
                                              ajax="false"
                                              validateClient="true"
                                              class="ui-button-success"
@@ -134,7 +134,7 @@
                         </p:outputPanel>
 
                         <p:outputPanel rendered="#{eventBean.event.available and (connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL' or connectionBean.user.roleByIdRole.roleLabel == 'SAFETY')}">
-                            <p:commandButton value="#{I18N['application.dov.query']}"
+                            <p:commandButton value="#{I18N['application.ic.query']}"
                                              ajax="false"
                                              validateClient="true"
                                              class="ui-button-success"

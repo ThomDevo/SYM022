@@ -22,7 +22,8 @@
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_cmterm" value="#{I18N['cmPage.cmterm']}"/>
                             <p:inputText id="input_cmterm" class="label" value="#{cmBean.cm.cmterm}"
-                                         placeholder="#{I18N['cmPage.cmterm.placeHolder']}">
+                                         placeholder="#{I18N['cmPage.cmterm.placeHolder']}"
+                                         disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
                                 <p:ajax update="messageInputCmterm" event="blur"/>
                                 <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmterm()}"/>
                                     <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testDatecmstdatNull()}"/>
@@ -35,10 +36,17 @@
                                         value="#{I18N['messageErrorCmtermFalse']}"/></span>
                             </div>
                         </div>
-
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aetermc" value="#{I18N['cmPage.cmtermc']}"/>
+                            <p:inputText id="input_aetermc" class="label" value="#{cmBean.cm.cmtermc}"
+                                         placeholder="#{I18N['cmPage.cmtermc.placeHolder']}"
+                                         disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'MEDICAL' or !cmBean.cm.eventByIdEvent.available}">
+                            </p:inputText>
+                        </span>
                         <div class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_cmstdat" value="#{I18N['cmPage.cmstdat']}"/>
-                            <p:datePicker id="input_cmstdat" value="#{cmBean.cm.cmstdat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
+                            <p:datePicker id="input_cmstdat" value="#{cmBean.cm.cmstdat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"
+                                          disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
                                 <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testDate()}"/>
                                 <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testDatecmstdatNull()}"/>
                             </p:datePicker>
@@ -59,7 +67,8 @@
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_cmong" value="#{I18N['cmPage.cmong']}"/>
                             <p:selectOneButton   id="input_cmong"
-                                                 value="#{cmBean.cm.cmong}">
+                                                 value="#{cmBean.cm.cmong}"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
                                 <f:selectItem itemLabel="#{I18N['yes']}"
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['no']}"
@@ -70,7 +79,8 @@
                         <h:panelGroup rendered="#{!cmBean.cm.cmong}">
                             <div class="field col-12 md:col-4 p-20-0">
                                 <p:outputLabel for="input_cmendat" value="#{I18N['cmPage.cmendat']}"/>
-                                <p:datePicker id="input_cmendat" value="#{cmBean.cm.cmendat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100">
+                                <p:datePicker id="input_cmendat" value="#{cmBean.cm.cmendat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"
+                                              disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
                                     <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testDateCmendat()}"/>
                                     <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testCmendatBeforcmstdat()}"/>
                                     <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testDatecmendatNull()}"/>
@@ -101,7 +111,8 @@
                             <p:selectOneMenu id="input_cmindic"
                                              value="#{cmBean.cm.cmindic}"
                                              converter="CmindicConverter"
-                                             required="true">
+                                             required="true"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
                                 <!-- import all enum -->
                                 <p:importEnum type="com.sym022.sym022.enums.Cmindic"
                                               var="enumCmindic"
@@ -117,7 +128,8 @@
                             <span class="field col-12 md:col-4 p-20-0">
                                 <p:outputLabel for="input_cmindicsp" value="#{I18N['cmPage.cmindicsp']}"/>
                                 <p:inputText id="input_cmindicsp" class="label" value="#{cmBean.cm.cmindicsp}"
-                                         placeholder="#{I18N['cmPage.cmindicsp.placeHolder']}">
+                                             placeholder="#{I18N['cmPage.cmindicsp.placeHolder']}"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
                                 <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testIndicspIndicOther()}"/>
                                 </p:inputText>
                             </span>
@@ -134,7 +146,8 @@
                                                    placeholder="#{I18N['cmPage.input_cmdose.placeholder']}"
                                                    validatorMessage="#{I18N['cmPage.input_cmdose.errorMessage']}"
                                                    decimalPlaces="1"
-                                                   minValue="0">
+                                                   minValue="0"
+                                                   disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
                                                    <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testCmdoseAndCmdosuUnknown()}"/>
                                                    <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmdoseAndCmdosuControl()}"/>
                                     </p:inputNumber>
@@ -144,7 +157,8 @@
                             <p:selectOneMenu id="input_cmdosu"
                                              value="#{cmBean.cm.cmdosu}"
                                              converter="CmdosuConverter"
-                                             required="true">
+                                             required="true"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
                                 <!-- import all enum -->
                                 <p:importEnum type="com.sym022.sym022.enums.Cmdosu"
                                               var="enumCmdosu"
@@ -175,7 +189,8 @@
                             <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_cmdosusp" value="#{I18N['cmPage.cmdosusp']}"/>
                             <p:inputText id="input_cmdosusp" class="label" value="#{cmBean.cm.cmdosusp}"
-                                         placeholder="#{I18N['cmPage.cmdosusp.placeHolder']}">
+                                         placeholder="#{I18N['cmPage.cmdosusp.placeHolder']}"
+                                         disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
                                 <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmdosuspOther()}"/>
                             </p:inputText>
                         </span>
@@ -191,7 +206,8 @@
                             <p:selectOneMenu id="input_cmroute"
                                              value="#{cmBean.cm.cmroute}"
                                              converter="CmrouteConverter"
-                                             required="true">
+                                             required="true"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
                                 <!-- import all enum -->
                                 <p:importEnum type="com.sym022.sym022.enums.Cmroute"
                                               var="enumCmroute"
@@ -207,7 +223,8 @@
                             <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_cmroutesp" value="#{I18N['cmPage.cmroutesp']}"/>
                             <p:inputText id="input_cmroutesp" class="label" value="#{cmBean.cm.cmroutesp}"
-                                         placeholder="#{I18N['cmPage.cmroutesp.placeHolder']}">
+                                         placeholder="#{I18N['cmPage.cmroutesp.placeHolder']}"
+                                         disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
                                 <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmroutespOther()}"/>
                             </p:inputText>
                         </span>
@@ -223,7 +240,8 @@
                             <p:selectOneMenu id="input_cmfreq"
                                              value="#{cmBean.cm.cmfreq}"
                                              converter="CmfreqConverter"
-                                             required="true">
+                                             required="true"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
                                 <!-- import all enum -->
                                 <p:importEnum type="com.sym022.sym022.enums.Cmfreq"
                                               var="enumCmfreq"
@@ -240,7 +258,8 @@
                             <p:outputLabel for="input_cmfreqsp" value="#{I18N['cmPage.cmfreqsp']}"/>
                             <p:inputText id="input_cmfreqsp" class="label" value="#{cmBean.cm.cmfreqsp}"
                                          placeholder="#{I18N['cmPage.cmfreqsp.placeHolder']}"
-                                         validatorMessage="#{I18N['cmPage.cmfreqsp.errorMessage']}">
+                                         validatorMessage="#{I18N['cmPage.cmfreqsp.errorMessage']}"
+                                         disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
                                 <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmfreqspOther()}"/>
                             </p:inputText>
                         </span>
@@ -253,18 +272,44 @@
                         </h:panelGroup>
                     </p:outputPanel>
                     <span class="responsiveSubmit">
-                        <p:commandButton value="#{I18N['cmPage.addCmTitle']}"
-                                         ajax="false"
-                                         validateClient="true"
-                                         class="ui-button-success"
-                                         disabled="#{cmBean.buttonSuccess}"
-                                         action="#{cmBean.submitFormAddCm}"/>
+                       <p:outputPanel rendered="#{(connectionBean.user.roleByIdRole.roleLabel == 'SITE' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL') and cmBean.cm.eventByIdEvent.available}">
+                            <p:commandButton value="#{I18N['application.update.cm']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             disabled="#{vsBean.buttonSuccess}"
+                                             action="#{aeBean.submitFormUpdateAe}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and !eventBean.event.monitored and eventBean.event.available}">
+                            <p:commandButton value="#{I18N['application.cm.validate']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="#{eventBean.setEventMonitored}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and eventBean.event.monitored and eventBean.event.available}">
+                            <p:commandButton value="#{I18N['application.cm.revalidate']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="#{eventBean.setEventNoMonitored}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{eventBean.event.available and (connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL' or connectionBean.user.roleByIdRole.roleLabel == 'SAFETY')}">
+                            <p:commandButton value="#{I18N['application.ae.query']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="/VIEW/addQuery"/>
+                        </p:outputPanel>
 
                         <p:commandButton value="#{I18N['connectionpage.return.button']}"
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-secondary"
-                                         action="#{cmBean.cancelForm()}"/>
+                                         action="#{cmBean.cancelUpdateForm()}"/>
                     </span>
                 </h:form>
             </div>

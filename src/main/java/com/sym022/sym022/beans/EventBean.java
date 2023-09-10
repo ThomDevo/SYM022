@@ -32,6 +32,8 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
     private EventService eventService = new EventService();
     private List<EventEntity> allEvents;
     private List<EventEntity> number;
+    private int numberDov = 0;
+    private String display = "true";
     @Inject
     private ConnectionBean connectionBean;
     @Inject
@@ -51,13 +53,13 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
     }
 
     /**
-     * Method to filter the roles on roleLabel
+     * Method to filter the events
      */
     public void researchFilterAllEvents(){
 
         EntityManager em = EMF.getEM();
         try{
-            filterOfTable = eventService.findEventAll(this.filter,em);
+            filterOfTable = eventService.findEventAll(connectionBean.getUser().getIdUser(),this.filter,em);
             ProcessUtils.debug(this.filter);
         }catch(Exception e){
             ProcessUtils.debug(e.getMessage());
@@ -67,13 +69,13 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
     }
 
     /**
-     * Method to filter the roles on roleLabel
+     * Method to have all the events not monitored
      */
     public void researchFilterAllEventsNotMonitored(){
 
         EntityManager em = EMF.getEM();
         try{
-            filterOfTable = eventService.findEventAllNotMonitored(this.filter,em);
+            filterOfTable = eventService.findEventAllNotMonitored(connectionBean.getUser().getIdUser(),this.filter,em);
             ProcessUtils.debug(this.filter);
         }catch(Exception e){
             ProcessUtils.debug(e.getMessage());
@@ -82,6 +84,26 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
         }
     }
 
+    /**
+     * Method to have all the events not coded
+     */
+    public void researchFilterAllEventsNotCoded(){
+
+        EntityManager em = EMF.getEM();
+        try{
+            filterOfTable = eventService.findEventAllNotCoded(connectionBean.getUser().getIdUser(),this.filter,em);
+            ProcessUtils.debug(String.valueOf(filterOfTable.size()));
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally{
+            em.close();
+        }
+    }
+
+
+    /**
+     * Method to delete a event in the DB
+     */
     public void deleteEvent(){
         EntityManager em = EMF.getEM();
         EventService eventService = new EventService();
@@ -128,6 +150,32 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
         }
         nextNumber = String.valueOf(number.size());
         return nextNumber;
+    }
+
+    /**
+     * Method to return the number of occurrences of the event
+     * @return a String
+     */
+    public String findNumberOfEventsDov(){
+        EntityManager em = EMF.getEM();
+        EventService eventService = new EventService();
+
+        try{
+            this.numberDov= eventService.findEventDOV(event.getSubjectByIdSubject().getIdSubject(),em).size();
+            ProcessUtils.debug(""+ numberDov);
+            ProcessUtils.debug(""+ event.getSubjectByIdSubject().getIdSubject());
+        }catch(Exception e){
+            this.numberDov = 0;
+        }finally{
+            em.close();
+        }
+        if(this.numberDov > 1){
+            display = "true";
+        }else{
+            display = "false";
+        }
+
+        return display;
     }
 
     /**
@@ -383,5 +431,19 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
         this.auditTrailBean = auditTrailBean;
     }
 
+    public int getNumberDov() {
+        return numberDov;
+    }
 
+    public void setNumberDov(int numberDov) {
+        this.numberDov = numberDov;
+    }
+
+    public String getDisplay() {
+        return display;
+    }
+
+    public void setDisplay(String display) {
+        this.display = display;
+    }
 }

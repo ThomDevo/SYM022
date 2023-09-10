@@ -148,8 +148,7 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
      * Method to reset the form to add or update a DOV
      */
     public void initFormDov(){
-        Date now = new Date();
-        this.dov.setVisitYn(false);
+        this.dov.setVisitYn(true);
         this.dov.setVisitNd("");
         this.dov.setVisitDate(null);
         initErrorMessageFormDov();

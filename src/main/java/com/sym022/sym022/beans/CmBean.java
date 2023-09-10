@@ -69,6 +69,16 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
     }
 
     /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelUpdateForm(){
+        String redirect = "/VIEW/home";
+        initFormCm();
+        return redirect;
+    }
+
+    /**
      * Method to reset the form to add or update an CM
      */
     public void initFormCm(){

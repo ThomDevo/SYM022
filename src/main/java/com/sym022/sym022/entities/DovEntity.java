@@ -21,7 +21,7 @@ public class DovEntity {
     @Basic
     @NotNull
     @Column(name = "visit_yn", nullable = false)
-    private boolean visitYn = false;
+    private boolean visitYn = true;
 
     @Basic
     @Column(name = "visit_nd", nullable = true, length = 200)

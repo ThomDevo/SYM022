@@ -64,15 +64,31 @@
                         <p:menuitem value="#{I18N['menu.data.subject.consult']}" icon="pi pi-fw pi-building pi-pencil" action="/VIEW/listOfSubjects.xhtml" rendered="#{connectionBean.verifyPermissionUser('List of subjects')}"/>
                         <p:divider/>
                     </p:submenu>
-                    <p:submenu label="#{I18N['menu.data.event']}" icon="pi pi-fw pi-book">
+                    <p:submenu label="#{I18N['menu.data.event']}" icon="pi pi-fw pi-ticket">
                         <p:menuitem value="#{I18N['menu.data.event.add']}" icon="pi pi-fw pi-plus" action="/VIEW/addEvent.xhtml" rendered="#{connectionBean.verifyPermissionUser('Add an event')}"/>
-                        <p:menuitem value="#{I18N['menu.data.event.consult']}" icon="pi pi-fw  pi-pencil" action="/VIEW/listOfAllEvents.xhtml"/>
+                        <p:menuitem value="#{I18N['menu.data.event.consult']}" icon="pi pi-fw pi-ticket" action="/VIEW/listOfAllEvents.xhtml"/>
                         <p:divider/>
                     </p:submenu>
                 </p:submenu>
                 <p:submenu label="#{I18N['menu.CRA']}" icon="pi pi-fw pi-book" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA'}">
                     <p:submenu label="#{I18N['menu.data.CRA']}" icon="pi pi-fw pi-book" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA'}">
-                        <p:menuitem value="#{I18N['menu.data.CRA.to.validate']}" icon="pi pi-fw pi-bookmark" action="/VIEW/listOfAllEventsToValidate.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA'}"/>
+                        <p:menuitem value="#{I18N['menu.data.CRA.to.validate']}" icon="pi pi-fw pi-bookmark" action="/VIEW/listOfAllEventsToMonitor.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA'}"/>
+                        <p:divider/>
+                    </p:submenu>
+                </p:submenu>
+                <p:submenu label="#{I18N['menu.MEDICAL']}" icon="pi pi-fw pi-heart" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL'}">
+                    <p:submenu label="#{I18N['menu.data.MEDICAL']}" icon="pi pi-fw pi-heart" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL'}">
+                        <p:menuitem value="#{I18N['menu.data.MEDICAL.to.validate']}" icon="pi pi-fw pi-heart-fill" action="/VIEW/listOfAllEventsToCode.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL'}"/>
+                        <p:divider/>
+                    </p:submenu>
+                </p:submenu>
+                <p:submenu label="#{I18N['menu.query']}" icon="pi pi-fw pi-question-circle">
+                    <p:submenu label="#{I18N['menu.data.query']}" icon="pi pi-fw pi-question-circle">
+                        <p:menuitem value="#{I18N['menu.data.query.to.consult']}" icon="pi pi-fw pi-question-circle" action="/VIEW/listOfAllEventsToCode.xhtml"/>
+                        <p:menuitem value="#{I18N['menu.data.query.to.answer']}" icon="pi pi-fw pi-comment" action="/VIEW/listOfAllQueriesToAnswer.xhtml" rendered="#{connectionBean.verifyPermissionUser('Answer to a query') and connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER'}"/>
+                        <p:menuitem value="#{I18N['menu.data.query.to.answer']}" icon="pi pi-fw pi-comment" action="/VIEW/listOfAllQueriesToAnswerPermitted.xhtml" rendered="#{connectionBean.verifyPermissionUser('Answer to a query') and connectionBean.user.roleByIdRole.roleLabel != 'DATA MANAGER'}"/>
+                        <p:menuitem value="#{I18N['menu.data.query.answered']}" icon="pi pi-fw pi-comments" action="/VIEW/listOfAllQueriesAnswered.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER'}"/>
+                        <p:menuitem value="#{I18N['menu.data.query.answered']}" icon="pi pi-fw pi-comments" action="/VIEW/listOfAllQueriesAnsweredPermitted.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel != 'DATA MANAGER'}"/>
                         <p:divider/>
                     </p:submenu>
                 </p:submenu>
