@@ -68,8 +68,7 @@
                                 <p:outputLabel for="inputTargetLesion" value="#{I18N['tePage.target.lesion']}"/>
                                 <p:selectOneMenu id="inputTargetLesion"
                                              value="#{teBean.te.targetLesions}"
-                                             converter="TargetLesionsOverallResponseConverter"
-                                             required="true">
+                                             converter="TargetLesionsOverallResponseConverter">
                                     <f:selectItem itemLabel="#{I18N['tePage.target.lesion']}"
                                                   itemValue="#{null}"/>
                                 <!-- import all enum -->
@@ -88,8 +87,7 @@
                                 <p:outputLabel for="inputNonTargetLesion" value="#{I18N['tePage.non.target.lesion']}"/>
                                 <p:selectOneMenu id="inputNonTargetLesion"
                                                  value="#{teBean.te.nonTargetLesions}"
-                                                 converter="NonTargetLesionsConverter"
-                                                 required="true">
+                                                 converter="NonTargetLesionsConverter">
                                     <f:selectItem itemLabel="#{I18N['tePage.non.target.lesion']}"
                                                   itemValue="#{null}"/>
                                 <!-- import all enum -->
@@ -108,9 +106,9 @@
                                 <p:outputLabel for="input_status_new_lesion" value="#{I18N['tePage.new.lesion.status']}"/>
                                 <p:selectOneButton id="input_status_new_lesion"
                                                value="#{teBean.te.newLesions}">
-                                <f:selectItem itemLabel="#{I18N['done']}"
+                                <f:selectItem itemLabel="#{I18N['yes']}"
                                               itemValue="#{true}"/>
-                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                <f:selectItem itemLabel="#{I18N['no']}"
                                               itemValue="#{false}"/>
                                     <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testOverallResponse()}"/>
                                 </p:selectOneButton>
@@ -119,8 +117,7 @@
                                 <p:outputLabel for="inputOverallResponse" value="#{I18N['tePage.overall.response']}"/>
                                 <p:selectOneMenu id="inputOverallResponse"
                                                  value="#{teBean.te.overallResponse}"
-                                                 converter="TargetLesionsOverallResponseConverter"
-                                                 required="true">
+                                                 converter="TargetLesionsOverallResponseConverter">
                                     <f:selectItem itemLabel="#{I18N['tePage.overall.response']}"
                                                   itemValue="#{null}"/>
                                 <!-- import all enum -->
@@ -135,42 +132,13 @@
                                     <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testOverallResponse()}"/>
                                 </p:selectOneMenu>
                             </span>
-                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorCR}">
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorOR}">
                                 <div><span class="ui-message-error-icon"> </span>
                                     <span class="ui-message-error-detail"><h:outputText
-                                            value="#{I18N['messageErrorCR']}"/></span>
+                                            value="#{I18N['messageErrorOR']}"/></span>
                                 </div>
                             </div>
-                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorPR}">
-                                <div><span class="ui-message-error-icon"> </span>
-                                    <span class="ui-message-error-detail"><h:outputText
-                                            value="#{I18N['messageErrorPR']}"/></span>
-                                </div>
-                            </div>
-                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorSD}">
-                                <div><span class="ui-message-error-icon"> </span>
-                                    <span class="ui-message-error-detail"><h:outputText
-                                            value="#{I18N['messageErrorSD']}"/></span>
-                                </div>
-                            </div>
-                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorPD}">
-                                <div><span class="ui-message-error-icon"> </span>
-                                    <span class="ui-message-error-detail"><h:outputText
-                                            value="#{I18N['messageErrorPD']}"/></span>
-                                </div>
-                            </div>
-                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorNAE}">
-                                <div><span class="ui-message-error-icon"> </span>
-                                    <span class="ui-message-error-detail"><h:outputText
-                                            value="#{I18N['messageErrorNAE']}"/></span>
-                                </div>
-                            </div>
-                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorNE}">
-                                <div><span class="ui-message-error-icon"> </span>
-                                    <span class="ui-message-error-detail"><h:outputText
-                                            value="#{I18N['messageErrorNE']}"/></span>
-                                </div>
-                            </div>
+
                         </h:panelGroup>
                     </p:outputPanel>
                     <span class="responsiveSubmit">

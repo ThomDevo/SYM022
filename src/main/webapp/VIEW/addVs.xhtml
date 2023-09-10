@@ -227,7 +227,7 @@
                                     <p:outputLabel for="input_sbp" value="#{I18N['vsPage.input_sbp']}"/>
                                     <p:inputNumber id="input_sbp" class="label" value="#{vsBean.vs.sbp}"
                                            placeholder="#{I18N['vsPage.input_sbp.placeholder']}"
-                                           validatorMessage="#{I18N['vsPage.input_sbp.errorMessage']}" decimalPlaces="1">
+                                           validatorMessage="#{I18N['vsPage.input_sbp.errorMessage']}">
                                         <p:ajax process="@this" update="@all"/>
                                         <p:ajax update="messageSbp" event="blur"/>
                                         <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDbpGtnSbp()}"/>
@@ -251,7 +251,7 @@
                                     <p:outputLabel for="input_dbp" value="#{I18N['vsPage.input_dbp']}"/>
                                     <p:inputNumber id="input_dbp" class="label" value="#{vsBean.vs.dbp}"
                                            placeholder="#{I18N['vsPage.input_dbp.placeholder']}"
-                                           validatorMessage="#{I18N['vsPage.input_dbp.errorMessage']}" decimalPlaces="1">
+                                           validatorMessage="#{I18N['vsPage.input_dbp.errorMessage']}">
                                         <p:ajax process="@this" update="@all"/>
                                         <p:ajax update="messageDbp" event="blur"/>
                                         <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDbpGtnSbp()}"/>
@@ -289,7 +289,7 @@
                                 <p:outputLabel for="input_hr" value="#{I18N['vsPage.input_hr']}"/>
                                 <p:inputNumber id="input_hr" class="label" value="#{vsBean.vs.hr}"
                                                placeholder="#{I18N['vsPage.input_hr.placeholder']}"
-                                               validatorMessage="#{I18N['vsPage.input_hr.errorMessage']}" decimalPlaces="1">
+                                               validatorMessage="#{I18N['vsPage.input_hr.errorMessage']}">
                                     <p:ajax update="messagehr" event="blur"/>
                                     <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testHr()}"/>
                                 </p:inputNumber>
@@ -318,7 +318,7 @@
                                 <p:outputLabel for="input_rr" value="#{I18N['vsPage.input_rr']}"/>
                                 <p:inputNumber id="input_rr" class="label" value="#{vsBean.vs.rr}"
                                                placeholder="#{I18N['vsPage.input_rr.placeholder']}"
-                                               validatorMessage="#{I18N['vsPage.input_rr.errorMessage']}" decimalPlaces="0">
+                                               validatorMessage="#{I18N['vsPage.input_rr.errorMessage']}">
                                     <p:ajax process="@this" update="@all"/>
                                     <p:ajax update="messagerr" event="blur"/>
                                     <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testRr()}"/>
@@ -435,7 +435,7 @@
                             <p:outputLabel for="input_oxy" value="#{I18N['vsPage.input_oxy']}"/>
                             <p:inputNumber id="input_oxy" class="label" value="#{vsBean.vs.temp}"
                                            placeholder="#{I18N['vsPage.input_oxy.placeholder']}"
-                                           validatorMessage="#{I18N['vsPage.input_oxy.errorMessage']}" decimalPlaces="1">
+                                           validatorMessage="#{I18N['vsPage.input_oxy.errorMessage']}">
                                 <p:ajax process="@this" update="@all"/>
                                 <p:ajax update="messageoxy" event="blur"/>
                                 <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testOxy()}"/>

@@ -20,7 +20,6 @@ public class TeEntity {
     private int idTe;
 
     @Basic
-    @NotNull
     @Column(name = "te_yn", nullable = false)
     private boolean teYn;
 
@@ -43,7 +42,6 @@ public class TeEntity {
     private NonTargetLesions nonTargetLesions;
 
     @Basic
-    @NotNull
     @Column(name = "new_lesions", nullable = false)
     private boolean newLesions;
 
@@ -53,7 +51,6 @@ public class TeEntity {
     private TargetLesionsOverallResponse overallResponse;
 
     @ManyToOne
-    @NotNull
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
 
