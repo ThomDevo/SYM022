@@ -85,13 +85,13 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
     }
 
     /**
-     * Method to have all the events not coded
+     * Method to have all the events not coded Ae
      */
-    public void researchFilterAllEventsNotCoded(){
+    public void researchFilterAllEventsNotCodedAe(){
 
         EntityManager em = EMF.getEM();
         try{
-            filterOfTable = eventService.findEventAllNotCoded(connectionBean.getUser().getIdUser(),this.filter,em);
+            filterOfTable = eventService.findEventAllNotCodedAe(connectionBean.getUser().getIdUser(),this.filter,em);
             ProcessUtils.debug(String.valueOf(filterOfTable.size()));
         }catch(Exception e){
             ProcessUtils.debug(e.getMessage());
@@ -100,6 +100,21 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
         }
     }
 
+    /**
+     * Method to have all the events not coded Cm
+     */
+    public void researchFilterAllEventsNotCodedCm(){
+
+        EntityManager em = EMF.getEM();
+        try{
+            filterOfTable = eventService.findEventAllNotCodedCm(connectionBean.getUser().getIdUser(),this.filter,em);
+            ProcessUtils.debug(String.valueOf(filterOfTable.size()));
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally{
+            em.close();
+        }
+    }
 
     /**
      * Method to delete a event in the DB

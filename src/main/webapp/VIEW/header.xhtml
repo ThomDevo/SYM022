@@ -78,7 +78,8 @@
                 </p:submenu>
                 <p:submenu label="#{I18N['menu.MEDICAL']}" icon="pi pi-fw pi-heart" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL'}">
                     <p:submenu label="#{I18N['menu.data.MEDICAL']}" icon="pi pi-fw pi-heart" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL'}">
-                        <p:menuitem value="#{I18N['menu.data.MEDICAL.to.validate']}" icon="pi pi-fw pi-heart-fill" action="/VIEW/listOfAllEventsToCode.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL'}"/>
+                        <p:menuitem value="#{I18N['menu.data.MEDICAL.to.validate']}" icon="pi pi-fw pi-heart-fill" action="/VIEW/listOfAllEventsToCodeAe.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL'}"/>
+                        <p:menuitem value="#{I18N['menu.data.MEDICAL.to.validate']}" icon="pi pi-fw pi-heart-fill" action="/VIEW/listOfAllEventsToCodeCm.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL'}"/>
                         <p:divider/>
                     </p:submenu>
                 </p:submenu>

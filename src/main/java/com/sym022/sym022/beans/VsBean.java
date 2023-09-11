@@ -41,7 +41,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
     private String messageErrorVisitDate = "hidden";
     private String messageErrorVisitDateMissing = "hidden";
     private String messageErrorHeightCm = "hidden";
+    private String messageErrorHeightNull = "hidden";
+    private String messageErrorHeightUnitNull = "hidden";
     private String messageErrorHeightInches = "hidden";
+    private String messageErrorWeightNull = "hidden";
+    private String messageErrorWeightUnitNull = "hidden";
     private String messageErrorWeightKg = "hidden";
     private String messageErrorWeightPounds = "hidden";
     private String messageErrorSbpGtDbp = "hidden";
@@ -49,8 +53,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
     private String messageErrorSbp = "hidden";
     private String messageErrorHr = "hidden";
     private String messageErrorRr = "hidden";
+    private String messageErrorTempNull = "hidden";
+    private String messageErrorTempUnitNull = "hidden";
     private String messageErrorTempC = "hidden";
     private String messageErrorTempF = "hidden";
+    private String messageErrorTempRoute = "hidden";
     private String messageErrorOxy = "hidden";
     private String buttonSuccess = "false";
     @Inject
@@ -80,13 +87,13 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         Date now = new Date();
         this.vs.setVsYn(false);
         this.vs.setVsNd("");
-        this.vs.setVsDate(now);
+        this.vs.setVsDate(null);
         this.vs.setHeightNd(false);
-        this.vs.setHeight(0.0);
-        this.vs.setHeightU(HeightU.CM);
+        this.vs.setHeight(null);
+        this.vs.setHeightU(null);
         this.vs.setWeightNd(false);
-        this.vs.setWeight(0.0);
-        this.vs.setWeightU(WeightU.KG);
+        this.vs.setWeight(null);
+        this.vs.setWeightU(null);
         this.vs.setBpNd(false);
         this.vs.setSbp(0);
         this.vs.setDbp(0);
@@ -95,9 +102,9 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         this.vs.setRrNd(false);
         this.vs.setRr(0);
         this.vs.setTempNd(false);
-        this.vs.setTemp(0.0);
+        this.vs.setTemp(null);
         this.vs.setTempU(TempU.C);
-        this.vs.setTempRoute(TempRoute.UNKNOWN);
+        this.vs.setTempRoute(null);
         this.vs.setOxysatNd(false);
         this.vs.setOxysat(0);
         initErrorMessageFormVS();
@@ -112,16 +119,23 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         this.messageErrorVisitNdFalse = "hidden";
         this.messageErrorVisitDateMissing = "hidden";
         this.messageErrorHeightCm = "hidden";
+        this.messageErrorHeightNull = "hidden";
+        this.messageErrorHeightUnitNull = "hidden";
         this.messageErrorHeightInches = "hidden";
+        this.messageErrorWeightNull = "hidden";
+        this.messageErrorWeightUnitNull = "hidden";
         this.messageErrorWeightKg = "hidden";
         this.messageErrorWeightPounds = "hidden";
         this.messageErrorSbpGtDbp = "hidden";
         this.messageErrorDbp = "hidden";
         this.messageErrorSbp = "hidden";
         this.messageErrorHr = "hidden";
+        this.messageErrorTempNull = "hidden";
+        this.messageErrorTempUnitNull = "hidden";
         this.messageErrorRr = "hidden";
         this.messageErrorTempC = "hidden";
         this.messageErrorTempF = "hidden";
+        this.messageErrorTempRoute = "hidden";
         this.messageErrorOxy = "hidden";
         this.buttonSuccess = "false";
     }
@@ -186,12 +200,48 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
     }
 
     /**
+     * Method to test the InputHeight in front end
+     * @return messageErrorHeightNull hidden or not and button create/update deactivate or not
+     */
+    public String testInputHeight(){
+        String redirect = "null";
+        if(vs.getHeightNd() && (vs.getHeight() == null || vs.getHeight() == 0)){
+            this.messageErrorHeightNull = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorHeightNull = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the InputHeightUnit in front end
+     * @return messageErrorHeightUnitNull hidden or not and button create/update deactivate or not
+     */
+    public String testInputHeightUnit(){
+        String redirect = "null";
+        if(vs.getHeightNd() && vs.getHeightU() == null){
+            this.messageErrorHeightUnitNull = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorHeightUnitNull = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
      * Method to test the Heights and Cm in front end
      * @return messageErrorHeightCm hidden or not and button create/update deactivate or not
      */
     public String testRangeHeightCm(){
         String redirect = "null";
-        if(vs.getHeight() < 40.0 && vs.getHeightU() == HeightU.CM || vs.getHeight() > 280.0 && vs.getHeightU() == HeightU.CM){
+        if(vs.getHeightNd() && (vs.getHeight() == null || vs.getHeight() == 0)){
+            testInputHeight();
+        }else if(vs.getHeightNd() && vs.getHeightU() == null){
+            testInputHeightUnit();
+        }else if(vs.getHeight() < 40.0 && vs.getHeightU() == HeightU.CM || vs.getHeight() > 280.0 && vs.getHeightU() == HeightU.CM){
             this.messageErrorHeightCm = "";
             this.buttonSuccess = "true";
 
@@ -219,12 +269,48 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
     }
 
     /**
+     * Method to test the InputWeight in front end
+     * @return messageErrorHeightNull hidden or not and button create/update deactivate or not
+     */
+    public String testInputWeight(){
+        String redirect = "null";
+        if(vs.getWeightNd() && (vs.getWeight() == null || vs.getWeight() == 0)){
+            this.messageErrorWeightNull = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorWeightNull = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the InputWeightUnit in front end
+     * @return messageErrorWeightUnitNull hidden or not and button create/update deactivate or not
+     */
+    public String testInputWeightUnit(){
+        String redirect = "null";
+        if(vs.getWeightNd() && vs.getWeightU() == null){
+            this.messageErrorWeightUnitNull = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorWeightUnitNull = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
      * Method to test the Weight and KG in front end
      * @return messageErrorWeightKg hidden or not and button create/update deactivate or not
      */
     public String testRangeWeightKg(){
         String redirect = "null";
-        if(vs.getWeight() < 20.0 && vs.getWeightU() == WeightU.KG || vs.getWeight() > 650.0 && vs.getWeightU() == WeightU.KG){
+        if(vs.getWeightNd() && (vs.getWeight() == null || vs.getWeight() == 0)){
+            testInputWeight();
+        }else if(vs.getWeightNd() && vs.getWeightU() == null){
+            testInputWeightUnit();
+        }else if(vs.getWeight() < 20.0 && vs.getWeightU() == WeightU.KG || vs.getWeight() > 650.0 && vs.getWeightU() == WeightU.KG){
             this.messageErrorWeightKg = "";
             this.buttonSuccess = "true";
         }else{
@@ -240,7 +326,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
      */
     public String testRangeWeightPounds(){
         String redirect = "null";
-        if(vs.getWeight() < 44.0 && vs.getWeightU() == WeightU.POUNDS || vs.getWeight() > 1435.0 && vs.getWeightU() == WeightU.POUNDS){
+        if(vs.getWeightNd() && (vs.getWeight() == null || vs.getWeight() == 0)){
+            testInputWeight();
+        }else if(vs.getWeightNd() && vs.getWeightU() == null){
+            testInputWeightUnit();
+        }else if(vs.getWeight() < 44.0 && vs.getWeightU() == WeightU.POUNDS || vs.getWeight() > 1435.0 && vs.getWeightU() == WeightU.POUNDS){
             this.messageErrorWeightPounds = "";
             this.buttonSuccess = "true";
         }else{
@@ -331,12 +421,48 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
     }
 
     /**
+     * Method to test the InputTemp in front end
+     * @return messageErrorTempNull hidden or not and button create/update deactivate or not
+     */
+    public String testInputTemp(){
+        String redirect = "null";
+        if(vs.getTempNd() && (vs.getTemp() == null || vs.getTemp() == 0)){
+            this.messageErrorTempNull = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorTempNull = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the InputTempUnit in front end
+     * @return messageErrorTempUnitNull hidden or not and button create/update deactivate or not
+     */
+    public String testInputTempUnit(){
+        String redirect = "null";
+        if(vs.getTempNd() && vs.getTempU() == null){
+            this.messageErrorTempUnitNull = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorTempUnitNull = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
      * Method to test the Temperature and °C in front end
      * @return messageErrorTempC hidden or not and button create/update deactivate or not
      */
     public String testRangeTempC(){
         String redirect = "null";
-        if(vs.getTemp() < 30 && vs.getTempU() == TempU.C || vs.getTemp() > 45 && vs.getTempU() == TempU.C){
+        if(vs.getTempNd() && (vs.getTemp() == null || vs.getTemp() == 0)){
+            testInputTemp();
+        }else if(vs.getTempNd() && vs.getTempU() == null){
+            testInputTempUnit();
+        }if(vs.getTemp() < 30 && vs.getTempU() == TempU.C || vs.getTemp() > 45 && vs.getTempU() == TempU.C){
             this.messageErrorTempC = "";
             this.buttonSuccess = "true";
         }else{
@@ -352,11 +478,31 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
      */
     public String testRangeTempF(){
         String redirect = "null";
-        if(vs.getTemp() < 86 && vs.getTempU() == TempU.F || vs.getTemp() > 113 && vs.getTempU() == TempU.F){
+        if(vs.getTempNd() && (vs.getTemp() == null || vs.getTemp() == 0)){
+            testInputTemp();
+        }else if(vs.getTempNd() && vs.getTempU() == null){
+            testInputTempUnit();
+        }if(vs.getTemp() < 86 && vs.getTempU() == TempU.F || vs.getTemp() > 113 && vs.getTempU() == TempU.F){
             this.messageErrorTempF = "";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorTempF = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the InputTempUnit in front end
+     * @return messageErrorTempUnitNull hidden or not and button create/update deactivate or not
+     */
+    public String testInputTempRoute(){
+        String redirect = "null";
+        if(vs.getTempNd() && vs.getTempRoute() == null){
+            this.messageErrorTempRoute = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorTempRoute = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -430,6 +576,14 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
                 initErrorMessageFormVS();
                 this.messageErrorVisitNd = "";
                 redirect = "null";
+            }if(vs.getHeightNd() && (vs.getHeight() == null || vs.getHeight() == 0)) {
+                initErrorMessageFormVS();
+                this.messageErrorHeightNull = "";
+                redirect = "null";
+            }else if(vs.getHeightNd() && vs.getHeightU() == null){
+                initErrorMessageFormVS();
+                this.messageErrorHeightUnitNull = "";
+                redirect = "null";
             }else if(vs.getHeightNd() && vs.getHeight() < 40.0 && vs.getHeightU() == HeightU.CM || vs.getHeightNd() && vs.getHeight() > 280.0 && vs.getHeightU() == HeightU.CM){
                 initErrorMessageFormVS();
                 this.messageErrorHeightCm = "";
@@ -437,6 +591,14 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
             }else if(vs.getHeightNd() && vs.getHeight() < 15.7 && vs.getHeightU() == HeightU.INCHES || vs.getHeightNd() && vs.getHeight() > 110.2 && vs.getHeightU() == HeightU.INCHES){
                 initErrorMessageFormVS();
                 this.messageErrorHeightInches = "";
+                redirect = "null";
+            }if(vs.getWeightNd() && (vs.getWeight() == null || vs.getWeight() == 0)) {
+                initErrorMessageFormVS();
+                this.messageErrorWeightNull = "";
+                redirect = "null";
+            }else if(vs.getWeightNd() && vs.getWeightU() == null){
+                initErrorMessageFormVS();
+                this.messageErrorWeightUnitNull = "";
                 redirect = "null";
             }else if(vs.getWeightNd() && vs.getWeight() < 20.0 && vs.getWeightU() == WeightU.KG || vs.getWeightNd() && vs.getWeight() > 650.0 && vs.getWeightU() == WeightU.KG){
                 initErrorMessageFormVS();
@@ -466,6 +628,14 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
                 initErrorMessageFormVS();
                 this.messageErrorRr = "";
                 redirect = "null";
+            }if(vs.getTempNd() && (vs.getTemp() == null || vs.getTemp() == 0)) {
+                initErrorMessageFormVS();
+                this.messageErrorTempNull = "";
+                redirect = "null";
+            }else if(vs.getTempNd() && vs.getTempU() == null){
+                initErrorMessageFormVS();
+                this.messageErrorTempUnitNull = "";
+                redirect = "null";
             }else if(vs.getTempNd() && vs.getTemp() < 30 && vs.getTempU() == TempU.C || vs.getTempNd() && vs.getTemp() > 45 && vs.getTempU() == TempU.C){
                 initErrorMessageFormVS();
                 this.messageErrorTempC = "";
@@ -473,6 +643,10 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
             }else if(vs.getTempNd() && vs.getTemp() < 86 && vs.getTempU() == TempU.F || vs.getTempNd() && vs.getTemp() > 113 && vs.getTempU() == TempU.F){
                 initErrorMessageFormVS();
                 this.messageErrorTempF = "";
+                redirect = "null";
+            }else if(vs.getTempNd() && vs.getTempRoute() == null){
+                initErrorMessageFormVS();
+                this.messageErrorTempRoute = "";
                 redirect = "null";
             }else if(vs.getOxysatNd() && vs.getOxysat()<50){
                 initErrorMessageFormVS();
@@ -553,7 +727,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
                     this.vs.setHeightU(null);
                     this.vs.setWeightNd(false);
                     this.vs.setWeight(0.0);
-                    this.vs.setWeightU(null);
+                    this.vs.setWeightU(WeightU.KG);
                     this.vs.setBpNd(false);
                     this.vs.setSbp(0);
                     this.vs.setDbp(0);
@@ -784,5 +958,61 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
     public void setButtonSuccess(String buttonSuccess) {
         this.buttonSuccess = buttonSuccess;
+    }
+
+    public String getMessageErrorHeightNull() {
+        return messageErrorHeightNull;
+    }
+
+    public void setMessageErrorHeightNull(String messageErrorHeightNull) {
+        this.messageErrorHeightNull = messageErrorHeightNull;
+    }
+
+    public String getMessageErrorHeightUnitNull() {
+        return messageErrorHeightUnitNull;
+    }
+
+    public void setMessageErrorHeightUnitNull(String messageErrorHeightUnitNull) {
+        this.messageErrorHeightUnitNull = messageErrorHeightUnitNull;
+    }
+
+    public String getMessageErrorWeightNull() {
+        return messageErrorWeightNull;
+    }
+
+    public void setMessageErrorWeightNull(String messageErrorWeightNull) {
+        this.messageErrorWeightNull = messageErrorWeightNull;
+    }
+
+    public String getMessageErrorWeightUnitNull() {
+        return messageErrorWeightUnitNull;
+    }
+
+    public void setMessageErrorWeightUnitNull(String messageErrorWeightUnitNull) {
+        this.messageErrorWeightUnitNull = messageErrorWeightUnitNull;
+    }
+
+    public String getMessageErrorTempNull() {
+        return messageErrorTempNull;
+    }
+
+    public void setMessageErrorTempNull(String messageErrorTempNull) {
+        this.messageErrorTempNull = messageErrorTempNull;
+    }
+
+    public String getMessageErrorTempUnitNull() {
+        return messageErrorTempUnitNull;
+    }
+
+    public void setMessageErrorTempUnitNull(String messageErrorTempUnitNull) {
+        this.messageErrorTempUnitNull = messageErrorTempUnitNull;
+    }
+
+    public String getMessageErrorTempRoute() {
+        return messageErrorTempRoute;
+    }
+
+    public void setMessageErrorTempRoute(String messageErrorTempRoute) {
+        this.messageErrorTempRoute = messageErrorTempRoute;
     }
 }
