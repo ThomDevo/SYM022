@@ -1,11 +1,53 @@
 package com.sym022.sym022.entities;
 
 import com.sym022.sym022.enums.QueryStatus;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Objects;
+
+@NamedQueries(value = {
+        @NamedQuery(name = "Query.selectConsult", query = "SELECT q from QueryEntity q JOIN UserSiteEntity usu " +
+                "ON (q.eventByIdEvent.subjectByIdSubject.siteByIdSite.idSite = usu.siteByIdSite.idSite) " +
+                "WHERE usu.userByIdUser.idUser = :idUser AND ((lower(q.queryStatus) LIKE CONCAT('%', :researchWord, '%')) " +
+                "OR (lower(q.eventByIdEvent.subjectByIdSubject.subjectNum) LIKE CONCAT ('%', :researchWord, '%')) " +
+                "OR (lower(q.eventByIdEvent.visitByIdVisit.visitLabel) LIKE CONCAT ('%', :researchWord, '%'))" +
+                "OR (lower(q.eventByIdEvent.formByIdForm.formLabel) LIKE CONCAT ('%', :researchWord, '%'))" +
+                "OR (lower(q.userByIdUser.username) LIKE CONCAT ('%', :researchWord, '%'))" +
+                "OR (lower(q.queryText) LIKE CONCAT ('%', :researchWord, '%'))) ORDER BY q.queryDatetime"),
+        @NamedQuery(name = "Query.selectOpenedDM", query = "SELECT q from QueryEntity q JOIN UserSiteEntity usu " +
+                "ON (q.eventByIdEvent.subjectByIdSubject.siteByIdSite.idSite = usu.siteByIdSite.idSite) " +
+                "WHERE usu.userByIdUser.idUser = :idUser AND q.queryStatus = 'OPENED'" +
+                "AND ((lower(q.eventByIdEvent.subjectByIdSubject.subjectNum) LIKE CONCAT ('%', :researchWord, '%')) " +
+                "OR (lower(q.eventByIdEvent.visitByIdVisit.visitLabel) LIKE CONCAT ('%', :researchWord, '%'))" +
+                "OR (lower(q.eventByIdEvent.formByIdForm.formLabel) LIKE CONCAT ('%', :researchWord, '%'))" +
+                "OR (lower(q.userByIdUser.username) LIKE CONCAT ('%', :researchWord, '%'))" +
+                "OR (lower(q.queryText) LIKE CONCAT ('%', :researchWord, '%'))) ORDER BY q.queryDatetime DESC"),
+        @NamedQuery(name = "Query.selectOpenedRole", query = "SELECT q from QueryEntity q JOIN UserSiteEntity usu " +
+                "ON (q.eventByIdEvent.subjectByIdSubject.siteByIdSite.idSite = usu.siteByIdSite.idSite) " +
+                "WHERE usu.userByIdUser.idUser = :idUser AND q.userByIdUser.roleByIdRole.idRole = :idRole AND q.queryStatus = 'OPENED'" +
+                "AND ((lower(q.eventByIdEvent.subjectByIdSubject.subjectNum) LIKE CONCAT ('%', :researchWord, '%')) " +
+                "OR (lower(q.eventByIdEvent.visitByIdVisit.visitLabel) LIKE CONCAT ('%', :researchWord, '%'))" +
+                "OR (lower(q.eventByIdEvent.formByIdForm.formLabel) LIKE CONCAT ('%', :researchWord, '%'))" +
+                "OR (lower(q.userByIdUser.username) LIKE CONCAT ('%', :researchWord, '%'))" +
+                "OR (lower(q.queryText) LIKE CONCAT ('%', :researchWord, '%'))) ORDER BY q.queryDatetime DESC"),
+        @NamedQuery(name = "Query.selectAnsweredDM", query = "SELECT q from QueryEntity q JOIN UserSiteEntity usu " +
+                "ON (q.eventByIdEvent.subjectByIdSubject.siteByIdSite.idSite = usu.siteByIdSite.idSite) " +
+                "WHERE usu.userByIdUser.idUser = :idUser AND q.queryStatus = 'ANSWERED'" +
+                "AND ((lower(q.eventByIdEvent.subjectByIdSubject.subjectNum) LIKE CONCAT ('%', :researchWord, '%')) " +
+                "OR (lower(q.eventByIdEvent.visitByIdVisit.visitLabel) LIKE CONCAT ('%', :researchWord, '%'))" +
+                "OR (lower(q.eventByIdEvent.formByIdForm.formLabel) LIKE CONCAT ('%', :researchWord, '%'))" +
+                "OR (lower(q.userByIdUser.username) LIKE CONCAT ('%', :researchWord, '%'))" +
+                "OR (lower(q.queryText) LIKE CONCAT ('%', :researchWord, '%'))) ORDER BY q.queryDatetime DESC"),
+        @NamedQuery(name = "Query.selectAnsweredRole", query = "SELECT q from QueryEntity q JOIN UserSiteEntity usu " +
+                "ON (q.eventByIdEvent.subjectByIdSubject.siteByIdSite.idSite = usu.siteByIdSite.idSite) " +
+                "WHERE usu.userByIdUser.idUser = :idUser AND q.userByIdUser.roleByIdRole.idRole = :idRole AND q.queryStatus = 'ANSWERED'" +
+                "AND ((lower(q.eventByIdEvent.subjectByIdSubject.subjectNum) LIKE CONCAT ('%', :researchWord, '%')) " +
+                "OR (lower(q.eventByIdEvent.visitByIdVisit.visitLabel) LIKE CONCAT ('%', :researchWord, '%'))" +
+                "OR (lower(q.eventByIdEvent.formByIdForm.formLabel) LIKE CONCAT ('%', :researchWord, '%'))" +
+                "OR (lower(q.userByIdUser.username) LIKE CONCAT ('%', :researchWord, '%'))" +
+                "OR (lower(q.queryText) LIKE CONCAT ('%', :researchWord, '%'))) ORDER BY q.queryDatetime DESC"),
+})
 
 @Entity
 @Table(name = "query", schema = "sym022")
