@@ -85,7 +85,7 @@
                 </p:submenu>
                 <p:submenu label="#{I18N['menu.query']}" icon="pi pi-fw pi-question-circle">
                     <p:submenu label="#{I18N['menu.data.query']}" icon="pi pi-fw pi-question-circle">
-                        <p:menuitem value="#{I18N['menu.data.query.to.consult']}" icon="pi pi-fw pi-question-circle" action="/VIEW/listOfAllEventsToCode.xhtml"/>
+                        <p:menuitem value="#{I18N['menu.data.query.to.consult']}" icon="pi pi-fw pi-question-circle" action="/VIEW/listOfAllQueries.xhtml"/>
                         <p:menuitem value="#{I18N['menu.data.query.to.answer']}" icon="pi pi-fw pi-comment" action="/VIEW/listOfAllQueriesToAnswer.xhtml" rendered="#{connectionBean.verifyPermissionUser('Answer to a query') and connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER'}"/>
                         <p:menuitem value="#{I18N['menu.data.query.to.answer']}" icon="pi pi-fw pi-comment" action="/VIEW/listOfAllQueriesToAnswerPermitted.xhtml" rendered="#{connectionBean.verifyPermissionUser('Answer to a query') and connectionBean.user.roleByIdRole.roleLabel != 'DATA MANAGER'}"/>
                         <p:menuitem value="#{I18N['menu.data.query.answered']}" icon="pi pi-fw pi-comments" action="/VIEW/listOfAllQueriesAnswered.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER'}"/>

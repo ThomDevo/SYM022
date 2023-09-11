@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{I18N['dov.consult']}"/>
+    </ui:define>
+    <ui:define name="content">
+        <div class="content">
+            <div class="block p-20 form-container">
+                <h2>
+                    <h:outputText value="#{I18N['dov.consult']}" />
+                </h2>
+                <h:form id="updateDov">
+                    <p:outputPanel class="form-control">
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_status_visit" value="#{I18N['dovPage.status']}"/>
+                            <p:selectOneButton id="input_status_visit"
+                                               value="#{dovBean.dov.visitYn}"
+                                               disabled="true">
+                                <f:selectItem itemLabel="#{I18N['done']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+                            <h:panelGroup  id="dov_Nd" class="field col-12 md:col-4 p-20-0" rendered="#{!dovBean.dov.visitYn}">
+                                <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                                    <p:outputLabel for="input_visit_nd" value="#{I18N['dovPage.visitNd']}"/>
+                                    <p:inputTextarea  rows="6" cols="33" id="input_visit_nd" class="label" value="#{dovBean.dov.visitNd}"
+                                                      placeholder="#{I18N['dovPage.visitNd.placeholder']}"
+                                                      disabled="true">
+                                        <p:ajax event="blur" process="@this" update="@all" listener="#{dovBean.testInputVsNd()}"/>
+                                    </p:inputTextarea>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        <h:panelGroup class="field col-12 md:col-4" rendered="#{dovBean.dov.visitYn}">
+                            <p:outputLabel for="input_AdmissionDate" value="#{I18N['dovPage.visitDate']}" />
+                            <p:datePicker id="input_AdmissionDate"  value="#{dovBean.dov.visitDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"
+                                          disabled="true">
+                            </p:datePicker>
+                        </h:panelGroup>
+                    </p:outputPanel>
+                    <p:outputPanel class="form-control">
+                        <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_query_text" value="#{I18N['queryPage.text']}"/>
+                            <p:inputTextarea  rows="6" cols="33" id="input_query_text" class="label" value="#{queryBean.query.queryText}"
+                                              placeholder="#{I18N['vsPage.vsNd.placeholder']}"
+                                              disabled="true">
+                            </p:inputTextarea>
+                        </h:panelGroup>
+                        <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_query_answer" value="#{I18N['queryPage.answer']}"/>
+                            <p:inputTextarea  rows="6" cols="33" id="input_query_answer" class="label" value="#{queryBean.query.queryAnswer}"
+                                              placeholder="#{I18N['vsPage.vsNd.placeholder']}"
+                                              disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'DATA MANAGER' and (queryBean.query.userByIdUser.roleByIdRole.roleLabel != connectionBean.user.roleByIdRole.roleLabel)}">
+                            </p:inputTextarea>
+                        </h:panelGroup>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{queryBean.messageErrorInputQueryAnswerNd}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorInputQueryAnswerNd']}"/></span>
+                            </div>
+                        </div>
+                    </p:outputPanel>
+                    <span class="responsiveSubmit">
+                        <p:outputPanel rendered="#{queryBean.query.queryStatus.queryStatus == 'OPENED' and (connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or queryBean.query.userByIdUser.roleByIdRole.roleLabel == connectionBean.user.roleByIdRole.roleLabel)}">
+                            <p:commandButton value="#{I18N['application.update.query']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             disabled="#{vsBean.buttonSuccess}"
+                                             action="#{queryBean.submitFormUpdateQuery}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or queryBean.query.userByIdUser.roleByIdRole.roleLabel == connectionBean.user.roleByIdRole.roleLabel}">
+                            <p:commandButton value="#{I18N['application.close.query']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="#{queryBean.submitFormCloseQuery}"/>
+                        </p:outputPanel>
+
+                        <p:commandButton value="#{I18N['connectionpage.return.button']}"
+                                         ajax="false"
+                                         validateClient="true"
+                                         class="ui-button-secondary"
+                                         action="#{queryBean.cancelUpdateFormDov()}"/>
+                    </span>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

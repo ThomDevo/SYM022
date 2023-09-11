@@ -580,7 +580,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
                 initErrorMessageFormVS();
                 this.messageErrorVisitNd = "";
                 redirect = "null";
-            }if(vs.getHeightNd() && (vs.getHeight() == null || vs.getHeight() == 0)) {
+            }else if(vs.getHeightNd() && (vs.getHeight() == null || vs.getHeight() == 0)) {
                 initErrorMessageFormVS();
                 this.messageErrorHeightNull = "";
                 redirect = "null";
@@ -596,7 +596,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
                 initErrorMessageFormVS();
                 this.messageErrorHeightInches = "";
                 redirect = "null";
-            }if(vs.getWeightNd() && (vs.getWeight() == null || vs.getWeight() == 0)) {
+            }else if(vs.getWeightNd() && (vs.getWeight() == null || vs.getWeight() == 0)) {
                 initErrorMessageFormVS();
                 this.messageErrorWeightNull = "";
                 redirect = "null";
@@ -632,7 +632,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
                 initErrorMessageFormVS();
                 this.messageErrorRr = "";
                 redirect = "null";
-            }if(vs.getTempNd() && (vs.getTemp() == null || vs.getTemp() == 0)) {
+            }else if(vs.getTempNd() && (vs.getTemp() == null || vs.getTemp() == 0)) {
                 initErrorMessageFormVS();
                 this.messageErrorTempNull = "";
                 redirect = "null";

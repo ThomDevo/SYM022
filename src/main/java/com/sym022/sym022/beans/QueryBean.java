@@ -21,6 +21,7 @@ import javax.persistence.EntityTransaction;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -34,7 +35,9 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
     private QueryEntity query = new QueryEntity();
     private QueryService queryService = new QueryService();
     private String messageErrorInputQueryTextNd = "hidden";
+    private String messageErrorInputQueryAnswerNd = "hidden";
     private String buttonSuccess = "false";
+    private List<QueryEntity> allQueries;
     @Inject
     private ConnectionBean connectionBean;
     @Inject
@@ -72,8 +75,21 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
      */
     public void initErrorMessageFormQuery(){
         this.messageErrorInputQueryTextNd = "hidden";
+        this.messageErrorInputQueryAnswerNd = "hidden";
         this.buttonSuccess = "false";
     }
+
+
+    /**
+     * Method to have I18n messages in Back-end
+     * @param summary
+     * @param detail
+     */
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
 
     /**
      * Method to test the QueryText empty in front end
@@ -92,15 +108,23 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
     }
 
     /**
-     * Method to have I18n messages in Back-end
-     * @param summary
-     * @param detail
+     * Method to research all queries permitted
      */
-    public void addMessage(String summary, String detail) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
-        FacesContext.getCurrentInstance().addMessage(null, message);
+    public void researchFilterAllQueries(){
+        EntityManager em = EMF.getEM();
+        try{
+            filterOfTable = queryService.findConsultQuery(connectionBean.getUser().getIdUser(), this.filter, em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
     }
 
+    /**
+     * Method to add a query in the DB
+     * @return a query
+     */
     public String submitFormAddQuery(){
         EntityManager em = EMF.getEM();
         String redirect = "/VIEW/home";
@@ -151,6 +175,114 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
             eventBean.initEvent();
             initFormQuery();
         }
+
+        return redirect;
+    }
+
+    /**
+     * Method to update a query in the DB
+     * @return a query
+     */
+    public String submitFormUpdateQuery(){
+        EntityManager em = EMF.getEM();
+        String redirect = "/VIEW/home";
+        EntityTransaction transaction = em.getTransaction();
+        QueryService queryService = new QueryService();
+        EventService eventService = new EventService();
+        AuditTrailService auditTrailService = new AuditTrailService();
+        if(query.getQueryAnswer() == null || Objects.equals(query.getQueryAnswer(), "")){
+            initErrorMessageFormQuery();
+            this.messageErrorInputQueryAnswerNd = "";
+            redirect = null;
+            return redirect;
+        }else{
+            try{
+                query.setEventByIdEvent(eventBean.getEvent());
+                query.setQueryStatus(QueryStatus.ANSWERED);
+                query.setQueryDatetime(new Date());
+                query.setQueryClosed(false);
+                query.setUserByIdUser(connectionBean.getUser());
+                auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                eventBean.getEvent().setQueried(true);
+
+                transaction.begin();
+                eventService.updateEvent(eventBean.getEvent(),em);
+                auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                queryService.updateQuery(query, em);
+                transaction.commit();
+            }catch(Exception e){
+                ProcessUtils.debug(" I'm in the catch of the addAe method: "+ e);
+
+            }finally {
+                if(transaction.isActive()){
+                    transaction.rollback();
+                }
+                em.close();
+            }
+            ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                    FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            String addQuery = bundle.getString("query");
+            String update = bundle.getString("update");
+            String forThe = bundle.getString("for");
+            String addSubject = bundle.getString("subject");
+
+            addMessage(addQuery+" "+update+" "+forThe+" "+query.getEventByIdEvent().getFormByIdForm().getFormLabel()+" "+forThe+" "+addSubject+" "+query.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+            eventBean.initEvent();
+            initFormQuery();
+        }
+
+        return redirect;
+    }
+
+    /**
+     * Method to update a query in the DB
+     * @return a query
+     */
+    public String submitFormCloseQuery(){
+        EntityManager em = EMF.getEM();
+        String redirect = "/VIEW/home";
+        EntityTransaction transaction = em.getTransaction();
+        QueryService queryService = new QueryService();
+        EventService eventService = new EventService();
+        AuditTrailService auditTrailService = new AuditTrailService();
+
+            try{
+                query.setEventByIdEvent(eventBean.getEvent());
+                query.setQueryStatus(QueryStatus.CLOSED);
+                query.setQueryDatetime(new Date());
+                query.setQueryClosed(true);
+                query.setUserByIdUser(connectionBean.getUser());
+                auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                eventBean.getEvent().setQueried(true);
+
+                transaction.begin();
+                eventService.updateEvent(eventBean.getEvent(),em);
+                auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                queryService.updateQuery(query, em);
+                transaction.commit();
+            }catch(Exception e){
+                ProcessUtils.debug(" I'm in the catch of the addAe method: "+ e);
+
+            }finally {
+                if(transaction.isActive()){
+                    transaction.rollback();
+                }
+                em.close();
+            }
+            ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                    FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            String addQuery = bundle.getString("query");
+            String update = bundle.getString("update");
+            String forThe = bundle.getString("for");
+            String addSubject = bundle.getString("subject");
+
+            addMessage(addQuery+" "+update+" "+forThe+" "+query.getEventByIdEvent().getFormByIdForm().getFormLabel()+" "+forThe+" "+addSubject+" "+query.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+            eventBean.initEvent();
+            initFormQuery();
 
         return redirect;
     }
@@ -212,5 +344,21 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
 
     public void setButtonSuccess(String buttonSuccess) {
         this.buttonSuccess = buttonSuccess;
+    }
+
+    public List<QueryEntity> getAllQueries() {
+        return allQueries;
+    }
+
+    public void setAllQueries(List<QueryEntity> allQueries) {
+        this.allQueries = allQueries;
+    }
+
+    public String getMessageErrorInputQueryAnswerNd() {
+        return messageErrorInputQueryAnswerNd;
+    }
+
+    public void setMessageErrorInputQueryAnswerNd(String messageErrorInputQueryAnswerNd) {
+        this.messageErrorInputQueryAnswerNd = messageErrorInputQueryAnswerNd;
     }
 }

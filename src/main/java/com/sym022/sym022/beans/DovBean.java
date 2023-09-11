@@ -145,6 +145,23 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
     }
 
     /**
+     * Method to find a Dov based on the IdEvent
+     * @param idEvent
+     */
+    public String findEventQuery(int idEvent){
+        String redirect = "/VIEW/consultQueryDov";
+        EntityManager em = EMF.getEM();
+        try{
+            dov = dovService.findDovByIdEvent(idEvent,em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+        return redirect;
+    }
+
+    /**
      * Method to reset the form to add or update a DOV
      */
     public void initFormDov(){
