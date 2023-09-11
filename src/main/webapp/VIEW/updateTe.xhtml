@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{I18N['tePage.addTeTitle']}"/>
+    </ui:define>
+    <ui:define name="content">
+        <div class="content">
+            <div class="block p-20 form-container">
+                <h2>
+                    <h:outputText value="#{I18N['tePage.addTeTitle']}" />
+                </h2>
+                <h:form>
+                    <p:outputPanel class="form-control">
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_status_visit" value="#{I18N['tePage.status']}"/>
+                            <p:selectOneButton id="input_status_visit"
+                                               value="#{teBean.te.teYn}"
+                                               disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !teBean.te.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['done']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{teBean.initErrorMessageFormTE()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testDateNull()}"/>
+                            </p:selectOneButton>
+                        </span>
+                        <h:panelGroup class="field col-12 md:col-4 p-20-0" rendered="#{!teBean.te.teYn}">
+                            <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_te_nd" value="#{I18N['tePage.visitNd']}"/>
+                                <p:inputTextarea  rows="6" cols="33" id="input_te_nd" class="label" value="#{teBean.te.teNd}"
+                                                  placeholder="#{I18N['tePage.visitNd.placeholder']}"
+                                                  disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !teBean.te.eventByIdEvent.available}"
+                                />
+                            </h:panelGroup>
+                        </h:panelGroup>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorVisitNdFalse}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorVisitNdFalse']}"/></span>
+                            </div>
+                        </div>
+                        <h:panelGroup rendered="#{teBean.te.teYn}">
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="input_Te_Date" value="#{I18N['tePage.visitDate']}"/>
+                                <p:datePicker id="input_Te_Date" value="#{teBean.te.teDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"
+                                              disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !teBean.te.eventByIdEvent.available}">
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testDate()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testDateNull()}"/>
+                                </p:datePicker>
+                            </div>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorVisitDate}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorVisitDate']}"/></span>
+                                </div>
+                            </div>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorVisitDateMissing}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorVisitDateMissing']}"/></span>
+                                </div>
+                            </div>
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="inputTargetLesion" value="#{I18N['tePage.target.lesion']}"/>
+                                <p:selectOneMenu id="inputTargetLesion"
+                                                 value="#{teBean.te.targetLesions}"
+                                                 converter="TargetLesionsOverallResponseConverter"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !teBean.te.eventByIdEvent.available}">
+                                    <f:selectItem itemLabel="#{I18N['tePage.target.lesion']}"
+                                                  itemValue="#{null}"/>
+                                    <!-- import all enum -->
+                                    <p:importEnum type="com.sym022.sym022.enums.TargetLesionsOverallResponse"
+                                                  var="enumTargetLesionsOverallResponse"
+                                                  allSuffix="getAll"/>
+                                <f:selectItems value="#{enumTargetLesionsOverallResponse.getAll}"
+                                               var="targetLesion"
+                                               itemLabel="#{targetLesion.getTargetLesionsOverallResponse()}"
+                                               itemValue="#{targetLesion}"/>
+                                <p:ajax process="@this" update="@all"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testOverallResponse()}"/>
+                                </p:selectOneMenu>
+                            </span>
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="inputNonTargetLesion" value="#{I18N['tePage.non.target.lesion']}"/>
+                                <p:selectOneMenu id="inputNonTargetLesion"
+                                                 value="#{teBean.te.nonTargetLesions}"
+                                                 converter="NonTargetLesionsConverter"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !teBean.te.eventByIdEvent.available}">
+                                    <f:selectItem itemLabel="#{I18N['tePage.non.target.lesion']}"
+                                                  itemValue="#{null}"/>
+                                    <!-- import all enum -->
+                                    <p:importEnum type="com.sym022.sym022.enums.NonTargetLesions"
+                                                  var="enumNonTargetLesions"
+                                                  allSuffix="getAll"/>
+                                <f:selectItems value="#{enumNonTargetLesions.getAll}"
+                                               var="nonTargetLesion"
+                                               itemLabel="#{nonTargetLesion.getNonTargetLesions()}"
+                                               itemValue="#{nonTargetLesion}"/>
+                                <p:ajax process="@this" update="@all"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testOverallResponse()}"/>
+                                </p:selectOneMenu>
+                            </span>
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_status_new_lesion" value="#{I18N['tePage.new.lesion.status']}"/>
+                                <p:selectOneButton id="input_status_new_lesion"
+                                                   value="#{teBean.te.newLesions}"
+                                                   disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !teBean.te.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testOverallResponse()}"/>
+                                </p:selectOneButton>
+                            </span>
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="inputOverallResponse" value="#{I18N['tePage.overall.response']}"/>
+                                <p:selectOneMenu id="inputOverallResponse"
+                                                 value="#{teBean.te.overallResponse}"
+                                                 converter="TargetLesionsOverallResponseConverter"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !teBean.te.eventByIdEvent.available}">
+                                    <f:selectItem itemLabel="#{I18N['tePage.overall.response']}"
+                                                  itemValue="#{null}"/>
+                                    <!-- import all enum -->
+                                    <p:importEnum type="com.sym022.sym022.enums.TargetLesionsOverallResponse"
+                                                  var="enumOverallResponse"
+                                                  allSuffix="getAll"/>
+                                <f:selectItems value="#{enumOverallResponse.getAll}"
+                                               var="overallResponse"
+                                               itemLabel="#{overallResponse.getTargetLesionsOverallResponse()}"
+                                               itemValue="#{overallResponse}"/>
+                                <p:ajax process="@this" update="@all"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testOverallResponse()}"/>
+                                </p:selectOneMenu>
+                            </span>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorOR}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorOR']}"/></span>
+                                </div>
+                            </div>
+
+                        </h:panelGroup>
+                    </p:outputPanel>
+                    <span class="responsiveSubmit">
+                         <p:outputPanel rendered="#{(connectionBean.user.roleByIdRole.roleLabel == 'SITE' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL') and teBean.te.eventByIdEvent.available}">
+                            <p:commandButton value="#{I18N['application.update.te']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             disabled="#{vsBean.buttonSuccess}"
+                                             action="#{teBean.submitFormUpdateTe}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and !eventBean.event.monitored and eventBean.event.available}">
+                            <p:commandButton value="#{I18N['application.te.validate']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="#{eventBean.setEventMonitored}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and eventBean.event.monitored and eventBean.event.available}">
+                            <p:commandButton value="#{I18N['application.te.revalidate']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="#{eventBean.setEventNoMonitored}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{eventBean.event.available and (connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL' or connectionBean.user.roleByIdRole.roleLabel == 'SAFETY')}">
+                            <p:commandButton value="#{I18N['application.te.query']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="/VIEW/addQuery"/>
+                        </p:outputPanel>
+
+                        <p:commandButton value="#{I18N['connectionpage.return.button']}"
+                                         ajax="false"
+                                         validateClient="true"
+                                         class="ui-button-secondary"
+                                         action="#{teBean.cancelUpdateForm()}"/>
+                    </span>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

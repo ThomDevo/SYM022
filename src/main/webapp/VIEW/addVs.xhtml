@@ -263,8 +263,8 @@
                                            validatorMessage="#{I18N['vsPage.input_sbp.errorMessage']}">
                                         <p:ajax process="@this" update="@all"/>
                                         <p:ajax update="messageSbp" event="blur"/>
-                                        <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testDbpGtnSbp()}"/>
-                                        <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testSbp()}"/>
+                                        <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDbpGtnSbp()}"/>
+                                        <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testSbp()}"/>
                                     </p:inputNumber>
                                 </span>
                                 <p:message id="messageSbp" for="@previous"/>
@@ -287,8 +287,8 @@
                                            validatorMessage="#{I18N['vsPage.input_dbp.errorMessage']}">
                                         <p:ajax process="@this" update="@all"/>
                                         <p:ajax update="messageDbp" event="blur"/>
-                                        <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testDbpGtnSbp()}"/>
-                                        <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testDbp()}"/>
+                                        <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDbpGtnSbp()}"/>
+                                        <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDbp()}"/>
                                     </p:inputNumber>
                                 </span>
                                 <p:message id="messageDbp" for="@previous"/>

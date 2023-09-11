@@ -59,6 +59,16 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
     }
 
     /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelUpdateForm(){
+        String redirect = "/VIEW/home";
+        initFormTe();
+        return redirect;
+    }
+
+    /**
      * Method to reset the form for Add/Update a VS
      */
     public void initFormTe(){
@@ -210,6 +220,21 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
         String addSubject = bundle.getString("subject");
 
         addMessage(addTe+" "+add+" "+forThe+" "+addSubject+" "+te.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+        initFormTe();
+    }
+
+    /**
+     * Method to add a popup
+     */
+    private void getRessourceBundleUpdate() {
+        ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        String addTe = bundle.getString("te");
+        String update = bundle.getString("update");
+        String forThe = bundle.getString("for");
+        String addSubject = bundle.getString("subject");
+
+        addMessage(addTe+" "+update+" "+forThe+" "+addSubject+" "+te.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
         initFormTe();
     }
 
@@ -383,6 +408,182 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
                 em.close();
             }
             getRessourceBundle();
+        }
+
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to add a Te in the DB
+     * @return a TE
+     */
+    public String submitFormUpdateTe(){
+        EntityManager em = EMF.getEM();
+        String redirect = "/VIEW/home";
+        EntityTransaction transaction = em.getTransaction();
+        TeService teService = new TeService();
+        EventService eventService = new EventService();
+        AuditTrailService auditTrailService = new AuditTrailService();
+        LocalDate now = LocalDate.now();
+        String isoDatePattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+        if (te.getTargetLesions() == null || te.getNonTargetLesions() == null || te.getOverallResponse() == null){
+            initErrorMessageFormTE();
+            this.messageErrorOR = "";
+            redirect = null;
+            return redirect;
+        }else if(te.getTeYn() && te.getTeDate() != null){
+            String teDate = simpleDateFormat.format(te.getTeDate());
+            int resultTeDate = teDate.compareTo(String.valueOf(now));
+            if(resultTeDate > 0){
+                initErrorMessageFormTE();
+                this.messageErrorVisitDate = "";
+                redirect = null;
+                return redirect;
+            }else if((te.getTargetLesions() == TargetLesionsOverallResponse.PROGRESSIVE_DISEASE || te.getNonTargetLesions() == NonTargetLesions.PROGRESSIVE_DISEASE || te.getNewLesions()) && te.getOverallResponse() != TargetLesionsOverallResponse.PROGRESSIVE_DISEASE){
+                initErrorMessageFormTE();
+                this.messageErrorOR = "";
+                redirect = null;
+                return redirect;
+            }else if(te.getTargetLesions() == TargetLesionsOverallResponse.COMPLETE_RESPONSE && te.getNonTargetLesions() == NonTargetLesions.COMPLETE_RESPONSE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.COMPLETE_RESPONSE){
+                initErrorMessageFormTE();
+                this.messageErrorOR = "";
+                redirect = null;
+                return redirect;
+            }else if(te.getTargetLesions() == TargetLesionsOverallResponse.COMPLETE_RESPONSE && te.getNonTargetLesions() != NonTargetLesions.PROGRESSIVE_DISEASE && te.getNonTargetLesions() != NonTargetLesions.COMPLETE_RESPONSE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PARTIAL_RESPONSE){
+                initErrorMessageFormTE();
+                this.messageErrorOR = "";
+                redirect = null;
+                return redirect;
+            }else if(te.getTargetLesions() == TargetLesionsOverallResponse.PARTIAL_RESPONSE && te.getNonTargetLesions() != NonTargetLesions.PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PARTIAL_RESPONSE){
+                initErrorMessageFormTE();
+                this.messageErrorOR = "";
+                redirect = null;
+                return redirect;
+            }else if(te.getTargetLesions() == TargetLesionsOverallResponse.STABLE_DISEASE && te.getNonTargetLesions() != NonTargetLesions.PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.STABLE_DISEASE){
+                initErrorMessageFormTE();
+                this.messageErrorOR = "";
+                redirect = null;
+                return redirect;
+            } else if(te.getTargetLesions() == TargetLesionsOverallResponse.NOT_ALL_EVALUATED && te.getNonTargetLesions() != NonTargetLesions.PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.NOT_ALL_EVALUATED){
+                initErrorMessageFormTE();
+                this.messageErrorOR = "";
+                redirect = null;
+                return redirect;
+            }else if(te.getTargetLesions() == TargetLesionsOverallResponse.NOT_EVALUABLE && te.getNonTargetLesions() != NonTargetLesions.PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.NOT_EVALUABLE){
+                initErrorMessageFormTE();
+                this.messageErrorOR = "";
+                redirect = null;
+                return redirect;
+            }else{
+                try{
+                    te.setEventByIdEvent(eventBean.getEvent());
+                    auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                    auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                    auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                    eventBean.getEvent().setCompleted(true);
+
+                    if(te.getTeYn()){
+                        this.te.setTeNd("");
+                    }
+
+                    transaction.begin();
+                    eventService.updateEvent(eventBean.getEvent(),em);
+                    auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                    teService.updateTe(te,em);
+                    transaction.commit();
+
+                }catch(Exception e){
+                    ProcessUtils.debug(" I'm in the catch of the addTE method: "+ e);
+
+                }finally {
+                    if(transaction.isActive()){
+                        transaction.rollback();
+                    }
+                    em.close();
+                }
+                getRessourceBundleUpdate();
+            }
+        }else{if(!te.getTeYn() && Objects.equals(te.getTeNd(),"")){
+            initErrorMessageFormTE();
+            this.messageErrorVisitNdFalse = "";
+            redirect = "null";
+            return redirect;
+        }else if(te.getTeYn() && te.getTeDate() == null){
+            initErrorMessageFormTE();
+            this.messageErrorVisitDateMissing = "";
+            redirect = "null";
+            return redirect;
+        }else if((te.getTargetLesions() == TargetLesionsOverallResponse.PROGRESSIVE_DISEASE || te.getNonTargetLesions() == NonTargetLesions.PROGRESSIVE_DISEASE || te.getNewLesions()) && te.getOverallResponse() != TargetLesionsOverallResponse.PROGRESSIVE_DISEASE){
+            initErrorMessageFormTE();
+            this.messageErrorOR = "";
+            redirect = null;
+            return redirect;
+        }else if(te.getTargetLesions() == TargetLesionsOverallResponse.COMPLETE_RESPONSE && te.getNonTargetLesions() == NonTargetLesions.COMPLETE_RESPONSE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.COMPLETE_RESPONSE){
+            initErrorMessageFormTE();
+            this.messageErrorOR = "";
+            redirect = null;
+            return redirect;
+        }else if(te.getTargetLesions() == TargetLesionsOverallResponse.COMPLETE_RESPONSE && te.getNonTargetLesions() != NonTargetLesions.PROGRESSIVE_DISEASE && te.getNonTargetLesions() != NonTargetLesions.COMPLETE_RESPONSE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PARTIAL_RESPONSE){
+            initErrorMessageFormTE();
+            this.messageErrorOR = "";
+            redirect = null;
+            return redirect;
+        }else if(te.getTargetLesions() == TargetLesionsOverallResponse.PARTIAL_RESPONSE && te.getNonTargetLesions() != NonTargetLesions.PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.PARTIAL_RESPONSE){
+            initErrorMessageFormTE();
+            this.messageErrorOR = "";
+            redirect = null;
+            return redirect;
+        }else if(te.getTargetLesions() == TargetLesionsOverallResponse.STABLE_DISEASE && te.getNonTargetLesions() != NonTargetLesions.PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.STABLE_DISEASE){
+            initErrorMessageFormTE();
+            this.messageErrorOR = "";
+            redirect = null;
+            return redirect;
+        }else if(te.getTargetLesions() == TargetLesionsOverallResponse.NOT_ALL_EVALUATED && te.getNonTargetLesions() != NonTargetLesions.PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.NOT_ALL_EVALUATED){
+            initErrorMessageFormTE();
+            this.messageErrorOR = "";
+            redirect = null;
+            return redirect;
+        }else if(te.getTargetLesions() == TargetLesionsOverallResponse.NOT_EVALUABLE && te.getNonTargetLesions() != NonTargetLesions.PROGRESSIVE_DISEASE && !te.getNewLesions() && te.getOverallResponse() != TargetLesionsOverallResponse.NOT_EVALUABLE){
+            initErrorMessageFormTE();
+            this.messageErrorOR = "";
+            redirect = null;
+            return redirect;
+        }else{
+            try{
+                te.setEventByIdEvent(eventBean.getEvent());
+                auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                eventBean.getEvent().setCompleted(true);
+
+                if(!te.getTeYn()){;
+                    this.te.setTeDate(null);
+                    this.te.setTargetLesions(TargetLesionsOverallResponse.NOT_ALL_EVALUATED);
+                    this.te.setNonTargetLesions(NonTargetLesions.NOT_ALL_EVALUATED);
+                    this.te.setNewLesions(false);
+                    this.te.setOverallResponse(TargetLesionsOverallResponse.NOT_ALL_EVALUATED);
+                }
+
+
+
+                transaction.begin();
+                eventService.updateEvent(eventBean.getEvent(),em);
+                auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                teService.updateTe(te,em);
+                transaction.commit();
+
+            }catch(Exception e){
+                ProcessUtils.debug(" I'm in the catch of the addTE method: "+ e);
+
+            }finally {
+                if(transaction.isActive()){
+                    transaction.rollback();
+                }
+                em.close();
+            }
+            getRessourceBundleUpdate();
         }
 
         }
