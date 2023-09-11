@@ -258,7 +258,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
      */
     public String testRangeHeightInches(){
         String redirect = "null";
-        if(vs.getHeight() < 15.7 && vs.getHeightU() == HeightU.INCHES || vs.getHeight() > 110.2 && vs.getHeightU() == HeightU.INCHES){
+        if(vs.getHeightNd() && (vs.getHeight() == null || vs.getHeight() == 0)){
+            testInputHeight();
+        }else if(vs.getHeightNd() && vs.getHeightU() == null){
+            testInputHeightUnit();
+        }else if(vs.getHeight() < 15.7 && vs.getHeightU() == HeightU.INCHES || vs.getHeight() > 110.2 && vs.getHeightU() == HeightU.INCHES){
             this.messageErrorHeightInches = "";
             this.buttonSuccess = "true";
         }else{
