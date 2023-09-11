@@ -47,6 +47,7 @@ import java.util.Objects;
                 "OR (lower(q.eventByIdEvent.formByIdForm.formLabel) LIKE CONCAT ('%', :researchWord, '%'))" +
                 "OR (lower(q.userByIdUser.username) LIKE CONCAT ('%', :researchWord, '%'))" +
                 "OR (lower(q.queryText) LIKE CONCAT ('%', :researchWord, '%'))) ORDER BY q.queryDatetime DESC"),
+        @NamedQuery(name = "Query.selectByEvent", query = "SELECT q from QueryEntity q WHERE q.eventByIdEvent.idEvent = :idEvent")
 })
 
 @Entity
