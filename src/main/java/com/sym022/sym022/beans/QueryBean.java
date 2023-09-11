@@ -44,6 +44,20 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
     private AuditTrailBean auditTrailBean;
     @Inject
     private EventBean eventBean;
+    @Inject
+    private DovBean dovBean;
+    @Inject
+    private AeBean aeBean;
+    @Inject
+    private CmBean cmBean;
+    @Inject
+    private DmBean dmBean;
+    @Inject
+    private IcBean icBean;
+    @Inject
+    private TeBean teBean;
+    @Inject
+    private VsBean vsBean;
 
 
     /*---Method---*/
@@ -55,6 +69,17 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
     public String cancelForm(){
         String redirect = "/VIEW/home";
         initFormQuery();
+        return redirect;
+    }
+
+    /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelUpdateFormDov(){
+        String redirect = "/VIEW/home";
+        initFormQuery();
+        dovBean.initFormDov();
         return redirect;
     }
 
@@ -247,6 +272,7 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
         QueryService queryService = new QueryService();
         EventService eventService = new EventService();
         AuditTrailService auditTrailService = new AuditTrailService();
+        int numberOfEvents;
 
             try{
                 query.setEventByIdEvent(eventBean.getEvent());
@@ -257,7 +283,12 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
                 auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
                 auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
                 auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
-                eventBean.getEvent().setQueried(true);
+                this.allQueries=queryService.findByEvent(query.getEventByIdEvent().getIdEvent(),em);
+                numberOfEvents = this.allQueries.size();
+
+                if(numberOfEvents == 1){
+                    eventBean.getEvent().setQueried(false);
+                }
 
                 transaction.begin();
                 eventService.updateEvent(eventBean.getEvent(),em);
