@@ -23,7 +23,7 @@ public class QueryService {
      * Method to get Opened Queries for DM
      * @param idUser
      * @param em
-     * @return List of visits
+     * @return List of queries
      */
     public List<QueryEntity> findOpenedDM(int idUser, EntityManager em)
     {
@@ -37,7 +37,7 @@ public class QueryService {
      * @param idUser
      * @param idRole
      * @param em
-     * @return List of visits
+     * @return List of queries
      */
     public List<QueryEntity> findOpenedRole(int idUser,int idRole,  EntityManager em)
     {
@@ -51,7 +51,7 @@ public class QueryService {
      * Method to get Opened Queries for DM
      * @param idUser
      * @param em
-     * @return List of visits
+     * @return List of queries
      */
     public List<QueryEntity> findAnsweredDM(int idUser, EntityManager em)
     {
@@ -65,7 +65,7 @@ public class QueryService {
      * @param idUser
      * @param idRole
      * @param em
-     * @return List of visits
+     * @return List of queries
      */
     public List<QueryEntity> findAnsweredRole(int idUser,int idRole,  EntityManager em)
     {
@@ -74,7 +74,18 @@ public class QueryService {
                 .setParameter("idRole", idRole)
                 .getResultList();
     }
-
+    /**
+     * Method to get list of Queries on an Event
+     * @param idEvent
+     * @param em
+     * @return List of queries
+     */
+    public List<QueryEntity> findByEvent(int idEvent,  EntityManager em)
+    {
+        return em.createNamedQuery("Query.selectByEvent", QueryEntity.class)
+                .setParameter("idEvent", idEvent)
+                .getResultList();
+    }
 
     /**
      * Method to add a QUERY in the DB

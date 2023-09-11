@@ -55,8 +55,8 @@ public class VsEntity {
     private boolean weightNd = false;
 
     @Basic
-    @Range(min=0,max= 999)
-    @Column(name = "weight", nullable = true, precision = 4,scale = 1)
+    @Range(min=0,max= 9999)
+    @Column(name = "weight", nullable = true, precision = 5,scale = 1)
     private Double weight;
 
     @Basic

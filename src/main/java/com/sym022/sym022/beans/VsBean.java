@@ -59,6 +59,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
     private String messageErrorTempF = "hidden";
     private String messageErrorTempRoute = "hidden";
     private String messageErrorOxy = "hidden";
+    private String messageErrorPerf = "hidden";
     private String buttonSuccess = "false";
     @Inject
     private ConnectionBean connectionBean;
@@ -137,6 +138,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         this.messageErrorTempF = "hidden";
         this.messageErrorTempRoute = "hidden";
         this.messageErrorOxy = "hidden";
+        this.messageErrorPerf = "hidden";
         this.buttonSuccess = "false";
     }
 
@@ -145,13 +147,15 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
      * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
      */
     public String testDateNull(){
-        LocalDate now = LocalDate.now();
+
         String redirect = "null";
         if(vs.getVsDate() == null){
             this.messageErrorVisitDateMissing = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorVisitDateMissing = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -173,9 +177,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
             int resultVsDate = vsDate.compareTo(String.valueOf(now));
             if(resultVsDate > 0){
                 this.messageErrorVisitDate = "";
+                this.messageErrorPerf = "hidden";
                 this.buttonSuccess = "true";
             }else{
                 this.messageErrorVisitDate = "hidden";
+                this.messageErrorPerf = "hidden";
                 this.buttonSuccess = "false";
             }
         }
@@ -191,9 +197,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         String redirect = "null";
         if(!vs.getVsYn() && (vs.getVsNd() == null || Objects.equals(vs.getVsNd(), ""))){
             this.messageErrorVisitNd = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorVisitNd = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -207,9 +215,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         String redirect = "null";
         if(vs.getHeightNd() && (vs.getHeight() == null || vs.getHeight() == 0)){
             this.messageErrorHeightNull = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorHeightNull = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -223,9 +233,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         String redirect = "null";
         if(vs.getHeightNd() && vs.getHeightU() == null){
             this.messageErrorHeightUnitNull = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorHeightUnitNull = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -243,10 +255,12 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
             testInputHeightUnit();
         }else if(vs.getHeight() < 40.0 && vs.getHeightU() == HeightU.CM || vs.getHeight() > 280.0 && vs.getHeightU() == HeightU.CM){
             this.messageErrorHeightCm = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
 
         }else{
             this.messageErrorHeightCm = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -264,9 +278,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
             testInputHeightUnit();
         }else if(vs.getHeight() < 15.7 && vs.getHeightU() == HeightU.INCHES || vs.getHeight() > 110.2 && vs.getHeightU() == HeightU.INCHES){
             this.messageErrorHeightInches = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorHeightInches = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -280,9 +296,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         String redirect = "null";
         if(vs.getWeightNd() && (vs.getWeight() == null || vs.getWeight() == 0)){
             this.messageErrorWeightNull = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorWeightNull = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -296,9 +314,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         String redirect = "null";
         if(vs.getWeightNd() && vs.getWeightU() == null){
             this.messageErrorWeightUnitNull = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorWeightUnitNull = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -316,9 +336,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
             testInputWeightUnit();
         }else if(vs.getWeight() < 20.0 && vs.getWeightU() == WeightU.KG || vs.getWeight() > 650.0 && vs.getWeightU() == WeightU.KG){
             this.messageErrorWeightKg = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorWeightKg = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -336,9 +358,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
             testInputWeightUnit();
         }else if(vs.getWeight() < 44.0 && vs.getWeightU() == WeightU.POUNDS || vs.getWeight() > 1435.0 && vs.getWeightU() == WeightU.POUNDS){
             this.messageErrorWeightPounds = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorWeightPounds = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -352,9 +376,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         String redirect = "null";
         if(vs.getSbp()<vs.getDbp()){
             this.messageErrorSbpGtDbp = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorSbpGtDbp = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -368,9 +394,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         String redirect = "null";
         if(vs.getDbp()<10){
             this.messageErrorDbp = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorDbp = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -384,9 +412,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         String redirect = "null";
         if(vs.getSbp()>250){
             this.messageErrorSbp = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorSbp = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -400,9 +430,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         String redirect = "null";
         if(vs.getHr()<10 || vs.getHr()>240){
             this.messageErrorHr = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorHr = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -416,9 +448,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         String redirect = "null";
         if(vs.getRr()<5){
             this.messageErrorRr = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorRr = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -432,9 +466,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         String redirect = "null";
         if(vs.getTempNd() && (vs.getTemp() == null || vs.getTemp() == 0)){
             this.messageErrorTempNull = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorTempNull = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -448,9 +484,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         String redirect = "null";
         if(vs.getTempNd() && vs.getTempU() == null){
             this.messageErrorTempUnitNull = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorTempUnitNull = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -468,9 +506,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
             testInputTempUnit();
         }if(vs.getTemp() < 30 && vs.getTempU() == TempU.C || vs.getTemp() > 45 && vs.getTempU() == TempU.C){
             this.messageErrorTempC = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorTempC = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -488,9 +528,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
             testInputTempUnit();
         }if(vs.getTemp() < 86 && vs.getTempU() == TempU.F || vs.getTemp() > 113 && vs.getTempU() == TempU.F){
             this.messageErrorTempF = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorTempF = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -504,9 +546,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         String redirect = "null";
         if(vs.getTempNd() && vs.getTempRoute() == null){
             this.messageErrorTempRoute = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorTempRoute = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -520,9 +564,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         String redirect = "null";
         if(vs.getOxysat()<50){
             this.messageErrorOxy = "";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
             this.messageErrorOxy = "hidden";
+            this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -576,86 +622,112 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
                 initErrorMessageFormVS();
                 this.messageErrorVisitDate = "";
                 redirect = "null";
+                return redirect;
             }else if(!vs.getVsYn() && Objects.equals(vs.getVsNd(), "")){
                 initErrorMessageFormVS();
                 this.messageErrorVisitNd = "";
                 redirect = "null";
-            }if(vs.getHeightNd() && (vs.getHeight() == null || vs.getHeight() == 0)) {
+                return redirect;
+            }else if(vs.getHeightNd() && (vs.getHeight() == null || vs.getHeight() == 0)) {
                 initErrorMessageFormVS();
                 this.messageErrorHeightNull = "";
                 redirect = "null";
+                return redirect;
             }else if(vs.getHeightNd() && vs.getHeightU() == null){
                 initErrorMessageFormVS();
                 this.messageErrorHeightUnitNull = "";
                 redirect = "null";
+                return redirect;
             }else if(vs.getHeightNd() && vs.getHeight() < 40.0 && vs.getHeightU() == HeightU.CM || vs.getHeightNd() && vs.getHeight() > 280.0 && vs.getHeightU() == HeightU.CM){
                 initErrorMessageFormVS();
                 this.messageErrorHeightCm = "";
                 redirect = "null";
+                return redirect;
             }else if(vs.getHeightNd() && vs.getHeight() < 15.7 && vs.getHeightU() == HeightU.INCHES || vs.getHeightNd() && vs.getHeight() > 110.2 && vs.getHeightU() == HeightU.INCHES){
                 initErrorMessageFormVS();
                 this.messageErrorHeightInches = "";
                 redirect = "null";
-            }if(vs.getWeightNd() && (vs.getWeight() == null || vs.getWeight() == 0)) {
+                return redirect;
+            }else if(vs.getWeightNd() && (vs.getWeight() == null || vs.getWeight() == 0)) {
                 initErrorMessageFormVS();
                 this.messageErrorWeightNull = "";
                 redirect = "null";
+                return redirect;
             }else if(vs.getWeightNd() && vs.getWeightU() == null){
                 initErrorMessageFormVS();
                 this.messageErrorWeightUnitNull = "";
                 redirect = "null";
+                return redirect;
             }else if(vs.getWeightNd() && vs.getWeight() < 20.0 && vs.getWeightU() == WeightU.KG || vs.getWeightNd() && vs.getWeight() > 650.0 && vs.getWeightU() == WeightU.KG){
                 initErrorMessageFormVS();
                 this.messageErrorWeightKg = "";
                 redirect = "null";
+                return redirect;
             }else if(vs.getWeightNd() && vs.getWeight() < 44.0 && vs.getWeightU() == WeightU.POUNDS || vs.getWeightNd() && vs.getWeight() > 1435.0 && vs.getWeightU() == WeightU.POUNDS){
                 initErrorMessageFormVS();
                 this.messageErrorWeightPounds = "";
                 redirect = "null";
+                return redirect;
             }else if(vs.getBpNd() && vs.getDbp()>vs.getSbp()){
                 initErrorMessageFormVS();
                 this.messageErrorSbpGtDbp = "";
                 redirect = "null";
+                return redirect;
             }else if(vs.getBpNd() && vs.getDbp()<10){
                 initErrorMessageFormVS();
                 this.messageErrorDbp = "";
                 redirect = "null";
+                return redirect;
             }else if(vs.getBpNd() && vs.getSbp()>250){
                 initErrorMessageFormVS();
                 this.messageErrorSbp = "";
                 redirect = "null";
+                return redirect;
             }else if(vs.getHrNd() && vs.getHr()<10 || vs.getHrNd() && vs.getHr()>240){
                 initErrorMessageFormVS();
                 this.messageErrorHr = "";
                 redirect = "null";
+                return redirect;
             }else if(vs.getRrNd() && vs.getRr()<5){
                 initErrorMessageFormVS();
                 this.messageErrorRr = "";
                 redirect = "null";
-            }if(vs.getTempNd() && (vs.getTemp() == null || vs.getTemp() == 0)) {
+                return redirect;
+            }else if(vs.getTempNd() && (vs.getTemp() == null || vs.getTemp() == 0)) {
                 initErrorMessageFormVS();
                 this.messageErrorTempNull = "";
                 redirect = "null";
+                return redirect;
             }else if(vs.getTempNd() && vs.getTempU() == null){
                 initErrorMessageFormVS();
                 this.messageErrorTempUnitNull = "";
                 redirect = "null";
+                return redirect;
             }else if(vs.getTempNd() && vs.getTemp() < 30 && vs.getTempU() == TempU.C || vs.getTempNd() && vs.getTemp() > 45 && vs.getTempU() == TempU.C){
                 initErrorMessageFormVS();
                 this.messageErrorTempC = "";
                 redirect = "null";
+                return redirect;
             }else if(vs.getTempNd() && vs.getTemp() < 86 && vs.getTempU() == TempU.F || vs.getTempNd() && vs.getTemp() > 113 && vs.getTempU() == TempU.F){
                 initErrorMessageFormVS();
                 this.messageErrorTempF = "";
                 redirect = "null";
+                return redirect;
             }else if(vs.getTempNd() && vs.getTempRoute() == null){
                 initErrorMessageFormVS();
                 this.messageErrorTempRoute = "";
                 redirect = "null";
-            }else if(vs.getOxysatNd() && vs.getOxysat()<50){
+                return redirect;
+            }else if(vs.getOxysatNd() && vs.getOxysat()<50) {
                 initErrorMessageFormVS();
                 this.messageErrorOxy = "";
                 redirect = "null";
+                return redirect;
+            }else if(vs.isVsYn() && !vs.isHeightNd() && !vs.isWeightNd() && !vs.isBpNd() && !vs.isHrNd() && !vs.isRrNd() && !vs.isTempNd() && !vs.isOxysatNd()){
+                initErrorMessageFormVS();
+                this.messageErrorPerf = "";
+                redirect = "null";
+                return redirect;
             }else{
                 try{
                     vs.setEventByIdEvent(eventBean.getEvent());
@@ -1018,5 +1090,13 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
     public void setMessageErrorTempRoute(String messageErrorTempRoute) {
         this.messageErrorTempRoute = messageErrorTempRoute;
+    }
+
+    public String getMessageErrorPerf() {
+        return messageErrorPerf;
+    }
+
+    public void setMessageErrorPerf(String messageErrorPerf) {
+        this.messageErrorPerf = messageErrorPerf;
     }
 }
