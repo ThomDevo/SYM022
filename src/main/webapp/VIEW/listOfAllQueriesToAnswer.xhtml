@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{I18N['eventsPage.ListOfEvents']}"/>
+    </ui:define>
+    <ui:define name="content">
+        <div class="content card">
+            <div class="block p-20 form-container">
+                <h2>
+                    <h:outputText value="#{I18N['eventsPage.ListOfEvents']}" />
+                </h2>
+                <h:form>
+                    <f:metadata>
+                        <f:event type="preRenderView" listener="#{queryBean.researchFilterAllQueriesToAnswer()}"/>
+                    </f:metadata>
+                    <p:dataTable var="r" value="#{queryBean.entityFiltered}"
+                                 resizableColumns="true"
+                                 class="table"
+                                 widgetVar="rTable"
+                                 paginator="true"
+                                 paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} sur {totalRecords} elements"
+                                 rowsPerPageTemplate="1,5,10,20"
+                                 rows="5">
+
+                        <f:facet name="header">
+                            <p:outputPanel>
+                                <p:inputText value="#{queryBean.filter}"
+                                             onkeyup="researchTable(this)"
+                                             id="AllQueriesInputResearch"
+                                             validatorMessage="#{I18N['listPage.messageErrorResearch']}"
+                                             placeholder="#{I18N['listPage.filter']}"/>
+                                <p:commandButton class="hidden" update="@form"/>
+                            </p:outputPanel>
+                        </f:facet>
+                        <p:column>
+                            <f:facet name="header">#{I18N['query.dateTime']}</f:facet>
+                            <h:outputText value="#{r.queryDatetime}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">#{I18N['query.statut']}</f:facet>
+                            <h:outputText value="#{r.queryStatus.queryStatus}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">#{I18N['subjectPage.subjectNum']}</f:facet>
+                            <h:outputText value="#{r.eventByIdEvent.subjectByIdSubject.subjectNum}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">#{I18N['visitPage.visitLabel']}</f:facet>
+                            <h:outputText value="#{r.eventByIdEvent.visitByIdVisit.visitLabel.visitLabel}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">#{I18N['formPage.form']}</f:facet>
+                            <h:outputText value="#{r.eventByIdEvent.formByIdForm.formLabel.formLabel}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">#{I18N['userPage.username']}</f:facet>
+                            <h:outputText value="#{r.userByIdUser.username}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">#{I18N['queryPage.text']}</f:facet>
+                            <h:outputText value="#{r.queryText}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">#{I18N['action']}</f:facet>
+                            <h:commandButton class="btn btn-dark" value="#{I18N['query.dov.consult']}" action="#{dovBean.findEventQuery(r.eventByIdEvent.idEvent)}" rendered="#{r.eventByIdEvent.formByIdForm.formNum == 10}">
+                                <f:setPropertyActionListener target="#{eventBean.event}" value="#{r.eventByIdEvent}"/>
+                                <f:setPropertyActionListener target="#{queryBean.query}" value="#{r}"/>
+                            </h:commandButton>
+                            <h:commandLink class="btn btn-dark" value="#{I18N['query.ic.consult']}" action="#{icBean.findEventQuery(r.eventByIdEvent.idEvent)}" rendered="#{r.eventByIdEvent.formByIdForm.formNum == 20}">
+                                <f:setPropertyActionListener target="#{eventBean.event}" value="#{r.eventByIdEvent}"/>
+                                <f:setPropertyActionListener target="#{queryBean.query}" value="#{r}"/>
+                            </h:commandLink>
+                            <h:commandLink class="btn btn-dark" value="#{I18N['query.dm.consult']}" action="#{dmBean.findEventQuery(r.eventByIdEvent.idEvent)}" rendered="#{r.eventByIdEvent.formByIdForm.formNum == 30}">
+                                <f:setPropertyActionListener target="#{eventBean.event}" value="#{r.eventByIdEvent}"/>
+                                <f:setPropertyActionListener target="#{queryBean.query}" value="#{r}"/>
+                            </h:commandLink>
+                            <h:commandLink class="btn btn-dark" value="#{I18N['query.vs.consult']}" action="#{vsBean.findEventQuery(r.eventByIdEvent.idEvent)}" rendered="#{r.eventByIdEvent.formByIdForm.formNum == 40}">
+                                <f:setPropertyActionListener target="#{eventBean.event}" value="#{r.eventByIdEvent}"/>
+                                <f:setPropertyActionListener target="#{queryBean.query}" value="#{r}"/>
+                            </h:commandLink>
+                            <h:commandLink class="btn btn-dark" value="#{I18N['query.te.consult']}" action="#{teBean.findEventQuery(r.eventByIdEvent.idEvent)}" rendered="#{r.eventByIdEvent.formByIdForm.formNum == 50}">
+                                <f:setPropertyActionListener target="#{eventBean.event}" value="#{r.eventByIdEvent}"/>
+                                <f:setPropertyActionListener target="#{queryBean.query}" value="#{r}"/>
+                            </h:commandLink>
+                            <h:commandLink class="btn btn-dark" value="#{I18N['query.ae.consult']}" action="#{aeBean.findEventQuery(r.eventByIdEvent.idEvent)}" rendered="#{r.eventByIdEvent.formByIdForm.formNum == 80}">
+                                <f:setPropertyActionListener target="#{eventBean.event}" value="#{r.eventByIdEvent}"/>
+                                <f:setPropertyActionListener target="#{queryBean.query}" value="#{r}"/>
+                            </h:commandLink>
+                            <h:commandLink class="btn btn-dark" value="#{I18N['query.cm.consult']}" action="#{cmBean.findEventQuery(r.eventByIdEvent.idEvent)}" rendered="#{r.eventByIdEvent.formByIdForm.formNum == 90}">
+                                <f:setPropertyActionListener target="#{eventBean.event}" value="#{r.eventByIdEvent}"/>
+                                <f:setPropertyActionListener target="#{queryBean.query}" value="#{r}"/>
+                            </h:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

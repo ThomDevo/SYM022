@@ -37,7 +37,6 @@
                                     <p:inputTextarea  rows="6" cols="33" id="input_visit_nd" class="label" value="#{dovBean.dov.visitNd}"
                                                       placeholder="#{I18N['dovPage.visitNd.placeholder']}"
                                                       disabled="true">
-                                        <p:ajax event="blur" process="@this" update="@all" listener="#{dovBean.testInputVsNd()}"/>
                                     </p:inputTextarea>
                                 </h:panelGroup>
                             </h:panelGroup>
@@ -48,6 +47,9 @@
                             </p:datePicker>
                         </h:panelGroup>
                     </p:outputPanel>
+                    <h2>
+                        <h:outputText value="#{I18N['queryPage.addQueryTitle']}" />
+                    </h2>
                     <p:outputPanel class="form-control">
                         <h:panelGroup class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_query_text" value="#{I18N['queryPage.text']}"/>
@@ -56,22 +58,23 @@
                                               disabled="true">
                             </p:inputTextarea>
                         </h:panelGroup>
-                        <h:panelGroup class="field col-12 md:col-4 p-20-0">
-                            <p:outputLabel for="input_query_answer" value="#{I18N['queryPage.answer']}"/>
-                            <p:inputTextarea  rows="6" cols="33" id="input_query_answer" class="label" value="#{queryBean.query.queryAnswer}"
-                                              placeholder="#{I18N['vsPage.vsNd.placeholder']}"
-                                              disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'DATA MANAGER' and (queryBean.query.userByIdUser.roleByIdRole.roleLabel != connectionBean.user.roleByIdRole.roleLabel)}">
-                            </p:inputTextarea>
-                        </h:panelGroup>
-                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{queryBean.messageErrorInputQueryAnswerNd}">
-                            <div><span class="ui-message-error-icon"> </span>
-                                <span class="ui-message-error-detail"><h:outputText
-                                        value="#{I18N['messageErrorInputQueryAnswerNd']}"/></span>
+                            <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_query_answer" value="#{I18N['queryPage.answer']}"/>
+                                <p:inputTextarea  rows="6" cols="33" id="input_query_answer" class="label" value="#{queryBean.query.queryAnswer}"
+                                                  placeholder="#{I18N['vsPage.vsNd.placeholder']}"
+                                                  disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE'}">
+                                </p:inputTextarea>
+                            </h:panelGroup>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{queryBean.messageErrorInputQueryAnswerNd}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorInputQueryAnswerNd']}"/></span>
+                                </div>
                             </div>
-                        </div>
+
                     </p:outputPanel>
                     <span class="responsiveSubmit">
-                        <p:outputPanel rendered="#{queryBean.query.queryStatus.queryStatus == 'OPENED' and (connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or queryBean.query.userByIdUser.roleByIdRole.roleLabel == connectionBean.user.roleByIdRole.roleLabel)}">
+                        <p:outputPanel rendered="#{queryBean.query.queryStatus == 'OPENED' and connectionBean.user.roleByIdRole.roleLabel == 'SITE'}">
                             <p:commandButton value="#{I18N['application.update.query']}"
                                              ajax="false"
                                              validateClient="true"
@@ -80,7 +83,7 @@
                                              action="#{queryBean.submitFormUpdateQuery}"/>
                         </p:outputPanel>
 
-                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or queryBean.query.userByIdUser.roleByIdRole.roleLabel == connectionBean.user.roleByIdRole.roleLabel}">
+                        <p:outputPanel rendered="#{(connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' and queryBean.query.queryStatus != 'CLOSED') or (queryBean.query.userByIdUser.roleByIdRole.roleLabel == connectionBean.user.roleByIdRole.roleLabel and queryBean.query.queryStatus != 'CLOSED')}">
                             <p:commandButton value="#{I18N['application.close.query']}"
                                              ajax="false"
                                              validateClient="true"

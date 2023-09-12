@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{I18N['vsPage.addVsTitle']}"/>
+    </ui:define>
+    <ui:define name="content">
+        <div class="content">
+            <div class="block p-20 form-container">
+                <h2>
+                    <h:outputText value="#{I18N['vsPage.addVsTitle']}" />
+                </h2>
+                <h:form>
+                    <p:outputPanel class="form-control">
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_status_vs" value="#{I18N['vsPage.status']}"/>
+                            <p:selectOneButton   id="input_status_vs"
+                                                 value="#{vsBean.vs.vsYn}"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['done']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.initErrorMessageFormVS()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDateNull()}"/>
+                            </p:selectOneButton>
+                        </span>
+                        <h:panelGroup class="field col-12 md:col-4 p-20-0" rendered="#{!vsBean.vs.vsYn}">
+                            <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_vs_nd" value="#{I18N['vsPage.vsNd']}"/>
+                                <p:inputTextarea  rows="6" cols="33" id="input_vs_nd" class="label" value="#{vsBean.vs.vsNd}"
+                                                  placeholder="#{I18N['vsPage.vsNd.placeholder']}"
+                                                  disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                    <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testInputVsNd()}"/>
+                                </p:inputTextarea>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorVisitNd}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorVisitNd']}"/></span>
+                            </div>
+                        </div>
+                        <h:panelGroup rendered="#{vsBean.vs.vsYn}">
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="input_Vs_Date" value="#{I18N['vsPage.vsDate']}"/>
+                                <p:datePicker id="input_Vs_Date" value="#{vsBean.vs.vsDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"
+                                              disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                    <p:ajax process="@this" update="@all"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDate()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDateNull()}"/>
+                                </p:datePicker>
+                            </div>
+
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorVisitDate}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorVisitDate']}"/></span>
+                                </div>
+                            </div>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorVisitDateMissing}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorVisitDateMissing']}"/></span>
+                                </div>
+                            </div>
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_status_vs_height" value="#{I18N['vsPage.heightNd']}"/>
+                            <p:selectOneButton id="input_status_vs_height"
+                                               value="#{vsBean.vs.heightNd}"
+                                               disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['done']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                              itemValue="#{false}"/>
+                                 <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                            </span>
+                            <h:panelGroup rendered="#{vsBean.vs.heightNd}">
+                                <span class="field col-12 md:col-4">
+                                <p:outputLabel for="input_height" value="#{I18N['vsPage.height']}"/>
+                                <p:inputNumber id="input_height" class="label" value="#{vsBean.vs.height}"
+                                               placeholder="#{I18N['vsPage.height.placeholder']}"
+                                               validatorMessage="#{I18N['vsPage.height.errorMessage']}"
+                                               decimalPlaces="1"
+                                               disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                    <p:ajax process="@this" update="@all"/>
+                                    <p:ajax update="messageHeight" event="blur"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputHeight()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputHeightUnit()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeHeightCm()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeHeightInches()}"/>
+                                </p:inputNumber>
+                                </span>
+                                <p:message id="messageHeight" for="@previous"/>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHeightNull}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['vsPage.height.errorMessage']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHeightCm}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorHeightCm']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHeightInches}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorHeightInches']}"/></span>
+                                    </div>
+                                </div>
+                                <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="inputHeight" value="#{I18N['vsPage.height.unit']}"/>
+                            <p:selectOneMenu id="inputHeight"
+                                             value="#{vsBean.vs.heightU}"
+                                             converter="HeightUConverter"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['vsPage.height.unit']}"
+                                              itemValue="#{null}"/>
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.HeightU"
+                                              var="enumHeight"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumHeight.getAll}"
+                                               var="Height"
+                                               itemLabel="#{Height.getHeightU()}"
+                                               itemValue="#{Height}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputHeight()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputHeightUnit()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeHeightCm()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeHeightInches()}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneMenu>
+                        </span>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHeightUnitNull}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorHeightUnitNull']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHeightCm}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorHeightCm']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHeightInches}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorHeightInches']}"/></span>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_status_vs_weight" value="#{I18N['vsPage.weightNd']}"/>
+                            <p:selectOneButton id="input_status_vs_weight"
+                                               value="#{vsBean.vs.weightNd}"
+                                               disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['done']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputWeight()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputWeightUnit()}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+                            <h:panelGroup rendered="#{vsBean.vs.weightNd}">
+                            <span class="field col-12 md:col-4">
+                            <p:outputLabel for="input_weight" value="#{I18N['vsPage.weight']}"/>
+                            <p:inputNumber id="input_weight" class="label" value="#{vsBean.vs.weight}"
+                                           placeholder="#{I18N['vsPage.weight.placeholder']}"
+                                           validatorMessage="#{I18N['vsPage.weight.errorMessage']}"
+                                           decimalPlaces="1"
+                                           disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                <p:ajax update="messageWeight" event="blur"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputWeight()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputWeightUnit()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeWeightKg()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeWeightPounds()}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:inputNumber>
+                            </span>
+                                <p:message id="messageWeight" for="@previous"/>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorWeightNull}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['vsPage.weight.errorMessage']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorWeightKg}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorWeightKg']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorWeightPounds}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorWeightPounds']}"/></span>
+                                    </div>
+                                </div>
+                                <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="inputWeightU" value="#{I18N['vsPage.weight.unit']}"/>
+                            <p:selectOneMenu id="inputWeightU"
+                                             value="#{vsBean.vs.weightU}"
+                                             converter="WeightUConverter"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['vsPage.weight.unit']}"
+                                              itemValue="#{null}"/>
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.WeightU"
+                                              var="enumWeight"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumWeight.getAll}"
+                                               var="Weight"
+                                               itemLabel="#{Weight.getWeightU()}"
+                                               itemValue="#{Weight}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputWeight()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputWeightUnit()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeWeightKg()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeWeightPounds()}"/>
+                                <p:ajax process="@this" update="@all"/>
+                            </p:selectOneMenu>
+                            </span>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorWeightUnitNull}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorWeightUnitNull']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorWeightKg}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorWeightKg']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorWeightPounds}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorWeightPounds']}"/></span>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_status_bp_nd" value="#{I18N['vsPage.bpNd']}"/>
+                            <p:selectOneButton id="input_status_bp_nd"
+                                               value="#{vsBean.vs.bpNd}"
+                                               disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['done']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                              itemValue="#{false}"/>
+                                 <p:ajax process="@this" update="@all"/>
+                            </p:selectOneButton>
+                        </span>
+                            <h:panelGroup rendered="#{vsBean.vs.bpNd}">
+                                <span class="field col-12 md:col-4">
+                                    <p:outputLabel for="input_sbp" value="#{I18N['vsPage.input_sbp']}"/>
+                                    <p:inputNumber id="input_sbp" class="label" value="#{vsBean.vs.sbp}"
+                                                   placeholder="#{I18N['vsPage.input_sbp.placeholder']}"
+                                                   validatorMessage="#{I18N['vsPage.input_sbp.errorMessage']}"
+                                                   disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                        <p:ajax update="messageSbp" event="blur"/>
+                                        <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDbpGtnSbp()}"/>
+                                        <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testSbp()}"/>
+                                        <p:ajax process="@this" update="@all"/>
+                                    </p:inputNumber>
+                                </span>
+                                <p:message id="messageSbp" for="@previous"/>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorSbpGtDbp}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorSbpGtDbp']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorSbp}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorSbp']}"/></span>
+                                    </div>
+                                </div>
+                                <span class="field col-12 md:col-4">
+                                    <p:outputLabel for="input_dbp" value="#{I18N['vsPage.input_dbp']}"/>
+                                    <p:inputNumber id="input_dbp" class="label" value="#{vsBean.vs.dbp}"
+                                                   placeholder="#{I18N['vsPage.input_dbp.placeholder']}"
+                                                   validatorMessage="#{I18N['vsPage.input_dbp.errorMessage']}"
+                                                   disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                        <p:ajax update="messageDbp" event="blur"/>
+                                        <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDbpGtnSbp()}"/>
+                                        <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testDbp()}"/>
+                                        <p:ajax process="@this" update="@all"/>
+                                    </p:inputNumber>
+                                </span>
+                                <p:message id="messageDbp" for="@previous"/>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorSbpGtDbp}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorSbpGtDbp']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorDbp}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorDbp']}"/></span>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_status_hr_nd" value="#{I18N['vsPage.hrNd']}"/>
+                                <p:selectOneButton id="input_status_hr_nd"
+                                                   value="#{vsBean.vs.hrNd}"
+                                                   disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                    <f:selectItem itemLabel="#{I18N['done']}"
+                                                  itemValue="#{true}"/>
+                                    <f:selectItem itemLabel="#{I18N['notDone']}"
+                                                  itemValue="#{false}"/>
+                                    <p:ajax process="@this" update="@all"/>
+                                </p:selectOneButton>
+                            </span>
+                            <h:panelGroup rendered="#{vsBean.vs.hrNd}">
+                                <span class="field col-12 md:col-4">
+                                <p:outputLabel for="input_hr" value="#{I18N['vsPage.input_hr']}"/>
+                                <p:inputNumber id="input_hr" class="label" value="#{vsBean.vs.hr}"
+                                               placeholder="#{I18N['vsPage.input_hr.placeholder']}"
+                                               validatorMessage="#{I18N['vsPage.input_hr.errorMessage']}"
+                                               disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                    <p:ajax update="messagehr" event="blur"/>
+                                    <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testHr()}"/>
+                                </p:inputNumber>
+                            </span>
+                                <p:message id="messagehr" for="@previous"/>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorHr}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorHr']}"/></span>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_status_rr_nd" value="#{I18N['vsPage.rrNd']}"/>
+                                <p:selectOneButton id="input_status_rr_nd"
+                                                   value="#{vsBean.vs.rrNd}"
+                                                   disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['done']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                              itemValue="#{false}"/>
+                                    <p:ajax process="@this" update="@all"/>
+                                </p:selectOneButton>
+                            </span>
+                            <h:panelGroup rendered="#{vsBean.vs.rrNd}">
+                                <span class="field col-12 md:col-4">
+                                <p:outputLabel for="input_rr" value="#{I18N['vsPage.input_rr']}"/>
+                                <p:inputNumber id="input_rr" class="label" value="#{vsBean.vs.rr}"
+                                               placeholder="#{I18N['vsPage.input_rr.placeholder']}"
+                                               validatorMessage="#{I18N['vsPage.input_rr.errorMessage']}"
+                                               disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                    <p:ajax update="messagerr" event="blur"/>
+                                    <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testRr()}"/>
+                                    <p:ajax process="@this" update="@all"/>
+                                </p:inputNumber>
+                            </span>
+                                <p:message id="messagerr" for="@previous"/>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorRr}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorRr']}"/></span>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_status_temp_nd" value="#{I18N['vsPage.tempNd']}"/>
+                                <p:selectOneButton id="input_status_temp_nd"
+                                                   value="#{vsBean.vs.tempNd}"
+                                                   disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                    <f:selectItem itemLabel="#{I18N['done']}"
+                                                  itemValue="#{true}"/>
+                                    <f:selectItem itemLabel="#{I18N['notDone']}"
+                                                  itemValue="#{false}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputTemp()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputTempUnit()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputTempRoute()}"/>
+                                    <p:ajax process="@this" update="@all"/>
+                                </p:selectOneButton>
+                            </span>
+                            <h:panelGroup rendered="#{vsBean.vs.tempNd}">
+                                <span class="field col-12 md:col-4">
+                                    <p:outputLabel for="input_temp" value="#{I18N['vsPage.input_temp']}"/>
+                                    <p:inputNumber id="input_temp" class="label" value="#{vsBean.vs.temp}"
+                                                   placeholder="#{I18N['vsPage.input_temp.placeholder']}"
+                                                   validatorMessage="#{I18N['vsPage.input_temp.errorMessage']}"
+                                                   decimalPlaces="1"
+                                                   disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                    <p:ajax update="messagetemp" event="blur"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputTemp()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputTempUnit()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeTempC()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeTempF()}"/>
+                                    <p:ajax process="@this" update="@all"/>
+                                    </p:inputNumber>
+                                </span>
+                                <p:message id="messagetemp" for="@previous"/>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorTempNull}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['vsPage.input_temp.errorMessage']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorTempC}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorTempC']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorTempF}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorTempF']}"/></span>
+                                    </div>
+                                </div>
+                                <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="inputTempU" value="#{I18N['vsPage.tempU']}"/>
+                                <p:selectOneMenu id="inputTempU"
+                                                 value="#{vsBean.vs.tempU}"
+                                                 converter="TempUConverter"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                    <f:selectItem itemLabel="#{I18N['vsPage.tempU']}"
+                                                  itemValue="#{null}"/>
+                                    <!-- import all enum -->
+                                    <p:importEnum type="com.sym022.sym022.enums.TempU"
+                                                  var="enumTempU"
+                                                  allSuffix="getAll"/>
+                                    <f:selectItems value="#{enumTempU.getAll}"
+                                                   var="Temp"
+                                                   itemLabel="#{Temp.getTempU()}"
+                                                   itemValue="#{Temp}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputTemp()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputTempUnit()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeTempC()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testRangeTempF()}"/>
+                                    <p:ajax process="@this" update="@all"/>
+                                </p:selectOneMenu>
+                            </span>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorTempUnitNull}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorTempUnitNull']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorTempC}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorTempC']}"/></span>
+                                    </div>
+                                </div>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorTempF}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorTempF']}"/></span>
+                                    </div>
+                                </div>
+                                <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="inputTempRoute" value="#{I18N['vsPage.tempRoute']}"/>
+                                <p:selectOneMenu id="inputTempRoute"
+                                                 value="#{vsBean.vs.tempRoute}"
+                                                 converter="TempRouteConverter"
+                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                    <f:selectItem itemLabel="#{I18N['vsPage.tempRoute']}"
+                                                  itemValue="#{null}"/>
+                                    <!-- import all enum -->
+                                    <p:importEnum type="com.sym022.sym022.enums.TempRoute"
+                                                  var="enumTempRoute"
+                                                  allSuffix="getAll"/>
+                                <f:selectItems value="#{enumTempRoute.getAll}"
+                                               var="TempRoute"
+                                               itemLabel="#{TempRoute.getTempRoute()}"
+                                               itemValue="#{TempRoute}"/>
+                                <p:ajax process="@this" update="@all"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testInputTempRoute()}"/>
+                                </p:selectOneMenu>
+                            </span>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorTempRoute}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorTempRoute']}"/></span>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_status_oxy_nd" value="#{I18N['vsPage.oxyNd']}"/>
+                            <p:selectOneButton id="input_status_oxy_nd"
+                                               value="#{vsBean.vs.oxysatNd}"
+                                               disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                <f:selectItem itemLabel="#{I18N['done']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                              itemValue="#{false}"/>
+                                <p:ajax process="@this" update="@all"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{vsBean.testOxy()}"/>
+                            </p:selectOneButton>
+                            </span>
+                            <h:panelGroup rendered="#{vsBean.vs.oxysatNd}">
+                                <span class="field col-12 md:col-4">
+                            <p:outputLabel for="input_oxy" value="#{I18N['vsPage.input_oxy']}"/>
+                            <p:inputNumber id="input_oxy" class="label" value="#{vsBean.vs.oxysat}"
+                                           placeholder="#{I18N['vsPage.input_oxy.placeholder']}"
+                                           validatorMessage="#{I18N['vsPage.input_oxy.errorMessage']}"
+                                           decimalPlaces="0"
+                                           disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !vsBean.vs.eventByIdEvent.available}">
+                                <p:ajax process="@this" update="@all"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{vsBean.testOxy()}"/>
+                            </p:inputNumber>
+                            </span>
+                                <p:message id="messageoxy" for="@previous"/>
+                                <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorOxy}">
+                                    <div><span class="ui-message-error-icon"> </span>
+                                        <span class="ui-message-error-detail"><h:outputText
+                                                value="#{I18N['messageErrorOxy']}"/></span>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{vsBean.messageErrorPerf}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorPerf']}"/></span>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+                    </p:outputPanel>
+                    <span class="responsiveSubmit">
+                        <p:outputPanel rendered="#{(connectionBean.user.roleByIdRole.roleLabel == 'SITE' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL') and vsBean.vs.eventByIdEvent.available}">
+                            <p:commandButton value="#{I18N['application.update.vs']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             disabled="#{vsBean.buttonSuccess}"
+                                             action="#{vsBean.submitFormUpdateVs}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and !eventBean.event.monitored and eventBean.event.available}">
+                            <p:commandButton value="#{I18N['application.vs.validate']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="#{eventBean.setEventMonitored}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and eventBean.event.monitored and eventBean.event.available}">
+                            <p:commandButton value="#{I18N['application.vs.revalidate']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="#{eventBean.setEventNoMonitored}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{eventBean.event.available and (connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL' or connectionBean.user.roleByIdRole.roleLabel == 'SAFETY')}">
+                            <p:commandButton value="#{I18N['application.vs.query']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="/VIEW/addQuery"/>
+                        </p:outputPanel>
+
+                        <p:commandButton value="#{I18N['connectionpage.return.button']}"
+                                         ajax="false"
+                                         validateClient="true"
+                                         class="ui-button-secondary"
+                                         action="#{vsBean.cancelUpdateForm()}"/>
+                    </span>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

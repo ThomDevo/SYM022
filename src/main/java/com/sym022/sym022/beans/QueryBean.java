@@ -147,6 +147,62 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
     }
 
     /**
+     * Method to research all queries to answer permitted
+     */
+    public void researchFilterAllQueriesToAnswer(){
+        EntityManager em = EMF.getEM();
+        try{
+            filterOfTable = queryService.findOpenedDM(connectionBean.getUser().getIdUser(), this.filter, em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Method to research all queries answered permitted
+     */
+    public void researchFilterAllQueriesAnswered(){
+        EntityManager em = EMF.getEM();
+        try{
+            filterOfTable = queryService.findAnsweredDM(connectionBean.getUser().getIdUser(), this.filter, em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Method to research all queries to answer permitted
+     */
+    public void researchFilterAllQueriesToAnswerPerRole(){
+        EntityManager em = EMF.getEM();
+        try{
+            filterOfTable = queryService.findOpenedRole(connectionBean.getUser().getIdUser(), connectionBean.getUser().getRoleByIdRole().getIdRole(), this.filter, em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Method to research all queries answer permitted
+     */
+    public void researchFilterAllQueriesAnsweredPerRole(){
+        EntityManager em = EMF.getEM();
+        try{
+            filterOfTable = queryService.findAnsweredRole(connectionBean.getUser().getIdUser(), connectionBean.getUser().getRoleByIdRole().getIdRole(), this.filter, em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+    }
+
+    /**
      * Method to add a query in the DB
      * @return a query
      */

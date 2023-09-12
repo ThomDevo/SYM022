@@ -37,6 +37,7 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
     private String messageErrorfirstName = "hidden";
     private String messageErrorUserNameTest = "hidden";
     private String messageErrorUserMail = "hidden";
+    private int idSubject;
     private String buttonSuccess = "false";
     @Inject
     private EventBean eventBean;
@@ -192,6 +193,9 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
         EventService eventService = new EventService();
         VisitService visitService = new VisitService();
         IcService icService = new IcService();
+        this.idSubject = this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject();
+        //ProcessUtils.debug(""+this.idUser);
+
         try{
             eventBean.setAllEvents(eventService.findEventAllExceptAeCm(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(), em));
             //ProcessUtils.debug("List récup et update"+ licensesService.findLicenseNotOwnByUser(this.licenseUserBean.getLicenseUser().getUsersByIdUser().getIdUser(), em).size());
@@ -204,14 +208,6 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
             icBean.setIcAll(icService.findIcEligibleNo(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(), em));
         }catch(Exception e){
             ProcessUtils.debug("catch methodfindEventAllExceptAeCmr " + e);
-
-        }
-
-        try{
-            ;
-        }catch(Exception e){
-            ProcessUtils.debug("catch methodfindEventAllExceptAeCmr " + e);
-
         }
 
         if(eventBean.getAllEvents().size() == 7){
@@ -264,6 +260,7 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
         EventService eventService = new EventService();
         FormService formService = new FormService();
         SubjectService subjectService = new SubjectService();
+        //ProcessUtils.debug(""+this.idUser);
 
 
         if(this.eventBean.getEvent().getVisitByIdVisit().getVisitNum() == 80){
@@ -278,25 +275,25 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
             }catch(Exception e) {
                 ProcessUtils.debug("catch methodFindFormCm " + e);
             }
-        }else if(this.eventBean.getEvent().getVisitByIdVisit().getVisitNum() == 10 && subjectBean.getSubject().getSubjectNum() == 562501){
+        }else if(this.eventBean.getEvent().getVisitByIdVisit().getVisitNum() == 10 && !eventService.isEventSubjectExist(this.idSubject, em)){
             try{
                 formBean.setAllForm(formService.findFormDov(em));
             }catch(Exception e) {
-                ProcessUtils.debug("catch methodFindFormCm " + e);
+                ProcessUtils.debug("catch methodFindFormDov " + e);
             }
-        }else if(!eventService.isIcSubjectExist(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(), em)){
+        }else if(!eventService.isIcSubjectExist(this.idSubject, em)){
             try{
                 formBean.setAllForm(formService.findFormIc(em));
             }catch(Exception e) {
-                ProcessUtils.debug("catch methodFindFormCm " + e);
+                ProcessUtils.debug("catch methodFindFormic " + e);
             }
         }else if(this.eventBean.getEvent().getVisitByIdVisit().getVisitNum() == 10){
             try{
-                formBean.setAllForm(formService.findFormScreeningND(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em));
+                formBean.setAllForm(formService.findFormScreeningND(this.idSubject,em));
             }catch(Exception e) {
                 ProcessUtils.debug("catch methodFindFormCm " + e);
             }
-        }else if(this.eventBean.getEvent().getVisitByIdVisit().getVisitNum() == 20 && !eventService.isMois1SubjectExist(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(), em)){
+        }else if(this.eventBean.getEvent().getVisitByIdVisit().getVisitNum() == 20 && !eventService.isMois1SubjectExist(this.idSubject, em)){
             try{
                 formBean.setAllForm(formService.findFormDov(em));
             }catch(Exception e) {
@@ -304,7 +301,7 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
             }
         }else if(this.eventBean.getEvent().getVisitByIdVisit().getVisitNum() == 20){
             try{
-                formBean.setAllForm(formService.findFormMois1ND(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em));
+                formBean.setAllForm(formService.findFormMois1ND(this.idSubject,em));
             }catch(Exception e) {
                 ProcessUtils.debug("catch methodFindFormCm " + e);
             }
