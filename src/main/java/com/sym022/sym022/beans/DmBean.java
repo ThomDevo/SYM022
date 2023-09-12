@@ -100,6 +100,23 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
     }
 
     /**
+     * Method to find a DM based on the IdEvent
+     * @param idEvent
+     */
+    public String findEventQuery(int idEvent){
+        String redirect = "/VIEW/consultQueryDm";
+        EntityManager em = EMF.getEM();
+        try{
+            dm = dmService.findDmByIdEvent(idEvent,em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+        return redirect;
+    }
+
+    /**
      * Method to add a DM in the DB
      * @return a DM
      */

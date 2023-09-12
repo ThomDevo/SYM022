@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{I18N['vsPage.addVsTitle']}"/>
+    </ui:define>
+    <ui:define name="content">
+        <div class="content">
+            <div class="block p-20 form-container">
+                <h2>
+                    <h:outputText value="#{I18N['vsPage.addVsTitle']}" />
+                </h2>
+                <h:form>
+                    <p:outputPanel class="form-control">
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_status_vs" value="#{I18N['vsPage.status']}"/>
+                            <p:selectOneButton   id="input_status_vs"
+                                                 value="#{vsBean.vs.vsYn}"
+                                                 disabled="true">
+                                <f:selectItem itemLabel="#{I18N['done']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                              itemValue="#{false}"/>
+                            </p:selectOneButton>
+                        </span>
+                        <h:panelGroup class="field col-12 md:col-4 p-20-0" rendered="#{!vsBean.vs.vsYn}">
+                            <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_vs_nd" value="#{I18N['vsPage.vsNd']}"/>
+                                <p:inputTextarea  rows="6" cols="33" id="input_vs_nd" class="label" value="#{vsBean.vs.vsNd}"
+                                                  placeholder="#{I18N['vsPage.vsNd.placeholder']}"
+                                                  disabled="true">
+                                </p:inputTextarea>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{vsBean.vs.vsYn}">
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="input_Vs_Date" value="#{I18N['vsPage.vsDate']}"/>
+                                <p:datePicker id="input_Vs_Date" value="#{vsBean.vs.vsDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"
+                                              disabled="true">
+                                </p:datePicker>
+                            </div>
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_status_vs_height" value="#{I18N['vsPage.heightNd']}"/>
+                            <p:selectOneButton id="input_status_vs_height"
+                                               value="#{vsBean.vs.heightNd}"
+                                               disabled="true">
+                                <f:selectItem itemLabel="#{I18N['done']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                              itemValue="#{false}"/>
+                            </p:selectOneButton>
+                            </span>
+                            <h:panelGroup rendered="#{vsBean.vs.heightNd}">
+                                <span class="field col-12 md:col-4">
+                                <p:outputLabel for="input_height" value="#{I18N['vsPage.height']}"/>
+                                <p:inputNumber id="input_height" class="label" value="#{vsBean.vs.height}"
+                                               placeholder="#{I18N['vsPage.height.placeholder']}"
+                                               validatorMessage="#{I18N['vsPage.height.errorMessage']}"
+                                               decimalPlaces="1"
+                                               disabled="true">
+                                </p:inputNumber>
+                                </span>
+                                <span class="field col-12 md:col-4 p-20-0">
+                                    <p:outputLabel for="inputHeight" value="#{I18N['vsPage.height.unit']}"/>
+                                    <p:selectOneMenu id="inputHeight"
+                                                value="#{vsBean.vs.heightU}"
+                                                converter="HeightUConverter"
+                                                disabled="true">
+                                        <f:selectItem itemLabel="#{I18N['vsPage.height.unit']}"
+                                              itemValue="#{null}"/>
+                                        <!-- import all enum -->
+                                    <p:importEnum type="com.sym022.sym022.enums.HeightU"
+                                                var="enumHeight"
+                                                allSuffix="getAll"/>
+                                    <f:selectItems value="#{enumHeight.getAll}"
+                                                var="Height"
+                                                itemLabel="#{Height.getHeightU()}"
+                                                itemValue="#{Height}"/>
+                                    </p:selectOneMenu>
+                                </span>
+                            </h:panelGroup>
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_status_vs_weight" value="#{I18N['vsPage.weightNd']}"/>
+                            <p:selectOneButton id="input_status_vs_weight"
+                                               value="#{vsBean.vs.weightNd}"
+                                               disabled="true">
+                                <f:selectItem itemLabel="#{I18N['done']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                              itemValue="#{false}"/>
+                            </p:selectOneButton>
+                        </span>
+                            <h:panelGroup rendered="#{vsBean.vs.weightNd}">
+                            <span class="field col-12 md:col-4">
+                            <p:outputLabel for="input_weight" value="#{I18N['vsPage.weight']}"/>
+                            <p:inputNumber id="input_weight" class="label" value="#{vsBean.vs.weight}"
+                                           placeholder="#{I18N['vsPage.weight.placeholder']}"
+                                           validatorMessage="#{I18N['vsPage.weight.errorMessage']}"
+                                           decimalPlaces="1"
+                                           disabled="true">
+                            </p:inputNumber>
+                            </span>
+                                <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="inputWeightU" value="#{I18N['vsPage.weight.unit']}"/>
+                            <p:selectOneMenu id="inputWeightU"
+                                             value="#{vsBean.vs.weightU}"
+                                             converter="WeightUConverter"
+                                             disabled="true">
+                                <f:selectItem itemLabel="#{I18N['vsPage.weight.unit']}"
+                                              itemValue="#{null}"/>
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.WeightU"
+                                              var="enumWeight"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumWeight.getAll}"
+                                               var="Weight"
+                                               itemLabel="#{Weight.getWeightU()}"
+                                               itemValue="#{Weight}"/>
+                            </p:selectOneMenu>
+                            </span>
+                            </h:panelGroup>
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_status_bp_nd" value="#{I18N['vsPage.bpNd']}"/>
+                            <p:selectOneButton id="input_status_bp_nd"
+                                               value="#{vsBean.vs.bpNd}"
+                                               disabled="true">
+                                <f:selectItem itemLabel="#{I18N['done']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                              itemValue="#{false}"/>
+                            </p:selectOneButton>
+                        </span>
+                            <h:panelGroup rendered="#{vsBean.vs.bpNd}">
+                                <span class="field col-12 md:col-4">
+                                    <p:outputLabel for="input_sbp" value="#{I18N['vsPage.input_sbp']}"/>
+                                    <p:inputNumber id="input_sbp" class="label" value="#{vsBean.vs.sbp}"
+                                                   placeholder="#{I18N['vsPage.input_sbp.placeholder']}"
+                                                   validatorMessage="#{I18N['vsPage.input_sbp.errorMessage']}"
+                                                   disabled="true">
+                                    </p:inputNumber>
+                                </span>
+                                <span class="field col-12 md:col-4">
+                                    <p:outputLabel for="input_dbp" value="#{I18N['vsPage.input_dbp']}"/>
+                                    <p:inputNumber id="input_dbp" class="label" value="#{vsBean.vs.dbp}"
+                                                   placeholder="#{I18N['vsPage.input_dbp.placeholder']}"
+                                                   validatorMessage="#{I18N['vsPage.input_dbp.errorMessage']}"
+                                                   disabled="true">
+                                    </p:inputNumber>
+                                </span>
+                            </h:panelGroup>
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_status_hr_nd" value="#{I18N['vsPage.hrNd']}"/>
+                                <p:selectOneButton id="input_status_hr_nd"
+                                                   value="#{vsBean.vs.hrNd}"
+                                                   disabled="true">
+                                    <f:selectItem itemLabel="#{I18N['done']}"
+                                                  itemValue="#{true}"/>
+                                    <f:selectItem itemLabel="#{I18N['notDone']}"
+                                                  itemValue="#{false}"/>
+                                </p:selectOneButton>
+                            </span>
+                            <h:panelGroup rendered="#{vsBean.vs.hrNd}">
+                                <span class="field col-12 md:col-4">
+                                <p:outputLabel for="input_hr" value="#{I18N['vsPage.input_hr']}"/>
+                                <p:inputNumber id="input_hr" class="label" value="#{vsBean.vs.hr}"
+                                               placeholder="#{I18N['vsPage.input_hr.placeholder']}"
+                                               disabled="true">
+                                </p:inputNumber>
+                            </span>
+                            </h:panelGroup>
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_status_rr_nd" value="#{I18N['vsPage.rrNd']}"/>
+                                <p:selectOneButton id="input_status_rr_nd"
+                                                   value="#{vsBean.vs.rrNd}"
+                                                   disabled="true">
+                                <f:selectItem itemLabel="#{I18N['done']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                              itemValue="#{false}"/>
+                                </p:selectOneButton>
+                            </span>
+                            <h:panelGroup rendered="#{vsBean.vs.rrNd}">
+                                <span class="field col-12 md:col-4">
+                                <p:outputLabel for="input_rr" value="#{I18N['vsPage.input_rr']}"/>
+                                <p:inputNumber id="input_rr" class="label" value="#{vsBean.vs.rr}"
+                                               placeholder="#{I18N['vsPage.input_rr.placeholder']}"
+                                               disabled="true">
+                                </p:inputNumber>
+                            </span>
+                            </h:panelGroup>
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_status_temp_nd" value="#{I18N['vsPage.tempNd']}"/>
+                                <p:selectOneButton id="input_status_temp_nd"
+                                                   value="#{vsBean.vs.tempNd}"
+                                                   disabled="true">
+                                    <f:selectItem itemLabel="#{I18N['done']}"
+                                                  itemValue="#{true}"/>
+                                    <f:selectItem itemLabel="#{I18N['notDone']}"
+                                                  itemValue="#{false}"/>
+                                </p:selectOneButton>
+                            </span>
+                            <h:panelGroup rendered="#{vsBean.vs.tempNd}">
+                                <span class="field col-12 md:col-4">
+                                    <p:outputLabel for="input_temp" value="#{I18N['vsPage.input_temp']}"/>
+                                    <p:inputNumber id="input_temp" class="label" value="#{vsBean.vs.temp}"
+                                                   placeholder="#{I18N['vsPage.input_temp.placeholder']}"
+                                                   validatorMessage="#{I18N['vsPage.input_temp.errorMessage']}"
+                                                   decimalPlaces="1"
+                                                   disabled="true">
+                                    </p:inputNumber>
+                                </span>
+                                <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="inputTempU" value="#{I18N['vsPage.tempU']}"/>
+                                <p:selectOneMenu id="inputTempU"
+                                                 value="#{vsBean.vs.tempU}"
+                                                 converter="TempUConverter"
+                                                 disabled="true">
+                                    <f:selectItem itemLabel="#{I18N['vsPage.tempU']}"
+                                                  itemValue="#{null}"/>
+                                    <!-- import all enum -->
+                                    <p:importEnum type="com.sym022.sym022.enums.TempU"
+                                                  var="enumTempU"
+                                                  allSuffix="getAll"/>
+                                    <f:selectItems value="#{enumTempU.getAll}"
+                                                   var="Temp"
+                                                   itemLabel="#{Temp.getTempU()}"
+                                                   itemValue="#{Temp}"/>
+                                </p:selectOneMenu>
+                            </span>
+                                <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="inputTempRoute" value="#{I18N['vsPage.tempRoute']}"/>
+                                <p:selectOneMenu id="inputTempRoute"
+                                                 value="#{vsBean.vs.tempRoute}"
+                                                 converter="TempRouteConverter"
+                                                 disabled="true">
+                                    <f:selectItem itemLabel="#{I18N['vsPage.tempRoute']}"
+                                                  itemValue="#{null}"/>
+                                    <!-- import all enum -->
+                                    <p:importEnum type="com.sym022.sym022.enums.TempRoute"
+                                                  var="enumTempRoute"
+                                                  allSuffix="getAll"/>
+                                <f:selectItems value="#{enumTempRoute.getAll}"
+                                               var="TempRoute"
+                                               itemLabel="#{TempRoute.getTempRoute()}"
+                                               itemValue="#{TempRoute}"/>
+                                </p:selectOneMenu>
+                            </span>
+                            </h:panelGroup>
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_status_oxy_nd" value="#{I18N['vsPage.oxyNd']}"/>
+                            <p:selectOneButton id="input_status_oxy_nd"
+                                               value="#{vsBean.vs.oxysatNd}"
+                                               disabled="true">
+                                <f:selectItem itemLabel="#{I18N['done']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['notDone']}"
+                                              itemValue="#{false}"/>
+                            </p:selectOneButton>
+                            </span>
+                            <h:panelGroup rendered="#{vsBean.vs.oxysatNd}">
+                                <span class="field col-12 md:col-4">
+                            <p:outputLabel for="input_oxy" value="#{I18N['vsPage.input_oxy']}"/>
+                            <p:inputNumber id="input_oxy" class="label" value="#{vsBean.vs.oxysat}"
+                                           placeholder="#{I18N['vsPage.input_oxy.placeholder']}"
+                                           decimalPlaces="0"
+                                           disabled="true">
+                            </p:inputNumber>
+                            </span>
+                        </h:panelGroup>
+                    </p:outputPanel>
+                    <h2>
+                        <h:outputText value="#{I18N['queryPage.updateQueryTitle']}" />
+                    </h2>
+                    <p:outputPanel class="form-control">
+                        <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_query_text" value="#{I18N['queryPage.text']}"/>
+                            <p:inputTextarea  rows="6" cols="33" id="input_query_text" class="label" value="#{queryBean.query.queryText}"
+                                              placeholder="#{I18N['vsPage.vsNd.placeholder']}"
+                                              disabled="true">
+                            </p:inputTextarea>
+                        </h:panelGroup>
+                        <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_query_answer" value="#{I18N['queryPage.answer']}"/>
+                            <p:inputTextarea  rows="6" cols="33" id="input_query_answer" class="label" value="#{queryBean.query.queryAnswer}"
+                                              placeholder="#{I18N['vsPage.vsNd.placeholder']}"
+                                              disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or queryBean.query.queryStatus != 'OPENED' or !queryBean.query.eventByIdEvent.available}">
+                            </p:inputTextarea>
+                        </h:panelGroup>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{queryBean.messageErrorInputQueryAnswerNd}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorInputQueryAnswerNd']}"/></span>
+                            </div>
+                        </div>
+
+                    </p:outputPanel>
+                    <span class="responsiveSubmit">
+                        <p:outputPanel rendered="#{queryBean.query.queryStatus == 'OPENED' and connectionBean.user.roleByIdRole.roleLabel == 'SITE' and queryBean.query.eventByIdEvent.available}">
+                            <p:commandButton value="#{I18N['application.update.query']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             disabled="#{vsBean.buttonSuccess}"
+                                             action="#{queryBean.submitFormUpdateQuery}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{(connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' and queryBean.query.queryStatus != 'CLOSED') or (queryBean.query.userByIdUser.roleByIdRole.roleLabel == connectionBean.user.roleByIdRole.roleLabel and queryBean.query.queryStatus != 'CLOSED')}">
+                            <p:commandButton value="#{I18N['application.close.query']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="#{queryBean.submitFormCloseQuery}"/>
+                        </p:outputPanel>
+
+                        <p:commandButton value="#{I18N['connectionpage.return.button']}"
+                                         ajax="false"
+                                         validateClient="true"
+                                         class="ui-button-secondary"
+                                         action="#{queryBean.cancelUpdateFormVs()}"/>
+                    </span>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

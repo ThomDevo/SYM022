@@ -542,7 +542,7 @@
                         </h:panelGroup>
                     </p:outputPanel>
                     <span class="responsiveSubmit">
-                        <p:outputPanel rendered="#{(connectionBean.user.roleByIdRole.roleLabel == 'SITE' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL') and vsBean.vs.eventByIdEvent.available}">
+                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'SITE' and vsBean.vs.eventByIdEvent.available}">
                             <p:commandButton value="#{I18N['application.update.vs']}"
                                              ajax="false"
                                              validateClient="true"

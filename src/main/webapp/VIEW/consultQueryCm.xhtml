@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{I18N['cm.consult']}"/>
+    </ui:define>
+    <ui:define name="content">
+        <div class="content">
+            <div class="block p-20 form-container">
+                <h2>
+                    <h:outputText value="#{I18N['cm.consult']}" />
+                </h2>
+                <h:form>
+                    <p:outputPanel class="form-control">
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_cmterm" value="#{I18N['cmPage.cmterm']}"/>
+                            <p:inputText id="input_cmterm" class="label" value="#{cmBean.cm.cmterm}"
+                                         placeholder="#{I18N['cmPage.cmterm.placeHolder']}"
+                                         disabled="true">
+                            </p:inputText>
+                        </span>
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_aetermc" value="#{I18N['cmPage.cmtermc']}"/>
+                            <p:inputText id="input_aetermc" class="label" value="#{cmBean.cm.cmtermc}"
+                                         placeholder="#{I18N['cmPage.cmtermc.placeHolder']}"
+                                         disabled="true">
+                            </p:inputText>
+                        </span>
+                        <div class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_cmstdat" value="#{I18N['cmPage.cmstdat']}"/>
+                            <p:datePicker id="input_cmstdat" value="#{cmBean.cm.cmstdat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"
+                                          disabled="true">
+                            </p:datePicker>
+                            <p:tooltip for="input_cmstdat" value="#{I18N['cmPage.ttcmstdat']}"/>
+                        </div>
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_cmong" value="#{I18N['cmPage.cmong']}"/>
+                            <p:selectOneButton   id="input_cmong"
+                                                 value="#{cmBean.cm.cmong}"
+                                                 disabled="true">
+                                <f:selectItem itemLabel="#{I18N['yes']}"
+                                              itemValue="#{true}"/>
+                                <f:selectItem itemLabel="#{I18N['no']}"
+                                              itemValue="#{false}"/>
+                            </p:selectOneButton>
+                        </span>
+                        <h:panelGroup rendered="#{!cmBean.cm.cmong}">
+                            <div class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_cmendat" value="#{I18N['cmPage.cmendat']}"/>
+                                <p:datePicker id="input_cmendat" value="#{cmBean.cm.cmendat}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"
+                                              disabled="true">
+                                </p:datePicker>
+                                <p:tooltip for="input_cmendat" value="#{I18N['cmPage.ttcmendat']}"/>
+                            </div>
+                        </h:panelGroup>
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_cmindic" value="#{I18N['cmPage.cmindic']}"/>
+                            <p:selectOneMenu id="input_cmindic"
+                                             value="#{cmBean.cm.cmindic}"
+                                             converter="CmindicConverter"
+                                             disabled="true">
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.Cmindic"
+                                              var="enumCmindic"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumCmindic.getAll}"
+                                               var="Cmindic"
+                                               itemLabel="#{Cmindic.getCmindic()}"
+                                               itemValue="#{Cmindic}"/>
+                            </p:selectOneMenu>
+                        </span>
+                        <h:panelGroup rendered="#{cmBean.cm.cmindic == 'OTHER'}">
+                            <span class="field col-12 md:col-4 p-20-0">
+                                <p:outputLabel for="input_cmindicsp" value="#{I18N['cmPage.cmindicsp']}"/>
+                                <p:inputText id="input_cmindicsp" class="label" value="#{cmBean.cm.cmindicsp}"
+                                             placeholder="#{I18N['cmPage.cmindicsp.placeHolder']}"
+                                             disabled="true">
+                                </p:inputText>
+                            </span>
+                        </h:panelGroup>
+                        <span class="field col-12 md:col-4 p-20-0">
+                                    <p:outputLabel for="input_cmdose" value="#{I18N['cmPage.input_cmdose']}"/>
+                                    <p:inputNumber id="input_cmdose" class="label" value="#{cmBean.cm.cmdose}"
+                                                   placeholder="#{I18N['cmPage.input_cmdose.placeholder']}"
+                                                   validatorMessage="#{I18N['cmPage.input_cmdose.errorMessage']}"
+                                                   decimalPlaces="1"
+                                                   minValue="0"
+                                                   disabled="true">
+                                    </p:inputNumber>
+                        </span>
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_cmdosu" value="#{I18N['cmPage.cmdosu']}"/>
+                            <p:selectOneMenu id="input_cmdosu"
+                                             value="#{cmBean.cm.cmdosu}"
+                                             converter="CmdosuConverter"
+                                             required="true"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.Cmdosu"
+                                              var="enumCmdosu"
+                                              allSuffix="getAll"/>
+
+                                <f:selectItems value="#{enumCmdosu.getAll}"
+                                               var="Cmdosu"
+                                               itemLabel="#{Cmdosu.getCmdosu()}"
+                                               itemValue="#{Cmdosu}"/>
+                                <p:ajax process="@this" update="@all"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testCmdoseAndCmdosuUnknown()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{cmBean.testCmdoseAndCmdosuControl()}"/>
+                            </p:selectOneMenu>
+                        </span>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmdoseAndCmdosuUnknown}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorCmdoseAndCmdosuUnknown']}"/></span>
+                            </div>
+                        </div>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmdoseAndCmdosuControl}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorCmdoseAndCmdosuControl']}"/></span>
+                            </div>
+                        </div>
+                        <h:panelGroup rendered="#{cmBean.cm.cmdosu == 'OTHER'}">
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_cmdosusp" value="#{I18N['cmPage.cmdosusp']}"/>
+                            <p:inputText id="input_cmdosusp" class="label" value="#{cmBean.cm.cmdosusp}"
+                                         placeholder="#{I18N['cmPage.cmdosusp.placeHolder']}"
+                                         disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmdosuspOther()}"/>
+                            </p:inputText>
+                        </span>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmdosuspOther}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['cmPage.cmdosusp.errorMessage']}"/></span>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_cmroute" value="#{I18N['cmPage.cmroute']}"/>
+                            <p:selectOneMenu id="input_cmroute"
+                                             value="#{cmBean.cm.cmroute}"
+                                             converter="CmrouteConverter"
+                                             required="true"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.Cmroute"
+                                              var="enumCmroute"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumCmroute.getAll}"
+                                               var="Cmroute"
+                                               itemLabel="#{Cmroute.getCmroute()}"
+                                               itemValue="#{Cmroute}"/>
+                            <p:ajax process="@this" update="@all"/>
+                            </p:selectOneMenu>
+                        </span>
+                        <h:panelGroup rendered="#{cmBean.cm.cmroute == 'OTHER'}">
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_cmroutesp" value="#{I18N['cmPage.cmroutesp']}"/>
+                            <p:inputText id="input_cmroutesp" class="label" value="#{cmBean.cm.cmroutesp}"
+                                         placeholder="#{I18N['cmPage.cmroutesp.placeHolder']}"
+                                         disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmroutespOther()}"/>
+                            </p:inputText>
+                        </span>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmroutespOther}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['cmPage.cmroutesp.errorMessage']}"/></span>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+                        <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_cmfreq" value="#{I18N['cmPage.cmfreq']}"/>
+                            <p:selectOneMenu id="input_cmfreq"
+                                             value="#{cmBean.cm.cmfreq}"
+                                             converter="CmfreqConverter"
+                                             required="true"
+                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
+                                <!-- import all enum -->
+                                <p:importEnum type="com.sym022.sym022.enums.Cmfreq"
+                                              var="enumCmfreq"
+                                              allSuffix="getAll"/>
+                                <f:selectItems value="#{enumCmfreq.getAll}"
+                                               var="Cmfreq"
+                                               itemLabel="#{Cmfreq.getCmfreq()}"
+                                               itemValue="#{Cmfreq}"/>
+                            <p:ajax process="@this" update="@all"/>
+                            </p:selectOneMenu>
+                        </span>
+                        <h:panelGroup rendered="#{cmBean.cm.cmfreq == 'OTHER'}">
+                            <span class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_cmfreqsp" value="#{I18N['cmPage.cmfreqsp']}"/>
+                            <p:inputText id="input_cmfreqsp" class="label" value="#{cmBean.cm.cmfreqsp}"
+                                         placeholder="#{I18N['cmPage.cmfreqsp.placeHolder']}"
+                                         validatorMessage="#{I18N['cmPage.cmfreqsp.errorMessage']}"
+                                         disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !cmBean.cm.eventByIdEvent.available}">
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{cmBean.testCmfreqspOther()}"/>
+                            </p:inputText>
+                        </span>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{cmBean.messageErrorCmfreqspOther}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['cmPage.cmfreqsp.errorMessage']}"/></span>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+                    </p:outputPanel>
+                    <h2>
+                        <h:outputText value="#{I18N['queryPage.updateQueryTitle']}" />
+                    </h2>
+                    <p:outputPanel class="form-control">
+                        <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_query_text" value="#{I18N['queryPage.text']}"/>
+                            <p:inputTextarea  rows="6" cols="33" id="input_query_text" class="label" value="#{queryBean.query.queryText}"
+                                              placeholder="#{I18N['vsPage.vsNd.placeholder']}"
+                                              disabled="true">
+                            </p:inputTextarea>
+                        </h:panelGroup>
+                        <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_query_answer" value="#{I18N['queryPage.answer']}"/>
+                            <p:inputTextarea  rows="6" cols="33" id="input_query_answer" class="label" value="#{queryBean.query.queryAnswer}"
+                                              placeholder="#{I18N['vsPage.vsNd.placeholder']}"
+                                              disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or queryBean.query.queryStatus != 'OPENED' or !queryBean.query.eventByIdEvent.available}">
+                            </p:inputTextarea>
+                        </h:panelGroup>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{queryBean.messageErrorInputQueryAnswerNd}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorInputQueryAnswerNd']}"/></span>
+                            </div>
+                        </div>
+
+                    </p:outputPanel>
+                    <span class="responsiveSubmit">
+                        <p:outputPanel rendered="#{queryBean.query.queryStatus == 'OPENED' and connectionBean.user.roleByIdRole.roleLabel == 'SITE' and queryBean.query.eventByIdEvent.available}">
+                            <p:commandButton value="#{I18N['application.update.query']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             disabled="#{cmBean.buttonSuccess}"
+                                             action="#{queryBean.submitFormUpdateQuery}"/>
+                        </p:outputPanel>
+
+                        <p:outputPanel rendered="#{(connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' and queryBean.query.queryStatus != 'CLOSED') or (queryBean.query.userByIdUser.roleByIdRole.roleLabel == connectionBean.user.roleByIdRole.roleLabel and queryBean.query.queryStatus != 'CLOSED')}">
+                            <p:commandButton value="#{I18N['application.close.query']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="#{queryBean.submitFormCloseQuery}"/>
+                        </p:outputPanel>
+
+                        <p:commandButton value="#{I18N['connectionpage.return.button']}"
+                                         ajax="false"
+                                         validateClient="true"
+                                         class="ui-button-secondary"
+                                         action="#{queryBean.cancelUpdateFormCm()}"/>
+                    </span>
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

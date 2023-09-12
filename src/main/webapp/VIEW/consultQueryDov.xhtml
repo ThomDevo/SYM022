@@ -48,7 +48,7 @@
                         </h:panelGroup>
                     </p:outputPanel>
                     <h2>
-                        <h:outputText value="#{I18N['queryPage.addQueryTitle']}" />
+                        <h:outputText value="#{I18N['queryPage.updateQueryTitle']}" />
                     </h2>
                     <p:outputPanel class="form-control">
                         <h:panelGroup class="field col-12 md:col-4 p-20-0">
@@ -62,7 +62,7 @@
                                 <p:outputLabel for="input_query_answer" value="#{I18N['queryPage.answer']}"/>
                                 <p:inputTextarea  rows="6" cols="33" id="input_query_answer" class="label" value="#{queryBean.query.queryAnswer}"
                                                   placeholder="#{I18N['vsPage.vsNd.placeholder']}"
-                                                  disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE'}">
+                                                  disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or queryBean.query.queryStatus != 'OPENED' or !queryBean.query.eventByIdEvent.available}">
                                 </p:inputTextarea>
                             </h:panelGroup>
                             <div class="ui-message ui-message-error ui-widget ui-corner-all #{queryBean.messageErrorInputQueryAnswerNd}">
@@ -74,12 +74,12 @@
 
                     </p:outputPanel>
                     <span class="responsiveSubmit">
-                        <p:outputPanel rendered="#{queryBean.query.queryStatus == 'OPENED' and connectionBean.user.roleByIdRole.roleLabel == 'SITE'}">
+                        <p:outputPanel rendered="#{queryBean.query.queryStatus == 'OPENED' and connectionBean.user.roleByIdRole.roleLabel == 'SITE' and queryBean.query.eventByIdEvent.available}">
                             <p:commandButton value="#{I18N['application.update.query']}"
                                              ajax="false"
                                              validateClient="true"
                                              class="ui-button-success"
-                                             disabled="#{vsBean.buttonSuccess}"
+                                             disabled="#{dovBean.buttonSuccess}"
                                              action="#{queryBean.submitFormUpdateQuery}"/>
                         </p:outputPanel>
 

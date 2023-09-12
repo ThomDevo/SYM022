@@ -23,13 +23,11 @@
                             <p:outputLabel for="input_status_visit" value="#{I18N['tePage.status']}"/>
                             <p:selectOneButton id="input_status_visit"
                                                value="#{teBean.te.teYn}"
-                                               disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !teBean.te.eventByIdEvent.available}">
+                                               disabled="true">
                                 <f:selectItem itemLabel="#{I18N['done']}"
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['notDone']}"
                                               itemValue="#{false}"/>
-                                <p:ajax event="change" process="@this" update="@all" listener="#{teBean.initErrorMessageFormTE()}"/>
-                                <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testDateNull()}"/>
                             </p:selectOneButton>
                         </span>
                         <h:panelGroup class="field col-12 md:col-4 p-20-0" rendered="#{!teBean.te.teYn}">
@@ -37,7 +35,7 @@
                                 <p:outputLabel for="input_te_nd" value="#{I18N['tePage.visitNd']}"/>
                                 <p:inputTextarea  rows="6" cols="33" id="input_te_nd" class="label" value="#{teBean.te.teNd}"
                                                   placeholder="#{I18N['tePage.visitNd.placeholder']}"
-                                                  disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !teBean.te.eventByIdEvent.available}"
+                                                  disabled="true"
                                 />
                             </h:panelGroup>
                         </h:panelGroup>
@@ -51,9 +49,7 @@
                             <div class="field col-12 md:col-4">
                                 <p:outputLabel for="input_Te_Date" value="#{I18N['tePage.visitDate']}"/>
                                 <p:datePicker id="input_Te_Date" value="#{teBean.te.teDate}" monthNavigator="true" yearNavigator="true" yearRange="1945:2100"
-                                              disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !teBean.te.eventByIdEvent.available}">
-                                    <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testDate()}"/>
-                                    <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testDateNull()}"/>
+                                              disabled="true">
                                 </p:datePicker>
                             </div>
                             <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorVisitDate}">
@@ -73,7 +69,7 @@
                                 <p:selectOneMenu id="inputTargetLesion"
                                                  value="#{teBean.te.targetLesions}"
                                                  converter="TargetLesionsOverallResponseConverter"
-                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !teBean.te.eventByIdEvent.available}">
+                                                 disabled="true">
                                     <f:selectItem itemLabel="#{I18N['tePage.target.lesion']}"
                                                   itemValue="#{null}"/>
                                     <!-- import all enum -->
@@ -84,8 +80,6 @@
                                                var="targetLesion"
                                                itemLabel="#{targetLesion.getTargetLesionsOverallResponse()}"
                                                itemValue="#{targetLesion}"/>
-                                <p:ajax process="@this" update="@all"/>
-                                    <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testOverallResponse()}"/>
                                 </p:selectOneMenu>
                             </span>
                             <span class="field col-12 md:col-4 p-20-0">
@@ -93,7 +87,7 @@
                                 <p:selectOneMenu id="inputNonTargetLesion"
                                                  value="#{teBean.te.nonTargetLesions}"
                                                  converter="NonTargetLesionsConverter"
-                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !teBean.te.eventByIdEvent.available}">
+                                                 disabled="true">
                                     <f:selectItem itemLabel="#{I18N['tePage.non.target.lesion']}"
                                                   itemValue="#{null}"/>
                                     <!-- import all enum -->
@@ -104,20 +98,17 @@
                                                var="nonTargetLesion"
                                                itemLabel="#{nonTargetLesion.getNonTargetLesions()}"
                                                itemValue="#{nonTargetLesion}"/>
-                                <p:ajax process="@this" update="@all"/>
-                                    <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testOverallResponse()}"/>
                                 </p:selectOneMenu>
                             </span>
                             <span class="field col-12 md:col-4 p-20-0">
                                 <p:outputLabel for="input_status_new_lesion" value="#{I18N['tePage.new.lesion.status']}"/>
                                 <p:selectOneButton id="input_status_new_lesion"
                                                    value="#{teBean.te.newLesions}"
-                                                   disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !teBean.te.eventByIdEvent.available}">
+                                                   disabled="true">
                                 <f:selectItem itemLabel="#{I18N['yes']}"
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['no']}"
                                               itemValue="#{false}"/>
-                                    <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testOverallResponse()}"/>
                                 </p:selectOneButton>
                             </span>
                             <span class="field col-12 md:col-4 p-20-0">
@@ -125,7 +116,7 @@
                                 <p:selectOneMenu id="inputOverallResponse"
                                                  value="#{teBean.te.overallResponse}"
                                                  converter="TargetLesionsOverallResponseConverter"
-                                                 disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !teBean.te.eventByIdEvent.available}">
+                                                 disabled="true">
                                     <f:selectItem itemLabel="#{I18N['tePage.overall.response']}"
                                                   itemValue="#{null}"/>
                                     <!-- import all enum -->
@@ -136,8 +127,6 @@
                                                var="overallResponse"
                                                itemLabel="#{overallResponse.getTargetLesionsOverallResponse()}"
                                                itemValue="#{overallResponse}"/>
-                                <p:ajax process="@this" update="@all"/>
-                                    <p:ajax event="change" process="@this" update="@all" listener="#{teBean.testOverallResponse()}"/>
                                 </p:selectOneMenu>
                             </span>
                             <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorOR}">
@@ -149,45 +138,55 @@
 
                         </h:panelGroup>
                     </p:outputPanel>
+                    <h2>
+                        <h:outputText value="#{I18N['queryPage.updateQueryTitle']}" />
+                    </h2>
+                    <p:outputPanel class="form-control">
+                        <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_query_text" value="#{I18N['queryPage.text']}"/>
+                            <p:inputTextarea  rows="6" cols="33" id="input_query_text" class="label" value="#{queryBean.query.queryText}"
+                                              placeholder="#{I18N['vsPage.vsNd.placeholder']}"
+                                              disabled="true">
+                            </p:inputTextarea>
+                        </h:panelGroup>
+                        <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_query_answer" value="#{I18N['queryPage.answer']}"/>
+                            <p:inputTextarea  rows="6" cols="33" id="input_query_answer" class="label" value="#{queryBean.query.queryAnswer}"
+                                              placeholder="#{I18N['vsPage.vsNd.placeholder']}"
+                                              disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or queryBean.query.queryStatus != 'OPENED' or !queryBean.query.eventByIdEvent.available}">
+                            </p:inputTextarea>
+                        </h:panelGroup>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{queryBean.messageErrorInputQueryAnswerNd}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorInputQueryAnswerNd']}"/></span>
+                            </div>
+                        </div>
+
+                    </p:outputPanel>
                     <span class="responsiveSubmit">
-                         <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'SITE' and teBean.te.eventByIdEvent.available}">
-                            <p:commandButton value="#{I18N['application.update.te']}"
+                        <p:outputPanel rendered="#{queryBean.query.queryStatus == 'OPENED' and connectionBean.user.roleByIdRole.roleLabel == 'SITE' and queryBean.query.eventByIdEvent.available}">
+                            <p:commandButton value="#{I18N['application.update.query']}"
                                              ajax="false"
                                              validateClient="true"
                                              class="ui-button-success"
-                                             disabled="#{vsBean.buttonSuccess}"
-                                             action="#{teBean.submitFormUpdateTe}"/>
+                                             disabled="#{icBean.buttonSuccess}"
+                                             action="#{queryBean.submitFormUpdateQuery}"/>
                         </p:outputPanel>
 
-                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and !eventBean.event.monitored and eventBean.event.available}">
-                            <p:commandButton value="#{I18N['application.te.validate']}"
+                        <p:outputPanel rendered="#{(connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' and queryBean.query.queryStatus != 'CLOSED') or (queryBean.query.userByIdUser.roleByIdRole.roleLabel == connectionBean.user.roleByIdRole.roleLabel and queryBean.query.queryStatus != 'CLOSED')}">
+                            <p:commandButton value="#{I18N['application.close.query']}"
                                              ajax="false"
                                              validateClient="true"
                                              class="ui-button-success"
-                                             action="#{eventBean.setEventMonitored}"/>
-                        </p:outputPanel>
-
-                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and eventBean.event.monitored and eventBean.event.available}">
-                            <p:commandButton value="#{I18N['application.te.revalidate']}"
-                                             ajax="false"
-                                             validateClient="true"
-                                             class="ui-button-success"
-                                             action="#{eventBean.setEventNoMonitored}"/>
-                        </p:outputPanel>
-
-                        <p:outputPanel rendered="#{eventBean.event.available and (connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL' or connectionBean.user.roleByIdRole.roleLabel == 'SAFETY')}">
-                            <p:commandButton value="#{I18N['application.te.query']}"
-                                             ajax="false"
-                                             validateClient="true"
-                                             class="ui-button-success"
-                                             action="/VIEW/addQuery"/>
+                                             action="#{queryBean.submitFormCloseQuery}"/>
                         </p:outputPanel>
 
                         <p:commandButton value="#{I18N['connectionpage.return.button']}"
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-secondary"
-                                         action="#{teBean.cancelUpdateForm()}"/>
+                                         action="#{queryBean.cancelUpdateFormIc()}"/>
                     </span>
                 </h:form>
             </div>

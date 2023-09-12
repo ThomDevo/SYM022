@@ -595,11 +595,28 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
     }
 
     /**
-     * Method to find a DM based on the IdEvent
+     * Method to find a VS based on the IdEvent
      * @param idEvent
      */
     public String findEvent(int idEvent){
         String redirect = "/VIEW/updateVs";
+        EntityManager em = EMF.getEM();
+        try{
+            vs = vsService.findVsByIdEvent(idEvent,em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to find a VS based on the IdEvent
+     * @param idEvent
+     */
+    public String findEventQuery(int idEvent){
+        String redirect = "/VIEW/consultQueryVs";
         EntityManager em = EMF.getEM();
         try{
             vs = vsService.findVsByIdEvent(idEvent,em);

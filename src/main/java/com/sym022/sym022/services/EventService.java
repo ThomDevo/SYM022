@@ -182,7 +182,7 @@ public class EventService {
         Query query =em.createNamedQuery("Event.selectEventScreening", EventEntity.class);
         query.setParameter("idSubject", idSubject);
 
-        int count =((Number)query.getSingleResult()).intValue();
+        int count =((Number)query.getResultList().size()).intValue();
         return count < 4;
     }
 
@@ -210,7 +210,7 @@ public class EventService {
         Query query =em.createNamedQuery("Event.selectEventMois1", EventEntity.class);
         query.setParameter("idSubject", idSubject);
 
-        int count =((Number)query.getSingleResult()).intValue();
+        int count =((Number)query.getResultList().size()).intValue();
         return count < 3;
     }
 

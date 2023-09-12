@@ -291,11 +291,28 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
     }
 
     /**
-     * Method to find a TE based on the IdEvent
+     * Method to find an AE based on the IdEvent
      * @param idEvent
      */
     public String findEvent(int idEvent){
         String redirect = "/VIEW/updateAe";
+        EntityManager em = EMF.getEM();
+        try{
+            ae = aeService.findAeByIdEvent(idEvent,em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to find an AE based on the IdEvent
+     * @param idEvent
+     */
+    public String findEventQuery(int idEvent){
+        String redirect = "/VIEW/consultQueryAe";
         EntityManager em = EMF.getEM();
         try{
             ae = aeService.findAeByIdEvent(idEvent,em);

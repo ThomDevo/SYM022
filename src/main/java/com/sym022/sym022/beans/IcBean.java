@@ -175,11 +175,28 @@ public class IcBean extends FilterOfTable<IcEntity> implements Serializable {
     }
 
     /**
-     * Method to find a Dov based on the IdEvent
+     * Method to find a IC based on the IdEvent
      * @param idEvent
      */
     public String findEvent(int idEvent){
         String redirect = "/VIEW/updateIc";
+        EntityManager em = EMF.getEM();
+        try{
+            ic = icService.findIcByIdEvent(idEvent,em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to find a IC based on the IdEvent
+     * @param idEvent
+     */
+    public String findEventQuery(int idEvent){
+        String redirect = "/VIEW/consultQueryIc";
         EntityManager em = EMF.getEM();
         try{
             ic = icService.findIcByIdEvent(idEvent,em);

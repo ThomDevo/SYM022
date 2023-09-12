@@ -84,6 +84,72 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
     }
 
     /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelUpdateFormCm(){
+        String redirect = "/VIEW/home";
+        initFormQuery();
+        cmBean.initFormCm();
+        return redirect;
+    }
+
+    /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelUpdateFormAe(){
+        String redirect = "/VIEW/home";
+        initFormQuery();
+        aeBean.initFormAe();
+        return redirect;
+    }
+
+    /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelUpdateFormDm(){
+        String redirect = "/VIEW/home";
+        initFormQuery();
+        dmBean.initFormDm();
+        return redirect;
+    }
+
+    /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelUpdateFormIc(){
+        String redirect = "/VIEW/home";
+        initFormQuery();
+        icBean.initFormIc();;
+        return redirect;
+    }
+
+    /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelUpdateFormTe(){
+        String redirect = "/VIEW/home";
+        initFormQuery();
+        teBean.initFormTe();
+        return redirect;
+    }
+
+    /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelUpdateFormVs(){
+        String redirect = "/VIEW/home";
+        initFormQuery();
+        vsBean.initFromVs();
+        return redirect;
+    }
+
+    /**
      * Method to reset the form to add or update a QUERY
      */
     public void initFormQuery(){
@@ -363,11 +429,11 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
             ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
                     FacesContext.getCurrentInstance().getViewRoot().getLocale());
             String addQuery = bundle.getString("query");
-            String update = bundle.getString("update");
+            String addClosed = bundle.getString("closed");
             String forThe = bundle.getString("for");
             String addSubject = bundle.getString("subject");
 
-            addMessage(addQuery+" "+update+" "+forThe+" "+query.getEventByIdEvent().getFormByIdForm().getFormLabel()+" "+forThe+" "+addSubject+" "+query.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+            addMessage(addQuery+" "+addClosed+" "+forThe+" "+query.getEventByIdEvent().getFormByIdForm().getFormLabel()+" "+forThe+" "+addSubject+" "+query.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
             eventBean.initEvent();
             initFormQuery();
 
