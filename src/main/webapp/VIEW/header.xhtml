@@ -89,7 +89,7 @@
                         <p:menuitem value="#{I18N['menu.data.query.to.answer']}" icon="pi pi-fw pi-comment" action="/VIEW/listOfAllQueriesToAnswer.xhtml" rendered="#{connectionBean.verifyPermissionUser('Answer to a query') and connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER'}"/>
                         <p:menuitem value="#{I18N['menu.data.query.to.answer']}" icon="pi pi-fw pi-comment" action="/VIEW/listOfAllQueriesToAnswerPermitted.xhtml" rendered="#{connectionBean.verifyPermissionUser('Answer to a query') and connectionBean.user.roleByIdRole.roleLabel != 'DATA MANAGER'}"/>
                         <p:menuitem value="#{I18N['menu.data.query.answered']}" icon="pi pi-fw pi-comments" action="/VIEW/listOfAllQueriesAnswered.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER'}"/>
-                        <p:menuitem value="#{I18N['menu.data.query.answered']}" icon="pi pi-fw pi-comments" action="/VIEW/listOfAllQueriesAnsweredPermitted.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel != 'DATA MANAGER'}"/>
+                        <p:menuitem value="#{I18N['menu.data.query.answered']}" icon="pi pi-fw pi-comments" action="/VIEW/listOfAllQueriesAnsweredPermitted.xhtml" rendered="#{connectionBean.verifyPermissionUser('Close a query') and connectionBean.user.roleByIdRole.roleLabel != 'DATA MANAGER'}"/>
                         <p:divider/>
                     </p:submenu>
                 </p:submenu>

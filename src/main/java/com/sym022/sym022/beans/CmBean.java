@@ -369,6 +369,23 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
     }
 
     /**
+     * Method to find a CM based on the IdEvent
+     * @param idEvent
+     */
+    public String findEventQuery(int idEvent){
+        String redirect = "/VIEW/consultQueryCm";
+        EntityManager em = EMF.getEM();
+        try{
+            cm = cmService.findCmByIdEvent(idEvent,em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+        return redirect;
+    }
+
+    /**
      * Method to add a CM in the DB
      * @return a CM
      */

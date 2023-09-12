@@ -209,6 +209,23 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
     }
 
     /**
+     * Method to find a TE based on the IdEvent
+     * @param idEvent
+     */
+    public String findEventQuery(int idEvent){
+        String redirect = "/VIEW/consultQueryTe";
+        EntityManager em = EMF.getEM();
+        try{
+            te = teService.findTeByIdEvent(idEvent,em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+        return redirect;
+    }
+
+    /**
      * Method to add a popup
      */
     private void getRessourceBundle() {

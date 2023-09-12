@@ -73,7 +73,7 @@
                                     </f:facet>
                                     <h:outputText value="#{e.visitLabel.visitLabel}"/>
                                 </p:column>
-
+                                <p:ajax event="change" listener="#{userBean.getFilterForm}" update="inputForm"/>
                             </p:selectOneMenu>
                         </span>
                         <span class="field col-12 md:col-4 p-20-0">
@@ -86,9 +86,6 @@
                                              filter="true"
                                              filterMatchMode="contains">
                                 <!-- reload list editor from db. -->
-                                <f:metadata>
-                                    <f:event listener="#{formBean.initAllEditorForm()}" type="preRenderView"/>
-                                </f:metadata>
 
                                 <f:selectItem itemLabel="#{I18N['formPage.form']}"
                                               itemValue="#{null}"/>

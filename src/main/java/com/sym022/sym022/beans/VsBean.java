@@ -82,6 +82,16 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
     }
 
     /**
+     * Method to return on the homepage
+     * @return homepage
+     */
+    public String cancelUpdateForm(){
+        String redirect = "/VIEW/home";
+        initFromVs();
+        return redirect;
+    }
+
+    /**
      * Method to reset the form for Add/Update a VS
      */
     public void initFromVs(){
@@ -585,11 +595,28 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
     }
 
     /**
-     * Method to find a DM based on the IdEvent
+     * Method to find a VS based on the IdEvent
      * @param idEvent
      */
     public String findEvent(int idEvent){
         String redirect = "/VIEW/updateVs";
+        EntityManager em = EMF.getEM();
+        try{
+            vs = vsService.findVsByIdEvent(idEvent,em);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally {
+            em.close();
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to find a VS based on the IdEvent
+     * @param idEvent
+     */
+    public String findEventQuery(int idEvent){
+        String redirect = "/VIEW/consultQueryVs";
         EntityManager em = EMF.getEM();
         try{
             vs = vsService.findVsByIdEvent(idEvent,em);
@@ -819,8 +846,6 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
                     this.vs.setOxysat(0);
                 }
 
-
-
                 transaction.begin();
                 eventService.updateEvent(eventBean.getEvent(),em);
                 auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
@@ -838,6 +863,247 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
             }
             getRessourceBundle();
         }
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to update a VS in the DB
+     * @return a VS
+     */
+    public String submitFormUpdateVs(){
+        EntityManager em = EMF.getEM();
+        String redirect = "/VIEW/home";
+        EntityTransaction transaction = em.getTransaction();
+        VsService vsService = new VsService();
+        EventService eventService = new EventService();
+        AuditTrailService auditTrailService = new AuditTrailService();
+        LocalDate now = LocalDate.now();
+        String isoDatePattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+        if(vs.getVsYn() && vs.getVsDate() != null){
+            String vsDate = simpleDateFormat.format(vs.getVsDate());
+            int resultVsDate = vsDate.compareTo(String.valueOf(now));
+            if(resultVsDate > 0){
+                initErrorMessageFormVS();
+                this.messageErrorVisitDate = "";
+                redirect = "null";
+                return redirect;
+            }else if(!vs.getVsYn() && Objects.equals(vs.getVsNd(), "")){
+                initErrorMessageFormVS();
+                this.messageErrorVisitNd = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getHeightNd() && (vs.getHeight() == null || vs.getHeight() == 0)) {
+                initErrorMessageFormVS();
+                this.messageErrorHeightNull = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getHeightNd() && vs.getHeightU() == null){
+                initErrorMessageFormVS();
+                this.messageErrorHeightUnitNull = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getHeightNd() && vs.getHeight() < 40.0 && vs.getHeightU() == HeightU.CM || vs.getHeightNd() && vs.getHeight() > 280.0 && vs.getHeightU() == HeightU.CM){
+                initErrorMessageFormVS();
+                this.messageErrorHeightCm = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getHeightNd() && vs.getHeight() < 15.7 && vs.getHeightU() == HeightU.INCHES || vs.getHeightNd() && vs.getHeight() > 110.2 && vs.getHeightU() == HeightU.INCHES){
+                initErrorMessageFormVS();
+                this.messageErrorHeightInches = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getWeightNd() && (vs.getWeight() == null || vs.getWeight() == 0)) {
+                initErrorMessageFormVS();
+                this.messageErrorWeightNull = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getWeightNd() && vs.getWeightU() == null){
+                initErrorMessageFormVS();
+                this.messageErrorWeightUnitNull = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getWeightNd() && vs.getWeight() < 20.0 && vs.getWeightU() == WeightU.KG || vs.getWeightNd() && vs.getWeight() > 650.0 && vs.getWeightU() == WeightU.KG){
+                initErrorMessageFormVS();
+                this.messageErrorWeightKg = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getWeightNd() && vs.getWeight() < 44.0 && vs.getWeightU() == WeightU.POUNDS || vs.getWeightNd() && vs.getWeight() > 1435.0 && vs.getWeightU() == WeightU.POUNDS){
+                initErrorMessageFormVS();
+                this.messageErrorWeightPounds = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getBpNd() && vs.getDbp()>vs.getSbp()){
+                initErrorMessageFormVS();
+                this.messageErrorSbpGtDbp = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getBpNd() && vs.getDbp()<10){
+                initErrorMessageFormVS();
+                this.messageErrorDbp = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getBpNd() && vs.getSbp()>250){
+                initErrorMessageFormVS();
+                this.messageErrorSbp = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getHrNd() && vs.getHr()<10 || vs.getHrNd() && vs.getHr()>240){
+                initErrorMessageFormVS();
+                this.messageErrorHr = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getRrNd() && vs.getRr()<5){
+                initErrorMessageFormVS();
+                this.messageErrorRr = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getTempNd() && (vs.getTemp() == null || vs.getTemp() == 0)) {
+                initErrorMessageFormVS();
+                this.messageErrorTempNull = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getTempNd() && vs.getTempU() == null){
+                initErrorMessageFormVS();
+                this.messageErrorTempUnitNull = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getTempNd() && vs.getTemp() < 30 && vs.getTempU() == TempU.C || vs.getTempNd() && vs.getTemp() > 45 && vs.getTempU() == TempU.C){
+                initErrorMessageFormVS();
+                this.messageErrorTempC = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getTempNd() && vs.getTemp() < 86 && vs.getTempU() == TempU.F || vs.getTempNd() && vs.getTemp() > 113 && vs.getTempU() == TempU.F){
+                initErrorMessageFormVS();
+                this.messageErrorTempF = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getTempNd() && vs.getTempRoute() == null){
+                initErrorMessageFormVS();
+                this.messageErrorTempRoute = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.getOxysatNd() && vs.getOxysat()<50) {
+                initErrorMessageFormVS();
+                this.messageErrorOxy = "";
+                redirect = "null";
+                return redirect;
+            }else if(vs.isVsYn() && !vs.isHeightNd() && !vs.isWeightNd() && !vs.isBpNd() && !vs.isHrNd() && !vs.isRrNd() && !vs.isTempNd() && !vs.isOxysatNd()){
+                initErrorMessageFormVS();
+                this.messageErrorPerf = "";
+                redirect = "null";
+                return redirect;
+            }else{
+                try{
+                    vs.setEventByIdEvent(eventBean.getEvent());
+                    auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                    auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                    auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                    eventBean.getEvent().setCompleted(true);
+                    eventBean.getEvent().setMonitored(false);
+                    if(!vs.getHeightNd()){
+                        vs.setHeight(null);
+                        vs.setHeightU(HeightU.CM);
+                    }
+                    if(!vs.getWeightNd()){
+                        vs.setWeight(null);
+                        vs.setWeightU(WeightU.KG);
+                    }
+                    if(!vs.getBpNd()){
+                        vs.setSbp(0);
+                        vs.setDbp(0);
+                    }
+                    if(!vs.getHrNd()){
+                        vs.setHr(0);
+                    }
+                    if(!vs.getRrNd()){
+                        vs.setRr(0);
+                    }
+                    if(!vs.getTempNd()){
+                        vs.setTemp(null);
+                        vs.setTempU(TempU.C);
+                        vs.setTempRoute(TempRoute.UNKNOWN);
+                    }
+                    if(!vs.getOxysatNd()){
+                        vs.setOxysat(0);
+                    }
+                    transaction.begin();
+                    eventService.updateEvent(eventBean.getEvent(),em);
+                    auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                    vsService.updateVs(vs,em);
+                    transaction.commit();
+
+                }catch(Exception e){
+                    ProcessUtils.debug(" I'm in the catch of the addVS method: "+ e);
+
+                }finally {
+                    if(transaction.isActive()){
+                        transaction.rollback();
+                    }
+                    em.close();
+                }
+                getRessourceBundle();
+
+            }
+        }else{
+            if(!vs.getVsYn() && Objects.equals(vs.getVsNd(), "")){
+                initErrorMessageFormVS();
+                this.messageErrorVisitNd = "";
+                redirect = "null";
+            }else if(vs.getVsYn() && vs.getVsDate() == null){
+                initErrorMessageFormVS();
+                this.messageErrorVisitDateMissing = "";
+                redirect = "null";
+            }else{
+                try{
+                    vs.setEventByIdEvent(eventBean.getEvent());
+                    auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                    auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                    auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                    eventBean.getEvent().setCompleted(true);
+                    eventBean.getEvent().setMonitored(false);
+
+                    if(!vs.getVsYn()){;
+                        this.vs.setVsDate(null);
+                        this.vs.setHeightNd(false);
+                        this.vs.setHeight(0.0);
+                        this.vs.setHeightU(null);
+                        this.vs.setWeightNd(false);
+                        this.vs.setWeight(0.0);
+                        this.vs.setWeightU(WeightU.KG);
+                        this.vs.setBpNd(false);
+                        this.vs.setSbp(0);
+                        this.vs.setDbp(0);
+                        this.vs.setHrNd(false);
+                        this.vs.setHr(0);
+                        this.vs.setRrNd(false);
+                        this.vs.setRr(0);
+                        this.vs.setTempNd(false);
+                        this.vs.setTemp(0.0);
+                        this.vs.setTempU(TempU.C);
+                        this.vs.setTempRoute(TempRoute.UNKNOWN);
+                        this.vs.setOxysatNd(false);
+                        this.vs.setOxysat(0);
+                    }
+
+                    transaction.begin();
+                    eventService.updateEvent(eventBean.getEvent(),em);
+                    auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                    vsService.addVs(vs,em);
+                    transaction.commit();
+
+                }catch(Exception e){
+                    ProcessUtils.debug(" I'm in the catch of the addVS method: "+ e);
+
+                }finally {
+                    if(transaction.isActive()){
+                        transaction.rollback();
+                    }
+                    em.close();
+                }
+                getRessourceBundle();
+            }
         }
         return redirect;
     }

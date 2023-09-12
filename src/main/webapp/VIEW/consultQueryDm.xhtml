@@ -25,18 +25,15 @@
                                            placeholder="#{I18N['dmPage.year.placeholder']}"
                                            validatorMessage="#{I18N['dmPage.year.errorMessage']}"
                                            minValue="1920"
-                                           disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !dmBean.dm.eventByIdEvent.available}">
-                                <p:ajax update="messageYear" event="blur"/>
+                                           disabled="true">
                             </p:inputNumber>
                         </span>
-                        <p:message id="messageYear" for="@previous"/>
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="inputSex" value="#{I18N['dmPage.sex']}"/>
                             <p:selectOneMenu id="inputSex"
                                              value="#{dmBean.dm.sex}"
                                              converter="SexConverter"
-                                             required="true"
-                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !dmBean.dm.eventByIdEvent.available}">
+                                             disabled="true">
                                 <f:selectItem itemLabel="#{I18N['dmPage.sex']}"
                                               itemValue="#{null}"/>
                                 <!-- import all enum -->
@@ -54,8 +51,7 @@
                             <p:selectOneMenu id="inputEthnicity"
                                              value="#{dmBean.dm.ethnicity}"
                                              converter="EthnicityConverter"
-                                             required="true"
-                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !dmBean.dm.eventByIdEvent.available}">
+                                             disabled="true">
                                 <f:selectItem itemLabel="#{I18N['dmPage.ethnicity']}"
                                               itemValue="#{null}"/>
                                 <!-- import all enum -->
@@ -73,8 +69,7 @@
                             <p:selectOneMenu id="inputCulture"
                                              value="#{dmBean.dm.culture}"
                                              converter="CultureConverter"
-                                             required="true"
-                                             disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !dmBean.dm.eventByIdEvent.available}">
+                                             disabled="true">
                                 <f:selectItem itemLabel="#{I18N['dmPage.culture']}"
                                               itemValue="#{null}"/>
                                 <!-- import all enum -->
@@ -88,45 +83,54 @@
                             </p:selectOneMenu>
                         </span>
                     </p:outputPanel>
+                    <h2>
+                        <h:outputText value="#{I18N['queryPage.updateQueryTitle']}" />
+                    </h2>
+                    <p:outputPanel class="form-control">
+                        <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_query_text" value="#{I18N['queryPage.text']}"/>
+                            <p:inputTextarea  rows="6" cols="33" id="input_query_text" class="label" value="#{queryBean.query.queryText}"
+                                              placeholder="#{I18N['vsPage.vsNd.placeholder']}"
+                                              disabled="true">
+                            </p:inputTextarea>
+                        </h:panelGroup>
+                        <h:panelGroup class="field col-12 md:col-4 p-20-0">
+                            <p:outputLabel for="input_query_answer" value="#{I18N['queryPage.answer']}"/>
+                            <p:inputTextarea  rows="6" cols="33" id="input_query_answer" class="label" value="#{queryBean.query.queryAnswer}"
+                                              placeholder="#{I18N['vsPage.vsNd.placeholder']}"
+                                              disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or queryBean.query.queryStatus != 'OPENED' or !queryBean.query.eventByIdEvent.available}">
+                            </p:inputTextarea>
+                        </h:panelGroup>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{queryBean.messageErrorInputQueryAnswerNd}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorInputQueryAnswerNd']}"/></span>
+                            </div>
+                        </div>
+
+                    </p:outputPanel>
                     <span class="responsiveSubmit">
-                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'SITE' and dmBean.dm.eventByIdEvent.available}">
-                            <p:commandButton value="#{I18N['application.update.dm']}"
+                        <p:outputPanel rendered="#{queryBean.query.queryStatus == 'OPENED' and connectionBean.user.roleByIdRole.roleLabel == 'SITE' and queryBean.query.eventByIdEvent.available}">
+                            <p:commandButton value="#{I18N['application.update.query']}"
                                              ajax="false"
                                              validateClient="true"
                                              class="ui-button-success"
-                                             disabled="#{vsBean.buttonSuccess}"
-                                             action="#{dmBean.submitFormUpdateDm}"/>
+                                             action="#{queryBean.submitFormUpdateQuery}"/>
                         </p:outputPanel>
 
-                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and !eventBean.event.monitored and eventBean.event.available}">
-                            <p:commandButton value="#{I18N['application.dm.validate']}"
+                        <p:outputPanel rendered="#{(connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' and queryBean.query.queryStatus != 'CLOSED') or (queryBean.query.userByIdUser.roleByIdRole.roleLabel == connectionBean.user.roleByIdRole.roleLabel and queryBean.query.queryStatus != 'CLOSED')}">
+                            <p:commandButton value="#{I18N['application.close.query']}"
                                              ajax="false"
                                              validateClient="true"
                                              class="ui-button-success"
-                                             action="#{eventBean.setEventMonitored}"/>
-                        </p:outputPanel>
-
-                        <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and eventBean.event.monitored and eventBean.event.available}">
-                            <p:commandButton value="#{I18N['application.dm.revalidate']}"
-                                             ajax="false"
-                                             validateClient="true"
-                                             class="ui-button-success"
-                                             action="#{eventBean.setEventNoMonitored}"/>
-                        </p:outputPanel>
-
-                        <p:outputPanel rendered="#{eventBean.event.available and (connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL' or connectionBean.user.roleByIdRole.roleLabel == 'SAFETY')}">
-                            <p:commandButton value="#{I18N['application.dm.query']}"
-                                             ajax="false"
-                                             validateClient="true"
-                                             class="ui-button-success"
-                                             action="/VIEW/addQuery"/>
+                                             action="#{queryBean.submitFormCloseQuery}"/>
                         </p:outputPanel>
 
                         <p:commandButton value="#{I18N['connectionpage.return.button']}"
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-secondary"
-                                         action="#{dmBean.cancelUpdateForm()}"/>
+                                         action="#{queryBean.cancelUpdateFormDm()}"/>
                     </span>
                 </h:form>
             </div>
