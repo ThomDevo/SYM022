@@ -16,8 +16,8 @@ public class MailSender {
 
         boolean sendFlag = false;
 
-        final String username = "teamchasa@outlook.com";
-        final String password = "Chasa1234";
+        final String username = "SYM022_Safety@outlook.com";
+        final String password = "Sym@1234";
 
 
 
@@ -75,7 +75,8 @@ public class MailSender {
             MimeBodyPart messageBodyPartPDF = new MimeBodyPart();
             String filename = mail.getFilename();
             log.info(filename);
-            DataSource source = new FileDataSource("C:\\Users\\devog\\IdeaProjects\\chasa\\src\\main\\webapp\\PDF\\"+filename);
+            //DataSource source = new FileDataSource("C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\"+filename);
+            DataSource source = new FileDataSource("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\"+filename);
             log.info(source.toString());
             messageBodyPartPDF.setDataHandler(new DataHandler(source));
             messageBodyPartPDF.setFileName(filename);

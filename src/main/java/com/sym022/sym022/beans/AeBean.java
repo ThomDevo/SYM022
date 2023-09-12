@@ -1,7 +1,11 @@
 package com.sym022.sym022.beans;
 
+import com.itextpdf.text.pdf.TextField;
+import com.sun.org.apache.xpath.internal.operations.Div;
 import com.sym022.sym022.entities.AeEntity;
 import com.sym022.sym022.enums.*;
+import com.sym022.sym022.mail.Mail;
+import com.sym022.sym022.mail.MailSender;
 import com.sym022.sym022.services.AeService;
 import com.sym022.sym022.services.AuditTrailService;
 import com.sym022.sym022.services.EventService;
@@ -9,7 +13,9 @@ import com.sym022.sym022.services.VisitService;
 import com.sym022.sym022.utilities.EMF;
 import com.sym022.sym022.utilities.FilterOfTable;
 import com.sym022.sym022.utilities.ProcessUtils;
-
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfTemplate;
+import com.itextpdf.text.pdf.PdfWriter;
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -18,9 +24,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.xml.soap.Text;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -53,6 +64,8 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
     private AuditTrailBean auditTrailBean;
     @Inject
     private EventBean eventBean;
+    ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+            FacesContext.getCurrentInstance().getViewRoot().getLocale());
 
     /*---Method---*/
 
@@ -291,7 +304,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
     }
 
     /**
-     * Method to find a TE based on the IdEvent
+     * Method to find an AE based on the IdEvent
      * @param idEvent
      */
     public String findEvent(int idEvent){
@@ -319,8 +332,13 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         EventService eventService = new EventService();
         AuditTrailService auditTrailService = new AuditTrailService();
         LocalDate now = LocalDate.now();
+        String dateEventPattern = "ddMMyyyy-HHmmss";
         String isoDatePattern = "yyyy-MM-dd";
-
+        String isoTimePattern = "HH:mm";
+        Mail email = new Mail();
+        Document doc = new Document();
+        String filename;
+        String source;
 
         if(ae.getAestdat() == null && ae.getAeendat() == null){
             initErrorMessageFormAe();
@@ -386,8 +404,85 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                     }
                     em.close();
                 }
-                ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
-                        FacesContext.getCurrentInstance().getViewRoot().getLocale());
+                if(ae.isAeser()){
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    SimpleDateFormat simpleDateFormatDate = new SimpleDateFormat(isoDatePattern);
+                    String dateAestdat = simpleDateFormatDate.format(ae.getAestdat());
+                    //String dateAeendat = simpleDateFormatDate.format(ae.getAeendat());
+                    LocalDateTime nowMail = LocalDateTime.now();
+                    String newSAE = bundle.getString("newSAE");
+                    String dear = bundle.getString("dear");
+                    String subject = bundle.getString("subjectPage.subjectNum");
+                    String aeterm = bundle.getString("aePage.aeterm");
+                    String aestdat = bundle.getString("aePage.aestdat");
+                    String aeout = bundle.getString("aePage.aeout");
+                    String aeendat = bundle.getString("aePage.aeendat");
+                    String aetoxgd = bundle.getString("aePage.aetoxgd");
+                    String aesev = bundle.getString("aePage.aesev");
+                    String aerel = bundle.getString("aePage.aerel");
+                    String aedeath = bundle.getString("aePage.aedeath");
+                    String aelife = bundle.getString("aePage.aelife");
+                    String aehosp = bundle.getString("aePage.aehosp");
+                    String aedisab = bundle.getString("aePage.aedisab");
+                    String aecong = bundle.getString("aePage.aecong");
+                    String aemedimsp = bundle.getString("aePage.aemedimsp");
+                    String team = bundle.getString("team");
+                    String reminder = bundle.getString("reminder");
+                    filename = "SYM-022_SAE_"+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+ "_"+now +dtf.format(nowMail)+ ".pdf";
+                    //source = "C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
+                    source = "C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
+                    try{
+                        PdfWriter.getInstance(doc, new FileOutputStream(source));
+                        doc.open();
+
+                        Paragraph p = new Paragraph();
+
+                        Image image = Image.getInstance("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\SAE_images.png");
+                        image.scaleAbsolute(500, 150);
+                        doc.add (image);
+                        p.add("\n"+dear+"\n\n"+subject+" : "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+
+                                "\n"+ aeterm+" : "+ae.getAeterm()+"\n"+ aestdat+" : "+dateAestdat+"\n"+ aeout+" : "+ae.getAeout().getAeout()+
+                                /*"\n"+ aeendat+" : "+dateAeendat+*/"\n"+ aetoxgd+" : "+ae.getAetoxgd().getAetoxgd()+
+                                "\n"+ aesev+" : "+ae.getAesev().getAesev()+"\n"+ aerel+" : "+ae.getAerel().getAerel()+
+                                "\n"+ aedeath+" : "+ae.isAedeath()+"\n"+ aelife+" : "+ae.isAelife()+
+                                "\n"+ aehosp+" : "+ae.isAehosp()+"\n"+ aedisab+" : "+ae.isAedisab()+
+                                "\n"+ aecong+" : "+ae.isAecong()+"\n"+ aemedimsp+" : "+ae.getAemedimsp()
+                        );
+                        doc.add(p);
+                        Font f1 = new Font();
+                        f1.setColor(BaseColor.RED);
+                        f1.setStyle(Font.BOLD);
+                        doc.add(new Paragraph("\n"+ reminder, f1));
+                        doc.add(new Paragraph("\n"+ team +"\n"));
+                        Image image1 = Image.getInstance("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\logo_Sym022.png");
+                        image.scaleAbsolute(65, 41);
+                        doc.add (image1);
+                        doc.close();
+
+                    } catch (DocumentException | IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    email.setFrom("SYM022_Safety@outlook.com");
+                    email.setMsgBody(dear+"\n"+subject+" : "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+
+                            "\n"+ aeterm+" : "+ae.getAeterm()+"\n"+ aestdat+" : "+dateAestdat);
+                    email.setSubject("SYM-022: "+newSAE + "_" +ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum());
+                    email.setNick("SYM022");
+                    email.setReplyTo("SYM022_Safety@outlook.com");
+                    //email.setListTo(listEMail);
+                    email.getListTo().add("thomas.devogelaere@promsocatc.net");
+                    email.getListTo().add("daphne.debetancourt@promsocatc.net");
+                    email.setEncodeUTF8(true);
+                    email.setFilename(filename);
+                    email.setSource(source);
+                    try {
+                        MailSender.sendMail(email);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
                 String addAe = bundle.getString("ae");
                 String add = bundle.getString("add");
                 String forThe = bundle.getString("for");
@@ -471,8 +566,86 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                         }
                         em.close();
                     }
-                    ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
-                    FacesContext.getCurrentInstance().getViewRoot().getLocale());
+
+                    if(ae.isAeser()){
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                        SimpleDateFormat simpleDateFormatDate = new SimpleDateFormat(isoDatePattern);
+                        String dateAestdat = simpleDateFormatDate.format(ae.getAestdat());
+                        String dateAeendat = simpleDateFormatDate.format(ae.getAeendat());
+                        LocalDateTime nowMail = LocalDateTime.now();
+                        String newSAE = bundle.getString("newSAE");
+                        String dear = bundle.getString("dear");
+                        String subject = bundle.getString("subjectPage.subjectNum");
+                        String aeterm = bundle.getString("aePage.aeterm");
+                        String aestdat = bundle.getString("aePage.aestdat");
+                        String aeout = bundle.getString("aePage.aeout");
+                        String aeendat = bundle.getString("aePage.aeendat");
+                        String aetoxgd = bundle.getString("aePage.aetoxgd");
+                        String aesev = bundle.getString("aePage.aesev");
+                        String aerel = bundle.getString("aePage.aerel");
+                        String aedeath = bundle.getString("aePage.aedeath");
+                        String aelife = bundle.getString("aePage.aelife");
+                        String aehosp = bundle.getString("aePage.aehosp");
+                        String aedisab = bundle.getString("aePage.aedisab");
+                        String aecong = bundle.getString("aePage.aecong");
+                        String aemedimsp = bundle.getString("aePage.aemedimsp");
+                        String team = bundle.getString("team");
+                        String reminder = bundle.getString("reminder");
+                        filename = "SYM-022_SAE_"+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+ "_"+now +dtf.format(nowMail)+ ".pdf";
+                        //source = "C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
+                        source = "C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
+                        try{
+                            PdfWriter.getInstance(doc, new FileOutputStream(source));
+                            doc.open();
+
+                            Paragraph p = new Paragraph();
+
+                            Image image = Image.getInstance("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\SAE_images.png");
+                            image.scaleAbsolute(500, 150);
+                            doc.add (image);
+                            p.add("\n"+dear+"\n\n"+subject+" : "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+
+                                    "\n"+ aeterm+" : "+ae.getAeterm()+"\n"+ aestdat+" : "+dateAestdat+"\n"+ aeout+" : "+ae.getAeout().getAeout()+
+                                    "\n"+ aeendat+" : "+dateAeendat+"\n"+ aetoxgd+" : "+ae.getAetoxgd().getAetoxgd()+
+                                    "\n"+ aesev+" : "+ae.getAesev().getAesev()+"\n"+ aerel+" : "+ae.getAerel().getAerel()+
+                                    "\n"+ aedeath+" : "+ae.isAedeath()+"\n"+ aelife+" : "+ae.isAelife()+
+                                    "\n"+ aehosp+" : "+ae.isAehosp()+"\n"+ aedisab+" : "+ae.isAedisab()+
+                                    "\n"+ aecong+" : "+ae.isAecong()+"\n"+ aemedimsp+" : "+ae.getAemedimsp()
+                            );
+                            doc.add(p);
+                            Font f1 = new Font();
+                            f1.setColor(BaseColor.RED);
+                            f1.setStyle(Font.BOLD);
+                            doc.add(new Paragraph("\n"+ reminder, f1));
+                            doc.add(new Paragraph("\n"+ team +"\n"));
+                            Image image1 = Image.getInstance("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\logo_Sym022.png");
+                            image.scaleAbsolute(65, 41);
+                            doc.add (image1);
+                            doc.close();
+
+                        } catch (DocumentException | IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        email.setFrom("SYM022_Safety@outlook.com");
+                        email.setMsgBody(dear+"\n"+subject+" : "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+
+                                "\n"+ aeterm+" : "+ae.getAeterm()+"\n"+ aestdat+" : "+dateAestdat);
+                        email.setSubject("SYM-022: "+newSAE + "_" +ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum());
+                        email.setNick("SYM022");
+                        email.setReplyTo("SYM022_Safety@outlook.com");
+                        //email.setListTo(listEMail);
+                        email.getListTo().add("thomas.devogelaere@promsocatc.net");
+                        email.getListTo().add("daphne.debetancourt@promsocatc.net");
+                        email.setEncodeUTF8(true);
+                        email.setFilename(filename);
+                        email.setSource(source);
+                        try {
+                            MailSender.sendMail(email);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
                     String addAe = bundle.getString("ae");
                     String add = bundle.getString("add");
                     String forThe = bundle.getString("for");
@@ -499,7 +672,10 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         AuditTrailService auditTrailService = new AuditTrailService();
         LocalDate now = LocalDate.now();
         String isoDatePattern = "yyyy-MM-dd";
-
+        Mail email = new Mail();
+        Document doc = new Document();
+        String filename;
+        String source;
 
         if(ae.getAestdat() == null && ae.getAeendat() == null){
             initErrorMessageFormAe();
@@ -566,8 +742,86 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                     }
                     em.close();
                 }
-                ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
-                        FacesContext.getCurrentInstance().getViewRoot().getLocale());
+
+                if(ae.isAeser()){
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    SimpleDateFormat simpleDateFormatDate = new SimpleDateFormat(isoDatePattern);
+                    String dateAestdat = simpleDateFormatDate.format(ae.getAestdat());
+                    //String dateAeendat = simpleDateFormatDate.format(ae.getAeendat());
+                    LocalDateTime nowMail = LocalDateTime.now();
+                    String updateSAE = bundle.getString("updateSAE");
+                    String dear2 = bundle.getString("dear2");
+                    String subject = bundle.getString("subjectPage.subjectNum");
+                    String aeterm = bundle.getString("aePage.aeterm");
+                    String aestdat = bundle.getString("aePage.aestdat");
+                    String aeout = bundle.getString("aePage.aeout");
+                    //String aeendat = bundle.getString("aePage.aeendat");
+                    String aetoxgd = bundle.getString("aePage.aetoxgd");
+                    String aesev = bundle.getString("aePage.aesev");
+                    String aerel = bundle.getString("aePage.aerel");
+                    String aedeath = bundle.getString("aePage.aedeath");
+                    String aelife = bundle.getString("aePage.aelife");
+                    String aehosp = bundle.getString("aePage.aehosp");
+                    String aedisab = bundle.getString("aePage.aedisab");
+                    String aecong = bundle.getString("aePage.aecong");
+                    String aemedimsp = bundle.getString("aePage.aemedimsp");
+                    String team = bundle.getString("team");
+                    String reminder = bundle.getString("reminder");
+                    filename = "SYM-022_SAE_"+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+ "_"+now +dtf.format(nowMail)+ ".pdf";
+                    //source = "C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
+                    source = "C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
+                    try{
+                        PdfWriter.getInstance(doc, new FileOutputStream(source));
+                        doc.open();
+
+                        Paragraph p = new Paragraph();
+
+                        Image image = Image.getInstance("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\SAE_images.png");
+                        image.scaleAbsolute(500, 150);
+                        doc.add (image);
+                        p.add("\n"+dear2+"\n\n"+subject+" : "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+
+                                "\n"+ aeterm+" : "+ae.getAeterm()+"\n"+ aestdat+" : "+dateAestdat+"\n"+ aeout+" : "+ae.getAeout().getAeout()+
+                                /*"\n"+ aeendat+" : "+dateAeendat+*/"\n"+ aetoxgd+" : "+ae.getAetoxgd().getAetoxgd()+
+                                "\n"+ aesev+" : "+ae.getAesev().getAesev()+"\n"+ aerel+" : "+ae.getAerel().getAerel()+
+                                "\n"+ aedeath+" : "+ae.isAedeath()+"\n"+ aelife+" : "+ae.isAelife()+
+                                "\n"+ aehosp+" : "+ae.isAehosp()+"\n"+ aedisab+" : "+ae.isAedisab()+
+                                "\n"+ aecong+" : "+ae.isAecong()+"\n"+ aemedimsp+" : "+ae.getAemedimsp()
+                        );
+                        doc.add(p);
+                        Font f1 = new Font();
+                        f1.setColor(BaseColor.RED);
+                        f1.setStyle(Font.BOLD);
+                        doc.add(new Paragraph("\n"+ reminder, f1));
+                        doc.add(new Paragraph("\n"+ team +"\n"));
+                        Image image1 = Image.getInstance("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\logo_Sym022.png");
+                        image.scaleAbsolute(65, 41);
+                        doc.add (image1);
+                        doc.close();
+
+                    } catch (DocumentException | IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    email.setFrom("SYM022_Safety@outlook.com");
+                    email.setMsgBody(dear2+"\n"+subject+" : "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+
+                            "\n"+ aeterm+" : "+ae.getAeterm()+"\n"+ aestdat+" : "+dateAestdat);
+                    email.setSubject("SYM-022: "+updateSAE + "_" +ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum());
+                    email.setNick("SYM022");
+                    email.setReplyTo("SYM022_Safety@outlook.com");
+                    //email.setListTo(listEMail);
+                    email.getListTo().add("thomas.devogelaere@promsocatc.net");
+                    email.getListTo().add("daphne.debetancourt@promsocatc.net");
+                    email.setEncodeUTF8(true);
+                    email.setFilename(filename);
+                    email.setSource(source);
+                    try {
+                        MailSender.sendMail(email);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
                 String addAe = bundle.getString("ae");
                 String update = bundle.getString("update");
                 String forThe = bundle.getString("for");
@@ -650,8 +904,84 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                         }
                         em.close();
                     }
-                    ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
-                            FacesContext.getCurrentInstance().getViewRoot().getLocale());
+                    if(ae.isAeser()){
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                        SimpleDateFormat simpleDateFormatDate = new SimpleDateFormat(isoDatePattern);
+                        String dateAestdat = simpleDateFormatDate.format(ae.getAestdat());
+                        String dateAeendat = simpleDateFormatDate.format(ae.getAeendat());
+                        LocalDateTime nowMail = LocalDateTime.now();
+                        String updateSAE = bundle.getString("updateSAE");
+                        String dear2 = bundle.getString("dear2");
+                        String subject = bundle.getString("subjectPage.subjectNum");
+                        String aeterm = bundle.getString("aePage.aeterm");
+                        String aestdat = bundle.getString("aePage.aestdat");
+                        String aeout = bundle.getString("aePage.aeout");
+                        String aeendat = bundle.getString("aePage.aeendat");
+                        String aetoxgd = bundle.getString("aePage.aetoxgd");
+                        String aesev = bundle.getString("aePage.aesev");
+                        String aerel = bundle.getString("aePage.aerel");
+                        String aedeath = bundle.getString("aePage.aedeath");
+                        String aelife = bundle.getString("aePage.aelife");
+                        String aehosp = bundle.getString("aePage.aehosp");
+                        String aedisab = bundle.getString("aePage.aedisab");
+                        String aecong = bundle.getString("aePage.aecong");
+                        String aemedimsp = bundle.getString("aePage.aemedimsp");
+                        String team = bundle.getString("team");
+                        String reminder = bundle.getString("reminder");
+                        filename = "SYM-022_SAE_"+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+ "_"+now +dtf.format(nowMail)+ ".pdf";
+                        //source = "C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
+                        source = "C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
+                        try{
+                            PdfWriter.getInstance(doc, new FileOutputStream(source));
+                            doc.open();
+
+                            Paragraph p = new Paragraph();
+
+                            Image image = Image.getInstance("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\SAE_images.png");
+                            image.scaleAbsolute(500, 150);
+                            doc.add (image);
+                            p.add("\n"+dear2+"\n\n"+subject+" : "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+
+                                    "\n"+ aeterm+" : "+ae.getAeterm()+"\n"+ aestdat+" : "+dateAestdat+"\n"+ aeout+" : "+ae.getAeout().getAeout()+
+                                    "\n"+ aeendat+" : "+dateAeendat+"\n"+ aetoxgd+" : "+ae.getAetoxgd().getAetoxgd()+
+                                    "\n"+ aesev+" : "+ae.getAesev().getAesev()+"\n"+ aerel+" : "+ae.getAerel().getAerel()+
+                                    "\n"+ aedeath+" : "+ae.isAedeath()+"\n"+ aelife+" : "+ae.isAelife()+
+                                    "\n"+ aehosp+" : "+ae.isAehosp()+"\n"+ aedisab+" : "+ae.isAedisab()+
+                                    "\n"+ aecong+" : "+ae.isAecong()+"\n"+ aemedimsp+" : "+ae.getAemedimsp()
+                            );
+                            doc.add(p);
+                            Font f1 = new Font();
+                            f1.setColor(BaseColor.RED);
+                            f1.setStyle(Font.BOLD);
+                            doc.add(new Paragraph("\n"+ reminder, f1));
+                            doc.add(new Paragraph("\n"+ team +"\n"));
+                            Image image1 = Image.getInstance("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\logo_Sym022.png");
+                            image.scaleAbsolute(65, 41);
+                            doc.add (image1);
+                            doc.close();
+
+                        } catch (DocumentException | IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        email.setFrom("SYM022_Safety@outlook.com");
+                        email.setMsgBody(dear2+"\n"+subject+" : "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+
+                                "\n"+ aeterm+" : "+ae.getAeterm()+"\n"+ aestdat+" : "+dateAestdat);
+                        email.setSubject("SYM-022: "+updateSAE + "_" +ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum());
+                        email.setNick("SYM022");
+                        email.setReplyTo("SYM022_Safety@outlook.com");
+                        //email.setListTo(listEMail);
+                        email.getListTo().add("thomas.devogelaere@promsocatc.net");
+                        email.getListTo().add("daphne.debetancourt@promsocatc.net");
+                        email.setEncodeUTF8(true);
+                        email.setFilename(filename);
+                        email.setSource(source);
+                        try {
+                            MailSender.sendMail(email);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     String addAe = bundle.getString("ae");
                     String update = bundle.getString("update");
                     String forThe = bundle.getString("for");
