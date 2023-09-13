@@ -20,7 +20,7 @@
                 <h:form>
                     <p:outputPanel class="form-control">
                         <span class="field col-12 md:col-4">
-                            <p:outputLabel for="input_year" value="#{I18N['dmPage.year']}"/>
+                            <p:outputLabel for="input_year" value="#{I18N['dmPage.year']} - #{I18N['subjectPage.subjectNum']} : #{eventBean.event.subjectByIdSubject.subjectNum}"/>
                             <p:inputNumber id="input_year" class="label" value="#{dmBean.dm.yearOfBirth}"
                                            placeholder="#{I18N['dmPage.year.placeholder']}"
                                            validatorMessage="#{I18N['dmPage.year.errorMessage']}"

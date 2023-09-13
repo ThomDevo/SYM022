@@ -92,7 +92,7 @@ public class SubjectBean extends FilterOfTable<SubjectEntity> implements Seriali
         SubjectService subjectService = new SubjectService();;
         try{
             transaction.begin();
-            this.allSubjectsBySite = subjectService.findSubjectPermittedBySite(connectionBean.getUser().getIdUser(), this.subject.getSiteByIdSite().getIdSite(),this.filter,em);
+            this.allSubjectsBySite = subjectService.findSubjectPermittedBySite(this.subject.getSiteByIdSite().getIdSite(),em);
             transaction.commit();
         }catch(Exception e){
             ProcessUtils.debug(e.getMessage());
