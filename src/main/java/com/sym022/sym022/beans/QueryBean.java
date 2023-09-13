@@ -348,9 +348,8 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
                 query.setQueryStatus(QueryStatus.ANSWERED);
                 query.setQueryDatetime(new Date());
                 query.setQueryClosed(false);
-                query.setUserByIdUser(connectionBean.getUser());
                 auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
-                auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                auditTrailBean.getAuditTrail().setEventByIdEvent(query.getEventByIdEvent());
                 auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
                 eventBean.getEvent().setQueried(true);
 
@@ -401,9 +400,8 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
                 query.setQueryStatus(QueryStatus.CLOSED);
                 query.setQueryDatetime(new Date());
                 query.setQueryClosed(true);
-                query.setUserByIdUser(connectionBean.getUser());
                 auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
-                auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                auditTrailBean.getAuditTrail().setEventByIdEvent(query.getEventByIdEvent());
                 auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
                 this.allQueries=queryService.findByEvent(query.getEventByIdEvent().getIdEvent(),em);
                 numberOfEvents = this.allQueries.size();
