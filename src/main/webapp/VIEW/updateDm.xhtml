@@ -90,7 +90,7 @@
                     </p:outputPanel>
                     <span class="responsiveSubmit">
                         <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'SITE' and dmBean.dm.eventByIdEvent.available}">
-                            <p:commandButton value="#{I18N['application.update.dm']}"
+                            <p:commandButton value="#{I18N['dm.modify']}"
                                              ajax="false"
                                              validateClient="true"
                                              class="ui-button-success"
@@ -99,7 +99,7 @@
                         </p:outputPanel>
 
                         <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and !eventBean.event.monitored and eventBean.event.available}">
-                            <p:commandButton value="#{I18N['application.dm.validate']}"
+                            <p:commandButton value="#{I18N['application.monitor']}"
                                              ajax="false"
                                              validateClient="true"
                                              class="ui-button-success"
@@ -107,7 +107,7 @@
                         </p:outputPanel>
 
                         <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and eventBean.event.monitored and eventBean.event.available}">
-                            <p:commandButton value="#{I18N['application.dm.revalidate']}"
+                            <p:commandButton value="#{I18N['application.non.monitor']}"
                                              ajax="false"
                                              validateClient="true"
                                              class="ui-button-success"

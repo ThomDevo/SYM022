@@ -9,9 +9,8 @@ import java.util.Objects;
         @NamedQuery(name = "AuditTrail.findAuditTrailByCharacteristic", query = "SELECT au from AuditTrailEntity au " +
                 " JOIN UserSiteEntity usu ON (au.eventByIdEvent.subjectByIdSubject.siteByIdSite.idSite = usu.siteByIdSite.idSite)" +
                 " where(usu.userByIdUser.idUser = :idUser) AND " +
-                "((lower(au.userByIdUser.lastName )like concat('%', :researchWord, '%')) or" +
+                "((lower(au.eventByIdEvent.subjectByIdSubject.subjectNum )like concat('%', :researchWord, '%')) or" +
                 " (lower(au.userByIdUser.username )like concat('%', :researchWord, '%')) or " +
-                " (lower(au.userByIdUser.firstName )like concat('%', :researchWord, '%')) or" +
                 " (lower(au.eventByIdEvent.formByIdForm.formLabel )like concat('%', :researchWord, '%')) or" +
                 " (lower(au.eventByIdEvent.visitByIdVisit.visitLabel) like concat('%', :researchWord, '%'))) ORDER BY au.auditTrailDatetime DESC"),
         @NamedQuery(name = "AuditTrail.selectAuditTrailById", query = "SELECT au from AuditTrailEntity au WHERE au.idAuditTrail = :idAuditTrail"),

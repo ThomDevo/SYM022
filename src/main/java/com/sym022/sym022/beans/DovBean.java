@@ -255,6 +255,7 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
                 auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
                 auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
                 auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                ProcessUtils.debug(""+auditTrailBean.getAuditTrail().getAuditTrailDatetime());
                 eventBean.getEvent().setCompleted(true);
 
                 if(dov.getVisitYn()){

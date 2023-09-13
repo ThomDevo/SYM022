@@ -50,7 +50,7 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">#{I18N['query.statut']}</f:facet>
-                            <h:outputText value="#{r.queryStatus.queryStatus}"/>
+                            <f:convertDateTime timeZone="CET" pattern="dd/MM/yyyy HH:mm:ss" />
                         </p:column>
                         <p:column>
                             <f:facet name="header">#{I18N['subjectPage.subjectNum']}</f:facet>

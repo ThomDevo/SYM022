@@ -56,7 +56,6 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
      * Method to filter the events
      */
     public void researchFilterAllEvents(){
-
         EntityManager em = EMF.getEM();
         try{
             filterOfTable = eventService.findEventAll(connectionBean.getUser().getIdUser(),this.filter,em);

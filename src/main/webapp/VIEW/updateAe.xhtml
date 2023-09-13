@@ -8,13 +8,13 @@
       xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/WEB-INF/TEMPLATES/OverallTemplate.xhtml">
     <ui:define name="title">
-        <h:outputText value="#{I18N['aePage.updateAeTitle']}"/>
+        <h:outputText value="#{I18N['ae.modify']}"/>
     </ui:define>
     <ui:define name="content">
         <div class="content">
             <div class="block p-20 form-container">
                 <h2>
-                    <h:outputText value="#{I18N['aePage.updateAeTitle']}" />
+                    <h:outputText value="#{I18N['ae.modify']}" />
                 </h2>
                 <h:form>
                     <p:outputPanel class="form-control">
@@ -363,7 +363,7 @@
                     </p:outputPanel>
                     <span class="responsiveSubmit">
                         <p:outputPanel rendered="#{(connectionBean.user.roleByIdRole.roleLabel == 'SITE' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL') and aeBean.ae.eventByIdEvent.available}">
-                            <p:commandButton value="#{I18N['application.update.ae']}"
+                            <p:commandButton value="#{I18N['ae.modify']}"
                                              ajax="false"
                                              validateClient="true"
                                              class="ui-button-success"
@@ -372,7 +372,7 @@
                         </p:outputPanel>
 
                         <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and !eventBean.event.monitored and eventBean.event.available}">
-                            <p:commandButton value="#{I18N['application.ae.validate']}"
+                            <p:commandButton value="#{I18N['application.monitor']}"
                                              ajax="false"
                                              validateClient="true"
                                              class="ui-button-success"
@@ -380,7 +380,7 @@
                         </p:outputPanel>
 
                         <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and eventBean.event.monitored and eventBean.event.available}">
-                            <p:commandButton value="#{I18N['application.ae.revalidate']}"
+                            <p:commandButton value="#{I18N['application.non.monitor']}"
                                              ajax="false"
                                              validateClient="true"
                                              class="ui-button-success"
