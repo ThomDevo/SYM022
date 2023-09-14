@@ -60,6 +60,7 @@
                                 <f:selectItem itemLabel="#{I18N['notEligible']}"
                                               itemValue="#{false}"/>
                                 <p:ajax process="@this" update="@all"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{icBean.testIeNotMeetNa()}"/>
                             </p:selectOneMenu>
                         </span>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{icBean.messageErrorIeNotMeet}">
@@ -91,6 +92,7 @@
                                                var="ieNotMet"
                                                itemLabel="#{ieNotMet.getIeNotMet()}"
                                                itemValue="#{ieNotMet}"/>
+                                <p:ajax process="@this" update="@all"/>
                                 <p:ajax event="change" process="@this" update="@all" listener="#{icBean.testIeNotMeetNa()}"/>
                             </p:selectOneMenu>
                         </span>

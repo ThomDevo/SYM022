@@ -78,6 +78,7 @@
                 </p:submenu>
                 <p:submenu label="#{I18N['menu.MEDICAL']}" icon="pi pi-fw pi-heart" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL'}">
                     <p:submenu label="#{I18N['menu.data.MEDICAL']}" icon="pi pi-fw pi-heart" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL'}">
+                        <p:menuitem value="#{I18N['menu.data.MEDICAL.Coding']}" icon="pi pi-fw pi-heart-fill" action="/VIEW/listOfAllEventsMedical.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL'}"/>
                         <p:menuitem value="#{I18N['menu.data.MEDICAL.to.CodeAe']}" icon="pi pi-fw pi-heart-fill" action="/VIEW/listOfAllEventsToCodeAe.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL'}"/>
                         <p:menuitem value="#{I18N['menu.data.MEDICAL.to.CodeCm']}" icon="pi pi-fw pi-heart-fill" action="/VIEW/listOfAllEventsToCodeCm.xhtml" rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL'}"/>
                         <p:divider/>

@@ -273,6 +273,7 @@
                                            disabled="true">
                             </p:inputNumber>
                             </span>
+                            </h:panelGroup>
                         </h:panelGroup>
                     </p:outputPanel>
                     <h2>
@@ -280,7 +281,7 @@
                     </h2>
                     <p:outputPanel class="form-control">
                         <h:panelGroup class="field col-12 md:col-4 p-20-0">
-                            <p:outputLabel for="input_query_text" value="#{I18N['queryPage.text']}"/>
+                            <p:outputLabel for="input_query_text" value="#{I18N['queryPage.text']} - #{I18N['userPage.username']} - #{queryBean.query.userByIdUser.username}"/>
                             <p:inputTextarea  rows="6" cols="33" id="input_query_text" class="label" value="#{queryBean.query.queryText}"
                                               placeholder="#{I18N['vsPage.vsNd.placeholder']}"
                                               disabled="true">

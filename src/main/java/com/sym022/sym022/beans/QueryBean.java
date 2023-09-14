@@ -245,13 +245,24 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
      */
     public void researchFilterAllQueriesToAnswerPerRole(){
         EntityManager em = EMF.getEM();
-        try{
-            filterOfTable = queryService.findOpenedRole(connectionBean.getUser().getIdUser(), connectionBean.getUser().getRoleByIdRole().getIdRole(), this.filter, em);
-        }catch(Exception e){
-            ProcessUtils.debug(e.getMessage());
-        }finally {
-            em.close();
+        if(Objects.equals(connectionBean.getUser().getRoleByIdRole().getRoleLabel(), "SITE")){
+            try{
+                filterOfTable = queryService.findOpenedDM(connectionBean.getUser().getIdUser(), this.filter, em);
+            }catch(Exception e){
+                ProcessUtils.debug(e.getMessage());
+            }finally {
+                em.close();
+            }
+        }else{
+            try{
+                filterOfTable = queryService.findOpenedRole(connectionBean.getUser().getIdUser(), connectionBean.getUser().getRoleByIdRole().getIdRole(), this.filter, em);
+            }catch(Exception e){
+                ProcessUtils.debug(e.getMessage());
+            }finally {
+                em.close();
+            }
         }
+
     }
 
     /**
@@ -318,7 +329,7 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
             String forThe = bundle.getString("for");
             String addSubject = bundle.getString("subject");
 
-            addMessage(addQuery+" "+add+" "+forThe+" "+query.getEventByIdEvent().getFormByIdForm().getFormLabel()+" "+forThe+" "+addSubject+" "+query.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+            addMessage(addQuery+" "+add+" "+forThe+" "+query.getEventByIdEvent().getFormByIdForm().getFormLabel().getFormLabel()+" "+forThe+" "+addSubject+" "+query.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
             eventBean.initEvent();
             initFormQuery();
         }
@@ -374,7 +385,7 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
             String forThe = bundle.getString("for");
             String addSubject = bundle.getString("subject");
 
-            addMessage(addQuery+" "+update+" "+forThe+" "+query.getEventByIdEvent().getFormByIdForm().getFormLabel()+" "+forThe+" "+addSubject+" "+query.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+            addMessage(addQuery+" "+update+" "+forThe+" "+query.getEventByIdEvent().getFormByIdForm().getFormLabel().getFormLabel()+" "+forThe+" "+addSubject+" "+query.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
             eventBean.initEvent();
             initFormQuery();
         }
@@ -431,7 +442,7 @@ public class QueryBean extends FilterOfTable<QueryEntity> implements Serializabl
             String forThe = bundle.getString("for");
             String addSubject = bundle.getString("subject");
 
-            addMessage(addQuery+" "+addClosed+" "+forThe+" "+query.getEventByIdEvent().getFormByIdForm().getFormLabel()+" "+forThe+" "+addSubject+" "+query.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+            addMessage(addQuery+" "+addClosed+" "+forThe+" "+query.getEventByIdEvent().getFormByIdForm().getFormLabel().getFormLabel()+" "+forThe+" "+addSubject+" "+query.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
             eventBean.initEvent();
             initFormQuery();
 

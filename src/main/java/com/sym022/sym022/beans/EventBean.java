@@ -91,7 +91,7 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
         EntityManager em = EMF.getEM();
         try{
             filterOfTable = eventService.findEventAllNotCodedAe(connectionBean.getUser().getIdUser(),this.filter,em);
-            ProcessUtils.debug(String.valueOf(filterOfTable.size()));
+            //ProcessUtils.debug(String.valueOf(filterOfTable.size()));
         }catch(Exception e){
             ProcessUtils.debug(e.getMessage());
         }finally{
@@ -107,7 +107,23 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
         EntityManager em = EMF.getEM();
         try{
             filterOfTable = eventService.findEventAllNotCodedCm(connectionBean.getUser().getIdUser(),this.filter,em);
-            ProcessUtils.debug(String.valueOf(filterOfTable.size()));
+            //ProcessUtils.debug(String.valueOf(filterOfTable.size()));
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally{
+            em.close();
+        }
+    }
+
+    /**
+     * Method to have all the events Medical
+     */
+    public void researchFilterAllEventsMedicalPermitted(){
+
+        EntityManager em = EMF.getEM();
+        try{
+            filterOfTable = eventService.findEventAllMedicalPermitted(connectionBean.getUser().getIdUser(),this.filter,em);
+            //ProcessUtils.debug(String.valueOf(filterOfTable.size()));
         }catch(Exception e){
             ProcessUtils.debug(e.getMessage());
         }finally{

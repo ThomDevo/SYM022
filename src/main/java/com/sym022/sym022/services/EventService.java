@@ -52,6 +52,20 @@ public class EventService {
     }
 
     /**
+     * Method to find all events Medical
+     * @param idUser
+     * @param em
+     * @return List of events
+     */
+    public List<EventEntity> findEventAllMedicalPermitted(int idUser,String researchWord,EntityManager em)
+    {
+        return em.createNamedQuery("Event.selectEventMedicalPermitted", EventEntity.class)
+                .setParameter("idUser", idUser)
+                .setParameter("researchWord", researchWord.toLowerCase())
+                .getResultList();
+    }
+
+    /**
      * Method to find all events who are not monitored
      * @param idUser
      * @param em
@@ -114,7 +128,7 @@ public class EventService {
         query.setParameter("idSubject", idSubject);
 
         int count =((Number)query.getSingleResult()).intValue();
-        ProcessUtils.debug(""+count);
+        //ProcessUtils.debug(""+count);
         return count > 0;
     }
 
