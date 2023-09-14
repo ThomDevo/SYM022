@@ -44,7 +44,7 @@ import java.util.Objects;
                 "WHERE (usu.userByIdUser.idUser = :idUser AND (lower(ev.subjectByIdSubject.subjectNum) LIKE CONCAT('%', :researchWord, '%')) " +
                 "OR (usu.userByIdUser.idUser = :idUser AND lower(ev.formByIdForm.formLabel) LIKE CONCAT('%', :researchWord, '%'))) ORDER BY ev.subjectByIdSubject.subjectNum ASC"),
         @NamedQuery(name = "Event.selectEventScreening", query = "SELECT COUNT(ev) FROM EventEntity ev WHERE ev.subjectByIdSubject.idSubject = :idSubject AND ev.visitByIdVisit.visitNum = 10"),
-        @NamedQuery(name = "Event.selectEventDov", query = "SELECT ev FROM EventEntity ev WHERE (ev.subjectByIdSubject.idSubject = :idSubject AND ev.formByIdForm.formNum = 10 AND ev.visitByIdVisit.visitNum = 10)"),
+        @NamedQuery(name =  "Event.selectEventDov", query = "SELECT ev FROM EventEntity ev WHERE (ev.subjectByIdSubject.idSubject = :idSubject AND ev.formByIdForm.formNum = 10 AND ev.visitByIdVisit.visitNum = 10)"),
         @NamedQuery(name = "Event.selectEventMois1", query = "SELECT ev FROM EventEntity ev WHERE ev.subjectByIdSubject.idSubject = :idSubject AND ev.visitByIdVisit.visitNum = 20")
 })
 

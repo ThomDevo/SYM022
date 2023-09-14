@@ -167,32 +167,6 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
     }
 
     /**
-     * Method to return the number of occurrences of the event
-     * @return a String
-     */
-    public String findNumberOfEventsDov(){
-        EntityManager em = EMF.getEM();
-        EventService eventService = new EventService();
-
-        try{
-            this.numberDov= eventService.findEventDOV(event.getSubjectByIdSubject().getIdSubject(),em).size();
-            ProcessUtils.debug(""+ numberDov);
-            ProcessUtils.debug(""+ event.getSubjectByIdSubject().getIdSubject());
-        }catch(Exception e){
-            this.numberDov = 0;
-        }finally{
-            em.close();
-        }
-        if(this.numberDov > 1){
-            display = "true";
-        }else{
-            display = "false";
-        }
-
-        return display;
-    }
-
-    /**
      * Method to have I18n messages in Back-end
      * @param summary
      * @param detail

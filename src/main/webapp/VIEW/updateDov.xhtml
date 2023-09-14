@@ -19,7 +19,7 @@
                 </h2>
                 <h:form id="updateDov">
                     <p:outputPanel class="form-control">
-                        <h:panelGroup rendered="#{eventBean.findNumberOfEventsDov()}">
+                        <h:panelGroup rendered="#{eventBean.event.visitByIdVisit.visitNum != 10}">
                             <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_status_visit" value="#{I18N['dovPage.status']}"/>
                             <p:selectOneButton id="input_status_visit"
