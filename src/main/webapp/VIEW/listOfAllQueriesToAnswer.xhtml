@@ -45,12 +45,11 @@
                         <p:column>
                             <f:facet name="header">#{I18N['query.dateTime']}</f:facet>
                             <h:outputText value="#{r.queryDatetime}">
-                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                                <f:convertDateTime timeZone="CET" pattern="dd/MM/yyyy HH:mm:ss" />
                             </h:outputText>
                         </p:column>
                         <p:column>
                             <f:facet name="header">#{I18N['query.statut']}</f:facet>
-                            <f:convertDateTime timeZone="CET" pattern="dd/MM/yyyy HH:mm:ss" />
                         </p:column>
                         <p:column>
                             <f:facet name="header">#{I18N['subjectPage.subjectNum']}</f:facet>

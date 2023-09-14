@@ -291,19 +291,19 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
             try{
                 formBean.setAllForm(formService.findFormScreeningND(this.idSubject,em));
             }catch(Exception e) {
-                ProcessUtils.debug("catch methodFindFormCm " + e);
+                ProcessUtils.debug("catch methodFindFormScreeningND " + e);
             }
         }else if(this.eventBean.getEvent().getVisitByIdVisit().getVisitNum() == 20 && !eventService.isMois1SubjectExist(this.idSubject, em)){
             try{
                 formBean.setAllForm(formService.findFormDov(em));
             }catch(Exception e) {
-                ProcessUtils.debug("catch methodFindFormCm " + e);
+                ProcessUtils.debug("catch methodFindFormMoisNotStarted " + e);
             }
         }else if(this.eventBean.getEvent().getVisitByIdVisit().getVisitNum() == 20){
             try{
                 formBean.setAllForm(formService.findFormMois1ND(this.idSubject,em));
             }catch(Exception e) {
-                ProcessUtils.debug("catch methodFindFormCm " + e);
+                ProcessUtils.debug("catch methodFindFormMois1ND " + e);
             }
         }
     }

@@ -183,7 +183,7 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
         }finally{
             em.close();
         }
-        if(this.numberDov > 1){
+        if(this.numberDov == 1){
             display = "true";
         }else{
             display = "false";

@@ -768,6 +768,9 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                     eventBean.getEvent().setCompleted(true);
                     eventBean.getEvent().setMonitored(false);
 
+                    if(Objects.equals(connectionBean.getUser().getRoleByIdRole().getRoleLabel(), "SITE")){
+                        ae.setAetermc("");
+                    }
 
                     if(!ae.isAeother()){
                         this.ae.setAeothersp("");
@@ -935,6 +938,10 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                         auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
                         auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
                         eventBean.getEvent().setCompleted(true);
+
+                        if(Objects.equals(connectionBean.getUser().getRoleByIdRole().getRoleLabel(), "SITE")){
+                            ae.setAetermc("");
+                        }
 
                         if(!ae.isAeother()){
                             this.ae.setAeothersp("");
