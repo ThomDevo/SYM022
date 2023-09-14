@@ -81,8 +81,15 @@
                                                itemLabel="#{Aeout.getAeout()}"
                                                itemValue="#{Aeout}"/>
                                 <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testDateaeendatNull()}"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testAeoutFatal()}"/>
                             </p:selectOneMenu>
                         </span>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAeFatal}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorAeFatal']}"/></span>
+                            </div>
+                        </div>
                         <h:panelGroup rendered="#{aeBean.ae.aeout == 'RECOVERED_RESOLVED' or aeBean.ae.aeout == 'RECOVERED_RESOLVED_WITH_SEQUELAE' or aeBean.ae.aeout == 'FATAL'}">
                             <div class="field col-12 md:col-4 p-20-0">
                                 <p:outputLabel for="input_aeendat" value="#{I18N['aePage.aeendat']}"/>
@@ -255,15 +262,23 @@
                                 <f:selectItem itemLabel="#{I18N['no']}"
                                               itemValue="#{false}"/>
                                 <p:ajax process="@this" update="@all"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testAeoutFatal()}"/>
                             </p:selectOneButton>
                         </span>
-                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAaeser}">
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAeser}">
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText
-                                        value="#{I18N['messageErrorAaeser']}"/></span>
+                                        value="#{I18N['messageErrorAeser']}"/></span>
                             </div>
                         </div>
-
+                        <h:panelGroup rendered="#{!aeBean.ae.aeser}">
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAeFatal}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorAeFatal']}"/></span>
+                                </div>
+                            </div>
+                        </h:panelGroup>
                         <h:panelGroup rendered="#{aeBean.ae.aeser}">
                             <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_aedeath" value="#{I18N['aePage.aedeath']}"/>
@@ -275,8 +290,15 @@
                                 <f:selectItem itemLabel="#{I18N['no']}"
                                               itemValue="#{false}"/>
                                 <p:ajax process="@this" update="@all"/>
+                                <p:ajax event="change" process="@this" update="@all" listener="#{aeBean.testAeoutFatal()}"/>
                             </p:selectOneButton>
                         </span>
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{aeBean.messageErrorAeFatal}">
+                                <div><span class="ui-message-error-icon"> </span>
+                                    <span class="ui-message-error-detail"><h:outputText
+                                            value="#{I18N['messageErrorAeFatal']}"/></span>
+                                </div>
+                            </div>
 
                             <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="input_aelife" value="#{I18N['aePage.aelife']}"/>

@@ -9,7 +9,6 @@ import com.sym022.sym022.mail.MailSender;
 import com.sym022.sym022.services.AeService;
 import com.sym022.sym022.services.AuditTrailService;
 import com.sym022.sym022.services.EventService;
-import com.sym022.sym022.services.VisitService;
 import com.sym022.sym022.utilities.EMF;
 import com.sym022.sym022.utilities.FilterOfTable;
 import com.sym022.sym022.utilities.ProcessUtils;
@@ -54,7 +53,8 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
     private String messageErrorAemedimspMis = "hidden";
     private String messageErrorVisitDateAeendat = "hidden";
     private String messageErrorAeterm = "hidden";
-    private String messageErrorAaeser = "hidden";
+    private String messageErrorAeser = "hidden";
+    private String messageErrorAeFatal = "hidden";
     private String messageErrormessageErrorAeendatMis = "hidden";
     private String buttonSuccess = "false";
     LocalDate now = LocalDate.now();
@@ -128,7 +128,8 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         this.messageErrorVisitDateAeendat = "hidden";
         this.messageErrorAeendatBeforAestdat = "hidden";
         this.messageErrorAeotherspMis = "hidden";
-        this.messageErrorAaeser = "hidden";
+        this.messageErrorAeser = "hidden";
+        this.messageErrorAeFatal = "hidden";
         this.messageErrorAemedimspMis = "hidden";
         this.messageErrormessageErrorAeendatMis = "hidden";
         this.buttonSuccess = "false";
@@ -161,6 +162,22 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
             this.buttonSuccess = "true";
         }else{
             this.messageErrorAeendatMis = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the aeout in front end
+     * @return messageErrorAeFatal hidden or not and button create/update deactivate or not
+     */
+    public String testAeoutFatal(){
+        String redirect = "null";
+        if(ae.getAeout() == Aeout.FATAL && !ae.isAedeath() || ae.getAeout() != Aeout.FATAL && ae.isAedeath()){
+            this.messageErrorAeFatal = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorAeFatal = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -387,7 +404,12 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                 return redirect;
             }else if(ae.isAeser() && !ae.isAedeath() && !ae.isAelife() && !ae.isAehosp() && !ae.isAedisab() && !ae.isAecong() && !ae.isAemedim()){
                 initErrorMessageFormAe();
-                this.messageErrorAaeser = "";
+                this.messageErrorAeser = "";
+                redirect = "null";
+                return redirect;
+            }else if(ae.getAeout() == Aeout.FATAL && !ae.isAedeath() || ae.getAeout() != Aeout.FATAL && ae.isAedeath()  ){
+                initErrorMessageFormAe();
+                this.messageErrorAeFatal = "";
                 redirect = "null";
                 return redirect;
             }else{
@@ -549,7 +571,12 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                     return redirect;
                 }else if(ae.isAeser() && !ae.isAedeath() && !ae.isAelife() && !ae.isAehosp() && !ae.isAedisab() && !ae.isAecong() && !ae.isAemedim()){
                     initErrorMessageFormAe();
-                    this.messageErrorAaeser = "";
+                    this.messageErrorAeser = "";
+                    redirect = "null";
+                    return redirect;
+                }else if(ae.getAeout() == Aeout.FATAL && !ae.isAedeath() || ae.getAeout() != Aeout.FATAL && ae.isAedeath()){
+                    initErrorMessageFormAe();
+                    this.messageErrorAeFatal = "";
                     redirect = "null";
                     return redirect;
                 }else{
@@ -724,7 +751,12 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                 return redirect;
             }else if(ae.isAeser() && !ae.isAedeath() && !ae.isAelife() && !ae.isAehosp() && !ae.isAedisab() && !ae.isAecong() && !ae.isAemedim()){
                 initErrorMessageFormAe();
-                this.messageErrorAaeser = "";
+                this.messageErrorAeser = "";
+                redirect = "null";
+                return redirect;
+            }else if(ae.getAeout() == Aeout.FATAL && !ae.isAedeath() || ae.getAeout() != Aeout.FATAL && ae.isAedeath()  ){
+                initErrorMessageFormAe();
+                this.messageErrorAeFatal = "";
                 redirect = "null";
                 return redirect;
             }else{
@@ -736,6 +768,9 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                     eventBean.getEvent().setCompleted(true);
                     eventBean.getEvent().setMonitored(false);
 
+                    if(Objects.equals(connectionBean.getUser().getRoleByIdRole().getRoleLabel(), "SITE")){
+                        ae.setAetermc("");
+                    }
 
                     if(!ae.isAeother()){
                         this.ae.setAeothersp("");
@@ -888,7 +923,12 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                     return redirect;
                 }else if(ae.isAeser() && !ae.isAedeath() && !ae.isAelife() && !ae.isAehosp() && !ae.isAedisab() && !ae.isAecong() && !ae.isAemedim()){
                     initErrorMessageFormAe();
-                    this.messageErrorAaeser = "";
+                    this.messageErrorAeser = "";
+                    redirect = "null";
+                    return redirect;
+                }else if(ae.getAeout() == Aeout.FATAL && !ae.isAedeath() || ae.getAeout() != Aeout.FATAL && ae.isAedeath()  ){
+                    initErrorMessageFormAe();
+                    this.messageErrorAeFatal = "";
                     redirect = "null";
                     return redirect;
                 }else{
@@ -898,6 +938,10 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                         auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
                         auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
                         eventBean.getEvent().setCompleted(true);
+
+                        if(Objects.equals(connectionBean.getUser().getRoleByIdRole().getRoleLabel(), "SITE")){
+                            ae.setAetermc("");
+                        }
 
                         if(!ae.isAeother()){
                             this.ae.setAeothersp("");
@@ -1126,12 +1170,20 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         this.messageErrorAeterm = messageErrorAeterm;
     }
 
-    public String getMessageErrorAaeser() {
-        return messageErrorAaeser;
+    public String getMessageErrorAeser() {
+        return messageErrorAeser;
     }
 
-    public void setMessageErrorAaeser(String messageErrorAaeser) {
-        this.messageErrorAaeser = messageErrorAaeser;
+    public void setMessageErrorAeser(String messageErrorAeser) {
+        this.messageErrorAeser = messageErrorAeser;
+    }
+
+    public String getMessageErrorAeFatal() {
+        return messageErrorAeFatal;
+    }
+
+    public void setMessageErrorAeFatal(String messageErrorAeFatal) {
+        this.messageErrorAeFatal = messageErrorAeFatal;
     }
 
     public String getButtonSuccess() {

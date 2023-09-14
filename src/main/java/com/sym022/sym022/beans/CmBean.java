@@ -407,12 +407,7 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
         }else if(cm.getCmstdat() != null && cm.getCmendat() == null){
             String AddCmcmstdat = simpleDateFormat.format(cm.getCmstdat());
             int resultAddCmcmstdat = AddCmcmstdat.compareTo(String.valueOf(now));
-            if(cm.getCmterm() == null || Objects.equals(cm.getCmterm(), "")){
-                initErrorMessageFormCm();
-                this.messageErrorCmtermFalse = "";
-                redirect = "null";
-                return redirect;
-            }else if(resultAddCmcmstdat > 0){
+            if(resultAddCmcmstdat > 0){
                 initErrorMessageFormCm();
                 this.messageErrorCmDate = "";
                 redirect = "null";
@@ -445,6 +440,7 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
                     auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
                     eventBean.getEvent().setCompleted(true);
                     cm.setCmtermc("");
+
 
                     if(cm.getCmong()){
                         this.cm.setCmendat(null);
@@ -494,12 +490,7 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
                 String AddCmcmendat = simpleDateFormat.format(cm.getCmendat());
                 int resultAddCmCmendat = AddCmcmendat.compareTo(String.valueOf(now));
                 int resultAddCmendBeforeStDate = AddCmcmendat.compareTo(AddCmcmstdat);
-                if(cm.getCmterm() == null || Objects.equals(cm.getCmterm(), "")){
-                    initErrorMessageFormCm();
-                    this.messageErrorCmtermFalse = "";
-                    redirect = "null";
-                    return redirect;
-                }else if(resultAddCmendBeforeStDate < 0){
+                if(resultAddCmendBeforeStDate < 0){
                     initErrorMessageFormCm();
                     this.messageErrorCmendatBeforcmstdat = "";
                     redirect = "null";
@@ -558,7 +549,7 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
                         transaction.begin();
                     eventService.updateEvent(eventBean.getEvent(),em);
                     auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
-                    cmService.addCm(cm, em);
+                    cmService.updateCm(cm, em);
                     transaction.commit();
 
                 }catch(Exception e){
@@ -578,6 +569,211 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
                 String addSubject = bundle.getString("subject");
 
                 addMessage(addCm+" "+add+" "+forThe+" "+addSubject+" "+cm.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+                initFormCm();
+            }
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to add a CM in the DB
+     * @return a CM
+     */
+    public String submitFormUpdateCm(){
+        EntityManager em = EMF.getEM();
+        String redirect = "/VIEW/home";
+        EntityTransaction transaction = em.getTransaction();
+        CmService cmService = new CmService();
+        EventService eventService = new EventService();
+        AuditTrailService auditTrailService = new AuditTrailService();
+        LocalDate now = LocalDate.now();
+        String isoDatePattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(isoDatePattern);
+        if(cm.getCmstdat() == null && cm.getCmendat() == null){
+            initErrorMessageFormCm();
+            this.messageErrorCmstdatMis = "";
+            redirect = "null";
+            return redirect;
+        }else if(cm.getCmstdat() != null && cm.getCmendat() == null) {
+            String AddCmcmstdat = simpleDateFormat.format(cm.getCmstdat());
+            int resultAddCmcmstdat = AddCmcmstdat.compareTo(String.valueOf(now));
+        if(Objects.equals(connectionBean.getUser().getRoleByIdRole().getRoleLabel(), "MEDICAL") && (cm.getCmterm() == null || Objects.equals(cm.getCmterm(), ""))){
+            initErrorMessageFormCm();
+            this.messageErrorCmtermFalse = "";
+            redirect = "null";
+            return redirect;
+        }else if(resultAddCmcmstdat > 0){
+                initErrorMessageFormCm();
+                this.messageErrorCmDate = "";
+                redirect = "null";
+                return redirect;
+            }else if(cm.getCmindic() == Cmindic.OTHER && (cm.getCmindicsp() == null || Objects.equals(cm.getCmindicsp(), ""))){
+                initErrorMessageFormCm();
+                this.messageErrorIndicspIndicOther = "";
+                redirect = "null";
+                return redirect;
+            }else if(cm.getCmdosu() == Cmdosu.UNKNOWN && (cm.getCmdose() == null || cm.getCmdose() != 0)){
+                initErrorMessageFormCm();
+                this.messageErrorCmdoseAndCmdosuUnknown = "";
+                redirect = "null";
+                return redirect;
+            }else if(cm.getCmdosu() == Cmdosu.OTHER && (cm.getCmdosusp() == null || Objects.equals(cm.getCmdosusp(), ""))){
+                initErrorMessageFormCm();
+                this.messageErrorCmdosuspOther = "";
+                redirect = "null";
+                return redirect;
+            }else if(cm.getCmroute() == Cmroute.OTHER && (cm.getCmroutesp() == null || Objects.equals(cm.getCmroutesp(), ""))){
+                initErrorMessageFormCm();
+                this.messageErrorCmroutespOther = "";
+                redirect = "null";
+                return redirect;
+            }else{
+                try{
+                    cm.setEventByIdEvent(eventBean.getEvent());
+                    auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                    auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                    auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                    eventBean.getEvent().setCompleted(true);
+
+                    if(Objects.equals(connectionBean.getUser().getRoleByIdRole().getRoleLabel(), "SITE")){
+                        cm.setCmtermc("");
+                    }
+
+                    if(cm.getCmong()){
+                        this.cm.setCmendat(null);
+                    }
+
+                    if(cm.getCmindic() != Cmindic.OTHER){
+                        this.cm.setCmindicsp("");
+                    }
+
+                    if(cm.getCmdosu() != Cmdosu.OTHER){
+                        this.cm.setCmdosusp("");
+                    }
+
+                    if(cm.getCmroute() != Cmroute.OTHER){
+                        this.cm.setCmroutesp("");
+                    }
+
+                    transaction.begin();
+                    eventService.updateEvent(eventBean.getEvent(),em);
+                    auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                    cmService.updateCm(cm, em);
+                    transaction.commit();
+
+                }catch(Exception e){
+                    ProcessUtils.debug(" I'm in the catch of the addDM method: "+ e);
+
+                }finally {
+                    if(transaction.isActive()){
+                        transaction.rollback();
+                    }
+                    em.close();
+                }
+                ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                        FacesContext.getCurrentInstance().getViewRoot().getLocale());
+                String addCm = bundle.getString("cm");
+                String update = bundle.getString("update");
+                String forThe = bundle.getString("for");
+                String addSubject = bundle.getString("subject");
+
+                addMessage(addCm+" "+update+" "+forThe+" "+addSubject+" "+cm.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+                initFormCm();
+            }
+
+        }else if(cm.getCmstdat() != null && cm.getCmendat() != null){
+            String AddCmcmstdat = simpleDateFormat.format(cm.getCmstdat());
+            int resultAddCmcmstdat = AddCmcmstdat.compareTo(String.valueOf(now));
+            String AddCmcmendat = simpleDateFormat.format(cm.getCmendat());
+            int resultAddCmCmendat = AddCmcmendat.compareTo(String.valueOf(now));
+            int resultAddCmendBeforeStDate = AddCmcmendat.compareTo(AddCmcmstdat);
+            if(Objects.equals(connectionBean.getUser().getRoleByIdRole().getRoleLabel(), "MEDICAL") && (cm.getCmterm() == null || Objects.equals(cm.getCmterm(), ""))){
+                initErrorMessageFormCm();
+                this.messageErrorCmtermFalse = "";
+                redirect = "null";
+                return redirect;
+            }else if(resultAddCmendBeforeStDate < 0){
+                initErrorMessageFormCm();
+                this.messageErrorCmendatBeforcmstdat = "";
+                redirect = "null";
+                return redirect;
+            }else if(resultAddCmcmstdat > 0){
+                initErrorMessageFormCm();
+                this.messageErrorCmDate = "";
+                redirect = "null";
+                return redirect;
+            }else if(resultAddCmCmendat > 0){
+                initErrorMessageFormCm();
+                this.messageErrorCmendat = "";
+                redirect = "null";
+                return redirect;
+            }else if(cm.getCmindic() == Cmindic.OTHER && (cm.getCmindicsp() == null || Objects.equals(cm.getCmindicsp(), ""))){
+                initErrorMessageFormCm();
+                this.messageErrorIndicspIndicOther = "";
+                redirect = "null";
+                return redirect;
+            }else if(cm.getCmdosu() == Cmdosu.UNKNOWN && (cm.getCmdose() == null || cm.getCmdose() != 0)){
+                initErrorMessageFormCm();
+                this.messageErrorCmdoseAndCmdosuUnknown = "";
+                redirect = "null";
+                return redirect;
+            }else if(cm.getCmdosu() == Cmdosu.OTHER && (cm.getCmdosusp() == null || Objects.equals(cm.getCmdosusp(), ""))){
+                initErrorMessageFormCm();
+                this.messageErrorCmdosuspOther = "";
+                redirect = "null";
+                return redirect;
+            }else if(cm.getCmroute() == Cmroute.OTHER && (cm.getCmroutesp() == null || Objects.equals(cm.getCmroutesp(), ""))){
+                initErrorMessageFormCm();
+                this.messageErrorCmroutespOther = "";
+                redirect = "null";
+                return redirect;
+            }else{
+                try{
+                    cm.setEventByIdEvent(eventBean.getEvent());
+                    auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                    auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                    auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                    eventBean.getEvent().setCompleted(true);
+
+                    if(Objects.equals(connectionBean.getUser().getRoleByIdRole().getRoleLabel(), "SITE")){
+                        cm.setCmtermc("");
+                    }
+
+                    if(cm.getCmindic() != Cmindic.OTHER){
+                        this.cm.setCmindicsp("");
+                    }
+
+                    if(cm.getCmdosu() != Cmdosu.OTHER){
+                        this.cm.setCmdosusp("");
+                    }
+
+                    if(cm.getCmroute() != Cmroute.OTHER){
+                        this.cm.setCmroutesp("");
+                    }
+
+                    transaction.begin();
+                    eventService.updateEvent(eventBean.getEvent(),em);
+                    auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                    cmService.updateCm(cm, em);
+                    transaction.commit();
+
+                }catch(Exception e){
+                    ProcessUtils.debug(" I'm in the catch of the addDM method: "+ e);
+
+                }finally {
+                    if(transaction.isActive()){
+                        transaction.rollback();
+                    }
+                    em.close();
+                }
+                ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                        FacesContext.getCurrentInstance().getViewRoot().getLocale());
+                String addCm = bundle.getString("cm");
+                String update = bundle.getString("update");
+                String forThe = bundle.getString("for");
+                String addSubject = bundle.getString("subject");
+
+                addMessage(addCm+" "+update+" "+forThe+" "+addSubject+" "+cm.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
                 initFormCm();
             }
         }
