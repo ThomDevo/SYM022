@@ -1,6 +1,7 @@
 package com.sym022.sym022.beans;
 
 import com.sym022.sym022.entities.DmEntity;
+import com.sym022.sym022.enums.Aeout;
 import com.sym022.sym022.enums.Culture;
 import com.sym022.sym022.enums.Ethnicity;
 import com.sym022.sym022.enums.Sex;
@@ -32,6 +33,8 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
 
     private DmEntity dm = new DmEntity();
     private DmService dmService = new DmService();
+    private String messageErrorYearOfBirth = "hidden";
+    private String buttonSuccess = "false";
     @Inject
     private ConnectionBean connectionBean;
     @Inject
@@ -70,6 +73,8 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
         this.dm.setSex(null);
         this.dm.setEthnicity(null);
         this.dm.setCulture(null);
+        this.messageErrorYearOfBirth = "hidden";
+        this.setButtonSuccess("false");
     }
 
     /**
@@ -80,6 +85,22 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
     public void addMessage(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    /**
+     * Method to test the aeout in front end
+     * @return messageErrorAeFatal hidden or not and button create/update deactivate or not
+     */
+    public String testDmYearOfBirth(){
+        String redirect = "null";
+        if(dm.getYearOfBirth() < 1920 || dm.getYearOfBirth() > 2005){
+            this.messageErrorYearOfBirth = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorYearOfBirth = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
     }
 
     /**
@@ -247,5 +268,21 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
 
     public void setEventBean(EventBean eventBean) {
         this.eventBean = eventBean;
+    }
+
+    public String getButtonSuccess() {
+        return buttonSuccess;
+    }
+
+    public void setButtonSuccess(String buttonSuccess) {
+        this.buttonSuccess = buttonSuccess;
+    }
+
+    public String getMessageErrorYearOfBirth() {
+        return messageErrorYearOfBirth;
+    }
+
+    public void setMessageErrorYearOfBirth(String messageErrorYearOfBirth) {
+        this.messageErrorYearOfBirth = messageErrorYearOfBirth;
     }
 }

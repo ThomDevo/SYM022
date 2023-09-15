@@ -6,7 +6,6 @@ import com.sym022.sym022.services.*;
 import com.sym022.sym022.utilities.EMF;
 import com.sym022.sym022.utilities.FilterOfTable;
 import com.sym022.sym022.utilities.ProcessUtils;
-
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -47,6 +46,8 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
     private FormBean formBean;
     @Inject
     private IcBean icBean;
+    @Inject
+    private DovBean dovBean;
     @Inject
     private SubjectBean subjectBean;
 
@@ -193,6 +194,7 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
         EventService eventService = new EventService();
         VisitService visitService = new VisitService();
         IcService icService = new IcService();
+        DovService dovService = new DovService();
         this.idSubject = this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject();
         //ProcessUtils.debug(""+this.idUser);
 
@@ -210,7 +212,7 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
             ProcessUtils.debug("catch methodfindEventAllExceptAeCmr " + e);
         }
 
-        if(eventBean.getAllEvents().size() == 7){
+        if(eventBean.getAllEvents().size() == 7 || dovService.findDovNDMois1(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em) && !eventService.findEventScreening(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em)){
             try{
                 visiteBean.setAllVisit(visitService.findAeCM(em));
             }catch(Exception e){
@@ -225,32 +227,45 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
         }else if(!icService.findIcEligibleYes(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em)){
             try{
                 visiteBean.setAllVisit(visitService.findVisitExceptMois1(em));
+                ProcessUtils.debug("je suis bien là1");
             }catch(Exception e){
                 ProcessUtils.debug("catch methodFindVisitExceptMois1 " + e);
             }
         }else if(!eventService.isEventSubjectExist(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(), em)){
             try{
                 visiteBean.setAllVisit(visitService.findVisitExceptMois1(em));
+                ProcessUtils.debug("je suis bien là2");
             }catch(Exception e){
                 ProcessUtils.debug("catch methodFindVisitExceptMois1 " + e);
             }
-        }else if(eventService.findEventMois1(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em) && eventService.findEventScreening(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em)){
+        }else if(eventService.findEventMois1(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em) && eventService.findEventScreening(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em) && !dovService.findDovNDMois1(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em)){
             try{
                 visiteBean.setAllVisit(visitService.findVisitAll(em));
+                ProcessUtils.debug("je suis bien là3");
             }catch(Exception e) {
-                ProcessUtils.debug("catch methodFindAeCM " + e);
+                ProcessUtils.debug("catch methodFindVisitAll" + e);
             }
         }else if(eventService.findEventMois1(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em) && !eventService.findEventScreening(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em)){
             try{
                 visiteBean.setAllVisit(visitService.findVisitExceptScreening(em));
+                ProcessUtils.debug("je suis bien là4");
             }catch(Exception e) {
                 ProcessUtils.debug("catch methodFindVisitScreening " + e);
             }
-        }else if(!eventService.findEventMois1(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em) && eventService.findEventScreening(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em)){
+        }else if((!eventService.findEventMois1(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em) && eventService.findEventScreening(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em))
+                || (dovService.findDovNDMois1(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em) && eventService.findEventScreening(this.eventBean.getEvent().getSubjectByIdSubject().getIdSubject(),em))){
             try{
                 visiteBean.setAllVisit(visitService.findVisitExceptMois1(em));
+                ProcessUtils.debug("je suis bien là5");
             }catch(Exception e) {
                 ProcessUtils.debug("catch methodFindVisitExceptMois1 " + e);
+            }
+        }else {
+            try {
+                visiteBean.setAllVisit(visitService.findVisitAll(em));
+                ProcessUtils.debug("je suis bien là6");
+            } catch (Exception e) {
+                ProcessUtils.debug("catch methodFindVisitExceptAECM " + e);
             }
         }
     }
@@ -260,6 +275,7 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
         EventService eventService = new EventService();
         FormService formService = new FormService();
         SubjectService subjectService = new SubjectService();
+        DovService dovService = new DovService();
         //ProcessUtils.debug(""+this.idUser);
 
 

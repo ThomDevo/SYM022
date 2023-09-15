@@ -25,10 +25,16 @@
                                            placeholder="#{I18N['dmPage.year.placeholder']}"
                                            validatorMessage="#{I18N['dmPage.year.errorMessage']}"
                                            minValue="1920">
-                                <p:ajax update="messageYear" event="blur"/>
+                                <p:ajax process="@this" update="@all"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{dmBean.testDmYearOfBirth()}"/>
                             </p:inputNumber>
                         </span>
-                        <p:message id="messageYear" for="@previous"/>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{dmBean.messageErrorYearOfBirth}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['dmPage.year.errorMessage']}"/></span>
+                            </div>
+                        </div>
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="inputSex" value="#{I18N['dmPage.sex']}"/>
                             <p:selectOneMenu id="inputSex"
@@ -45,6 +51,7 @@
                                                var="Sex"
                                                itemLabel="#{Sex.getSex()}"
                                                itemValue="#{Sex}"/>
+                                <p:ajax process="@this" update="@all"/>
                             </p:selectOneMenu>
                         </span>
                         <span class="field col-12 md:col-4 p-20-0">
@@ -63,6 +70,7 @@
                                                var="Ethnicity"
                                                itemLabel="#{Ethnicity.getEthnicity()}"
                                                itemValue="#{Ethnicity}"/>
+                                <p:ajax process="@this" update="@all"/>
                             </p:selectOneMenu>
                         </span>
                         <span class="field col-12 md:col-4 p-20-0">
@@ -81,6 +89,7 @@
                                                var="Culture"
                                                itemLabel="#{Culture.getCulture()}"
                                                itemValue="#{Culture}"/>
+                                <p:ajax process="@this" update="@all"/>
                             </p:selectOneMenu>
                         </span>
                     </p:outputPanel>
@@ -95,6 +104,7 @@
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-secondary"
+                                         disabled="#{dmBean.buttonSuccess}"
                                          action="#{dmBean.cancelForm()}"/>
                     </span>
                 </h:form>

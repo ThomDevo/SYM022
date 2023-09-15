@@ -7,7 +7,6 @@ import com.sym022.sym022.services.EventService;
 import com.sym022.sym022.utilities.EMF;
 import com.sym022.sym022.utilities.FilterOfTable;
 import com.sym022.sym022.utilities.ProcessUtils;
-
 import javax.annotation.ManagedBean;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -20,6 +19,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -37,6 +37,7 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
     private String messageErrorVisitNdFalse = "hidden";
     private String messageErrorVisitDateMissing = "hidden";
     private String buttonSuccess = "false";
+    private List<DovEntity> dovAll;
     @Inject
     private ConnectionBean connectionBean;
     @Inject
@@ -465,6 +466,14 @@ public class DovBean extends FilterOfTable<DovEntity> implements Serializable {
 
     public void setMessageErrorVisitDateMissing(String messageErrorVisitDateMissing) {
         this.messageErrorVisitDateMissing = messageErrorVisitDateMissing;
+    }
+
+    public List<DovEntity> getDovAll() {
+        return dovAll;
+    }
+
+    public void setDovAll(List<DovEntity> dovAll) {
+        this.dovAll = dovAll;
     }
 
     public String getButtonSuccess() {

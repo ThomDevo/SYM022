@@ -1,8 +1,6 @@
 package com.sym022.sym022.services;
 
 import com.sym022.sym022.entities.IcEntity;
-import com.sym022.sym022.entities.VisitEntity;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;

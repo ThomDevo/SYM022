@@ -8,6 +8,8 @@ import java.util.Objects;
 @NamedQueries(value = {
         @NamedQuery(name = "Dov.selectDovById", query = "SELECT dov from DovEntity dov WHERE dov.idDov = :idDov"),
         @NamedQuery(name = "Dov.selectDovByIdEvent", query = "SELECT dov from DovEntity dov WHERE dov.eventByIdEvent.idEvent = :idEvent"),
+        @NamedQuery(name = "Dov.selectDovNDMois1", query = "SELECT COUNT(dov) from DovEntity dov WHERE " +
+                "(dov.visitYn = false and dov.eventByIdEvent.visitByIdVisit.visitNum = 20 and dov.eventByIdEvent.subjectByIdSubject.idSubject = :idSubject)")
 })
 
 @Entity
@@ -77,6 +79,10 @@ public class DovEntity {
 
     public void setEventByIdEvent(EventEntity eventByIdEvent) {
         this.eventByIdEvent = eventByIdEvent;
+    }
+
+    public boolean isVisitYn() {
+        return visitYn;
     }
 
     /*--- HashCode and Equal ---*/

@@ -1,8 +1,8 @@
 package com.sym022.sym022.services;
 
 import com.sym022.sym022.entities.DovEntity;
-
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 public class DovService {
 
@@ -30,6 +30,21 @@ public class DovService {
         return em.createNamedQuery("Dov.selectDovByIdEvent",DovEntity.class)
                 .setParameter("idEvent",idEvent)
                 .getSingleResult();
+    }
+
+    /**
+     * Method to find Dov Mois_1 Not done
+     * @param idSubject
+     * @param em
+     * @return boolean
+     */
+    public boolean findDovNDMois1 (int idSubject, EntityManager em)
+    {
+        Query query =em.createNamedQuery("Dov.selectDovNDMois1", DovEntity.class);
+        query.setParameter("idSubject", idSubject);
+
+        int count =((Number)query.getSingleResult()).intValue();
+        return count > 0;
     }
 
     /**

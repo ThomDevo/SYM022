@@ -55,7 +55,7 @@
                             <h:commandLink class="btn btn-dark" value="#{I18N['ae.modify']}" action="#{aeBean.findEvent(r.idEvent)}" rendered="#{r.formByIdForm.formNum == 80}">
                                 <f:setPropertyActionListener target="#{eventBean.event}" value="#{r}"/>
                             </h:commandLink>
-                            <f:facet name="header">#{I18N['action']}</f:facet>
+                            <!--<f:facet name="header">#{I18N['action']}</f:facet>-->
                             <h:commandLink class="btn btn-dark" value="#{I18N['cm.modify']}" action="#{cmBean.findEvent(r.idEvent)}" rendered="#{r.formByIdForm.formNum == 90}">
                                 <f:setPropertyActionListener target="#{eventBean.event}" value="#{r}"/>
                             </h:commandLink>
