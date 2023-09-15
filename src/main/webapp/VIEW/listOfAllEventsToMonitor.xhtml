@@ -47,6 +47,10 @@
                             <h:outputText value="#{r.subjectByIdSubject.subjectNum}"/>
                         </p:column>
                         <p:column>
+                            <f:facet name="header">#{I18N['visitPage.visitLabel']}</f:facet>
+                            <h:outputText value="#{r.visitByIdVisit.visitLabel.visitLabel}"/>
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">#{I18N['formPage.formLabel']}</f:facet>
                             <h:outputText value="#{r.formByIdForm.formLabel.formLabel}"/>
                         </p:column>

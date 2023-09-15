@@ -34,6 +34,9 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
     private DmEntity dm = new DmEntity();
     private DmService dmService = new DmService();
     private String messageErrorYearOfBirth = "hidden";
+    private String messageErrorDmSex = "hidden";
+    private String messageErrorDmEthnicity = "hidden";
+    private String messageErrorDmCulture = "hidden";
     private String buttonSuccess = "false";
     @Inject
     private ConnectionBean connectionBean;
@@ -74,6 +77,9 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
         this.dm.setEthnicity(null);
         this.dm.setCulture(null);
         this.messageErrorYearOfBirth = "hidden";
+        this.messageErrorDmSex = "hidden";
+        this.messageErrorDmEthnicity = "hidden";
+        this.messageErrorDmCulture = "hidden";
         this.setButtonSuccess("false");
     }
 
@@ -88,8 +94,8 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
     }
 
     /**
-     * Method to test the aeout in front end
-     * @return messageErrorAeFatal hidden or not and button create/update deactivate or not
+     * Method to test the year of birth in front end
+     * @return messageErrorYearOfBirth hidden or not and button create/update deactivate or not
      */
     public String testDmYearOfBirth(){
         String redirect = "null";
@@ -98,6 +104,38 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
             this.buttonSuccess = "true";
         }else{
             this.messageErrorYearOfBirth = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
+     * Method to test the AllEnumsDm in front end
+     * @return messageErrorDmSex, messageErrorDmEthnicity, messageErrorDmCulture hidden or not and button create/update deactivate or not
+     */
+    public String testAllEnumsDm(){
+        String redirect = "null";
+        if(dm.getSex() == null){
+            this.messageErrorDmSex = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorDmSex = "hidden";
+            this.buttonSuccess = "false";
+        }
+
+        if(dm.getEthnicity() == null){
+            this.messageErrorDmEthnicity = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorDmEthnicity = "hidden";
+            this.buttonSuccess = "false";
+        }
+
+        if(dm.getCulture() == null){
+            this.messageErrorDmCulture = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorDmCulture = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -148,37 +186,56 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
         DmService dmService = new DmService();
         EventService eventService = new EventService();
         AuditTrailService auditTrailService = new AuditTrailService();
-        try{
-            dm.setEventByIdEvent(eventBean.getEvent());
-            auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
-            auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
-            auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
-            eventBean.getEvent().setCompleted(true);
 
-            transaction.begin();
-            eventService.updateEvent(eventBean.getEvent(),em);
-            auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
-            dmService.addDm(dm, em);
-            transaction.commit();
+        if(dm.getYearOfBirth() < 1920 || dm.getYearOfBirth() > 2005){
+            initFormDm();
+            this.messageErrorYearOfBirth = "";
+            return redirect;
+        }else if(dm.getSex() == null){
+            initFormDm();
+            this.messageErrorDmSex = "";
+            return redirect;
+        }else if(dm.getEthnicity() == null){
+            initFormDm();
+            this.messageErrorDmEthnicity = "";
+            return redirect;
+        }else if(dm.getCulture() == null){
+            initFormDm();
+            this.messageErrorDmCulture = "";
+            return redirect;
+        }else{
+            try{
+                dm.setEventByIdEvent(eventBean.getEvent());
+                auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                eventBean.getEvent().setCompleted(true);
 
-        }catch(Exception e){
-            ProcessUtils.debug(" I'm in the catch of the addDM method: "+ e);
+                transaction.begin();
+                eventService.updateEvent(eventBean.getEvent(),em);
+                auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                dmService.addDm(dm, em);
+                transaction.commit();
 
-        }finally {
-            if(transaction.isActive()){
-                transaction.rollback();
+            }catch(Exception e){
+                ProcessUtils.debug(" I'm in the catch of the addDM method: "+ e);
+
+            }finally {
+                if(transaction.isActive()){
+                    transaction.rollback();
+                }
+                em.close();
             }
-            em.close();
-        }
-        ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
-                FacesContext.getCurrentInstance().getViewRoot().getLocale());
-        String addDm = bundle.getString("dm");
-        String add = bundle.getString("add");
-        String forThe = bundle.getString("for");
-        String addSubject = bundle.getString("subject");
+            ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                    FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            String addDm = bundle.getString("dm");
+            String add = bundle.getString("add");
+            String forThe = bundle.getString("for");
+            String addSubject = bundle.getString("subject");
 
-        addMessage(addDm+" "+add+" "+forThe+" "+addSubject+" "+dm.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
-        initFormDm();
+            addMessage(addDm+" "+add+" "+forThe+" "+addSubject+" "+dm.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+            initFormDm();
+        }
         return redirect;
     }
 
@@ -193,38 +250,58 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
         DmService dmService = new DmService();
         EventService eventService = new EventService();
         AuditTrailService auditTrailService = new AuditTrailService();
-        try{
-            dm.setEventByIdEvent(eventBean.getEvent());
-            auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
-            auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
-            auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
-            eventBean.getEvent().setCompleted(true);
-            eventBean.getEvent().setCompleted(true);
 
-            transaction.begin();
-            eventService.updateEvent(eventBean.getEvent(),em);
-            auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
-            dmService.addDm(dm, em);
-            transaction.commit();
+        if(dm.getYearOfBirth() < 1920 || dm.getYearOfBirth() > 2005){
+            initFormDm();
+            this.messageErrorYearOfBirth = "";
+            return redirect;
+        }else if(dm.getSex() == null){
+            initFormDm();
+            this.messageErrorDmSex = "";
+            return redirect;
+        }else if(dm.getEthnicity() == null){
+            initFormDm();
+            this.messageErrorDmEthnicity = "";
+            return redirect;
+        }else if(dm.getCulture() == null){
+            initFormDm();
+            this.messageErrorDmCulture = "";
+            return redirect;
+        }else{
+            try{
+                dm.setEventByIdEvent(eventBean.getEvent());
+                auditTrailBean.getAuditTrail().setUserByIdUser(connectionBean.getUser());
+                auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
+                auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
+                eventBean.getEvent().setCompleted(true);
+                eventBean.getEvent().setCompleted(true);
 
-        }catch(Exception e){
-            ProcessUtils.debug(" I'm in the catch of the addDM method: "+ e);
+                transaction.begin();
+                eventService.updateEvent(eventBean.getEvent(),em);
+                auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
+                dmService.addDm(dm, em);
+                transaction.commit();
 
-        }finally {
-            if(transaction.isActive()){
-                transaction.rollback();
+            }catch(Exception e){
+                ProcessUtils.debug(" I'm in the catch of the addDM method: "+ e);
+
+            }finally {
+                if(transaction.isActive()){
+                    transaction.rollback();
+                }
+                em.close();
             }
-            em.close();
-        }
-        ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
-                FacesContext.getCurrentInstance().getViewRoot().getLocale());
-        String addDm = bundle.getString("dm");
-        String update = bundle.getString("update");
-        String forThe = bundle.getString("for");
-        String addSubject = bundle.getString("subject");
+            ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                    FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            String addDm = bundle.getString("dm");
+            String update = bundle.getString("update");
+            String forThe = bundle.getString("for");
+            String addSubject = bundle.getString("subject");
 
-        addMessage(addDm+" "+update+" "+forThe+" "+addSubject+" "+dm.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
-        initFormDm();
+            addMessage(addDm+" "+update+" "+forThe+" "+addSubject+" "+dm.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum(),"Confirmation");
+            initFormDm();
+        }
+
         return redirect;
     }
 
@@ -284,5 +361,29 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
 
     public void setMessageErrorYearOfBirth(String messageErrorYearOfBirth) {
         this.messageErrorYearOfBirth = messageErrorYearOfBirth;
+    }
+
+    public String getMessageErrorDmSex() {
+        return messageErrorDmSex;
+    }
+
+    public void setMessageErrorDmSex(String messageErrorDmSex) {
+        this.messageErrorDmSex = messageErrorDmSex;
+    }
+
+    public String getMessageErrorDmEthnicity() {
+        return messageErrorDmEthnicity;
+    }
+
+    public void setMessageErrorDmEthnicity(String messageErrorDmEthnicity) {
+        this.messageErrorDmEthnicity = messageErrorDmEthnicity;
+    }
+
+    public String getMessageErrorDmCulture() {
+        return messageErrorDmCulture;
+    }
+
+    public void setMessageErrorDmCulture(String messageErrorDmCulture) {
+        this.messageErrorDmCulture = messageErrorDmCulture;
     }
 }
