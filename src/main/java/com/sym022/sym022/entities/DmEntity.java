@@ -21,31 +21,25 @@ public class DmEntity {
     private int idDm;
 
     @Basic
-    @NotNull
-    @Range(min=1920,max= 2005)
     @Column(name = "year_of_birth", nullable = false)
     private int yearOfBirth;
 
     @Basic
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "sex", nullable = false)
     private Sex sex;
 
     @Basic
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "ethnicity", nullable = false)
     private Ethnicity ethnicity;
 
     @Basic
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "culture", nullable = false)
     private Culture culture;
 
     @ManyToOne
-    @NotNull
     @JoinColumn(name = "id_event", referencedColumnName = "id_event", nullable = false)
     private EventEntity eventByIdEvent;
 

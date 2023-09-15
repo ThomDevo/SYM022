@@ -23,10 +23,10 @@
                             <p:outputLabel for="input_year" value="#{I18N['dmPage.year']}"/>
                             <p:inputNumber id="input_year" class="label" value="#{dmBean.dm.yearOfBirth}"
                                            placeholder="#{I18N['dmPage.year.placeholder']}"
-                                           validatorMessage="#{I18N['dmPage.year.errorMessage']}"
-                                           minValue="1920">
+                                           validatorMessage="#{I18N['dmPage.year.errorMessage']}">
                                 <p:ajax process="@this" update="@all"/>
                                     <p:ajax event="change" process="@this" update="@all" listener="#{dmBean.testDmYearOfBirth()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{dmBean.testAllEnumsDm()}"/>
                             </p:inputNumber>
                         </span>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{dmBean.messageErrorYearOfBirth}">
@@ -52,8 +52,16 @@
                                                itemLabel="#{Sex.getSex()}"
                                                itemValue="#{Sex}"/>
                                 <p:ajax process="@this" update="@all"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{dmBean.testDmYearOfBirth()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{dmBean.testAllEnumsDm()}"/>
                             </p:selectOneMenu>
                         </span>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{dmBean.messageErrorDmSex}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorDmSex']}"/></span>
+                            </div>
+                        </div>
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="inputEthnicity" value="#{I18N['dmPage.ethnicity']}"/>
                             <p:selectOneMenu id="inputEthnicity"
@@ -71,8 +79,16 @@
                                                itemLabel="#{Ethnicity.getEthnicity()}"
                                                itemValue="#{Ethnicity}"/>
                                 <p:ajax process="@this" update="@all"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{dmBean.testDmYearOfBirth()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{dmBean.testAllEnumsDm()}"/>
                             </p:selectOneMenu>
                         </span>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{dmBean.messageErrorDmEthnicity}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorDmEthnicity']}"/></span>
+                            </div>
+                        </div>
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="inputCulture" value="#{I18N['dmPage.culture']}"/>
                             <p:selectOneMenu id="inputCulture"
@@ -90,21 +106,29 @@
                                                itemLabel="#{Culture.getCulture()}"
                                                itemValue="#{Culture}"/>
                                 <p:ajax process="@this" update="@all"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{dmBean.testDmYearOfBirth()}"/>
+                                    <p:ajax event="change" process="@this" update="@all" listener="#{dmBean.testAllEnumsDm()}"/>
                             </p:selectOneMenu>
                         </span>
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{dmBean.messageErrorDmCulture}">
+                            <div><span class="ui-message-error-icon"> </span>
+                                <span class="ui-message-error-detail"><h:outputText
+                                        value="#{I18N['messageErrorDmCulture']}"/></span>
+                            </div>
+                        </div>
                     </p:outputPanel>
                     <span class="responsiveSubmit">
                         <p:commandButton value="#{I18N['dmPage.addDmTitle']}"
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-success"
+                                         disabled="#{dmBean.buttonSuccess}"
                                          action="#{dmBean.submitFormAddDm}"/>
 
                         <p:commandButton value="#{I18N['connectionpage.return.button']}"
                                          ajax="false"
                                          validateClient="true"
                                          class="ui-button-secondary"
-                                         disabled="#{dmBean.buttonSuccess}"
                                          action="#{dmBean.cancelForm()}"/>
                     </span>
                 </h:form>
