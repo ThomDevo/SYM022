@@ -131,8 +131,6 @@
                                              disabled="#{vsBean.buttonSuccess}"
                                              action="#{dmBean.submitFormUpdateDm}"/>
                                 <p:ajax process="@this" update="@all"/>
-                                    <p:ajax event="change" process="@this" update="@all" listener="#{dmBean.testDmYearOfBirth()}"/>
-                                    <p:ajax event="change" process="@this" update="@all" listener="#{dmBean.testAllEnumsDm()}"/>
                         </p:outputPanel>
 
                         <p:outputPanel rendered="#{connectionBean.user.roleByIdRole.roleLabel == 'CRA' and !eventBean.event.monitored and eventBean.event.available}">
