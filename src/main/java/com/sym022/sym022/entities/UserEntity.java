@@ -10,6 +10,7 @@ import java.util.Objects;
 
 @NamedQueries(value = {
         @NamedQuery(name = "User.selectUser", query = "SELECT u FROM UserEntity u WHERE u.username = :username AND u.status = TRUE"),
+        @NamedQuery(name = "User.selectUserMedical", query = "SELECT u FROM UserEntity u WHERE u.roleByIdRole.idRole = 11 AND u.status = TRUE"),
         @NamedQuery(name = "User.isUserExist", query = "SELECT COUNT(u) FROM UserEntity u WHERE u.username = :username"),
         @NamedQuery(name = "User.selectUserAll", query = "SELECT u FROM UserEntity u"),
         @NamedQuery(name = "User.selectUserById", query = "SELECT u FROM UserEntity u WHERE u.idUser = :idUser"),

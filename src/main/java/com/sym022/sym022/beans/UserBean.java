@@ -350,7 +350,6 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
             userService.addUser(user,em);
             transaction.commit();
             confirmAddUser();
-            initFormUser();
 
         }catch(Exception e){
             ProcessUtils.debug(" I'm in the catch of the addUser method: "+ e);
@@ -361,6 +360,8 @@ public class UserBean extends FilterOfTable<UserEntity> implements Serializable 
             }
             em.close();
         }
+
+        initFormUser();
         return redirect;
     }
 

@@ -151,7 +151,7 @@
                                              action="#{eventBean.setEventNoMonitored}"/>
                         </p:outputPanel>
 
-                        <p:outputPanel rendered="#{eventBean.event.available and (connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL' or connectionBean.user.roleByIdRole.roleLabel == 'SAFETY')}">
+                        <p:outputPanel rendered="#{eventBean.event.available and (connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' )}">
                             <p:commandButton value="#{I18N['application.dm.query']}"
                                              ajax="false"
                                              validateClient="true"

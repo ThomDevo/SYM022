@@ -36,6 +36,7 @@
                                 <p:outputLabel for="input_te_nd" value="#{I18N['tePage.visitNd']}"/>
                                 <p:inputTextarea  rows="6" cols="33" id="input_te_nd" class="label" value="#{teBean.te.teNd}"
                                                   placeholder="#{I18N['tePage.visitNd.placeholder']}"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{teBean.testInputTeNd()}"/>
                             </h:panelGroup>
                         </h:panelGroup>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorVisitNdFalse}">
