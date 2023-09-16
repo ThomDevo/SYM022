@@ -119,6 +119,8 @@ public class UserSiteBean extends FilterOfTable<UserSiteEntity> implements Seria
         String listOfSites = bundle.getString("listOfSites");
         String add = bundle.getString("add");
         addMessage(listOfSites+" "+ add,"Confirmation");
+        userBean.initFormUser();
+        siteBean.initFormSite();
         return redirect;
     }
 
@@ -180,6 +182,8 @@ public class UserSiteBean extends FilterOfTable<UserSiteEntity> implements Seria
         String listOfSites = bundle.getString("listOfSites");
         String update = bundle.getString("update");
         addMessage(listOfSites+" "+ update,"Confirmation");
+        userBean.initFormUser();
+        siteBean.initFormSite();
         return redirect;
     }
 

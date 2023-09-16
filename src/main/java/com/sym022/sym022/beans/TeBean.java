@@ -96,6 +96,23 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
     }
 
     /**
+     * Method to test the testInputTeNd in front end
+     * @return messageErrorVisitNd hidden or not and button create/update deactivate or not
+     */
+    public String testInputTeNd(){
+        initErrorMessageFormTE();
+        String redirect = "null";
+        if(!te.getTeYn() && (te.getTeNd() == null || Objects.equals(te.getTeNd(), ""))){
+            this.messageErrorVisitNdFalse = "";
+            this.buttonSuccess = "true";
+        }else{
+            this.messageErrorVisitNdFalse = "hidden";
+            this.buttonSuccess = "false";
+        }
+        return redirect;
+    }
+
+    /**
      * Method to test the date is null in front end
      * @return messageErrorVisitDate hidden or not and button create/update deactivate or not
      */

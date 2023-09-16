@@ -37,8 +37,8 @@
                                 <p:outputLabel for="input_te_nd" value="#{I18N['tePage.visitNd']}"/>
                                 <p:inputTextarea  rows="6" cols="33" id="input_te_nd" class="label" value="#{teBean.te.teNd}"
                                                   placeholder="#{I18N['tePage.visitNd.placeholder']}"
-                                                  disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !teBean.te.eventByIdEvent.available}"
-                                />
+                                                  disabled="#{connectionBean.user.roleByIdRole.roleLabel != 'SITE' or !teBean.te.eventByIdEvent.available}"/>
+                                <p:ajax event="blur" process="@this" update="@all" listener="#{teBean.testInputTeNd()}"/>
                             </h:panelGroup>
                         </h:panelGroup>
                         <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorVisitNdFalse}">
@@ -175,7 +175,7 @@
                                              action="#{eventBean.setEventNoMonitored}"/>
                         </p:outputPanel>
 
-                        <p:outputPanel rendered="#{eventBean.event.available and (connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER' or connectionBean.user.roleByIdRole.roleLabel == 'MEDICAL' or connectionBean.user.roleByIdRole.roleLabel == 'SAFETY')}">
+                        <p:outputPanel rendered="#{eventBean.event.available and (connectionBean.user.roleByIdRole.roleLabel == 'CRA' or connectionBean.user.roleByIdRole.roleLabel == 'DATA MANAGER')}">
                             <p:commandButton value="#{I18N['application.te.query']}"
                                              ajax="false"
                                              validateClient="true"

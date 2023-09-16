@@ -3,12 +3,14 @@ package com.sym022.sym022.beans;
 import com.itextpdf.text.pdf.TextField;
 import com.sun.org.apache.xpath.internal.operations.Div;
 import com.sym022.sym022.entities.AeEntity;
+import com.sym022.sym022.entities.UserEntity;
 import com.sym022.sym022.enums.*;
 import com.sym022.sym022.mail.Mail;
 import com.sym022.sym022.mail.MailSender;
 import com.sym022.sym022.services.AeService;
 import com.sym022.sym022.services.AuditTrailService;
 import com.sym022.sym022.services.EventService;
+import com.sym022.sym022.services.UserService;
 import com.sym022.sym022.utilities.EMF;
 import com.sym022.sym022.utilities.FilterOfTable;
 import com.sym022.sym022.utilities.ProcessUtils;
@@ -31,9 +33,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Named
 @ManagedBean
@@ -365,6 +367,8 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         AeService aeService = new AeService();
         EventService eventService = new EventService();
         AuditTrailService auditTrailService = new AuditTrailService();
+        UserService userService = new UserService();
+        List<String> listEMail= new ArrayList<String>();
         LocalDate now = LocalDate.now();
         String dateEventPattern = "ddMMyyyy-HHmmss";
         String isoDatePattern = "yyyy-MM-dd";
@@ -434,6 +438,13 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                     auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
                     aeService.addAe(ae, em);
                     transaction.commit();
+                    try{
+                        //ProcessUtils.debug(""+usersService.findAll(em).size());
+                        listEMail = userService.findUserAllMedical(em).stream().map(UserEntity::getMail).collect(Collectors.toList());
+
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }catch(Exception e){
                     ProcessUtils.debug(" I'm in the catch of the addAe method: "+ e);
 
@@ -601,6 +612,13 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                         auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
                         aeService.addAe(ae, em);
                         transaction.commit();
+                        try{
+                            //ProcessUtils.debug(""+usersService.findAll(em).size());
+                            listEMail = userService.findUserAllMedical(em).stream().map(UserEntity::getMail).collect(Collectors.toList());
+
+                        }catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }catch(Exception e){
                         ProcessUtils.debug(" I'm in the catch of the addAe method: "+ e);
 
@@ -714,6 +732,8 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
         AeService aeService = new AeService();
         EventService eventService = new EventService();
         AuditTrailService auditTrailService = new AuditTrailService();
+        UserService userService = new UserService();
+        List<String> listEMail= new ArrayList<String>();
         LocalDate now = LocalDate.now();
         String isoDatePattern = "yyyy-MM-dd";
         Mail email = new Mail();
@@ -785,6 +805,13 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                     auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
                     aeService.updateAe(ae, em);
                     transaction.commit();
+                    try{
+                        //ProcessUtils.debug(""+usersService.findAll(em).size());
+                        listEMail = userService.findUserAllMedical(em).stream().map(UserEntity::getMail).collect(Collectors.toList());
+
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }catch(Exception e){
                     ProcessUtils.debug(" I'm in the catch of the addAe method: "+ e);
 
@@ -956,6 +983,13 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                         auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
                         aeService.updateAe(ae, em);
                         transaction.commit();
+                        try{
+                            //ProcessUtils.debug(""+usersService.findAll(em).size());
+                            listEMail = userService.findUserAllMedical(em).stream().map(UserEntity::getMail).collect(Collectors.toList());
+
+                        }catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }catch(Exception e){
                         ProcessUtils.debug(" I'm in the catch of the addAe method: "+ e);
 
