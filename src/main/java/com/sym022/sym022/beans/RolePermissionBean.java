@@ -192,6 +192,7 @@ public class RolePermissionBean extends FilterOfTable<RolePermissionEntity> impl
         String listOfPermissionsOf = bundle.getString("listOfPermissionsOf");
         String update = bundle.getString("update");
         addMessage(listOfPermissionsOf+" "+ update,"Confirmation");
+        rolesBean.initFormRole();
         return redirect;
     }
 

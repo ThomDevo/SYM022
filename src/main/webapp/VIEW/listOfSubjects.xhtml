@@ -57,11 +57,11 @@
                         <p:column>
                             <f:facet name="header">#{I18N['action']}</f:facet>
                             <h:commandLink class="btn btn-dark" value="#{I18N['sitePage.ListOfSubjects.modify']}" action="/VIEW/updateSubject"
-                                           rendered="#{r.subjectStatus and r.siteByIdSite.siteStatus}">
+                                           rendered="#{r.subjectStatus and r.siteByIdSite.siteStatus and connectionBean.user.roleByIdRole.roleLabel == 'SITE'}">
                                 <f:setPropertyActionListener target="#{subjectBean.subject}" value="#{r}"/>
                             </h:commandLink>
                             <h:commandLink class="btn btn-dark" value="#{I18N['sitePage.ListOfSubjects.Consult']}" action="/VIEW/consultSubject"
-                                           rendered="#{!r.subjectStatus or !r.siteByIdSite.siteStatus}">
+                                           rendered="#{!r.subjectStatus or !r.siteByIdSite.siteStatus or connectionBean.user.roleByIdRole.roleLabel != 'SITE'}">
                                 <f:setPropertyActionListener target="#{subjectBean.subject}" value="#{r}"/>
                             </h:commandLink>
                         </p:column>

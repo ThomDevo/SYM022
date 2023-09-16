@@ -44,6 +44,16 @@ public class UserService {
     }
 
     /**
+     * Method to find all MEDICAL users
+     * @param em
+     * @return List of Users
+     */
+    public List<UserEntity> findUserAllMedical(EntityManager em) {
+        return em.createNamedQuery("User.selectUserMedical",UserEntity.class)
+                .getResultList();
+    }
+
+    /**
      * Method to find all users with no sites
      * @param em
      * @return a List a users

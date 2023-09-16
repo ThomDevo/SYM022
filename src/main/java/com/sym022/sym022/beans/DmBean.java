@@ -188,20 +188,20 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
         AuditTrailService auditTrailService = new AuditTrailService();
 
         if(dm.getYearOfBirth() < 1920 || dm.getYearOfBirth() > 2005){
-            initFormDm();
             this.messageErrorYearOfBirth = "";
+            redirect = null;
             return redirect;
         }else if(dm.getSex() == null){
-            initFormDm();
             this.messageErrorDmSex = "";
+            redirect = null;
             return redirect;
         }else if(dm.getEthnicity() == null){
-            initFormDm();
             this.messageErrorDmEthnicity = "";
+            redirect = null;
             return redirect;
         }else if(dm.getCulture() == null){
-            initFormDm();
             this.messageErrorDmCulture = "";
+            redirect = null;
             return redirect;
         }else{
             try{
@@ -252,20 +252,20 @@ public class DmBean extends FilterOfTable<DmEntity> implements Serializable {
         AuditTrailService auditTrailService = new AuditTrailService();
 
         if(dm.getYearOfBirth() < 1920 || dm.getYearOfBirth() > 2005){
-            initFormDm();
             this.messageErrorYearOfBirth = "";
+            redirect = null;
             return redirect;
         }else if(dm.getSex() == null){
-            initFormDm();
             this.messageErrorDmSex = "";
+            redirect = null;
             return redirect;
         }else if(dm.getEthnicity() == null){
-            initFormDm();
             this.messageErrorDmEthnicity = "";
+            redirect = null;
             return redirect;
         }else if(dm.getCulture() == null){
-            initFormDm();
             this.messageErrorDmCulture = "";
+            redirect = null;
             return redirect;
         }else{
             try{
