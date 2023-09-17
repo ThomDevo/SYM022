@@ -39,7 +39,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
     private String messageErrorVisitNd = "hidden";
     private String messageErrorVisitNdFalse = "hidden";
     private String messageErrorVisitDate = "hidden";
-    private String messageErrorVisitDateMissing = "hidden";
+    private String messageErrorVsDateMissing = "hidden";
     private String messageErrorHeightCm = "hidden";
     private String messageErrorHeightNull = "hidden";
     private String messageErrorHeightUnitNull = "hidden";
@@ -128,7 +128,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         this.messageErrorVisitDate = "hidden";
         this.messageErrorVisitNd = "hidden";
         this.messageErrorVisitNdFalse = "hidden";
-        this.messageErrorVisitDateMissing = "hidden";
+        this.messageErrorVsDateMissing = "hidden";
         this.messageErrorHeightCm = "hidden";
         this.messageErrorHeightNull = "hidden";
         this.messageErrorHeightUnitNull = "hidden";
@@ -160,11 +160,11 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
 
         String redirect = "null";
         if(vs.getVsDate() == null){
-            this.messageErrorVisitDateMissing = "";
+            this.messageErrorVsDateMissing = "";
             this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
         }else{
-            this.messageErrorVisitDateMissing = "hidden";
+            this.messageErrorVsDateMissing = "hidden";
             this.messageErrorPerf = "hidden";
             this.buttonSuccess = "false";
         }
@@ -813,7 +813,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
             redirect = "null";
         }else if(vs.getVsYn() && vs.getVsDate() == null){
             initErrorMessageFormVS();
-            this.messageErrorVisitDateMissing = "";
+            this.messageErrorVsDateMissing = "";
             redirect = "null";
         }else{
             try{
@@ -1053,7 +1053,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
                 redirect = "null";
             }else if(vs.getVsYn() && vs.getVsDate() == null){
                 initErrorMessageFormVS();
-                this.messageErrorVisitDateMissing = "";
+                this.messageErrorVsDateMissing = "";
                 redirect = "null";
             }else{
                 try{
@@ -1190,12 +1190,12 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
         this.messageErrorVisitDate = messageErrorVisitDate;
     }
 
-    public String getMessageErrorVisitDateMissing() {
-        return messageErrorVisitDateMissing;
+    public String getMessageErrorVsDateMissing() {
+        return messageErrorVsDateMissing;
     }
 
-    public void setMessageErrorVisitDateMissing(String messageErrorVisitDateMissing) {
-        this.messageErrorVisitDateMissing = messageErrorVisitDateMissing;
+    public void setMessageErrorVsDateMissing(String messageErrorVsDateMissing) {
+        this.messageErrorVsDateMissing = messageErrorVsDateMissing;
     }
 
     public String getMessageErrorHeightCm() {

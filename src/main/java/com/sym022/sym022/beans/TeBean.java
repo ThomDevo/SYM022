@@ -33,9 +33,9 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
 
     private TeEntity te = new TeEntity();
     private TeService teService = new TeService();
-    private String messageErrorVisitNdFalse = "hidden";
+    private String messageErrorTeNdFalse = "hidden";
     private String messageErrorVisitDate = "hidden";
-    private String messageErrorVisitDateMissing = "hidden";
+    private String messageErrorTeDateMissing = "hidden";
     private String messageErrorOR = "hidden";
     private String buttonSuccess = "false";
     @Inject
@@ -89,24 +89,24 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
      */
     public void initErrorMessageFormTE(){
         this.messageErrorVisitDate = "hidden";
-        this.messageErrorVisitNdFalse = "hidden";
+        this.messageErrorTeNdFalse = "hidden";
         this.messageErrorOR = "hidden";
-        this.messageErrorVisitDateMissing = "hidden";
+        this.messageErrorTeDateMissing = "hidden";
         this.buttonSuccess = "false";
     }
 
     /**
      * Method to test the testInputTeNd in front end
-     * @return messageErrorVisitNd hidden or not and button create/update deactivate or not
+     * @return messageErrorTeNd hidden or not and button create/update deactivate or not
      */
     public String testInputTeNd(){
         initErrorMessageFormTE();
         String redirect = "null";
         if(!te.getTeYn() && (te.getTeNd() == null || Objects.equals(te.getTeNd(), ""))){
-            this.messageErrorVisitNdFalse = "";
+            this.messageErrorTeNdFalse = "";
             this.buttonSuccess = "true";
         }else{
-            this.messageErrorVisitNdFalse = "hidden";
+            this.messageErrorTeNdFalse = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -120,10 +120,10 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
         LocalDate now = LocalDate.now();
         String redirect = "null";
         if(te.getTeDate() == null){
-            this.messageErrorVisitDateMissing = "";
+            this.messageErrorTeDateMissing = "";
             this.buttonSuccess = "true";
         }else{
-            this.messageErrorVisitDateMissing = "hidden";
+            this.messageErrorTeDateMissing = "hidden";
             this.buttonSuccess = "false";
         }
         return redirect;
@@ -365,12 +365,12 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
             }
         }else{if(!te.getTeYn() && Objects.equals(te.getTeNd(),"")){
             initErrorMessageFormTE();
-            this.messageErrorVisitNdFalse = "";
+            this.messageErrorTeNdFalse = "";
             redirect = "null";
             return redirect;
         }else if(te.getTeYn() && te.getTeDate() == null){
             initErrorMessageFormTE();
-            this.messageErrorVisitDateMissing = "";
+            this.messageErrorTeDateMissing = "";
             redirect = "null";
             return redirect;
         }else if((te.getTargetLesions() == TargetLesionsOverallResponse.PROGRESSIVE_DISEASE || te.getNonTargetLesions() == NonTargetLesions.PROGRESSIVE_DISEASE || te.getNewLesions()) && te.getOverallResponse() != TargetLesionsOverallResponse.PROGRESSIVE_DISEASE){
@@ -541,12 +541,12 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
             }
         }else{if(!te.getTeYn() && Objects.equals(te.getTeNd(),"")){
             initErrorMessageFormTE();
-            this.messageErrorVisitNdFalse = "";
+            this.messageErrorTeNdFalse = "";
             redirect = "null";
             return redirect;
         }else if(te.getTeYn() && te.getTeDate() == null){
             initErrorMessageFormTE();
-            this.messageErrorVisitDateMissing = "";
+            this.messageErrorTeDateMissing = "";
             redirect = "null";
             return redirect;
         }else if((te.getTargetLesions() == TargetLesionsOverallResponse.PROGRESSIVE_DISEASE || te.getNonTargetLesions() == NonTargetLesions.PROGRESSIVE_DISEASE || te.getNewLesions()) && te.getOverallResponse() != TargetLesionsOverallResponse.PROGRESSIVE_DISEASE){
@@ -667,12 +667,12 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
         this.eventBean = eventBean;
     }
 
-    public String getMessageErrorVisitNdFalse() {
-        return messageErrorVisitNdFalse;
+    public String getMessageErrorTeNdFalse() {
+        return messageErrorTeNdFalse;
     }
 
-    public void setMessageErrorVisitNdFalse(String messageErrorVisitNdFalse) {
-        this.messageErrorVisitNdFalse = messageErrorVisitNdFalse;
+    public void setMessageErrorTeNdFalse(String messageErrorTeNdFalse) {
+        this.messageErrorTeNdFalse = messageErrorTeNdFalse;
     }
 
     public String getMessageErrorVisitDate() {
@@ -683,12 +683,12 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
         this.messageErrorVisitDate = messageErrorVisitDate;
     }
 
-    public String getMessageErrorVisitDateMissing() {
-        return messageErrorVisitDateMissing;
+    public String getMessageErrorTeDateMissing() {
+        return messageErrorTeDateMissing;
     }
 
-    public void setMessageErrorVisitDateMissing(String messageErrorVisitDateMissing) {
-        this.messageErrorVisitDateMissing = messageErrorVisitDateMissing;
+    public void setMessageErrorTeDateMissing(String messageErrorTeDateMissing) {
+        this.messageErrorTeDateMissing = messageErrorTeDateMissing;
     }
 
     public String getMessageErrorOR() {

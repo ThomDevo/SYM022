@@ -41,10 +41,10 @@
                                 <p:ajax event="blur" process="@this" update="@all" listener="#{teBean.testInputTeNd()}"/>
                             </h:panelGroup>
                         </h:panelGroup>
-                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorVisitNdFalse}">
+                        <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorTeNdFalse}">
                             <div><span class="ui-message-error-icon"> </span>
                                 <span class="ui-message-error-detail"><h:outputText
-                                        value="#{I18N['messageErrorVisitNdFalse']}"/></span>
+                                        value="#{I18N['messageErrorTeNdFalse']}"/></span>
                             </div>
                         </div>
                         <h:panelGroup rendered="#{teBean.te.teYn}">
@@ -62,10 +62,10 @@
                                             value="#{I18N['messageErrorVisitDate']}"/></span>
                                 </div>
                             </div>
-                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorVisitDateMissing}">
+                            <div class="ui-message ui-message-error ui-widget ui-corner-all #{teBean.messageErrorTeDateMissing}">
                                 <div><span class="ui-message-error-icon"> </span>
                                     <span class="ui-message-error-detail"><h:outputText
-                                            value="#{I18N['messageErrorVisitDateMissing']}"/></span>
+                                            value="#{I18N['messageErrorTeDateMissing']}"/></span>
                                 </div>
                             </div>
                             <span class="field col-12 md:col-4 p-20-0">
