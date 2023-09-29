@@ -433,6 +433,20 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                         this.ae.setAemedimsp("");
                     }
 
+                    if(ae.getAeout() != Aeout.RECOVERED_RESOLVED && ae.getAeout() != Aeout.RECOVERED_RESOLVED_WITH_SEQUELAE && ae.getAeout() != Aeout.FATAL){
+                        this.ae.setAeendat(null);
+                    }
+
+                    if(!ae.isAeser()){
+                        this.ae.setAedeath(false);
+                        this.ae.setAelife(false);
+                        this.ae.setAehosp(false);
+                        this.ae.setAedisab(false);
+                        this.ae.setAecong(false);
+                        this.ae.setAemedim(false);
+                        this.ae.setAemedimsp("");
+                    }
+
                     transaction.begin();
                     eventService.updateEvent(eventBean.getEvent(),em);
                     auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
@@ -440,7 +454,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                     transaction.commit();
                     try{
                         //ProcessUtils.debug(""+usersService.findAll(em).size());
-                        listEMail = userService.findUserAllMedical(em).stream().map(UserEntity::getMail).collect(Collectors.toList());
+                        listEMail = userService.findUserAllSafety(em).stream().map(UserEntity::getMail).collect(Collectors.toList());
 
                     }catch (Exception e) {
                         e.printStackTrace();
@@ -607,6 +621,14 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                             this.ae.setAemedimsp("");
                         }
 
+                        if(ae.getAeout() != Aeout.RECOVERED_RESOLVED && ae.getAeout() != Aeout.RECOVERED_RESOLVED_WITH_SEQUELAE && ae.getAeout() != Aeout.FATAL){
+                            this.ae.setAeendat(null);
+                        }
+
+                        if(ae.getAeout() != Aeout.RECOVERED_RESOLVED && ae.getAeout() != Aeout.RECOVERED_RESOLVED_WITH_SEQUELAE && ae.getAeout() != Aeout.FATAL){
+                            this.ae.setAeendat(null);
+                        }
+
                         transaction.begin();
                         eventService.updateEvent(eventBean.getEvent(),em);
                         auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
@@ -614,7 +636,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                         transaction.commit();
                         try{
                             //ProcessUtils.debug(""+usersService.findAll(em).size());
-                            listEMail = userService.findUserAllMedical(em).stream().map(UserEntity::getMail).collect(Collectors.toList());
+                            listEMail = userService.findUserAllSafety(em).stream().map(UserEntity::getMail).collect(Collectors.toList());
 
                         }catch (Exception e) {
                             e.printStackTrace();
@@ -788,15 +810,22 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                     eventBean.getEvent().setCompleted(true);
                     eventBean.getEvent().setMonitored(false);
 
-                    if(Objects.equals(connectionBean.getUser().getRoleByIdRole().getRoleLabel(), "SITE")){
-                        ae.setAetermc("");
-                    }
 
                     if(!ae.isAeother()){
                         this.ae.setAeothersp("");
                     }
 
                     if(!ae.isAemedim()){
+                        this.ae.setAemedimsp("");
+                    }
+
+                    if(!ae.isAeser()){
+                        this.ae.setAedeath(false);
+                        this.ae.setAelife(false);
+                        this.ae.setAehosp(false);
+                        this.ae.setAedisab(false);
+                        this.ae.setAecong(false);
+                        this.ae.setAemedim(false);
                         this.ae.setAemedimsp("");
                     }
 
@@ -807,7 +836,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                     transaction.commit();
                     try{
                         //ProcessUtils.debug(""+usersService.findAll(em).size());
-                        listEMail = userService.findUserAllMedical(em).stream().map(UserEntity::getMail).collect(Collectors.toList());
+                        listEMail = userService.findUserAllSafety(em).stream().map(UserEntity::getMail).collect(Collectors.toList());
 
                     }catch (Exception e) {
                         e.printStackTrace();
@@ -985,7 +1014,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                         transaction.commit();
                         try{
                             //ProcessUtils.debug(""+usersService.findAll(em).size());
-                            listEMail = userService.findUserAllMedical(em).stream().map(UserEntity::getMail).collect(Collectors.toList());
+                            listEMail = userService.findUserAllSafety(em).stream().map(UserEntity::getMail).collect(Collectors.toList());
 
                         }catch (Exception e) {
                             e.printStackTrace();
