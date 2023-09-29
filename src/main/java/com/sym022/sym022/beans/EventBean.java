@@ -296,6 +296,14 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
                 transaction.rollback();
             }
             em.close();
+
+            ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                    FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            String addEvent = bundle.getString("event");
+            String monitor = bundle.getString("monitor");
+            String forThe = bundle.getString("for");
+            String addSubject = bundle.getString("subject");
+            addMessage(addEvent+" "+monitor+" "+forThe+" "+addSubject+" "+event.getSubjectByIdSubject().getSubjectNum(),"Confirmation");
         }
         return redirect;
     }
@@ -328,6 +336,13 @@ public class EventBean extends FilterOfTable<EventEntity> implements Serializabl
                 transaction.rollback();
             }
             em.close();
+            ResourceBundle bundle = ResourceBundle.getBundle("language.messages",
+                    FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            String addEvent = bundle.getString("event");
+            String nonMonitor = bundle.getString("nonMonitor");
+            String forThe = bundle.getString("for");
+            String addSubject = bundle.getString("subject");
+            addMessage(addEvent+" "+nonMonitor+" "+forThe+" "+addSubject+" "+event.getSubjectByIdSubject().getSubjectNum(),"Confirmation");
         }
         return redirect;
     }

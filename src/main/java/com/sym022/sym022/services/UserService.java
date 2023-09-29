@@ -48,8 +48,8 @@ public class UserService {
      * @param em
      * @return List of Users
      */
-    public List<UserEntity> findUserAllMedical(EntityManager em) {
-        return em.createNamedQuery("User.selectUserMedical",UserEntity.class)
+    public List<UserEntity> findUserAllSafety(EntityManager em) {
+        return em.createNamedQuery("User.selectUserSafety",UserEntity.class)
                 .getResultList();
     }
 

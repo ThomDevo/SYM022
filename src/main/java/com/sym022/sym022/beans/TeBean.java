@@ -346,6 +346,14 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
                         this.te.setTeNd("");
                     }
 
+                    if(!te.getTeYn()){;
+                        this.te.setTeDate(null);
+                        this.te.setTargetLesions(TargetLesionsOverallResponse.NOT_ALL_EVALUATED);
+                        this.te.setNonTargetLesions(NonTargetLesions.NOT_ALL_EVALUATED);
+                        this.te.setNewLesions(false);
+                        this.te.setOverallResponse(TargetLesionsOverallResponse.NOT_ALL_EVALUATED);
+                    }
+
                     transaction.begin();
                     eventService.updateEvent(eventBean.getEvent(),em);
                     auditTrailService.addAuditTrail(auditTrailBean.getAuditTrail(),em);
@@ -424,7 +432,10 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
                     this.te.setOverallResponse(TargetLesionsOverallResponse.NOT_ALL_EVALUATED);
                 }
 
-
+                if(te.getTeYn()){;
+                    this.te.setTeDate(null);
+                    this.te.setTeNd("");
+                }
 
                 transaction.begin();
                 eventService.updateEvent(eventBean.getEvent(),em);
@@ -449,7 +460,7 @@ public class TeBean extends FilterOfTable<TeEntity> implements Serializable {
     }
 
     /**
-     * Method to add a Te in the DB
+     * Method to update a Te in the DB
      * @return a TE
      */
     public String submitFormUpdateTe(){
