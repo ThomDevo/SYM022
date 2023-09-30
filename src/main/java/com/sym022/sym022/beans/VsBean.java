@@ -762,31 +762,46 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
                     auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
                     auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
                     eventBean.getEvent().setCompleted(true);
-                    if(!vs.getHeightNd()){
-                        vs.setHeight(null);
-                        vs.setHeightU(HeightU.CM);
+
+                    if(this.vs.isVsYn()){
+                        this.vs.setVsNd("");
                     }
-                    if(!vs.getWeightNd()){
-                        vs.setWeight(null);
-                        vs.setWeightU(WeightU.KG);
+
+                    if(!this.vs.isVsYn()){
+                        this.vs.setVsDate(null);
+                        this.vs.setHeightNd(false);
+                        this.vs.setWeightNd(false);
+                        this.vs.setBpNd(false);
+                        this.vs.setHrNd(false);
+                        this.vs.setRrNd(false);
+                        this.vs.setOxysatNd(false);
                     }
-                    if(!vs.getBpNd()){
-                        vs.setSbp(0);
-                        vs.setDbp(0);
+
+                    if(!this.vs.getHeightNd()){
+                        this.vs.setHeight(null);
+                        this.vs.setHeightU(HeightU.CM);
                     }
-                    if(!vs.getHrNd()){
-                        vs.setHr(0);
+                    if(!this.vs.getWeightNd()){
+                        this.vs.setWeight(null);
+                        this.vs.setWeightU(WeightU.KG);
                     }
-                    if(!vs.getRrNd()){
-                        vs.setRr(0);
+                    if(!this.vs.getBpNd()){
+                        this.vs.setSbp(0);
+                        this.vs.setDbp(0);
                     }
-                    if(!vs.getTempNd()){
-                        vs.setTemp(null);
-                        vs.setTempU(TempU.C);
-                        vs.setTempRoute(TempRoute.UNKNOWN);
+                    if(!this.vs.getHrNd()){
+                        this.vs.setHr(0);
                     }
-                    if(!vs.getOxysatNd()){
-                        vs.setOxysat(0);
+                    if(!this.vs.getRrNd()){
+                        this.vs.setRr(0);
+                    }
+                    if(!this.vs.getTempNd()){
+                        this.vs.setTemp(null);
+                        this.vs.setTempU(TempU.C);
+                        this.vs.setTempRoute(TempRoute.UNKNOWN);
+                    }
+                    if(!this.vs.getOxysatNd()){
+                        this.vs.setOxysat(0);
                     }
                     transaction.begin();
                     eventService.updateEvent(eventBean.getEvent(),em);
@@ -1002,31 +1017,46 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
                     auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
                     eventBean.getEvent().setCompleted(true);
                     eventBean.getEvent().setMonitored(false);
-                    if(!vs.getHeightNd()){
-                        vs.setHeight(null);
-                        vs.setHeightU(HeightU.CM);
+
+                    if(this.vs.isVsYn()){
+                        this.vs.setVsNd("");
                     }
-                    if(!vs.getWeightNd()){
-                        vs.setWeight(null);
-                        vs.setWeightU(WeightU.KG);
+
+                    if(!this.vs.isVsYn()){
+                        this.vs.setVsDate(null);
+                        this.vs.setHeightNd(false);
+                        this.vs.setWeightNd(false);
+                        this.vs.setBpNd(false);
+                        this.vs.setHrNd(false);
+                        this.vs.setRrNd(false);
+                        this.vs.setOxysatNd(false);
                     }
-                    if(!vs.getBpNd()){
-                        vs.setSbp(0);
-                        vs.setDbp(0);
+
+                    if(!this.vs.getHeightNd()){
+                        this.vs.setHeight(null);
+                        this.vs.setHeightU(HeightU.CM);
                     }
-                    if(!vs.getHrNd()){
-                        vs.setHr(0);
+                    if(!this.vs.getWeightNd()){
+                        this.vs.setWeight(null);
+                        this.vs.setWeightU(WeightU.KG);
                     }
-                    if(!vs.getRrNd()){
-                        vs.setRr(0);
+                    if(!this.vs.getBpNd()){
+                        this.vs.setSbp(0);
+                        this.vs.setDbp(0);
                     }
-                    if(!vs.getTempNd()){
-                        vs.setTemp(null);
-                        vs.setTempU(TempU.C);
-                        vs.setTempRoute(TempRoute.UNKNOWN);
+                    if(!this.vs.getHrNd()){
+                        this.vs.setHr(0);
                     }
-                    if(!vs.getOxysatNd()){
-                        vs.setOxysat(0);
+                    if(!this.vs.getRrNd()){
+                        this.vs.setRr(0);
+                    }
+                    if(!this.vs.getTempNd()){
+                        this.vs.setTemp(null);
+                        this.vs.setTempU(TempU.C);
+                        this.vs.setTempRoute(TempRoute.UNKNOWN);
+                    }
+                    if(!this.vs.getOxysatNd()){
+                        this.vs.setOxysat(0);
                     }
                     transaction.begin();
                     eventService.updateEvent(eventBean.getEvent(),em);

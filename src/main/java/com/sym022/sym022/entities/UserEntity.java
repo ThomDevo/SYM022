@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @NamedQueries(value = {
         @NamedQuery(name = "User.selectUser", query = "SELECT u FROM UserEntity u WHERE u.username = :username AND u.status = TRUE"),
-        @NamedQuery(name = "User.selectUserMedical", query = "SELECT u FROM UserEntity u WHERE u.roleByIdRole.idRole = 11 AND u.status = TRUE"),
+        @NamedQuery(name = "User.selectUserSafety", query = "SELECT u FROM UserEntity u WHERE u.roleByIdRole.idRole = 12 AND u.status = TRUE"),
         @NamedQuery(name = "User.isUserExist", query = "SELECT COUNT(u) FROM UserEntity u WHERE u.username = :username"),
         @NamedQuery(name = "User.selectUserAll", query = "SELECT u FROM UserEntity u"),
         @NamedQuery(name = "User.selectUserById", query = "SELECT u FROM UserEntity u WHERE u.idUser = :idUser"),
@@ -18,6 +18,7 @@ import java.util.Objects;
         @NamedQuery(name = "User.findUserByCharacteristic", query = "SELECT u from UserEntity u " +
                 " where ((lower(u.lastName )like concat('%', :researchWord, '%')) or" +
                 " (lower(u.firstName )like concat('%', :researchWord, '%')) or " +
+                " (lower(u.username )like concat('%', :researchWord, '%')) or " +
                 " (lower(u.mail )like concat('%', :researchWord, '%')) or" +
                 " (lower(u.roleByIdRole.roleLabel) like concat('%', :researchWord, '%'))) ORDER BY u.lastName ASC")
 
