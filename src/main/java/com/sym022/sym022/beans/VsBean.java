@@ -572,7 +572,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
      */
     public String testOxy(){
         String redirect = "null";
-        if(vs.getOxysat()<50){
+        if(vs.getOxysat()<50 || vs.getOxysat()> 100){
             this.messageErrorOxy = "";
             this.messageErrorPerf = "hidden";
             this.buttonSuccess = "true";
@@ -745,7 +745,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
                 this.messageErrorTempRoute = "";
                 redirect = "null";
                 return redirect;
-            }else if(vs.getOxysatNd() && vs.getOxysat()<50) {
+            }else if(vs.getOxysatNd() && (vs.getOxysat()<50 || vs.getOxysat()> 100)) {
                 initErrorMessageFormVS();
                 this.messageErrorOxy = "";
                 redirect = "null";
@@ -984,7 +984,7 @@ public class VsBean extends FilterOfTable<VsEntity> implements Serializable {
                 this.messageErrorTempRoute = "";
                 redirect = "null";
                 return redirect;
-            }else if(vs.getOxysatNd() && vs.getOxysat()<50) {
+            }else if(vs.getOxysatNd() && (vs.getOxysat()<50 || vs.getOxysat()> 100)) {
                 initErrorMessageFormVS();
                 this.messageErrorOxy = "";
                 redirect = "null";
