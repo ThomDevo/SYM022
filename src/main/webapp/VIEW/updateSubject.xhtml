@@ -74,11 +74,13 @@
                         </span>
                     </p:outputPanel>
                     <span class="responsiveSubmit">
-                        <p:commandButton value="#{I18N['sitePage.ListOfSubjects.modify']}"
-                                         ajax="false"
-                                         validateClient="true"
-                                         class="ui-button-success"
-                                         action="#{subjectBean.submitFormUpdateSubject()}"/>
+                        <h:panelGroup rendered="#{subjectBean.subject.siteByIdSite.siteStatus}">
+                            <p:commandButton value="#{I18N['sitePage.ListOfSubjects.modify']}"
+                                             ajax="false"
+                                             validateClient="true"
+                                             class="ui-button-success"
+                                             action="#{subjectBean.submitFormUpdateSubject()}"/>
+                        </h:panelGroup>
                         <p:commandButton value="#{I18N['connectionpage.return.button']}" action="#{subjectBean.cancelForm()}"
                                          class="ui-button-secondary" id="cancelButton"/>
                     </span>

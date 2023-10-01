@@ -19,7 +19,7 @@
                 </h2>
                 <h:form>
                     <f:metadata>
-                        <f:event type="preRenderView" listener="#{subjectBean.researchFilterSubject()}"/>
+                        <f:event type="preRenderView" listener="#{subjectBean.researchFilterSubjectList()}"/>
                     </f:metadata>
                     <p:dataTable var="r" value="#{subjectBean.entityFiltered}"
                                  resizableColumns="true"

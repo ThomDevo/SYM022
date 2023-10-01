@@ -98,6 +98,21 @@ public class SubjectService {
     }
 
     /**
+     * Method to get access only to permitted subjects
+     * @param idUser
+     * @param researchWord
+     * @param em
+     * @return List of subjects
+     */
+    public List<SubjectEntity> findSubjectPermittedList (int idUser,String researchWord,EntityManager em)
+    {
+        return em.createNamedQuery("Subject.selectSubjectPermittedList", SubjectEntity.class)
+                .setParameter("idUser", idUser)
+                .setParameter("researchWord", researchWord)
+                .getResultList();
+    }
+
+    /**
      * Method to get access only to permitted subjects in a specific site
      * @param idSite
      * @param em

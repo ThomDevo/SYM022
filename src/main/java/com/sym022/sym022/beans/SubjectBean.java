@@ -48,6 +48,22 @@ public class SubjectBean extends FilterOfTable<SubjectEntity> implements Seriali
     /**
      * Method to filter all ACTIVE subjects on the subjectNum
      */
+    public void researchFilterSubjectList(){
+        EntityManager em = EMF.getEM();
+        try{
+            filterOfTable = subjectService.findSubjectPermittedList(connectionBean.getUser().getIdUser(),this.filter,em);
+            ProcessUtils.debug(this.filter);
+        }catch(Exception e){
+            ProcessUtils.debug(e.getMessage());
+        }finally{
+            em.close();
+        }
+
+    }
+
+    /**
+     * Method to filter subjects on the subjectNum
+     */
     public void researchFilterSubject(){
         EntityManager em = EMF.getEM();
         try{
