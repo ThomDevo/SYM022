@@ -64,7 +64,8 @@
                         <span class="field col-12 md:col-4 p-20-0">
                             <p:outputLabel for="inputSubjectStatus" value="#{I18N['sitePage.status']}"/>
                             <p:selectOneMenu id="inputSubjectStatus"
-                                             value="#{subjectBean.subject.subjectStatus}">
+                                             value="#{subjectBean.subject.subjectStatus}"
+                                             disabled="#{!subjectBean.subject.siteByIdSite.siteStatus}">
                                 <f:selectItem itemLabel="#{I18N['sitePage.Active']}"
                                               itemValue="#{true}"/>
                                 <f:selectItem itemLabel="#{I18N['sitePage.Inactive']}"

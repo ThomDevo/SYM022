@@ -19,7 +19,7 @@ public class AeService {
     }
 
     /**
-     * Method to find an Ae based on the id
+     * Method to find an Ae based on the id event
      * @param idEvent
      * @param em
      * @return an Ae

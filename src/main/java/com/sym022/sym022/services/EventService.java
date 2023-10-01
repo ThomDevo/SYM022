@@ -189,7 +189,7 @@ public class EventService {
      * Method to find all events from Screening
      * @param idSubject
      * @param em
-     * @return List of events
+     * @return boolean
      */
     public boolean findEventScreening (int idSubject, EntityManager em)
     {
@@ -201,7 +201,7 @@ public class EventService {
     }
 
     /**
-     * Method to find all events from Screening
+     * Method to find all events from Dov
      * @param idSubject
      * @param em
      * @return List of events
@@ -217,7 +217,7 @@ public class EventService {
      * Method to find all events from Mois_1
      * @param idSubject
      * @param em
-     * @return List of events
+     * @return boolean
      */
     public boolean findEventMois1 (int idSubject, EntityManager em)
     {
