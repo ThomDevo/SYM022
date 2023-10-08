@@ -75,8 +75,8 @@ public class MailSender {
             MimeBodyPart messageBodyPartPDF = new MimeBodyPart();
             String filename = mail.getFilename();
             log.info(filename);
-            //DataSource source = new FileDataSource("C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\"+filename);
-            DataSource source = new FileDataSource("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\"+filename);
+            DataSource source = new FileDataSource("C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\"+filename);
+            //DataSource source = new FileDataSource("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\"+filename);
             log.info(source.toString());
             messageBodyPartPDF.setDataHandler(new DataHandler(source));
             messageBodyPartPDF.setFileName(filename);

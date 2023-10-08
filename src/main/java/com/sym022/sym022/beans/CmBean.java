@@ -635,10 +635,6 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
                     auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
                     eventBean.getEvent().setCompleted(true);
 
-                    if(Objects.equals(connectionBean.getUser().getRoleByIdRole().getRoleLabel(), "SITE")){
-                        cm.setCmtermc("");
-                    }
-
                     if(cm.getCmong()){
                         this.cm.setCmendat(null);
                     }
@@ -734,10 +730,6 @@ public class CmBean extends FilterOfTable <CmEntity> implements Serializable {
                     auditTrailBean.getAuditTrail().setEventByIdEvent(eventBean.getEvent());
                     auditTrailBean.getAuditTrail().setAuditTrailDatetime(new Date());
                     eventBean.getEvent().setCompleted(true);
-
-                    if(Objects.equals(connectionBean.getUser().getRoleByIdRole().getRoleLabel(), "SITE")){
-                        cm.setCmtermc("");
-                    }
 
                     if(cm.getCmindic() != Cmindic.OTHER){
                         this.cm.setCmindicsp("");

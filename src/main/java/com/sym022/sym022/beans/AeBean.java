@@ -493,15 +493,15 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                     String team = bundle.getString("team");
                     String reminder = bundle.getString("reminder");
                     filename = "SYM-022_SAE_"+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+ "_"+now +dtf.format(nowMail)+ ".pdf";
-                    //source = "C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
-                    source = "C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
+                    source = "C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
+                    //source = "C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
                     try{
                         PdfWriter.getInstance(doc, new FileOutputStream(source));
                         doc.open();
 
                         Paragraph p = new Paragraph();
 
-                        Image image = Image.getInstance("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\SAE_images.png");
+                        Image image = Image.getInstance("C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\SAE_images.png");
                         image.scaleAbsolute(500, 150);
                         doc.add (image);
                         p.add("\n"+dear+"\n\n"+subject+" : "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+
@@ -518,7 +518,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                         f1.setStyle(Font.BOLD);
                         doc.add(new Paragraph("\n"+ reminder, f1));
                         doc.add(new Paragraph("\n"+ team +"\n"));
-                        Image image1 = Image.getInstance("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\logo_Sym022.png");
+                        Image image1 = Image.getInstance("C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\logo_Sym022.png");
                         image.scaleAbsolute(65, 41);
                         doc.add (image1);
                         doc.close();
@@ -676,15 +676,15 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                         String team = bundle.getString("team");
                         String reminder = bundle.getString("reminder");
                         filename = "SYM-022_SAE_"+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+ "_"+now +dtf.format(nowMail)+ ".pdf";
-                        //source = "C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
-                        source = "C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
+                        source = "C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
+                        //source = "C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
                         try{
                             PdfWriter.getInstance(doc, new FileOutputStream(source));
                             doc.open();
 
                             Paragraph p = new Paragraph();
 
-                            Image image = Image.getInstance("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\SAE_images.png");
+                            Image image = Image.getInstance("C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\SAE_images.png");
                             image.scaleAbsolute(500, 150);
                             doc.add (image);
                             p.add("\n"+dear+"\n\n"+subject+" : "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+
@@ -701,7 +701,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                             f1.setStyle(Font.BOLD);
                             doc.add(new Paragraph("\n"+ reminder, f1));
                             doc.add(new Paragraph("\n"+ team +"\n"));
-                            Image image1 = Image.getInstance("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\logo_Sym022.png");
+                            Image image1 = Image.getInstance("C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\logo_Sym022.png");
                             image.scaleAbsolute(65, 41);
                             doc.add (image1);
                             doc.close();
@@ -876,15 +876,15 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                     String team = bundle.getString("team");
                     String reminder = bundle.getString("reminder");
                     filename = "SYM-022_SAE_"+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+ "_"+now +dtf.format(nowMail)+ ".pdf";
-                    //source = "C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
-                    source = "C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
+                    source = "C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
+                    //source = "C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
                     try{
                         PdfWriter.getInstance(doc, new FileOutputStream(source));
                         doc.open();
 
                         Paragraph p = new Paragraph();
 
-                        Image image = Image.getInstance("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\SAE_images.png");
+                        Image image = Image.getInstance("C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\SAE_images.png");
                         image.scaleAbsolute(500, 150);
                         doc.add (image);
                         p.add("\n"+dear2+"\n\n"+subject+" : "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+
@@ -901,7 +901,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                         f1.setStyle(Font.BOLD);
                         doc.add(new Paragraph("\n"+ reminder, f1));
                         doc.add(new Paragraph("\n"+ team +"\n"));
-                        Image image1 = Image.getInstance("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\logo_Sym022.png");
+                        Image image1 = Image.getInstance("C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\logo_Sym022.png");
                         image.scaleAbsolute(65, 41);
                         doc.add (image1);
                         doc.close();
@@ -916,7 +916,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                     email.setSubject("SYM-022: "+updateSAE + "_" +ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum());
                     email.setNick("SYM022");
                     email.setReplyTo("SYM022_Safety@outlook.com");
-                    //email.setListTo(listEMail);
+                    email.setListTo(listEMail);
                     email.getListTo().add("thomas.devogelaere@promsocatc.net");
                     email.getListTo().add("daphne.debetancourt@promsocatc.net");
                     email.setEncodeUTF8(true);
@@ -1053,15 +1053,15 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                         String team = bundle.getString("team");
                         String reminder = bundle.getString("reminder");
                         filename = "SYM-022_SAE_"+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+ "_"+now +dtf.format(nowMail)+ ".pdf";
-                        //source = "C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
-                        source = "C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
+                        source = "C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
+                        //source = "C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\PDF\\" + filename;
                         try{
                             PdfWriter.getInstance(doc, new FileOutputStream(source));
                             doc.open();
 
                             Paragraph p = new Paragraph();
 
-                            Image image = Image.getInstance("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\SAE_images.png");
+                            Image image = Image.getInstance("C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\SAE_images.png");
                             image.scaleAbsolute(500, 150);
                             doc.add (image);
                             p.add("\n"+dear2+"\n\n"+subject+" : "+ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum()+
@@ -1078,7 +1078,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                             f1.setStyle(Font.BOLD);
                             doc.add(new Paragraph("\n"+ reminder, f1));
                             doc.add(new Paragraph("\n"+ team +"\n"));
-                            Image image1 = Image.getInstance("C:\\Users\\debet\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\logo_Sym022.png");
+                            Image image1 = Image.getInstance("C:\\Users\\devog\\IdeaProjects\\SYM022\\src\\main\\webapp\\CSS\\PICTURES\\logo_Sym022.png");
                             image.scaleAbsolute(65, 41);
                             doc.add (image1);
                             doc.close();
@@ -1093,7 +1093,7 @@ public class AeBean extends FilterOfTable<AeEntity> implements Serializable {
                         email.setSubject("SYM-022: "+updateSAE + "_" +ae.getEventByIdEvent().getSubjectByIdSubject().getSubjectNum());
                         email.setNick("SYM022");
                         email.setReplyTo("SYM022_Safety@outlook.com");
-                        //email.setListTo(listEMail);
+                        email.setListTo(listEMail);
                         email.getListTo().add("thomas.devogelaere@promsocatc.net");
                         email.getListTo().add("daphne.debetancourt@promsocatc.net");
                         email.setEncodeUTF8(true);
